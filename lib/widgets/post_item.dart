@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 
+import './sized_config.dart';
+import '../models/settlement.dart';
+import './carousel.dart';
+
 class PostItem extends StatelessWidget {
+  final int id;
+  final int price;
+  final int rooms;
+  final int sqm;
+  final Settlement city;
+  final Settlement district;
+  final List<String> images;
+
+  PostItem({
+    required this.id,
+    required this.price,
+    required this.rooms,
+    required this.sqm,
+    required this.city,
+    required this.district,
+    required this.images,
+  });
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -13,12 +35,7 @@ class PostItem extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomRight,
             children: <Widget>[
-              Image.network(
-                'https://ichef.bbci.co.uk/news/976/cpsprodpb/492B/production/_107913781_house1_getty.jpg',
-                height: SizeConfig.safeBlockHorizontal * 50.0,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              Carousel(images: images),
               Container(
                 margin: EdgeInsets.all(4.0),
                 child: ElevatedButton(
@@ -27,7 +44,7 @@ class PostItem extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
                     fixedSize:
-                        Size.fromRadius(SizeConfig.safeBlockHorizontal * 6.0),
+                        Size.fromRadius(SizeConfig.safeBlockHorizontal * 5.0),
                   ),
                 ),
               ),
@@ -41,7 +58,7 @@ class PostItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(
-                      '65,000 ₼',
+                      price.toString(),
                       style: TextStyle(
                           fontSize: 24.0, fontWeight: FontWeight.bold),
                     ),
@@ -50,7 +67,7 @@ class PostItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(
-                      'Nəsimi',
+                      district.name,
                       style: TextStyle(fontSize: 24.0),
                     ),
                   ],
@@ -60,12 +77,12 @@ class PostItem extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Icon(Icons.square_foot),
-                      Text('1 m²'),
+                      Text('$sqm m²'),
                       SizedBox(
                         width: 8,
                       ),
                       Icon(Icons.door_front_outlined),
-                      Text('1 комната'),
+                      Text('$rooms комната'),
                       SizedBox(
                         width: 8.0,
                       ),
@@ -88,35 +105,5 @@ class PostItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class SizeConfig {
-  static dynamic _mediaQueryData;
-  static double screenWidth = 0;
-  static double screenHeight = 0;
-  static double blockSizeHorizontal = 0;
-  static double blockSizeVertical = 0;
-  static double _safeAreaHorizontal = 0;
-  static double _safeAreaVertical = 0;
-  static double safeBlockHorizontal = 0;
-  static double safeBlockVertical = 0;
-
-  void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.orientation == Orientation.portrait
-        ? _mediaQueryData.size.width
-        : _mediaQueryData.size.height;
-    screenHeight = _mediaQueryData.orientation == Orientation.portrait
-        ? _mediaQueryData.size.height
-        : _mediaQueryData.size.width;
-    blockSizeHorizontal = screenWidth / 100;
-    blockSizeVertical = screenHeight / 100;
-    _safeAreaHorizontal =
-        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
-    _safeAreaVertical =
-        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
-    safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / 100;
-    safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
   }
 }
