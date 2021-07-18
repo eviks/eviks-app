@@ -14,17 +14,18 @@ class SizeConfig {
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData.orientation == Orientation.portrait
-        ? _mediaQueryData.size.width
-        : _mediaQueryData.size.height;
+        ? double.parse(_mediaQueryData.size.width.toString())
+        : double.parse(_mediaQueryData.size.height.toString());
     screenHeight = _mediaQueryData.orientation == Orientation.portrait
-        ? _mediaQueryData.size.height
-        : _mediaQueryData.size.width;
+        ? double.parse(_mediaQueryData.size.height.toString())
+        : double.parse(_mediaQueryData.size.width.toString());
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
     _safeAreaHorizontal =
-        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
-    _safeAreaVertical =
-        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
+        double.parse(_mediaQueryData.padding.left.toString()) +
+            double.parse(_mediaQueryData.padding.right.toString());
+    _safeAreaVertical = double.parse(_mediaQueryData.padding.top.toString()) +
+        double.parse(_mediaQueryData.padding.bottom.toString());
     safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / 100;
     safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
   }

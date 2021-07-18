@@ -15,11 +15,11 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> fetchAndSetPosts() async {
-    final url = Uri.parse('http://192.168.1.13:5000/api/posts?limit=15');
+    final url = Uri.parse('http://192.168.1.7:5000/api/posts?limit=15');
 
     try {
       final response = await http.get(url);
-      final Map<String, dynamic> extractedData = json.decode(response.body);
+      final dynamic extractedData = json.decode(response.body);
       final List<Post> loadedPosts = [];
       extractedData['result'].forEach((element) {
         loadedPosts.add(Post.fromJson(element));
@@ -27,7 +27,7 @@ class Posts with ChangeNotifier {
       _posts = loadedPosts;
       notifyListeners();
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 }

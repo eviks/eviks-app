@@ -1,9 +1,10 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/post_item.dart';
 import '../providers/posts.dart';
+import '../widgets/post_item.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -38,16 +39,19 @@ class _PostScreenState extends State<PostScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.home),
-            SizedBox(
+            const Icon(CustomIcons.logo),
+            const SizedBox(
               width: 5,
             ),
-            Text(AppLocalizations.of(context)!.postsScreenTitle),
+            Text(
+              AppLocalizations.of(context)!.postsScreenTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
       body: _isLoading
-          ? (Center(
+          ? (const Center(
               child: CircularProgressIndicator(),
             ))
           : (ListView.builder(

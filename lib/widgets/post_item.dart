@@ -1,8 +1,10 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import './sized_config.dart';
 import '../models/settlement.dart';
 import './carousel.dart';
+import './sized_config.dart';
 
 class PostItem extends StatelessWidget {
   final int id;
@@ -23,11 +25,14 @@ class PostItem extends StatelessWidget {
     required this.images,
   });
 
+  final currencyFormat =
+      NumberFormat.currency(locale: 'az_AZ', symbol: '₼', decimalDigits: 0);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 20.0,
       ),
       child: Column(
@@ -37,15 +42,15 @@ class PostItem extends StatelessWidget {
             children: <Widget>[
               Carousel(images: images),
               Container(
-                margin: EdgeInsets.all(4.0),
+                margin: const EdgeInsets.all(4.0),
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Icon(Icons.favorite),
                   style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     fixedSize:
                         Size.fromRadius(SizeConfig.safeBlockHorizontal * 5.0),
                   ),
+                  child: const Icon(CustomIcons.heart),
                 ),
               ),
             ],
@@ -53,13 +58,12 @@ class PostItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Row(
                   children: <Widget>[
                     Text(
-                      price.toString(),
-                      style: TextStyle(
+                      currencyFormat.format(price),
+                      style: const TextStyle(
                           fontSize: 24.0, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -68,26 +72,37 @@ class PostItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       district.name,
-                      style: TextStyle(fontSize: 24.0),
+                      style: const TextStyle(fontSize: 24.0),
                     ),
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 8.0),
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.square_foot),
-                      Text('$sqm m²'),
-                      SizedBox(
-                        width: 8,
+                      const Icon(
+                        CustomIcons.sqm,
                       ),
-                      Icon(Icons.door_front_outlined),
-                      Text('$rooms комната'),
-                      SizedBox(
+                      const SizedBox(
                         width: 8.0,
                       ),
-                      Icon(Icons.elevator_outlined),
-                      Text('1/5'),
+                      Text('$sqm m²'),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Icon(CustomIcons.door),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Text('$rooms комната'),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      const Icon(CustomIcons.stairs),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      const Text('1/5'),
                     ],
                   ),
                 ),

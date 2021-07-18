@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -43,13 +44,13 @@ class _TabsScreenState extends State<TabsScreen> {
         currentIndex: _selectedPageIndex,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+              icon: const Icon(CustomIcons.search),
               label: AppLocalizations.of(context)!.tabsScreenSearch),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add),
+              icon: const Icon(CustomIcons.plus),
               label: AppLocalizations.of(context)!.tabsScreenCreate),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: const Icon(CustomIcons.settings),
               label: AppLocalizations.of(context)!.tabsScreenProfile),
         ],
       ),

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './theme.dart';
-import './screens/tabs_screen.dart';
 import './providers/posts.dart';
+import './screens/tabs_screen.dart';
+import './theme.dart';
 
 void main() {
   runApp(MyApp());
