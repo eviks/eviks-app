@@ -2,5 +2,9 @@
     "tabsScreenSearch": "Axtarış",
     "tabsScreenCreate": "Yeni elan",
     "tabsScreenProfile": "Profil",
-    "postsScreenTitle": "Eviks"
+    "postsScreenTitle": "Eviks",
+    "postDetailDescription": "Təsvir",
+    "postDetailLocation": "Xəritə",
+    "postRooms": "Otaq",
+    "postSqm": "Ümumi sahəsi"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import './providers/posts.dart';
+import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/tabs_screen.dart';
 import './theme.dart';
 
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         theme: lightThemeData(context),
         darkTheme: darkThemeData(context),
         home: TabsScreen(),
+        routes: {
+          PostDetailScreen.routeName: (ctx) => const PostDetailScreen(),
+        },
       ),
     );
   }

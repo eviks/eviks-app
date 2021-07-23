@@ -8,9 +8,11 @@ class Carousel extends StatefulWidget {
   const Carousel({
     Key? key,
     required this.images,
+    required this.height,
   }) : super(key: key);
 
   final List<String> images;
+  final double height;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -25,7 +27,7 @@ class _CarouselState extends State<Carousel> {
       children: [
         CarouselSlider.builder(
             options: CarouselOptions(
-                height: SizeConfig.safeBlockHorizontal * 50.0,
+                height: widget.height,
                 viewportFraction: 1,
                 onPageChanged: (index, _) {
                   setState(() {
@@ -41,15 +43,15 @@ class _CarouselState extends State<Carousel> {
               );
             }),
         SizedBox(
-          height: SizeConfig.safeBlockHorizontal * 50.0,
+          height: widget.height,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: widget.images.map((image) {
               final index = widget.images.indexOf(image);
               return Container(
-                width: SizeConfig.safeBlockHorizontal * 2.0,
-                height: SizeConfig.safeBlockHorizontal * 2.0,
+                width: 10.0,
+                height: 10.0,
                 margin:
                     const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
                 decoration: BoxDecoration(

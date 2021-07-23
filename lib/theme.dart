@@ -34,6 +34,7 @@ ThemeData lightThemeData(BuildContext context) {
       selectedIconTheme: IconThemeData(color: primaryColor),
       unselectedItemColor: greyColor,
     ),
+    dividerColor: greyColor,
   );
 }
 
@@ -69,5 +70,6 @@ ThemeData darkThemeData(BuildContext context) {
       selectedIconTheme: IconThemeData(color: lightPrimaryColor),
       unselectedItemColor: greyColor,
     ),
+    dividerColor: greyColor,
   );
 }

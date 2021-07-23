@@ -10,6 +10,8 @@ class Post with ChangeNotifier {
   final Settlement city;
   final Settlement district;
   final List<String> images;
+  final String description;
+  final List<double> location;
 
   Post(
       {required this.id,
@@ -18,7 +20,9 @@ class Post with ChangeNotifier {
       required this.sqm,
       required this.city,
       required this.district,
-      required this.images});
+      required this.images,
+      required this.description,
+      required this.location});
 
   factory Post.fromJson(dynamic json) {
     return Post(
@@ -30,6 +34,8 @@ class Post with ChangeNotifier {
         district: Settlement.fromJson(
           json['district'],
         ),
-        images: (json['images'] as List<dynamic>).cast<String>());
+        images: (json['images'] as List<dynamic>).cast<String>(),
+        description: json['description'] as String,
+        location: (json['location'] as List<dynamic>).cast<double>());
   }
 }

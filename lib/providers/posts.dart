@@ -30,4 +30,8 @@ class Posts with ChangeNotifier {
       rethrow;
     }
   }
+
+  Post findById(int id) {
+    return _posts.firstWhere((element) => element.id == id);
+  }
 }

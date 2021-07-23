@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
@@ -10,3 +11,6 @@ const darkColor = Color(0xFF342E37);
 const softDarkColor = Color(0xFF3F3843);
 const dangerColor = Color(0xFFFF337A);
 const lightDangerColor = Color(0xFFFF4788);
+
+final currencyFormat =
+    NumberFormat.currency(locale: 'az_AZ', symbol: '₼', decimalDigits: 0);

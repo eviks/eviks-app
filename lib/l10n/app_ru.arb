@@ -2,5 +2,9 @@
     "tabsScreenSearch": "Поиск",
     "tabsScreenCreate": "Добавить",
     "tabsScreenProfile": "Профиль",
-    "postsScreenTitle": "Eviks"
+    "postsScreenTitle": "Eviks",
+    "postDetailDescription": "Описание",
+    "postDetailLocation": "Расположение",
+    "postRooms": "Комн.",
+    "postSqm": "Общая площадь"
 }
