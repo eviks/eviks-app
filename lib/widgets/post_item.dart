@@ -1,37 +1,47 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../models/settlement.dart';
+import '../providers/post.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
 import './carousel.dart';
 
 class PostItem extends StatelessWidget {
   final int id;
+  final EstateType estateType;
   final int price;
   final int rooms;
   final int sqm;
   final Settlement city;
   final Settlement district;
   final List<String> images;
+  final int floor;
+  final int totalFloors;
+  final int lotSqm;
 
   const PostItem({
     Key? key,
     required this.id,
+    required this.estateType,
     required this.price,
     required this.rooms,
     required this.sqm,
     required this.city,
     required this.district,
     required this.images,
+    this.floor = 0,
+    this.totalFloors = 0,
+    this.lotSqm = 0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 40.0
+            ? 30.0
             : 50.0;
     SizeConfig().init(context);
     return GestureDetector(
@@ -104,15 +114,20 @@ class PostItem extends StatelessWidget {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text('$rooms комната'),
+                        Text(
+                            '$rooms ${AppLocalizations.of(context)!.postRooms}'),
                         const SizedBox(
                           width: 8.0,
                         ),
-                        const Icon(CustomIcons.stairs),
+                        Icon(estateType == EstateType.apartment
+                            ? CustomIcons.stairs
+                            : CustomIcons.garden),
                         const SizedBox(
                           width: 8.0,
                         ),
-                        const Text('1/5'),
+                        Text(estateType == EstateType.apartment
+                            ? '$floor/$totalFloors'
+                            : '$lotSqm ${AppLocalizations.of(context)!.postLot}'),
                       ],
                     ),
                   ),

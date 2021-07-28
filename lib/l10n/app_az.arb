@@ -6,5 +6,10 @@
     "postDetailDescription": "Təsvir",
     "postDetailLocation": "Xəritə",
     "postRooms": "Otaq",
-    "postSqm": "Ümumi sahəsi"
+    "postSqm": "Ümumi sahəsi",
+    "postLot": "Sot",
+    "authEmail": "Email",
+    "authPassword": "Parol",
+    "signInTitle": "Xoş gəlmisiniz!",
+    "loginButton": "Daxil ol"
 }

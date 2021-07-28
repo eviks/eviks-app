@@ -23,12 +23,13 @@ class PostDetailContent extends StatelessWidget {
               Divider(
                 color: Theme.of(context).dividerColor,
               ),
-              ContentTitle(AppLocalizations.of(context)!.postDetailDescription),
+              _ContentTitle(
+                  AppLocalizations.of(context)!.postDetailDescription),
               Text(
                 post.description,
                 style: const TextStyle(fontSize: 16.0),
               ),
-              ContentTitle(AppLocalizations.of(context)!.postDetailLocation),
+              _ContentTitle(AppLocalizations.of(context)!.postDetailLocation),
               SizedBox(
                 height: 200,
                 child: PostDetailMap(post.location),
@@ -41,10 +42,10 @@ class PostDetailContent extends StatelessWidget {
   }
 }
 
-class ContentTitle extends StatelessWidget {
+class _ContentTitle extends StatelessWidget {
   final String title;
 
-  const ContentTitle(this.title);
+  const _ContentTitle(this.title);
 
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,7 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> fetchAndSetPosts() async {
-    final url = Uri.parse('http://192.168.1.7:5000/api/posts?limit=15');
+    final url = Uri.parse('http://192.168.1.8:5000/api/posts?limit=15');
 
     try {
       final response = await http.get(url);

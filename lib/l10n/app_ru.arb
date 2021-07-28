@@ -6,5 +6,10 @@
     "postDetailDescription": "Описание",
     "postDetailLocation": "Расположение",
     "postRooms": "Комн.",
-    "postSqm": "Общая площадь"
+    "postSqm": "Общая площадь",
+    "postLot": "Сот.",
+    "authEmail": "Email",
+    "authPassword": "Пароль",
+    "signInTitle": "С возвращением!",
+    "loginButton": "Войти"
 }

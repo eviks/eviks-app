@@ -16,10 +16,10 @@ class PostDetailMainInfo extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 4.0),
       child: Row(
         children: [
-          MainInfo(
+          _MainInfo(
               value: post.rooms.toString(),
               hint: AppLocalizations.of(context)!.postRooms),
-          MainInfo(
+          _MainInfo(
               value: '${post.sqm.toString()} m²',
               hint: AppLocalizations.of(context)!.postSqm),
         ],
@@ -28,8 +28,8 @@ class PostDetailMainInfo extends StatelessWidget {
   }
 }
 
-class MainInfo extends StatelessWidget {
-  const MainInfo({
+class _MainInfo extends StatelessWidget {
+  const _MainInfo({
     Key? key,
     required this.value,
     required this.hint,
