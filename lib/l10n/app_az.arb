@@ -10,6 +10,17 @@
     "postLot": "Sot",
     "authEmail": "Email",
     "authPassword": "Parol",
-    "signInTitle": "Xoş gəlmisiniz!",
-    "loginButton": "Daxil ol"
+    "signInTitle": "Daxil ol",
+    "signInSubtitle": "Xoş gəlmisiniz!",
+    "loginButton": "Daxil ol",
+    "errorEmail": "Email göstərilməyib",
+    "errorPassword": "Parol göstərilməyib",
+    "createAccount": "Qeydiyyatdan keçmək",
+    "errorRequiredField": "Bu sahə boş ola bilməz",
+    "authUsername": "Nik",
+    "authDisplayName": "Adı",
+    "registerButton": "Qeydiyyatdan keç",
+    "signUpTitle": "Qeydiyyat",
+    "signUpSubtitle": "Gəlin tanış olaq!",
+    "login": "Daxil olmaq"
 }

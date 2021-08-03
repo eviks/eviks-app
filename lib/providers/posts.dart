@@ -7,8 +7,9 @@ import './post.dart';
 
 class Posts with ChangeNotifier {
   List<Post> _posts;
+  String authToken;
 
-  Posts(this._posts);
+  Posts(this.authToken, this._posts);
 
   List<Post> get posts {
     return [..._posts];

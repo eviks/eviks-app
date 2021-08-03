@@ -2,7 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'auth_screen.dart';
+import './auth_screen/auth_screen.dart';
 import './posts_screen.dart';
 
 class TabsScreen extends StatefulWidget {

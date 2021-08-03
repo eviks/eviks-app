@@ -42,6 +42,12 @@ ThemeData lightThemeData(BuildContext context) {
         ),
       ),
       fillColor: lightGreyColor,
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor, width: 2.0),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor, width: 2.0),
+      ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: lightColor,
@@ -92,6 +98,12 @@ ThemeData darkThemeData(BuildContext context) {
         ),
       ),
       fillColor: lightGreyColor,
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor, width: 2.0),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor, width: 2.0),
+      ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: softDarkColor,

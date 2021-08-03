@@ -69,6 +69,8 @@ class PostItem extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       fixedSize: const Size.fromRadius(25.0),
+                      primary: Theme.of(context).backgroundColor,
+                      onPrimary: Theme.of(context).dividerColor,
                     ),
                     child: const Icon(CustomIcons.heart),
                   ),

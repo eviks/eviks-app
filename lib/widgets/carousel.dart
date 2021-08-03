@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-import './sized_config.dart';
-
 class Carousel extends StatefulWidget {
   const Carousel({
     Key? key,

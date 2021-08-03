@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 class StyledInput extends StatefulWidget {
   final IconData icon;
   final String title;
+  final bool obscureText;
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final Function(String?)? onSaved;
 
   const StyledInput({
     Key? key,
     required this.icon,
     required this.title,
+    this.obscureText = false,
+    this.keyboardType,
+    this.controller,
+    this.validator,
+    this.onSaved,
   }) : super(key: key);
 
   @override
@@ -53,11 +63,15 @@ class _StyledInputState extends State<StyledInput> {
           ),
           TextFormField(
             focusNode: _focus,
-            obscureText: true,
+            obscureText: widget.obscureText,
+            keyboardType: widget.keyboardType,
+            controller: widget.controller,
             decoration: InputDecoration(
               prefixIcon: Icon(widget.icon),
               filled: _filled,
             ),
+            validator: widget.validator,
+            onSaved: widget.onSaved,
           ),
         ],
       ),

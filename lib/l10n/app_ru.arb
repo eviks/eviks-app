@@ -10,6 +10,17 @@
     "postLot": "Сот.",
     "authEmail": "Email",
     "authPassword": "Пароль",
-    "signInTitle": "С возвращением!",
-    "loginButton": "Войти"
+    "signInTitle": "Вход",
+    "signInSubtitle": "С возвращением!",
+    "loginButton": "Войти",
+    "errorEmail": "Введите Email",
+    "errorPassword": "Введите пароль",
+    "createAccount": "Зарегистрироваться",
+    "errorRequiredField": "Пожалуйста, заполните это поле",
+    "authUsername": "Никнейм",
+    "authDisplayName": "Имя",
+    "registerButton": "Зарегистрироваться",
+    "signUpTitle": "Регистрация",
+    "signUpSubtitle": "Давайте знакомиться!",
+    "login": "Войти"
 }
