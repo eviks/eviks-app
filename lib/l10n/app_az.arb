@@ -22,5 +22,8 @@
     "registerButton": "Qeydiyyatdan keç",
     "signUpTitle": "Qeydiyyat",
     "signUpSubtitle": "Gəlin tanış olaq!",
-    "login": "Daxil olmaq"
+    "login": "Daxil olmaq",
+    "verificationTitle": "Email təsdiqliyin",
+    "verificationHint": "Emaila göndərilən kodu daxil edin",
+    "verifyButton": "Təsdiqlə"
 }

@@ -1,9 +1,11 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/settlement.dart';
+import '../providers/auth.dart';
 import '../providers/post.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
@@ -43,6 +45,9 @@ class PostItem extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.portrait
             ? 30.0
             : 50.0;
+
+    final _isFavorite = Provider.of<Auth>(context).postIsFavorite(id);
+
     SizeConfig().init(context);
     return GestureDetector(
       onTap: () {
@@ -69,8 +74,12 @@ class PostItem extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       fixedSize: const Size.fromRadius(25.0),
-                      primary: Theme.of(context).backgroundColor,
-                      onPrimary: Theme.of(context).dividerColor,
+                      primary: _isFavorite
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).backgroundColor,
+                      onPrimary: _isFavorite
+                          ? Theme.of(context).backgroundColor
+                          : Theme.of(context).dividerColor,
                     ),
                     child: const Icon(CustomIcons.heart),
                   ),

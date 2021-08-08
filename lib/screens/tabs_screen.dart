@@ -6,6 +6,8 @@ import './auth_screen/auth_screen.dart';
 import './posts_screen.dart';
 
 class TabsScreen extends StatefulWidget {
+  static const routeName = '/';
+
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }

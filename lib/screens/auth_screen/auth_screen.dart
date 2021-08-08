@@ -31,15 +31,13 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Container(
           color: Theme.of(context).primaryColor,
           width: double.infinity,
-          // constraints:
-          //     BoxConstraints(minHeight: SizeConfig.blockSizeVertical * 84.0),
           child: Column(
             children: [
               CustomPaint(
                 painter: Background(Theme.of(context).primaryColor),
                 child: SizedBox(
                   width: double.infinity,
-                  height: SizeConfig.blockSizeVertical * 30.0,
+                  height: SizeConfig.safeBlockVertical * 30.0,
                   child: Stack(
                     children: [
                       Padding(
@@ -87,7 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   constraints: BoxConstraints(
-                      minHeight: SizeConfig.blockSizeVertical * 70.0),
+                      minHeight: SizeConfig.safeBlockVertical * 70.0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
                     borderRadius: const BorderRadius.only(

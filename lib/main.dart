@@ -6,6 +6,7 @@ import './providers/auth.dart';
 import './providers/posts.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/tabs_screen.dart';
+import './screens/verification_screen.dart';
 import './theme.dart';
 
 void main() {
@@ -29,9 +30,11 @@ class MyApp extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         theme: lightThemeData(context),
         darkTheme: darkThemeData(context),
-        home: TabsScreen(),
+        initialRoute: '/',
         routes: {
+          TabsScreen.routeName: (ctx) => TabsScreen(),
           PostDetailScreen.routeName: (ctx) => const PostDetailScreen(),
+          VerificationScreen.routeName: (ctx) => const VerificationScreen(),
         },
       ),
     );

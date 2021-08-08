@@ -20,9 +20,9 @@ class Posts with ChangeNotifier {
 
     try {
       final response = await http.get(url);
-      final dynamic extractedData = json.decode(response.body);
+      final dynamic data = json.decode(response.body);
       final List<Post> loadedPosts = [];
-      extractedData['result'].forEach((element) {
+      data['result'].forEach((element) {
         loadedPosts.add(Post.fromJson(element));
       });
       _posts = loadedPosts;

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/styled_input.dart';
+import '../verification_screen.dart';
 
 class RegisterForm extends StatefulWidget {
   final Function switchAuthMode;
@@ -25,7 +26,7 @@ class _RegisterFormState extends State<RegisterForm> {
     'password': '',
   };
 
-  void _login() async {
+  void _register() async {
     if (_formKey.currentState == null) {
       return;
     }
@@ -40,12 +41,22 @@ class _RegisterFormState extends State<RegisterForm> {
 
     _formKey.currentState!.save();
 
-    await Provider.of<Auth>(context, listen: false)
-        .login(_authData['email']!, _authData['password']!);
+    try {
+      await Provider.of<Auth>(context, listen: false).register(
+        _authData['username']!,
+        _authData['displayName']!,
+        _authData['email']!,
+        _authData['password']!,
+      );
+    } catch (error) {
+      rethrow;
+    }
 
     setState(() {
       _isLoading = false;
     });
+
+    Navigator.of(context).pushNamed(VerificationScreen.routeName);
   }
 
   @override
@@ -117,7 +128,7 @@ class _RegisterFormState extends State<RegisterForm> {
             width: double.infinity,
             height: 60.0,
             child: ElevatedButton(
-              onPressed: _login,
+              onPressed: _register,
               child: _isLoading
                   ? SizedBox(
                       width: 24.0,

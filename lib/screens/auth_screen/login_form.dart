@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/styled_input.dart';
+import '../tabs_screen.dart';
 
 class LoginForm extends StatefulWidget {
   final Function switchAuthMode;
@@ -38,12 +39,18 @@ class _LoginFormState extends State<LoginForm> {
 
     _formKey.currentState!.save();
 
-    await Provider.of<Auth>(context, listen: false)
-        .login(_authData['email']!, _authData['password']!);
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(_authData['email']!, _authData['password']!);
+    } catch (error) {
+      rethrow;
+    }
 
     setState(() {
       _isLoading = false;
     });
+
+    Navigator.of(context).pushNamed(TabsScreen.routeName);
   }
 
   @override
