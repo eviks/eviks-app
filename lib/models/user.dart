@@ -10,7 +10,7 @@ class User {
   final DateTime? activationTokenExpires;
   final String? resetPasswordToken;
   final DateTime? resetPasswordExpires;
-  final Map<String, bool>? favorites;
+  Map<String, bool>? favorites;
 
   User({
     required this.id,

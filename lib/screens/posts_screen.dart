@@ -22,18 +22,19 @@ class _PostScreenState extends State<PostScreen> {
         _isLoading = true;
       });
     }
-    Provider.of<Posts>(context).fetchAndSetPosts().then((_) => {
-          setState(() {
-            _isLoading = false;
-          })
-        });
+    Provider.of<Posts>(context, listen: false)
+        .fetchAndSetPosts({}).then((_) => {
+              setState(() {
+                _isLoading = false;
+              })
+            });
     _isInit = false;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final postsData = Provider.of<Posts>(context);
+    final postsData = Provider.of<Posts>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Row(

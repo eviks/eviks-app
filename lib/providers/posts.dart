@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import './post.dart';
 
 class Posts with ChangeNotifier {
-  List<Post> _posts;
   String authToken;
+  List<Post> _posts;
 
   Posts(this.authToken, this._posts);
 
@@ -15,8 +15,15 @@ class Posts with ChangeNotifier {
     return [..._posts];
   }
 
-  Future<void> fetchAndSetPosts() async {
-    final url = Uri.parse('http://192.168.1.8:5000/api/posts?limit=15');
+  Future<void> fetchAndSetPosts(Map<String, dynamic> queryParameters) async {
+    queryParameters['limit'] = '15';
+
+    final url = Uri(
+        scheme: 'http',
+        host: '192.168.1.8',
+        port: 5000,
+        path: 'api/posts',
+        queryParameters: queryParameters);
 
     try {
       final response = await http.get(url);
@@ -34,5 +41,9 @@ class Posts with ChangeNotifier {
 
   Post findById(int id) {
     return _posts.firstWhere((element) => element.id == id);
+  }
+
+  void clearPosts() {
+    _posts = [];
   }
 }

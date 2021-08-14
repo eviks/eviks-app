@@ -25,5 +25,8 @@
     "login": "Войти",
     "verificationTitle": "Подтвердите ваш Email",
     "verificationHint": "Введите код, отправленный на ваш Email",
-    "verifyButton": "Подтвердить"
+    "verifyButton": "Подтвердить",
+    "favorites": "Избранное",
+    "favoritesTitle": "Добавляйте объявления в избранное",
+    "favoritesHint": "Следите за изменением цен интересных объявлений"
 }

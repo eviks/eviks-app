@@ -66,6 +66,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.verificationTitle,
+                        textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
@@ -76,7 +77,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                       Text(
                         AppLocalizations.of(context)!.verificationHint,
-                        style: TextStyle(color: Theme.of(context).dividerColor),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).dividerColor,
+                        ),
                       ),
                     ],
                   ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import './auth_screen/auth_screen.dart';
+import './favorites_screen.dart';
 import './posts_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _TabsScreenState extends State<TabsScreen> {
       setState(() {
         _pages = [
           PostScreen(),
+          FavoritesScreen(),
           Text(AppLocalizations.of(context)!.tabsScreenCreate),
           const AuthScreen(),
         ];
@@ -45,10 +47,16 @@ class _TabsScreenState extends State<TabsScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
+        showUnselectedLabels: true,
+        selectedFontSize: 12.0,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
               icon: const Icon(CustomIcons.search),
               label: AppLocalizations.of(context)!.tabsScreenSearch),
+          BottomNavigationBarItem(
+              icon: const Icon(CustomIcons.heart),
+              label: AppLocalizations.of(context)!.favorites),
           BottomNavigationBarItem(
               icon: const Icon(CustomIcons.plus),
               label: AppLocalizations.of(context)!.tabsScreenCreate),

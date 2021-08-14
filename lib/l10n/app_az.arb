@@ -25,5 +25,8 @@
     "login": "Daxil olmaq",
     "verificationTitle": "Email təsdiqliyin",
     "verificationHint": "Emaila göndərilən kodu daxil edin",
-    "verifyButton": "Təsdiqlə"
+    "verifyButton": "Təsdiqlə",
+    "favorites": "Seçilmişlər",
+    "favoritesTitle": "Elanları seçilmişlərə əlavə edin",
+    "favoritesHint": "Maraqlı elanlar həmişə əlin altında"
 }

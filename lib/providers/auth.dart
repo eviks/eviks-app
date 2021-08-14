@@ -24,6 +24,14 @@ class Auth with ChangeNotifier {
     return _token;
   }
 
+  Map<String, bool> get favorites {
+    return user?.favorites ?? {};
+  }
+
+  bool postIsFavorite(int postId) {
+    return user?.favorites?.containsKey(postId.toString()) ?? false;
+  }
+
   Future<void> login(String email, String password) async {
     try {
       final url = Uri.parse('http://192.168.1.8:5000/api/auth');
@@ -106,7 +114,41 @@ class Auth with ChangeNotifier {
     }
   }
 
-  bool postIsFavorite(int postId) {
-    return user?.favorites?.containsKey(postId.toString()) ?? false;
+  Future<void> addPostToFavorites(int postId) async {
+    if (user == null) {
+      return;
+    }
+    final url =
+        Uri.parse('http://192.168.1.8:5000/api/users/add_to_favorites/$postId');
+    final response = await http.put(url, headers: {
+      'Authorization': 'JWT $token',
+      'Content-Type': 'application/json',
+    });
+    if (response.statusCode != 200) {
+      return;
+    }
+    final dynamic data = json.decode(response.body);
+    _user!.favorites =
+        (data['favorites'] as Map<String, dynamic>).cast<String, bool>();
+    notifyListeners();
+  }
+
+  Future<void> removePostToFavorites(int postId) async {
+    if (user == null) {
+      return;
+    }
+    final url = Uri.parse(
+        'http://192.168.1.8:5000/api/users/remove_from_favorites/$postId');
+    final response = await http.put(url, headers: {
+      'Authorization': 'JWT $token',
+      'Content-Type': 'application/json',
+    });
+    if (response.statusCode != 200) {
+      return;
+    }
+    final dynamic data = json.decode(response.body);
+    _user!.favorites =
+        (data['favorites'] as Map<String, dynamic>).cast<String, bool>();
+    notifyListeners();
   }
 }

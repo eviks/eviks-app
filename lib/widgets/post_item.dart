@@ -1,15 +1,14 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/settlement.dart';
-import '../providers/auth.dart';
 import '../providers/post.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
 import './carousel.dart';
+import './favorite_button.dart';
 
 class PostItem extends StatelessWidget {
   final int id;
@@ -46,8 +45,6 @@ class PostItem extends StatelessWidget {
             ? 30.0
             : 50.0;
 
-    final _isFavorite = Provider.of<Auth>(context).postIsFavorite(id);
-
     SizeConfig().init(context);
     return GestureDetector(
       onTap: () {
@@ -69,20 +66,7 @@ class PostItem extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.all(4.0),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      fixedSize: const Size.fromRadius(25.0),
-                      primary: _isFavorite
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).backgroundColor,
-                      onPrimary: _isFavorite
-                          ? Theme.of(context).backgroundColor
-                          : Theme.of(context).dividerColor,
-                    ),
-                    child: const Icon(CustomIcons.heart),
-                  ),
+                  child: FavoriteButton(id),
                 ),
               ],
             ),
