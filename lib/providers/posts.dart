@@ -6,10 +6,9 @@ import 'package:http/http.dart' as http;
 import './post.dart';
 
 class Posts with ChangeNotifier {
-  String authToken;
   List<Post> _posts;
 
-  Posts(this.authToken, this._posts);
+  Posts(this._posts);
 
   List<Post> get posts {
     return [..._posts];
@@ -20,7 +19,7 @@ class Posts with ChangeNotifier {
 
     final url = Uri(
         scheme: 'http',
-        host: '192.168.1.8',
+        host: '192.168.1.9',
         port: 5000,
         path: 'api/posts',
         queryParameters: queryParameters);

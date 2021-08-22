@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
 
@@ -34,7 +35,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     try {
-      final url = Uri.parse('http://192.168.1.8:5000/api/auth');
+      final url = Uri.parse('http://192.168.1.9:5000/api/auth');
       final response = await http.post(url,
           body: json.encode({
             'email': email,
@@ -48,6 +49,7 @@ class Auth with ChangeNotifier {
           .cast<String, String>();
       _token = data['token'] == null ? '' : data['token']!;
       await loadUser();
+      await saveTokenOnDevice();
       print(_token);
       notifyListeners();
     } catch (error) {
@@ -58,7 +60,7 @@ class Auth with ChangeNotifier {
   Future<void> register(String username, String displayName, String email,
       String password) async {
     try {
-      final url = Uri.parse('http://192.168.1.8:5000/api/users');
+      final url = Uri.parse('http://192.168.1.9:5000/api/users');
       final response = await http.post(url,
           body: json.encode({
             'username': username,
@@ -80,7 +82,7 @@ class Auth with ChangeNotifier {
   Future<void> verifyUser(String activationToken) async {
     try {
       final url = Uri.parse(
-          'http://192.168.1.8:5000/api/auth/verification/$activationToken');
+          'http://192.168.1.9:5000/api/auth/verification/$activationToken');
       final response =
           await http.post(url, headers: {'Authorization': 'JWT $token'});
       if (response.statusCode != 200) {
@@ -90,6 +92,7 @@ class Auth with ChangeNotifier {
           .cast<String, String>();
       _token = data['token'] == null ? '' : data['token']!;
       await loadUser();
+      await saveTokenOnDevice();
       print(_token);
       notifyListeners();
     } catch (error) {
@@ -99,7 +102,7 @@ class Auth with ChangeNotifier {
 
   Future<void> loadUser() async {
     try {
-      final url = Uri.parse('http://192.168.1.8:5000/api/auth');
+      final url = Uri.parse('http://192.168.1.9:5000/api/auth');
       final response =
           await http.get(url, headers: {'Authorization': 'JWT $token'});
       if (response.statusCode != 200) {
@@ -108,10 +111,16 @@ class Auth with ChangeNotifier {
       final dynamic data = json.decode(response.body);
       _user = User.fromJson(data);
       print(_user);
-      notifyListeners();
     } catch (error) {
       rethrow;
     }
+  }
+
+  Future<void> logout() async {
+    _user = null;
+    _token = '';
+    notifyListeners();
+    await clearTokenFromDevice();
   }
 
   Future<void> addPostToFavorites(int postId) async {
@@ -119,7 +128,7 @@ class Auth with ChangeNotifier {
       return;
     }
     final url =
-        Uri.parse('http://192.168.1.8:5000/api/users/add_to_favorites/$postId');
+        Uri.parse('http://192.168.1.9:5000/api/users/add_to_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',
@@ -133,12 +142,12 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removePostToFavorites(int postId) async {
+  Future<void> removePostFromFavorites(int postId) async {
     if (user == null) {
       return;
     }
     final url = Uri.parse(
-        'http://192.168.1.8:5000/api/users/remove_from_favorites/$postId');
+        'http://192.168.1.9:5000/api/users/remove_from_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',
@@ -150,5 +159,35 @@ class Auth with ChangeNotifier {
     _user!.favorites =
         (data['favorites'] as Map<String, dynamic>).cast<String, bool>();
     notifyListeners();
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('token')) {
+      return false;
+    }
+    _token = prefs.getString('token') ?? '';
+
+    if (_token == '') {
+      return false;
+    }
+
+    try {
+      await loadUser();
+      notifyListeners();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<void> saveTokenOnDevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', token);
+  }
+
+  Future<void> clearTokenFromDevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
   }
 }

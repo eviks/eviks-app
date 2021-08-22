@@ -1,13 +1,17 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import './auth_screen/auth_screen.dart';
 import './favorites_screen.dart';
+import './new_post_screen.dart';
 import './posts_screen.dart';
+import './user_profile_screen/user_profile_screen.dart';
 
 class TabsScreen extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/tabs';
 
   @override
   _TabsScreenState createState() => _TabsScreenState();
@@ -17,6 +21,7 @@ class _TabsScreenState extends State<TabsScreen> {
   List<Widget> _pages = [];
   int _selectedPageIndex = 0;
   var _isInit = true;
+  var _isAuth = false;
 
   @override
   void didChangeDependencies() {
@@ -25,8 +30,8 @@ class _TabsScreenState extends State<TabsScreen> {
         _pages = [
           PostScreen(),
           FavoritesScreen(),
-          Text(AppLocalizations.of(context)!.tabsScreenCreate),
-          const AuthScreen(),
+          const NewPostScreen(),
+          const UserProfileScreen(),
         ];
       });
       _isInit = false;
@@ -35,13 +40,18 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+    if (index > 0 && !_isAuth) {
+      Navigator.pushNamed(context, AuthScreen.routeName);
+    } else {
+      setState(() {
+        _selectedPageIndex = index;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _isAuth = Provider.of<Auth>(context, listen: true).isAuth;
     return Scaffold(
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(

@@ -40,7 +40,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
       _isLoading = false;
     });
 
-    Navigator.of(context).pushNamed(TabsScreen.routeName);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
   }
 
   @override
@@ -51,7 +52,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: SizeConfig.safeBlockHorizontal * 75,
+            width: SizeConfig.safeBlockHorizontal * 75.0,
             child: Column(
               children: [
                 SizedBox(

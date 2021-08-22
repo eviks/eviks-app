@@ -50,7 +50,8 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = false;
     });
 
-    Navigator.of(context).pushNamed(TabsScreen.routeName);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
   }
 
   @override

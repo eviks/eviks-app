@@ -8,6 +8,8 @@ import './login_form.dart';
 import './register_form.dart';
 
 class AuthScreen extends StatefulWidget {
+  static const routeName = '/auth';
+
   const AuthScreen({Key? key}) : super(key: key);
 
   @override

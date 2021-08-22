@@ -35,7 +35,7 @@ class _CarouselState extends State<Carousel> {
             itemCount: widget.images.length,
             itemBuilder: (ctx, index, _) {
               return Image.network(
-                'http://192.168.1.8:5000/uploads/post_images/${widget.images[index]}/image_320.png',
+                'http://192.168.1.9:5000/uploads/post_images/${widget.images[index]}/image_320.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
               );

@@ -23,7 +23,8 @@ class FavoriteButton extends StatelessWidget {
       }
 
       if (_isFavorite) {
-        Provider.of<Auth>(context, listen: false).removePostToFavorites(postId);
+        Provider.of<Auth>(context, listen: false)
+            .removePostFromFavorites(postId);
       } else {
         Provider.of<Auth>(context, listen: false).addPostToFavorites(postId);
       }

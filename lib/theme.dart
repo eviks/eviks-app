@@ -51,7 +51,7 @@ ThemeData lightThemeData(BuildContext context) {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: lightColor,
-      selectedItemColor: darkGreyColor,
+      selectedItemColor: primaryColor,
       selectedIconTheme: IconThemeData(color: primaryColor),
       unselectedItemColor: greyColor,
     ),
@@ -107,7 +107,7 @@ ThemeData darkThemeData(BuildContext context) {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: softDarkColor,
-      selectedItemColor: lightGreyColor,
+      selectedItemColor: lightPrimaryColor,
       selectedIconTheme: IconThemeData(color: lightPrimaryColor),
       unselectedItemColor: greyColor,
     ),
