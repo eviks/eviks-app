@@ -29,5 +29,9 @@
     "favorites": "Seçilmişlər",
     "favoritesTitle": "Elanları seçilmişlərə əlavə edin",
     "favoritesHint": "Maraqlı elanlar həmişə əlin altında",
-    "logout": "Çıxmaq"
+    "logout": "Çıxmaq",
+    "unknownError": "Ups...səhv baş verib 😕",
+    "networkError": "Deyəsən, internet yoxdur",
+    "close": "Bağla",
+    "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏"
 }

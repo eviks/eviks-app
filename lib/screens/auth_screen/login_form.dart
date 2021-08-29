@@ -1,7 +1,10 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/styled_input.dart';
 import '../tabs_screen.dart';
@@ -39,16 +42,29 @@ class _LoginFormState extends State<LoginForm> {
 
     _formKey.currentState!.save();
 
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .login(_authData['email']!, _authData['password']!);
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = error.toString();
+      }
     } catch (error) {
-      rethrow;
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
       _isLoading = false;
     });
+
+    if (_errorMessage.isNotEmpty) {
+      displayErrorMessage(context, _errorMessage);
+      return;
+    }
 
     Navigator.of(context)
         .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
@@ -64,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
             height: 32.0,
           ),
           StyledInput(
-            icon: Icons.email,
+            icon: CustomIcons.email,
             title: AppLocalizations.of(context)!.authEmail,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
@@ -77,7 +93,7 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           StyledInput(
-            icon: Icons.lock,
+            icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.authPassword,
             obscureText: true,
             controller: _passwordController,

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/failure.dart';
 import '../models/user.dart';
 
 enum AuthMode { login, register }
@@ -42,15 +43,23 @@ class Auth with ChangeNotifier {
             'password': password,
           }),
           headers: {'Content-Type': 'application/json'});
-      if (response.statusCode != 200) {
-        return;
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
       }
       final data = (json.decode(response.body) as Map<String, dynamic>)
           .cast<String, String>();
-      _token = data['token'] == null ? '' : data['token']!;
+      _token = data['token'] ?? '';
       await loadUser();
       await saveTokenOnDevice();
-      print(_token);
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -70,8 +79,17 @@ class Auth with ChangeNotifier {
             'pinMode': true,
           }),
           headers: {'Content-Type': 'application/json'});
-      if (response.statusCode != 200) {
-        return;
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
     } catch (error) {
@@ -85,15 +103,23 @@ class Auth with ChangeNotifier {
           'http://192.168.1.9:5000/api/auth/verification/$activationToken');
       final response =
           await http.post(url, headers: {'Authorization': 'JWT $token'});
-      if (response.statusCode != 200) {
-        return;
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
       }
       final data = (json.decode(response.body) as Map<String, dynamic>)
           .cast<String, String>();
       _token = data['token'] == null ? '' : data['token']!;
       await loadUser();
       await saveTokenOnDevice();
-      print(_token);
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -105,12 +131,20 @@ class Auth with ChangeNotifier {
       final url = Uri.parse('http://192.168.1.9:5000/api/auth');
       final response =
           await http.get(url, headers: {'Authorization': 'JWT $token'});
-      if (response.statusCode != 200) {
-        return;
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
       }
       final dynamic data = json.decode(response.body);
       _user = User.fromJson(data);
-      print(_user);
     } catch (error) {
       rethrow;
     }
@@ -133,8 +167,17 @@ class Auth with ChangeNotifier {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',
     });
-    if (response.statusCode != 200) {
-      return;
+
+    if (response.statusCode >= 500) {
+      throw Failure('Server error', response.statusCode);
+    } else if (response.statusCode != 200) {
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      final buffer = StringBuffer();
+      buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n');
+      throw Failure(buffer.toString(), response.statusCode);
     }
     final dynamic data = json.decode(response.body);
     _user!.favorites =
@@ -152,8 +195,17 @@ class Auth with ChangeNotifier {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',
     });
-    if (response.statusCode != 200) {
-      return;
+
+    if (response.statusCode >= 500) {
+      throw Failure('Server error', response.statusCode);
+    } else if (response.statusCode != 200) {
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      final buffer = StringBuffer();
+      buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n');
+      throw Failure(buffer.toString(), response.statusCode);
     }
     final dynamic data = json.decode(response.body);
     _user!.favorites =

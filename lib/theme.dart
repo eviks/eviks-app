@@ -56,6 +56,14 @@ ThemeData lightThemeData(BuildContext context) {
       unselectedItemColor: greyColor,
     ),
     dividerColor: greyColor,
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: primaryColor,
+      contentTextStyle: TextStyle(
+        color: lightColor,
+      ),
+      actionTextColor: lightColor,
+      behavior: SnackBarBehavior.floating,
+    ),
   );
 }
 
@@ -112,5 +120,13 @@ ThemeData darkThemeData(BuildContext context) {
       unselectedItemColor: greyColor,
     ),
     dividerColor: greyColor,
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: lightPrimaryColor,
+      contentTextStyle: TextStyle(
+        color: darkColor,
+      ),
+      actionTextColor: darkColor,
+      behavior: SnackBarBehavior.floating,
+    ),
   );
 }

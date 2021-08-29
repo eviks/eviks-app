@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/failure.dart';
+
 import './post.dart';
 
 class Posts with ChangeNotifier {
@@ -26,6 +28,19 @@ class Posts with ChangeNotifier {
 
     try {
       final response = await http.get(url);
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
       final dynamic data = json.decode(response.body);
       final List<Post> loadedPosts = [];
       data['result'].forEach((element) {

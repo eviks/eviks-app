@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
@@ -31,4 +32,16 @@ Color lighten(Color color, [double amount = .1]) {
   final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
   return hslLight.toColor();
+}
+
+void displayErrorMessage(BuildContext context, String mesaage) {
+  final snackbar = SnackBar(
+    content: Text(mesaage),
+    duration: const Duration(seconds: 5),
+    action: SnackBarAction(
+      label: AppLocalizations.of(context)!.close,
+      onPressed: () {},
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }

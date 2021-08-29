@@ -3,6 +3,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../screens/tabs_screen.dart';
 import '../widgets/sized_config.dart';
@@ -29,16 +31,29 @@ class _VerificationScreenState extends State<VerificationScreen> {
       _isLoading = true;
     });
 
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .verifyUser(_activationToken);
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = error.toString();
+      }
     } catch (error) {
-      rethrow;
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
       _isLoading = false;
     });
+
+    if (_errorMessage.isNotEmpty) {
+      displayErrorMessage(context, _errorMessage);
+      return;
+    }
 
     Navigator.of(context)
         .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);

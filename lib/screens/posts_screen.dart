@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 
@@ -16,18 +18,35 @@ class _PostScreenState extends State<PostScreen> {
   var _isLoading = false;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     if (_isInit) {
       setState(() {
         _isLoading = true;
       });
     }
-    Provider.of<Posts>(context, listen: false)
-        .fetchAndSetPosts({}).then((_) => {
-              setState(() {
-                _isLoading = false;
-              })
-            });
+
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    try {
+      await Provider.of<Posts>(context, listen: false).fetchAndSetPosts({});
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = AppLocalizations.of(context)!.networkError;
+      }
+    } catch (error) {
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
+    }
+
+    if (_errorMessage.isNotEmpty) {
+      displayErrorMessage(context, _errorMessage);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
     _isInit = false;
     super.didChangeDependencies();
   }
