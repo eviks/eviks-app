@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/failure.dart';
 
-import './post.dart';
+import '../models/post.dart';
 
 class Posts with ChangeNotifier {
   List<Post> _posts;

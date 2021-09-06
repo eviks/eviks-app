@@ -33,5 +33,8 @@
     "unknownError": "Ups...səhv baş verib 😕",
     "networkError": "Deyəsən, internet yoxdur",
     "close": "Bağla",
-    "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏"
+    "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏",
+    "userTypeTitle": "Siz kimsiz?",
+    "owner": "Sahib",
+    "agent": "Agent"
 }

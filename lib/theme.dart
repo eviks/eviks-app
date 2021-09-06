@@ -64,6 +64,9 @@ ThemeData lightThemeData(BuildContext context) {
       actionTextColor: lightColor,
       behavior: SnackBarBehavior.floating,
     ),
+    toggleButtonsTheme: const ToggleButtonsThemeData(
+      selectedColor: primaryColor,
+    ),
   );
 }
 
@@ -127,6 +130,9 @@ ThemeData darkThemeData(BuildContext context) {
       ),
       actionTextColor: darkColor,
       behavior: SnackBarBehavior.floating,
+    ),
+    toggleButtonsTheme: const ToggleButtonsThemeData(
+      selectedColor: lightPrimaryColor,
     ),
   );
 }

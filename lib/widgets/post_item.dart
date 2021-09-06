@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
+import '../models/post.dart';
 import '../models/settlement.dart';
-import '../providers/post.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
 import './carousel.dart';
@@ -12,12 +12,12 @@ import './favorite_button.dart';
 
 class PostItem extends StatelessWidget {
   final int id;
-  final EstateType estateType;
+  final EstateType? estateType;
   final int price;
   final int rooms;
   final int sqm;
-  final Settlement city;
-  final Settlement district;
+  final Settlement? city;
+  final Settlement? district;
   final List<String> images;
   final int floor;
   final int totalFloors;
@@ -86,7 +86,7 @@ class PostItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        district.name,
+                        district?.name ?? '',
                         style: const TextStyle(fontSize: 24.0),
                       ),
                     ],
