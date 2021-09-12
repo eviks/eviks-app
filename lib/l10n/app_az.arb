@@ -36,5 +36,15 @@
     "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏",
     "userTypeTitle": "Siz kimsiz?",
     "owner": "Sahib",
-    "agent": "Agent"
+    "agent": "Agent",
+    "estateTypeTitle": "Emlakın növü",
+    "apartment": "Mənzil",
+    "house": "Ev / villa",
+    "apartmentTypeTitle": "Yeni tikili yoxsa köhnə?",
+    "newBuilding": "Yeni tikili",
+    "resale": "Köhnə tikili",
+    "dealTypeTitle": "Sazişin növü",
+    "sale": "Satış",
+    "rent": "Kirayə",
+    "rentPerDay": "Günlük kirayə"
 }

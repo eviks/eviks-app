@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ToggleField extends StatefulWidget {
-  final String name;
   final String title;
   final List values;
-  final Function(String, dynamic) setValue;
+  final Function onPressed;
   final Function getDescription;
 
   const ToggleField({
     Key? key,
-    required this.name,
     required this.title,
     required this.values,
-    required this.setValue,
+    required this.onPressed,
     required this.getDescription,
   }) : super(key: key);
 
@@ -33,15 +31,21 @@ class _ToggleFieldState extends State<ToggleField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.title),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Text(
+          widget.title,
+          style: const TextStyle(fontSize: 18.0),
+        ),
         const SizedBox(
           height: 2.0,
         ),
         ToggleButtons(
-          borderRadius: BorderRadius.circular(50.0),
+          borderRadius: BorderRadius.circular(10.0),
           isSelected: _selections,
           onPressed: (int newIndex) {
-            widget.setValue(widget.name, widget.values[newIndex]);
+            widget.onPressed(widget.values[newIndex]);
             setState(() {
               for (int index = 0; index < _selections.length; index++) {
                 _selections[index] = index == newIndex;

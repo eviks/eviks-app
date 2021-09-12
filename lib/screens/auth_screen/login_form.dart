@@ -20,7 +20,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
   var _isLoading = false;
   final Map<String, String> _authData = {
     'email': '',
@@ -96,7 +95,6 @@ class _LoginFormState extends State<LoginForm> {
             icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.authPassword,
             obscureText: true,
-            controller: _passwordController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorPassword;

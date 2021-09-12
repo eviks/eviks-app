@@ -27,9 +27,8 @@ class _PostScreenState extends State<PostScreen> {
 
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    try {
-      await Provider.of<Posts>(context, listen: false).fetchAndSetPosts({});
-    } on Failure catch (error) {
+    await Provider.of<Posts>(context, listen: false).fetchAndSetPosts({});
+    try {} on Failure catch (error) {
       if (error.statusCode >= 500) {
         _errorMessage = AppLocalizations.of(context)!.serverError;
       } else {

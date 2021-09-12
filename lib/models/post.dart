@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,7 +14,7 @@ enum EstateType {
   apartment,
   house,
 }
-enum AppartmentType {
+enum ApartmentType {
   newBuilding,
   secondaryBuilding,
 }
@@ -34,12 +36,46 @@ String userTypeDescription(UserType userType, BuildContext ctx) {
   }
 }
 
+String estateTypeDescription(EstateType estateType, BuildContext ctx) {
+  switch (estateType) {
+    case EstateType.apartment:
+      return AppLocalizations.of(ctx)!.apartment;
+    case EstateType.house:
+      return AppLocalizations.of(ctx)!.house;
+    default:
+      return '';
+  }
+}
+
+String apartmentTypeDescription(ApartmentType apartmentType, BuildContext ctx) {
+  switch (apartmentType) {
+    case ApartmentType.newBuilding:
+      return AppLocalizations.of(ctx)!.newBuilding;
+    case ApartmentType.secondaryBuilding:
+      return AppLocalizations.of(ctx)!.resale;
+    default:
+      return '';
+  }
+}
+
+String dealTypeDescription(DealType dealType, BuildContext ctx) {
+  switch (dealType) {
+    case DealType.sale:
+      return AppLocalizations.of(ctx)!.sale;
+    case DealType.rent:
+      return AppLocalizations.of(ctx)!.rent;
+    case DealType.rentPerDay:
+      return AppLocalizations.of(ctx)!.rentPerDay;
+    default:
+      return '';
+  }
+}
+
 class Post {
   final int id;
-  final UserType? userType;
-  final EstateType? estateType;
-  final AppartmentType? appartmentType;
-  final DealType? dealType;
+  final UserType userType;
+  final EstateType estateType;
+  final DealType dealType;
   final int price;
   final int rooms;
   final int sqm;
@@ -48,6 +84,7 @@ class Post {
   final List<String> images;
   final String description;
   final List<double> location;
+  final ApartmentType? apartmentType;
   final int floor;
   final int totalFloors;
   final int lotSqm;
@@ -65,7 +102,7 @@ class Post {
     required this.images,
     required this.description,
     required this.location,
-    this.appartmentType,
+    this.apartmentType,
     this.floor = 0,
     this.totalFloors = 0,
     this.lotSqm = 0,
@@ -90,14 +127,45 @@ class Post {
       images: (json['images'] as List<dynamic>).cast<String>(),
       description: json['description'] as String,
       location: (json['location'] as List<dynamic>).cast<double>(),
-      appartmentType: json['appartmentType'] == null
+      apartmentType: json['apartmentType'] == null
           ? null
-          : AppartmentType.values.firstWhere((element) =>
+          : ApartmentType.values.firstWhere((element) =>
               element.toString() ==
-              'AppartmentType.${json['appartmentType'] as String}'),
+              'ApartmentType.${json['apartmentType'] as String}'),
       floor: json['floor'] as int,
       totalFloors: json['totalFloors'] as int,
       lotSqm: json['lotSqm'] as int,
+    );
+  }
+
+  Post copyWith({
+    UserType? userType,
+    EstateType? estateType,
+    DealType? dealType,
+    int? price,
+    int? rooms,
+    int? sqm,
+    Settlement? city,
+    Settlement? district,
+    List<String>? images,
+    String? description,
+    List<double>? location,
+    ApartmentType? apartmentType,
+  }) {
+    return Post(
+      id: id,
+      userType: userType ?? this.userType,
+      estateType: estateType ?? this.estateType,
+      dealType: dealType ?? this.dealType,
+      price: price ?? this.price,
+      rooms: rooms ?? this.rooms,
+      sqm: sqm ?? this.sqm,
+      city: city ?? this.city,
+      district: district ?? this.district,
+      images: images ?? this.images,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      apartmentType: apartmentType ?? this.apartmentType,
     );
   }
 }

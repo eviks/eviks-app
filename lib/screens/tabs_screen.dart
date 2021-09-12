@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
 import './auth_screen/auth_screen.dart';
-import './edit_post_screen.dart';
+import './edit_post_screen/edit_post_screen.dart';
 import './favorites_screen.dart';
 import './posts_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
