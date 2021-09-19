@@ -131,7 +131,6 @@ class Auth with ChangeNotifier {
       final url = Uri.parse('http://192.168.1.9:5000/api/auth');
       final response =
           await http.get(url, headers: {'Authorization': 'JWT $token'});
-
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
       } else if (response.statusCode != 200) {
@@ -143,6 +142,7 @@ class Auth with ChangeNotifier {
             '\n');
         throw Failure(buffer.toString(), response.statusCode);
       }
+
       final dynamic data = json.decode(response.body);
       _user = User.fromJson(data);
     } catch (error) {
@@ -229,6 +229,7 @@ class Auth with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (error) {
+      _token = '';
       return false;
     }
   }

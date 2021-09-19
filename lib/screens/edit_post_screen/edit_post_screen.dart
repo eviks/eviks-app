@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flow_builder/flow_builder.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/post.dart';
 
 import '../../widgets/sized_config.dart';
 import './general_info.dart';
+import './map.dart';
 
 class EditPostScreen extends StatefulWidget {
   const EditPostScreen({Key? key}) : super(key: key);
@@ -18,6 +20,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.editPostScreenTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
       body: FlowBuilder<Post>(
         state: Post(
           id: 0,
@@ -33,9 +45,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
           description: '',
           location: [],
         ),
-        onGeneratePages: (profile, pages) {
+        onGeneratePages: (post, pages) {
           return [
             const MaterialPage(child: GeneralInfo()),
+            if (post.step == 1) const MaterialPage(child: Map()),
           ];
         },
       ),

@@ -46,5 +46,10 @@
     "dealTypeTitle": "Sazişin növü",
     "sale": "Satış",
     "rent": "Kirayə",
-    "rentPerDay": "Günlük kirayə"
+    "rentPerDay": "Günlük kirayə",
+    "editPostScreenTitle": "Yeni elan",
+    "generalInfo": "Ümumi məlumat",
+    "next": "Davam etmək",
+    "back": "Geri",
+    "fieldIsRequired": "Zəhmət olmasa, bu sahəni doldurun"
 }

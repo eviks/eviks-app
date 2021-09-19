@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -88,6 +86,7 @@ class Post {
   final int floor;
   final int totalFloors;
   final int lotSqm;
+  final int step;
 
   Post({
     required this.id,
@@ -106,6 +105,7 @@ class Post {
     this.floor = 0,
     this.totalFloors = 0,
     this.lotSqm = 0,
+    this.step = 0,
   });
 
   factory Post.fromJson(dynamic json) {
@@ -151,6 +151,7 @@ class Post {
     String? description,
     List<double>? location,
     ApartmentType? apartmentType,
+    int? step,
   }) {
     return Post(
       id: id,
@@ -165,7 +166,10 @@ class Post {
       images: images ?? this.images,
       description: description ?? this.description,
       location: location ?? this.location,
-      apartmentType: apartmentType ?? this.apartmentType,
+      apartmentType: (estateType ?? this.estateType) == EstateType.house
+          ? null
+          : apartmentType ?? this.apartmentType,
+      step: step ?? this.step,
     );
   }
 }

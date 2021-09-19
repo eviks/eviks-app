@@ -46,5 +46,10 @@
     "dealTypeTitle": "Вид сделки",
     "sale": "Продать",
     "rent": "Сдать",
-    "rentPerDay": "Сдать посуточно"
+    "rentPerDay": "Сдать посуточно",
+    "editPostScreenTitle": "Новое объявление",
+    "generalInfo": "Общая информация",
+    "next": "Далее",
+    "back": "Назад",
+    "fieldIsRequired": "Пожалуйста, заполните это поле"
 }
