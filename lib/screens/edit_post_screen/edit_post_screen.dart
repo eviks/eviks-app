@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/post.dart';
 
 import '../../widgets/sized_config.dart';
-import './general_info.dart';
-import './map.dart';
+import './edit_post_estate_info.dart';
+import './edit_post_general_info.dart';
+import './edit_post_map.dart';
 
 class EditPostScreen extends StatefulWidget {
+  static const routeName = '/edit_post';
+
   const EditPostScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,6 +18,54 @@ class EditPostScreen extends StatefulWidget {
 }
 
 class _EditPostScreenState extends State<EditPostScreen> {
+  Post post = Post(
+    id: 0,
+    userType: UserType.owner,
+    estateType: EstateType.house,
+    dealType: DealType.sale,
+    price: 0,
+    rooms: 0,
+    sqm: 0,
+    city: null,
+    district: null,
+    address: '',
+    images: [],
+    description: '',
+    location: [],
+  );
+
+  void updatePost(Post value) {
+    setState(() {
+      post = value;
+    });
+  }
+
+  Widget getStepWidget() {
+    switch (post.step) {
+      case 0:
+        return EditPostGeneralInfo(
+          post: post,
+          updatePost: updatePost,
+        );
+
+      case 1:
+        return EditPostMap(
+          post: post,
+          updatePost: updatePost,
+        );
+      case 2:
+        return EditPostEstateInfo(
+          post: post,
+          updatePost: updatePost,
+        );
+      default:
+        return EditPostGeneralInfo(
+          post: post,
+          updatePost: updatePost,
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -30,27 +80,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
           ],
         ),
       ),
-      body: FlowBuilder<Post>(
-        state: Post(
-          id: 0,
-          userType: UserType.owner,
-          estateType: EstateType.house,
-          dealType: DealType.sale,
-          price: 0,
-          rooms: 0,
-          sqm: 0,
-          city: null,
-          district: null,
-          images: [],
-          description: '',
-          location: [],
-        ),
-        onGeneratePages: (post, pages) {
-          return [
-            const MaterialPage(child: GeneralInfo()),
-            if (post.step == 1) const MaterialPage(child: Map()),
-          ];
-        },
+      body: Container(
+        child: getStepWidget(),
       ),
     );
   }

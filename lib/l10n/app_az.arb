@@ -51,5 +51,10 @@
     "generalInfo": "Ümumi məlumat",
     "next": "Davam etmək",
     "back": "Geri",
-    "fieldIsRequired": "Zəhmət olmasa, bu sahəni doldurun"
+    "fieldIsRequired": "Zəhmət olmasa, bu sahəni doldurun",
+    "createPost": "Elanı vermək",
+    "newPost": "Yeni elan",
+    "address": "Ünvan",
+    "newPostTitle": "Emlakı satmaq yaxud kirayə vermək istəyirsiz?",
+    "errorAddress": "Zəhmət olmasa, Emlakın ünvanı göstərin"
 }

@@ -18,4 +18,5 @@ class CustomIcons {
   static const IconData email = IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData password = IconData(0xe80b, fontFamily: _kFontFam);
   static const IconData information = IconData(0xe80c, fontFamily: _kFontFam);
+  static const IconData marker = IconData(0xe80d, fontFamily: _kFontFam);
 }

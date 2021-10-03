@@ -11,8 +11,8 @@ ThemeData lightThemeData(BuildContext context) {
     scaffoldBackgroundColor: lightColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: lightColor,
-      centerTitle: false,
-      elevation: 1,
+      shadowColor: Colors.transparent,
+      centerTitle: true,
     ),
     iconTheme: const IconThemeData(color: darkColor),
     textTheme: ThemeData.light().textTheme.apply(
@@ -78,8 +78,8 @@ ThemeData darkThemeData(BuildContext context) {
     scaffoldBackgroundColor: darkColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: softDarkColor,
+      shadowColor: Colors.transparent,
       centerTitle: true,
-      elevation: 1,
     ),
     iconTheme: const IconThemeData(color: lightGreyColor),
     textTheme: ThemeData.dark().textTheme.apply(
@@ -108,7 +108,7 @@ ThemeData darkThemeData(BuildContext context) {
           width: 2.0,
         ),
       ),
-      fillColor: lightGreyColor,
+      fillColor: softDarkColor,
       errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: primaryColor, width: 2.0),
       ),

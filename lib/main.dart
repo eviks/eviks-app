@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './providers/auth.dart';
 import './providers/posts.dart';
 import './screens/auth_screen/auth_screen.dart';
+import './screens/edit_post_screen/edit_post_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/verification_screen.dart';
@@ -20,9 +21,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
-        ChangeNotifierProvider<Posts>(
-          create: (ctx) => Posts(
-            [],
+        ChangeNotifierProxyProvider<Auth, Posts>(
+          create: (ctx) => Posts('', []),
+          update: (ctx, auth, previousPosts) => Posts(
+            auth.token,
+            previousPosts == null ? [] : previousPosts.posts,
           ),
         ),
       ],
@@ -48,6 +51,7 @@ class MyApp extends StatelessWidget {
             PostDetailScreen.routeName: (ctx) => const PostDetailScreen(),
             VerificationScreen.routeName: (ctx) => const VerificationScreen(),
             AuthScreen.routeName: (ctx) => const AuthScreen(),
+            EditPostScreen.routeName: (ctx) => const EditPostScreen(),
           },
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StyledInput extends StatefulWidget {
   final IconData icon;
-  final String title;
+  final String? title;
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
@@ -12,7 +12,7 @@ class StyledInput extends StatefulWidget {
   const StyledInput({
     Key? key,
     required this.icon,
-    required this.title,
+    this.title,
     this.obscureText = false,
     this.keyboardType,
     this.controller,
@@ -54,13 +54,14 @@ class _StyledInputState extends State<StyledInput> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 2.0),
-            child: Text(
-              widget.title,
-              style: const TextStyle(fontSize: 16.0),
+          if (widget.title != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, bottom: 2.0),
+              child: Text(
+                widget.title ?? '',
+                style: const TextStyle(fontSize: 16.0),
+              ),
             ),
-          ),
           TextFormField(
             focusNode: _focus,
             obscureText: widget.obscureText,

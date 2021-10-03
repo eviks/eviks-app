@@ -1,23 +1,27 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flow_builder/flow_builder.dart';
 
 import '../../models/post.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/toggle_field.dart';
 import './step_title.dart';
 
-class GeneralInfo extends StatefulWidget {
-  const GeneralInfo({
+class EditPostGeneralInfo extends StatefulWidget {
+  final Post post;
+  final Function(Post) updatePost;
+
+  const EditPostGeneralInfo({
+    required this.post,
+    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
   @override
-  _GeneralInfoState createState() => _GeneralInfoState();
+  _EditPostGeneralInfoState createState() => _EditPostGeneralInfoState();
 }
 
-class _GeneralInfoState extends State<GeneralInfo> {
+class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   final _formKey = GlobalKey<FormState>();
 
   UserType? _userType;
@@ -43,15 +47,13 @@ class _GeneralInfoState extends State<GeneralInfo> {
       return;
     }
 
-    context.flow<Post>().update((post) {
-      return post.copyWith(
-        userType: _userType,
-        estateType: _estateType,
-        apartmentType: _apartmentType,
-        dealType: _dealType,
-        step: 1,
-      );
-    });
+    widget.updatePost(widget.post.copyWith(
+      userType: _userType,
+      estateType: _estateType,
+      apartmentType: _apartmentType,
+      dealType: _dealType,
+      step: 1,
+    ));
   }
 
   @override
