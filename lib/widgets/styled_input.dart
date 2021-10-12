@@ -8,6 +8,8 @@ class StyledInput extends StatefulWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Function(String?)? onSaved;
+  final Function(String?)? onChanged;
+  final Function(bool)? onFocus;
 
   const StyledInput({
     Key? key,
@@ -18,6 +20,8 @@ class StyledInput extends StatefulWidget {
     this.controller,
     this.validator,
     this.onSaved,
+    this.onChanged,
+    this.onFocus,
   }) : super(key: key);
 
   @override
@@ -42,6 +46,7 @@ class _StyledInputState extends State<StyledInput> {
   }
 
   void listener() {
+    if (widget.onFocus != null) widget.onFocus!(_focus.hasFocus);
     setState(() {
       _filled = !_focus.hasFocus;
     });
@@ -73,6 +78,7 @@ class _StyledInputState extends State<StyledInput> {
             ),
             validator: widget.validator,
             onSaved: widget.onSaved,
+            onChanged: widget.onChanged,
           ),
         ],
       ),

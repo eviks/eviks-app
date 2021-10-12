@@ -70,6 +70,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Row(
           children: [
@@ -80,7 +81,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
           ],
         ),
       ),
-      body: Container(
+      body: SafeArea(
         child: getStepWidget(),
       ),
     );

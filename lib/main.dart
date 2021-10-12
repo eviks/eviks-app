@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
+import './providers/localities.dart';
 import './providers/posts.dart';
 import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
             previousPosts == null ? [] : previousPosts.posts,
           ),
         ),
+        ChangeNotifierProvider(create: (ctx) => Localities()),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(

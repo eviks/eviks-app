@@ -31,7 +31,7 @@ class PostDetailContent extends StatelessWidget {
               ),
               _ContentTitle(AppLocalizations.of(context)!.postDetailLocation),
               SizedBox(
-                height: 200,
+                height: 200.0,
                 child: PostDetailMap(post.location),
               )
             ],
