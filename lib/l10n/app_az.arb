@@ -56,5 +56,6 @@
     "newPost": "Yeni elan",
     "address": "Ünvan",
     "newPostTitle": "Emlakı satmaq yaxud kirayə vermək istəyirsiz?",
-    "errorAddress": "Zəhmət olmasa, Emlakın ünvanı göstərin"
+    "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin",
+    "wrongAddress": "Ünvan müəyyən edilməyib. Zəhmət olmasa, markerin yeri dəyişin"
 }

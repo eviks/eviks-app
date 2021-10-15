@@ -19,4 +19,6 @@ class CustomIcons {
   static const IconData password = IconData(0xe80b, fontFamily: _kFontFam);
   static const IconData information = IconData(0xe80c, fontFamily: _kFontFam);
   static const IconData marker = IconData(0xe80d, fontFamily: _kFontFam);
+  static const IconData back = IconData(0xe80e, fontFamily: _kFontFam);
+  static const IconData close = IconData(0xe80f, fontFamily: _kFontFam);
 }

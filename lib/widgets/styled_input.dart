@@ -10,6 +10,8 @@ class StyledInput extends StatefulWidget {
   final Function(String?)? onSaved;
   final Function(String?)? onChanged;
   final Function(bool)? onFocus;
+  final Widget? suffix;
+  final Widget? prefix;
 
   const StyledInput({
     Key? key,
@@ -22,6 +24,8 @@ class StyledInput extends StatefulWidget {
     this.onSaved,
     this.onChanged,
     this.onFocus,
+    this.suffix,
+    this.prefix,
   }) : super(key: key);
 
   @override
@@ -67,18 +71,30 @@ class _StyledInputState extends State<StyledInput> {
                 style: const TextStyle(fontSize: 16.0),
               ),
             ),
-          TextFormField(
-            focusNode: _focus,
-            obscureText: widget.obscureText,
-            keyboardType: widget.keyboardType,
-            controller: widget.controller,
-            decoration: InputDecoration(
-              prefixIcon: Icon(widget.icon),
-              filled: _filled,
-            ),
-            validator: widget.validator,
-            onSaved: widget.onSaved,
-            onChanged: widget.onChanged,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (widget.prefix != null) widget.prefix!,
+              Expanded(
+                child: TextFormField(
+                  focusNode: _focus,
+                  obscureText: widget.obscureText,
+                  keyboardType: widget.keyboardType,
+                  controller: widget.controller,
+                  decoration: InputDecoration(
+                    suffix: widget.suffix,
+                    prefixIcon: Icon(
+                      widget.icon,
+                      size: 24.0,
+                    ),
+                    filled: _filled,
+                  ),
+                  validator: widget.validator,
+                  onSaved: widget.onSaved,
+                  onChanged: widget.onChanged,
+                ),
+              ),
+            ],
           ),
         ],
       ),
