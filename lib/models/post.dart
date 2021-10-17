@@ -75,19 +75,21 @@ class Post {
   final EstateType estateType;
   final ApartmentType? apartmentType;
   final DealType dealType;
-  final int price;
-  final int rooms;
-  final int sqm;
+  final List<double> location;
   final Settlement? city;
   final Settlement? district;
+  final Settlement? subdistrict;
   final String address;
+  final int rooms;
+  final int sqm;
+  final int? livingRoomsSqm;
+  final int? kitchenSqm;
+  final int? lotSqm;
+  final int? floor;
+  final int? totalFloors;
+  final int price;
   final List<String> images;
   final String description;
-  final List<double> location;
-  final Settlement? subdistrict;
-  final int floor;
-  final int totalFloors;
-  final int lotSqm;
   final int step;
 
   Post({
@@ -96,19 +98,21 @@ class Post {
     required this.estateType,
     this.apartmentType,
     required this.dealType,
-    required this.price,
-    required this.rooms,
-    required this.sqm,
+    required this.location,
     required this.city,
     required this.district,
+    this.subdistrict,
     required this.address,
+    required this.rooms,
+    required this.sqm,
+    this.livingRoomsSqm,
+    this.kitchenSqm,
+    this.lotSqm,
+    this.floor,
+    this.totalFloors,
+    required this.price,
     required this.images,
     required this.description,
-    required this.location,
-    this.subdistrict,
-    this.floor = 0,
-    this.totalFloors = 0,
-    this.lotSqm = 0,
     this.step = 0,
   });
 
@@ -126,9 +130,7 @@ class Post {
               'ApartmentType.${json['apartmentType'] as String}'),
       dealType: DealType.values.firstWhere((element) =>
           element.toString() == 'DealType.${json['dealType'] as String}'),
-      price: json['price'] as int,
-      rooms: json['rooms'] as int,
-      sqm: json['sqm'] as int,
+      location: (json['location'] as List<dynamic>).cast<double>(),
       city: Settlement.fromJson(json['city']),
       district: Settlement.fromJson(
         json['district'],
@@ -139,12 +141,17 @@ class Post {
               json['subdistrict'],
             ),
       address: json['address'] as String,
-      images: (json['images'] as List<dynamic>).cast<String>(),
-      description: json['description'] as String,
-      location: (json['location'] as List<dynamic>).cast<double>(),
+      rooms: json['rooms'] as int,
+      sqm: json['sqm'] as int,
+      livingRoomsSqm:
+          json['livingRoomsSqm'] == null ? null : json['livingRoomsSqm'] as int,
+      kitchenSqm: json['kitchenSqm'] == null ? null : json['kitchenSqm'] as int,
+      lotSqm: json['lotSqm'] == null ? null : json['lotSqm'] as int,
       floor: json['floor'] as int,
       totalFloors: json['totalFloors'] as int,
-      lotSqm: json['lotSqm'] as int,
+      price: json['price'] as int,
+      images: (json['images'] as List<dynamic>).cast<String>(),
+      description: json['description'] as String,
     );
   }
 
@@ -153,16 +160,21 @@ class Post {
     EstateType? estateType,
     ApartmentType? apartmentType,
     DealType? dealType,
-    int? price,
-    int? rooms,
-    int? sqm,
+    List<double>? location,
     Settlement? city,
     Settlement? district,
     Settlement? subdistrict,
     String? address,
+    int? rooms,
+    int? sqm,
+    int? livingRoomsSqm,
+    int? kitchenSqm,
+    int? lotSqm,
+    int? floor,
+    int? totalFloors,
+    int? price,
     List<String>? images,
     String? description,
-    List<double>? location,
     int? step,
   }) {
     return Post(
@@ -173,16 +185,21 @@ class Post {
           ? null
           : apartmentType ?? this.apartmentType,
       dealType: dealType ?? this.dealType,
-      price: price ?? this.price,
-      rooms: rooms ?? this.rooms,
-      sqm: sqm ?? this.sqm,
+      location: location ?? this.location,
       city: city ?? this.city,
       district: district ?? this.district,
+      subdistrict: subdistrict ?? this.subdistrict,
       address: address ?? this.address,
+      rooms: rooms ?? this.rooms,
+      sqm: sqm ?? this.sqm,
+      livingRoomsSqm: livingRoomsSqm ?? this.livingRoomsSqm,
+      kitchenSqm: kitchenSqm ?? this.kitchenSqm,
+      lotSqm: lotSqm ?? this.lotSqm,
+      floor: floor ?? this.floor,
+      totalFloors: totalFloors ?? this.totalFloors,
+      price: price ?? this.price,
       images: images ?? this.images,
       description: description ?? this.description,
-      location: location ?? this.location,
-      subdistrict: subdistrict ?? this.subdistrict,
       step: step ?? this.step,
     );
   }

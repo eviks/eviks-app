@@ -21,4 +21,5 @@ class CustomIcons {
   static const IconData marker = IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData back = IconData(0xe80e, fontFamily: _kFontFam);
   static const IconData close = IconData(0xe80f, fontFamily: _kFontFam);
+  static const IconData house = IconData(0xe810, fontFamily: _kFontFam);
 }

@@ -4,38 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../models/post.dart';
-import '../models/settlement.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
 import './carousel.dart';
 import './favorite_button.dart';
 
 class PostItem extends StatelessWidget {
-  final int id;
-  final EstateType? estateType;
-  final int price;
-  final int rooms;
-  final int sqm;
-  final Settlement? city;
-  final Settlement? district;
-  final List<String> images;
-  final int floor;
-  final int totalFloors;
-  final int lotSqm;
+  final Post post;
 
   const PostItem({
     Key? key,
-    required this.id,
-    required this.estateType,
-    required this.price,
-    required this.rooms,
-    required this.sqm,
-    required this.city,
-    required this.district,
-    required this.images,
-    this.floor = 0,
-    this.totalFloors = 0,
-    this.lotSqm = 0,
+    required this.post,
   }) : super(key: key);
 
   @override
@@ -49,7 +28,7 @@ class PostItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(PostDetailScreen.routeName, arguments: id);
+            .pushNamed(PostDetailScreen.routeName, arguments: post.id);
       },
       child: Container(
         margin: const EdgeInsets.only(
@@ -61,12 +40,12 @@ class PostItem extends StatelessWidget {
               alignment: Alignment.bottomRight,
               children: <Widget>[
                 Carousel(
-                  images: images,
+                  images: post.images,
                   height: SizeConfig.safeBlockVertical * headerHeight,
                 ),
                 Container(
                   margin: const EdgeInsets.all(4.0),
-                  child: FavoriteButton(id),
+                  child: FavoriteButton(post.id),
                 ),
               ],
             ),
@@ -77,7 +56,7 @@ class PostItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        currencyFormat.format(price),
+                        currencyFormat.format(post.price),
                         style: const TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
@@ -86,7 +65,7 @@ class PostItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        district?.name ?? '',
+                        post.district?.name ?? '',
                         style: const TextStyle(fontSize: 24.0),
                       ),
                     ],
@@ -101,7 +80,7 @@ class PostItem extends StatelessWidget {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text('$sqm m²'),
+                        Text('${post.sqm} m²'),
                         const SizedBox(
                           width: 8,
                         ),
@@ -110,19 +89,19 @@ class PostItem extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                            '$rooms ${AppLocalizations.of(context)!.postRooms}'),
+                            '${post.rooms} ${AppLocalizations.of(context)!.postRooms}'),
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Icon(estateType == EstateType.apartment
+                        Icon(post.estateType == EstateType.apartment
                             ? CustomIcons.stairs
                             : CustomIcons.garden),
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text(estateType == EstateType.apartment
-                            ? '$floor/$totalFloors'
-                            : '$lotSqm ${AppLocalizations.of(context)!.postLot}'),
+                        Text(post.estateType == EstateType.apartment
+                            ? '${post.floor}/${post.totalFloors}'
+                            : '${post.lotSqm} ${AppLocalizations.of(context)!.postLot}'),
                       ],
                     ),
                   ),

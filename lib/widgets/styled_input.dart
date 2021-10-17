@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class StyledInput extends StatefulWidget {
   final IconData icon;
@@ -12,6 +13,7 @@ class StyledInput extends StatefulWidget {
   final Function(bool)? onFocus;
   final Widget? suffix;
   final Widget? prefix;
+  final List<TextInputFormatter>? inputFormatters;
 
   const StyledInput({
     Key? key,
@@ -26,6 +28,7 @@ class StyledInput extends StatefulWidget {
     this.onFocus,
     this.suffix,
     this.prefix,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -72,7 +75,6 @@ class _StyledInputState extends State<StyledInput> {
               ),
             ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.prefix != null) widget.prefix!,
               Expanded(
@@ -92,6 +94,7 @@ class _StyledInputState extends State<StyledInput> {
                   validator: widget.validator,
                   onSaved: widget.onSaved,
                   onChanged: widget.onChanged,
+                  inputFormatters: widget.inputFormatters,
                 ),
               ),
             ],

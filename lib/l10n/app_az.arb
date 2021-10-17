@@ -57,5 +57,14 @@
     "address": "Ünvan",
     "newPostTitle": "Emlakı satmaq yaxud kirayə vermək istəyirsiz?",
     "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin",
-    "wrongAddress": "Ünvan müəyyən edilməyib. Zəhmət olmasa, markerin yeri dəyişin"
+    "wrongAddress": "Ünvan müəyyən edilməyib. Zəhmət olmasa, markerin yeri dəyişin",
+    "estateInfo": "Emlak üzrə məlumat",
+    "sqm": "Ümumi sahə, м²",
+    "rooms": "Otaqların sayı",
+    "livingRoomsSqm": "Yaşayış sahəsi, м²",
+     "kitchenSqm": "Mətbəx sahəsi, м²",
+     "lotSqm": "Torpaq sahəsi, sot",
+     "floor": "Mərtəbə",
+     "totalFloors": "Mərtəbələrin sayı",
+     "errorFloor": "Mərtəbə düzgün göstərilməyib"
 }
