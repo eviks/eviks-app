@@ -23,6 +23,12 @@ enum DealType {
   rentPerDay,
 }
 
+enum Renovation {
+  cosmetic,
+  designer,
+  noRenovation,
+}
+
 String userTypeDescription(UserType userType, BuildContext ctx) {
   switch (userType) {
     case UserType.owner:
@@ -69,6 +75,19 @@ String dealTypeDescription(DealType dealType, BuildContext ctx) {
   }
 }
 
+String renovationDescription(Renovation renovation, BuildContext ctx) {
+  switch (renovation) {
+    case Renovation.cosmetic:
+      return AppLocalizations.of(ctx)!.cosmetic;
+    case Renovation.designer:
+      return AppLocalizations.of(ctx)!.designer;
+    case Renovation.noRenovation:
+      return AppLocalizations.of(ctx)!.noRenovation;
+    default:
+      return '';
+  }
+}
+
 class Post {
   final int id;
   final UserType userType;
@@ -87,6 +106,7 @@ class Post {
   final int? lotSqm;
   final int? floor;
   final int? totalFloors;
+  final Renovation renovation;
   final int price;
   final List<String> images;
   final String description;
@@ -110,6 +130,7 @@ class Post {
     this.lotSqm,
     this.floor,
     this.totalFloors,
+    required this.renovation,
     required this.price,
     required this.images,
     required this.description,
@@ -149,6 +170,8 @@ class Post {
       lotSqm: json['lotSqm'] == null ? null : json['lotSqm'] as int,
       floor: json['floor'] as int,
       totalFloors: json['totalFloors'] as int,
+      renovation: Renovation.values.firstWhere((element) =>
+          element.toString() == 'Renovation.${json['renovation'] as String}'),
       price: json['price'] as int,
       images: (json['images'] as List<dynamic>).cast<String>(),
       description: json['description'] as String,
@@ -172,6 +195,7 @@ class Post {
     int? lotSqm,
     int? floor,
     int? totalFloors,
+    Renovation? renovation,
     int? price,
     List<String>? images,
     String? description,
@@ -197,6 +221,7 @@ class Post {
       lotSqm: lotSqm ?? this.lotSqm,
       floor: floor ?? this.floor,
       totalFloors: totalFloors ?? this.totalFloors,
+      renovation: renovation ?? this.renovation,
       price: price ?? this.price,
       images: images ?? this.images,
       description: description ?? this.description,

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           title: 'Eviks',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: lightThemeData(context),
+          theme: darkThemeData(context),
           darkTheme: darkThemeData(context),
           home: auth.isAuth
               ? TabsScreen()

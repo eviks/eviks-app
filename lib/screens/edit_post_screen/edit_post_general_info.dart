@@ -60,12 +60,14 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: SizeConfig.safeBlockHorizontal * 20.0, vertical: 32.0),
         child: Center(
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 StepTitle(
                   title: AppLocalizations.of(context)!.generalInfo,
@@ -138,7 +140,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                   padding: const EdgeInsets.only(
                     top: 8.0,
                   ),
-                  width: SizeConfig.safeBlockHorizontal * 50,
+                  width: double.infinity,
                   height: 60.0,
                   child: ElevatedButton(
                     onPressed: _continuePressed,

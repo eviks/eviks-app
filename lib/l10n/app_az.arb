@@ -62,9 +62,13 @@
     "sqm": "Ümumi sahə, м²",
     "rooms": "Otaqların sayı",
     "livingRoomsSqm": "Yaşayış sahəsi, м²",
-     "kitchenSqm": "Mətbəx sahəsi, м²",
-     "lotSqm": "Torpaq sahəsi, sot",
-     "floor": "Mərtəbə",
-     "totalFloors": "Mərtəbələrin sayı",
-     "errorFloor": "Mərtəbə düzgün göstərilməyib"
+    "kitchenSqm": "Mətbəx sahəsi, м²",
+    "lotSqm": "Torpaq sahəsi, sot",
+    "floor": "Mərtəbə",
+    "totalFloors": "Mərtəbələrin sayı",
+    "errorFloor": "Mərtəbə düzgün göstərilməyib",
+    "renovation": "Təmir",
+    "cosmetic": "Kosmetik",
+    "designer": "Xüsusi dizayn",
+    "noRenovation": "Təmir tələb olunur"
 }

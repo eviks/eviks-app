@@ -23,15 +23,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
     userType: UserType.owner,
     estateType: EstateType.house,
     dealType: DealType.sale,
-    price: 0,
-    rooms: 0,
-    sqm: 0,
+    location: [],
     city: null,
     district: null,
     address: '',
+    sqm: 0,
+    renovation: Renovation.cosmetic,
+    price: 0,
+    rooms: 0,
     images: [],
     description: '',
-    location: [],
   );
 
   void updatePost(Post value) {

@@ -7,6 +7,7 @@ import '../../models/post.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import '../../widgets/toggle_field.dart';
 import './step_title.dart';
 
 class EditPostEstateInfo extends StatefulWidget {
@@ -33,6 +34,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   int? _lotSqm;
   int? _floor;
   int? _totalFloors;
+  Renovation? _renovation;
 
   final _totalFloorsController = TextEditingController();
 
@@ -63,6 +65,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       lotSqm: _lotSqm,
       floor: _floor,
       totalFloors: _totalFloors,
+      renovation: _renovation,
       step: 3,
     ));
   }
@@ -77,12 +80,14 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: SizeConfig.safeBlockHorizontal * 20.0, vertical: 32.0),
         child: Center(
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 StepTitle(
                   title: AppLocalizations.of(context)!.estateInfo,
@@ -130,11 +135,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                     icon: CustomIcons.sqm,
                     title: AppLocalizations.of(context)!.livingRoomsSqm,
                     keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)!.errorRequiredField;
-                      }
-                    },
                     onSaved: (value) {
                       _livingRoomsSqm =
                           value?.isEmpty ?? true ? 0 : int.parse(value!);
@@ -147,11 +147,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                     icon: CustomIcons.sqm,
                     title: AppLocalizations.of(context)!.kitchenSqm,
                     keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)!.errorRequiredField;
-                      }
-                    },
                     onSaved: (value) {
                       _kitchenSqm =
                           value?.isEmpty ?? true ? 0 : int.parse(value!);
@@ -167,7 +162,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       title: AppLocalizations.of(context)!.lotSqm,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (_isHouse && (value == null || value.isEmpty)) {
                           return AppLocalizations.of(context)!
                               .errorRequiredField;
                         }
@@ -189,7 +184,9 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (_isHouse) {
+                          return null;
+                        } else if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!
                               .errorRequiredField;
                         } else if (int.parse(
@@ -223,26 +220,37 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? 32.0
-                          : 0),
-                  child: Column(
-                    children: [
-                      StyledElevatedButton(
-                        text: AppLocalizations.of(context)!.next,
-                        onPressed: _continuePressed,
-                        width: SizeConfig.safeBlockHorizontal * 50,
-                      ),
-                      StyledElevatedButton(
-                        text: AppLocalizations.of(context)!.back,
-                        onPressed: _prevStep,
-                        width: SizeConfig.safeBlockHorizontal * 50,
-                        secondary: true,
-                      ),
-                    ],
-                  ),
+                ToggleFormField<Renovation>(
+                  title: AppLocalizations.of(context)!.renovation,
+                  values: Renovation.values,
+                  getDescription: renovationDescription,
+                  direction: Axis.vertical,
+                  validator: (value) {
+                    if (value == null) {
+                      return AppLocalizations.of(context)!.fieldIsRequired;
+                    }
+                  },
+                  onSaved: (value) {
+                    _renovation = value;
+                  },
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Column(
+                  children: [
+                    StyledElevatedButton(
+                      text: AppLocalizations.of(context)!.next,
+                      onPressed: _continuePressed,
+                      width: double.infinity,
+                    ),
+                    StyledElevatedButton(
+                      text: AppLocalizations.of(context)!.back,
+                      onPressed: _prevStep,
+                      width: double.infinity,
+                      secondary: true,
+                    ),
+                  ],
                 ),
               ],
             ),
