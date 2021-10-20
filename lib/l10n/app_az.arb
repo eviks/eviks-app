@@ -70,5 +70,7 @@
     "renovation": "Təmir",
     "cosmetic": "Kosmetik",
     "designer": "Xüsusi dizayn",
-    "noRenovation": "Təmir tələb olunur"
+    "noRenovation": "Təmir tələb olunur",
+    "redevelopment": "Planlaşdırılma dəyişdirildi",
+    "documented": "Kupça var"
 }

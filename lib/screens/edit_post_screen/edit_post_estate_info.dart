@@ -35,6 +35,8 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   int? _floor;
   int? _totalFloors;
   Renovation? _renovation;
+  bool? _redevelopment = false;
+  bool? _documented = false;
 
   final _totalFloorsController = TextEditingController();
 
@@ -66,6 +68,8 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       floor: _floor,
       totalFloors: _totalFloors,
       renovation: _renovation,
+      redevelopment: _redevelopment,
+      documented: _documented,
       step: 3,
     ));
   }
@@ -81,7 +85,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.safeBlockHorizontal * 20.0, vertical: 32.0),
+            horizontal: SizeConfig.safeBlockHorizontal * 15.0, vertical: 32.0),
         child: Center(
           child: Form(
             key: _formKey,
@@ -158,7 +162,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                   child: SizedBox(
                     width: SizeConfig.safeBlockHorizontal * 40.0,
                     child: StyledInput(
-                      icon: CustomIcons.sqm,
+                      icon: CustomIcons.garden,
                       title: AppLocalizations.of(context)!.lotSqm,
                       keyboardType: TextInputType.number,
                       validator: (value) {
@@ -176,50 +180,101 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                 ),
                 Visibility(
                   visible: !_isHouse,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal * 25.0,
+                        child: StyledInput(
+                          icon: CustomIcons.stairs,
+                          title: AppLocalizations.of(context)!.floor,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          validator: (value) {
+                            if (_isHouse) {
+                              return null;
+                            } else if (value == null || value.isEmpty) {
+                              return AppLocalizations.of(context)!
+                                  .errorRequiredField;
+                            } else if (int.parse(
+                                    _totalFloorsController.value.text) <
+                                int.parse(value)) {
+                              return AppLocalizations.of(context)!.errorFloor;
+                            }
+                          },
+                          onSaved: (value) {
+                            _floor =
+                                value?.isEmpty ?? true ? 0 : int.parse(value!);
+                          },
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(' - '),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal * 25.0,
+                        child: StyledInput(
+                          title: '',
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          controller: _totalFloorsController,
+                          validator: (value) {
+                            if (!_isHouse && (value == null || value.isEmpty)) {
+                              return AppLocalizations.of(context)!
+                                  .errorRequiredField;
+                            }
+                          },
+                          onSaved: (value) {
+                            _totalFloors =
+                                value?.isEmpty ?? true ? 0 : int.parse(value!);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: _isHouse,
                   child: SizedBox(
                     width: SizeConfig.safeBlockHorizontal * 40.0,
                     child: StyledInput(
                       icon: CustomIcons.stairs,
-                      title: AppLocalizations.of(context)!.floor,
+                      title: AppLocalizations.of(context)!.totalFloors,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      validator: (value) {
-                        if (_isHouse) {
-                          return null;
-                        } else if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!
-                              .errorRequiredField;
-                        } else if (int.parse(
-                                _totalFloorsController.value.text) <
-                            int.parse(value)) {
-                          return AppLocalizations.of(context)!.errorFloor;
-                        }
-                      },
+                      controller: _totalFloorsController,
                       onSaved: (value) {
-                        _floor = value?.isEmpty ?? true ? 0 : int.parse(value!);
+                        _totalFloors =
+                            value?.isEmpty ?? true ? 0 : int.parse(value!);
                       },
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: SizeConfig.safeBlockHorizontal * 40.0,
-                  child: StyledInput(
-                    icon: CustomIcons.stairs,
-                    title: AppLocalizations.of(context)!.totalFloors,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: _totalFloorsController,
-                    validator: (value) {
-                      if (!_isHouse && (value == null || value.isEmpty)) {
-                        return AppLocalizations.of(context)!.errorRequiredField;
-                      }
-                    },
-                    onSaved: (value) {
-                      _totalFloors =
-                          value?.isEmpty ?? true ? 0 : int.parse(value!);
-                    },
-                  ),
+                const SizedBox(
+                  height: 16.0,
                 ),
+                SwitchListTile(
+                    value: _documented ?? false,
+                    secondary: const Icon(CustomIcons.document),
+                    title: Text(AppLocalizations.of(context)!.documented),
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _documented = value;
+                      });
+                    }),
+                SwitchListTile(
+                    value: _redevelopment ?? false,
+                    secondary: const Icon(CustomIcons.hammer),
+                    title: Text(AppLocalizations.of(context)!.redevelopment),
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _redevelopment = value;
+                      });
+                    }),
                 ToggleFormField<Renovation>(
                   title: AppLocalizations.of(context)!.renovation,
                   values: Renovation.values,

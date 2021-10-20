@@ -67,6 +67,25 @@ ThemeData lightThemeData(BuildContext context) {
     toggleButtonsTheme: const ToggleButtonsThemeData(
       selectedColor: primaryColor,
     ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return primaryColor;
+        }
+        return greyColor;
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      trackColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return primaryColor;
+        }
+        return greyColor;
+      }),
+      thumbColor: MaterialStateColor.resolveWith((states) {
+        return lightColor;
+      }),
+    ),
   );
 }
 
@@ -133,6 +152,14 @@ ThemeData darkThemeData(BuildContext context) {
     ),
     toggleButtonsTheme: const ToggleButtonsThemeData(
       selectedColor: lightPrimaryColor,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return lightPrimaryColor;
+        }
+        return lightGreyColor;
+      }),
     ),
   );
 }

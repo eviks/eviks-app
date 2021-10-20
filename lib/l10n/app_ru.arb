@@ -70,5 +70,7 @@
     "renovation": "Ремонт",
     "cosmetic": "Косметический",
     "designer": "Дизайнерский",
-    "noRenovation": "Требуется ремонт"
+    "noRenovation": "Требуется ремонт",
+    "redevelopment": "Перепланировка",
+    "documented": "Есть купчая"
 }

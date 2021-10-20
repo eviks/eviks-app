@@ -107,6 +107,8 @@ class Post {
   final int? floor;
   final int? totalFloors;
   final Renovation renovation;
+  final bool redevelopment;
+  final bool documented;
   final int price;
   final List<String> images;
   final String description;
@@ -130,6 +132,8 @@ class Post {
     this.lotSqm,
     this.floor,
     this.totalFloors,
+    this.redevelopment = false,
+    this.documented = false,
     required this.renovation,
     required this.price,
     required this.images,
@@ -170,6 +174,8 @@ class Post {
       lotSqm: json['lotSqm'] == null ? null : json['lotSqm'] as int,
       floor: json['floor'] as int,
       totalFloors: json['totalFloors'] as int,
+      redevelopment: json['redevelopment'] as bool,
+      documented: json['documented'] as bool,
       renovation: Renovation.values.firstWhere((element) =>
           element.toString() == 'Renovation.${json['renovation'] as String}'),
       price: json['price'] as int,
@@ -195,6 +201,8 @@ class Post {
     int? lotSqm,
     int? floor,
     int? totalFloors,
+    bool? redevelopment,
+    bool? documented,
     Renovation? renovation,
     int? price,
     List<String>? images,
@@ -221,6 +229,8 @@ class Post {
       lotSqm: lotSqm ?? this.lotSqm,
       floor: floor ?? this.floor,
       totalFloors: totalFloors ?? this.totalFloors,
+      redevelopment: redevelopment ?? this.redevelopment,
+      documented: documented ?? this.documented,
       renovation: renovation ?? this.renovation,
       price: price ?? this.price,
       images: images ?? this.images,

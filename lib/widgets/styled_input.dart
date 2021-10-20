@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class StyledInput extends StatefulWidget {
-  final IconData icon;
+  final IconData? icon;
   final String? title;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -17,7 +17,7 @@ class StyledInput extends StatefulWidget {
 
   const StyledInput({
     Key? key,
-    required this.icon,
+    this.icon,
     this.title,
     this.obscureText = false,
     this.keyboardType,
@@ -85,10 +85,12 @@ class _StyledInputState extends State<StyledInput> {
                   controller: widget.controller,
                   decoration: InputDecoration(
                     suffix: widget.suffix,
-                    prefixIcon: Icon(
-                      widget.icon,
-                      size: 24.0,
-                    ),
+                    prefixIcon: widget.icon != null
+                        ? Icon(
+                            widget.icon,
+                            size: 24.0,
+                          )
+                        : null,
                     filled: _filled,
                   ),
                   validator: widget.validator,
