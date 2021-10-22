@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/post.dart';
 
 import '../../widgets/sized_config.dart';
+import './edit_post_building_info.dart';
 import './edit_post_estate_info.dart';
 import './edit_post_general_info.dart';
 import './edit_post_map.dart';
@@ -41,6 +42,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
     });
   }
 
+  void _prevStep() {
+    if (post.step == 0) {
+      Navigator.of(context).pop();
+    } else {
+      updatePost(post.copyWith(
+        step: post.step - 1,
+      ));
+    }
+  }
+
   Widget getStepWidget() {
     switch (post.step) {
       case 0:
@@ -56,6 +67,11 @@ class _EditPostScreenState extends State<EditPostScreen> {
         );
       case 2:
         return EditPostEstateInfo(
+          post: post,
+          updatePost: updatePost,
+        );
+      case 3:
+        return EditPostBuildingInfo(
           post: post,
           updatePost: updatePost,
         );
@@ -80,6 +96,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
+        ),
+        leading: IconButton(
+          onPressed: _prevStep,
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: SafeArea(

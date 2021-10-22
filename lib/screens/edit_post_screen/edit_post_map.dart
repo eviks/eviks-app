@@ -196,12 +196,6 @@ class _EditPostMapState extends State<EditPostMap> {
     ));
   }
 
-  void _prevStep() {
-    widget.updatePost(widget.post.copyWith(
-      step: 0,
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -353,12 +347,6 @@ class _EditPostMapState extends State<EditPostMap> {
                       onPressed: _continuePressed,
                       loading: _isLoading,
                       width: SizeConfig.safeBlockHorizontal * 50,
-                    ),
-                    StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.back,
-                      onPressed: _prevStep,
-                      width: SizeConfig.safeBlockHorizontal * 50,
-                      secondary: true,
                     ),
                   ],
                 ),

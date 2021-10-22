@@ -13,7 +13,7 @@ class CustomIcons {
   static const IconData settings = IconData(0xe805, fontFamily: _kFontFam);
   static const IconData sqm = IconData(0xe806, fontFamily: _kFontFam);
   static const IconData heart = IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData stairs = IconData(0xe808, fontFamily: _kFontFam);
+  static const IconData elevator = IconData(0xe808, fontFamily: _kFontFam);
   static const IconData plus = IconData(0xe809, fontFamily: _kFontFam);
   static const IconData email = IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData password = IconData(0xe80b, fontFamily: _kFontFam);
@@ -24,4 +24,8 @@ class CustomIcons {
   static const IconData house = IconData(0xe810, fontFamily: _kFontFam);
   static const IconData document = IconData(0xe811, fontFamily: _kFontFam);
   static const IconData hammer = IconData(0xe812, fontFamily: _kFontFam);
+  static const IconData parkingLot = IconData(0xe813, fontFamily: _kFontFam);
+  static const IconData measuring = IconData(0xe814, fontFamily: _kFontFam);
+  static const IconData calendar = IconData(0xe815, fontFamily: _kFontFam);
+  static const IconData apartment = IconData(0xe816, fontFamily: _kFontFam);
 }

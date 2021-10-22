@@ -74,12 +74,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
     ));
   }
 
-  void _prevStep() {
-    widget.updatePost(widget.post.copyWith(
-      step: 1,
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -185,7 +179,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       SizedBox(
                         width: SizeConfig.safeBlockHorizontal * 25.0,
                         child: StyledInput(
-                          icon: CustomIcons.stairs,
+                          icon: CustomIcons.elevator,
                           title: AppLocalizations.of(context)!.floor,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -242,7 +236,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                   child: SizedBox(
                     width: SizeConfig.safeBlockHorizontal * 40.0,
                     child: StyledInput(
-                      icon: CustomIcons.stairs,
+                      icon: CustomIcons.elevator,
                       title: AppLocalizations.of(context)!.totalFloors,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -298,12 +292,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       text: AppLocalizations.of(context)!.next,
                       onPressed: _continuePressed,
                       width: double.infinity,
-                    ),
-                    StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.back,
-                      onPressed: _prevStep,
-                      width: double.infinity,
-                      secondary: true,
                     ),
                   ],
                 ),

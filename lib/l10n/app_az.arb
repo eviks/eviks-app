@@ -72,5 +72,10 @@
     "designer": "Xüsusi dizayn",
     "noRenovation": "Təmir tələb olunur",
     "redevelopment": "Planlaşdırılma dəyişdirildi",
-    "documented": "Kupça var"
+    "buildingInfo": "Bina haqqında məlumat",
+    "documented": "Kupça var",
+    "yearBuild": "Tikiliş ili",
+    "ceilingHeight": "Tavanın hündürlüyü, m",
+    "elevator": "Lift",
+    "parkingLot": "Avtodayanacaq"
 }

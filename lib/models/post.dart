@@ -106,9 +106,13 @@ class Post {
   final int? lotSqm;
   final int? floor;
   final int? totalFloors;
+  final bool? redevelopment;
+  final bool? documented;
   final Renovation renovation;
-  final bool redevelopment;
-  final bool documented;
+  final int? yearBuild;
+  final double? ceilingHeight;
+  final bool? elevator;
+  final bool? parkingLot;
   final int price;
   final List<String> images;
   final String description;
@@ -135,6 +139,10 @@ class Post {
     this.redevelopment = false,
     this.documented = false,
     required this.renovation,
+    this.yearBuild,
+    this.ceilingHeight,
+    this.elevator = false,
+    this.parkingLot = false,
     required this.price,
     required this.images,
     required this.description,
@@ -178,6 +186,10 @@ class Post {
       documented: json['documented'] as bool,
       renovation: Renovation.values.firstWhere((element) =>
           element.toString() == 'Renovation.${json['renovation'] as String}'),
+      yearBuild: json['yearBuild'] as int,
+      ceilingHeight: (json['ceilingHeight'] as int).toDouble(),
+      elevator: json['elevator'] as bool,
+      parkingLot: json['parkingLot'] as bool,
       price: json['price'] as int,
       images: (json['images'] as List<dynamic>).cast<String>(),
       description: json['description'] as String,
@@ -204,6 +216,10 @@ class Post {
     bool? redevelopment,
     bool? documented,
     Renovation? renovation,
+    int? yearBuild,
+    double? ceilingHeight,
+    bool? elevator,
+    bool? parkingLot,
     int? price,
     List<String>? images,
     String? description,
@@ -232,6 +248,10 @@ class Post {
       redevelopment: redevelopment ?? this.redevelopment,
       documented: documented ?? this.documented,
       renovation: renovation ?? this.renovation,
+      yearBuild: yearBuild ?? this.yearBuild,
+      ceilingHeight: ceilingHeight ?? this.ceilingHeight,
+      elevator: elevator ?? this.elevator,
+      parkingLot: parkingLot ?? this.parkingLot,
       price: price ?? this.price,
       images: images ?? this.images,
       description: description ?? this.description,

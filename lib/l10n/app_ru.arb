@@ -72,5 +72,10 @@
     "designer": "Дизайнерский",
     "noRenovation": "Требуется ремонт",
     "redevelopment": "Перепланировка",
-    "documented": "Есть купчая"
+    "documented": "Есть купчая",
+    "buildingInfo": "Информация о здании",
+    "yearBuild": "Год постройки",
+    "ceilingHeight": "Высота потолка, м",
+    "elevator": "Лифт",
+    "parkingLot": "Парковка"
 }

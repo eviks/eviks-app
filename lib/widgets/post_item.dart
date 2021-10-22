@@ -94,7 +94,7 @@ class PostItem extends StatelessWidget {
                           width: 8.0,
                         ),
                         Icon(post.estateType == EstateType.apartment
-                            ? CustomIcons.stairs
+                            ? CustomIcons.elevator
                             : CustomIcons.garden),
                         const SizedBox(
                           width: 8.0,
