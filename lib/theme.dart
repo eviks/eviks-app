@@ -82,10 +82,18 @@ ThemeData lightThemeData(BuildContext context) {
         }
         return greyColor;
       }),
-      thumbColor: MaterialStateColor.resolveWith((states) {
-        return lightColor;
-      }),
+      thumbColor: MaterialStateColor.resolveWith(
+        (states) {
+          return lightColor;
+        },
+      ),
     ),
+    chipTheme: ThemeData.light().chipTheme.copyWith(
+          backgroundColor: lightColor,
+          secondarySelectedColor: primaryColor,
+          secondaryLabelStyle: const TextStyle(color: lightColor),
+          labelStyle: const TextStyle(color: darkColor),
+        ),
   );
 }
 
@@ -96,8 +104,7 @@ ThemeData darkThemeData(BuildContext context) {
     backgroundColor: darkColor,
     scaffoldBackgroundColor: darkColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: softDarkColor,
-      shadowColor: Colors.transparent,
+      backgroundColor: darkColor,
       centerTitle: true,
     ),
     iconTheme: const IconThemeData(color: lightGreyColor),
@@ -152,14 +159,36 @@ ThemeData darkThemeData(BuildContext context) {
     ),
     toggleButtonsTheme: const ToggleButtonsThemeData(
       selectedColor: lightPrimaryColor,
+      color: lightGreyColor,
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
           return lightPrimaryColor;
         }
-        return lightGreyColor;
+        return greyColor;
       }),
     ),
+    switchTheme: SwitchThemeData(
+      trackColor: MaterialStateColor.resolveWith(
+        (states) {
+          if (states.contains(MaterialState.selected)) {
+            return lightPrimaryColor;
+          }
+          return greyColor;
+        },
+      ),
+      thumbColor: MaterialStateColor.resolveWith(
+        (states) {
+          return darkGreyColor;
+        },
+      ),
+    ),
+    chipTheme: ThemeData.light().chipTheme.copyWith(
+          backgroundColor: darkColor,
+          secondarySelectedColor: lightPrimaryColor,
+          secondaryLabelStyle: const TextStyle(color: darkColor),
+          labelStyle: const TextStyle(color: lightGreyColor),
+        ),
   );
 }

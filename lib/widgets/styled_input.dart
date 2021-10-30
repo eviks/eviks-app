@@ -14,6 +14,9 @@ class StyledInput extends StatefulWidget {
   final Widget? suffix;
   final Widget? prefix;
   final List<TextInputFormatter>? inputFormatters;
+  final int? minLines;
+  final int? maxLines;
+  final String? hintText;
 
   const StyledInput({
     Key? key,
@@ -29,6 +32,9 @@ class StyledInput extends StatefulWidget {
     this.suffix,
     this.prefix,
     this.inputFormatters,
+    this.minLines,
+    this.maxLines = 1,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -84,6 +90,7 @@ class _StyledInputState extends State<StyledInput> {
                   keyboardType: widget.keyboardType,
                   controller: widget.controller,
                   decoration: InputDecoration(
+                    hintText: widget.hintText,
                     suffix: widget.suffix,
                     prefixIcon: widget.icon != null
                         ? Icon(
@@ -92,7 +99,11 @@ class _StyledInputState extends State<StyledInput> {
                           )
                         : null,
                     filled: _filled,
+                    errorMaxLines: 5,
+                    hintMaxLines: 5,
                   ),
+                  minLines: widget.minLines,
+                  maxLines: widget.maxLines,
                   validator: widget.validator,
                   onSaved: widget.onSaved,
                   onChanged: widget.onChanged,

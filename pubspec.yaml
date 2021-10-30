@@ -92,4 +92,4 @@ flutter:
         - asset: assets/fonts/Roboto-Bold.ttf
     - family: CustomIcons
       fonts:
-        - asset: assets/fonts/Custom-Icons.ttf
+        - asset: assets/fonts/CustomIcons.ttf

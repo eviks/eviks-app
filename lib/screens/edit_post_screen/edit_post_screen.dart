@@ -4,9 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/post.dart';
 
 import '../../widgets/sized_config.dart';
+import './edit_post_additional_info.dart';
 import './edit_post_building_info.dart';
 import './edit_post_estate_info.dart';
 import './edit_post_general_info.dart';
+import './edit_post_images.dart';
 import './edit_post_map.dart';
 
 class EditPostScreen extends StatefulWidget {
@@ -75,6 +77,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
           post: post,
           updatePost: updatePost,
         );
+      case 4:
+        return EditPostAdditionalInfo(
+          post: post,
+          updatePost: updatePost,
+        );
+      case 5:
+        return EditPostImages(
+          post: post,
+          updatePost: updatePost,
+        );
       default:
         return EditPostGeneralInfo(
           post: post,
@@ -87,7 +99,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: post.step != 1,
+      resizeToAvoidBottomInset: post.step != 1 && post.step != 4,
       appBar: AppBar(
         title: Row(
           children: [

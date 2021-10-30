@@ -82,6 +82,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
             horizontal: SizeConfig.safeBlockHorizontal * 15.0, vertical: 32.0),
         child: Center(
           child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -175,6 +176,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                 Visibility(
                   visible: !_isHouse,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: SizeConfig.safeBlockHorizontal * 25.0,
@@ -191,9 +193,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                             } else if (value == null || value.isEmpty) {
                               return AppLocalizations.of(context)!
                                   .errorRequiredField;
-                            } else if (int.parse(
-                                    _totalFloorsController.value.text) <
-                                int.parse(value)) {
+                            } else if (_totalFloorsController
+                                    .value.text.isNotEmpty &&
+                                int.parse(_totalFloorsController.value.text) <
+                                    int.parse(value)) {
                               return AppLocalizations.of(context)!.errorFloor;
                             }
                           },
@@ -204,7 +207,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 40.0,
+                        ),
                         child: Text(' - '),
                       ),
                       SizedBox(
@@ -286,14 +292,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                Column(
-                  children: [
-                    StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.next,
-                      onPressed: _continuePressed,
-                      width: double.infinity,
-                    ),
-                  ],
+                StyledElevatedButton(
+                  text: AppLocalizations.of(context)!.next,
+                  onPressed: _continuePressed,
+                  width: double.infinity,
                 ),
               ],
             ),

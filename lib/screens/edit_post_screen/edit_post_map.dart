@@ -204,11 +204,13 @@ class _EditPostMapState extends State<EditPostMap> {
           mapController: _mapController,
           options: MapOptions(
             center: LatLng(_location[1], _location[0]),
+            zoom: 16,
           ),
           layers: [
             TileLayerOptions(
-                urlTemplate:
-                    'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg'),
+              urlTemplate:
+                  'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+            ),
           ],
         ),
         Center(
@@ -340,15 +342,11 @@ class _EditPostMapState extends State<EditPostMap> {
                     MediaQuery.of(context).orientation == Orientation.portrait
                         ? 32.0
                         : 0),
-                child: Column(
-                  children: [
-                    StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.next,
-                      onPressed: _continuePressed,
-                      loading: _isLoading,
-                      width: SizeConfig.safeBlockHorizontal * 50,
-                    ),
-                  ],
+                child: StyledElevatedButton(
+                  text: AppLocalizations.of(context)!.next,
+                  onPressed: _continuePressed,
+                  loading: _isLoading,
+                  width: SizeConfig.safeBlockHorizontal * 50,
                 ),
               ),
           ],

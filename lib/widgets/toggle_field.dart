@@ -65,7 +65,7 @@ class _ToggleFieldState extends State<ToggleField> {
             },
             children: widget.values
                 .map<Widget>(
-                  (value) => Padding(
+                  (value) => Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12.0,
                     ),

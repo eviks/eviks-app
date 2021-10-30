@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/post.dart';
 import '../../widgets/sized_config.dart';
+import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/toggle_field.dart';
 import './step_title.dart';
 
@@ -65,6 +66,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
         child: Center(
           child: Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,22 +138,10 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                  ),
+                StyledElevatedButton(
+                  text: AppLocalizations.of(context)!.next,
+                  onPressed: _continuePressed,
                   width: double.infinity,
-                  height: 60.0,
-                  child: ElevatedButton(
-                    onPressed: _continuePressed,
-                    child: Text(
-                      AppLocalizations.of(context)!.next,
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),

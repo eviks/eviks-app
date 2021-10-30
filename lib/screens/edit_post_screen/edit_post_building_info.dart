@@ -108,7 +108,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                     }),
                 SwitchListTile(
                     value: _parkingLot ?? false,
-                    secondary: const Icon(CustomIcons.parkingLot),
+                    secondary: const Icon(CustomIcons.parkinglot),
                     title: Text(AppLocalizations.of(context)!.parkingLot),
                     onChanged: (bool? value) {
                       setState(() {
@@ -118,14 +118,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                Column(
-                  children: [
-                    StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.next,
-                      onPressed: _continuePressed,
-                      width: double.infinity,
-                    ),
-                  ],
+                StyledElevatedButton(
+                  text: AppLocalizations.of(context)!.next,
+                  onPressed: _continuePressed,
+                  width: double.infinity,
                 ),
               ],
             ),
