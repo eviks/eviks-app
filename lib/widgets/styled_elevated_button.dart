@@ -6,6 +6,7 @@ class StyledElevatedButton extends StatelessWidget {
   final bool loading;
   final double? width;
   final bool secondary;
+  final IconData? suffixIcon;
 
   const StyledElevatedButton(
       {required this.text,
@@ -13,6 +14,7 @@ class StyledElevatedButton extends StatelessWidget {
       this.loading = false,
       this.width,
       this.secondary = false,
+      this.suffixIcon,
       Key? key})
       : super(key: key);
 
@@ -46,18 +48,35 @@ class StyledElevatedButton extends StatelessWidget {
                 width: 24.0,
                 height: 24.0,
                 child: CircularProgressIndicator(
-                  color: Theme.of(context).backgroundColor,
-                ),
-              )
-            : Text(
-                text,
-                style: TextStyle(
                   color: !secondary
                       ? Theme.of(context).backgroundColor
-                      : Theme.of(context).dividerColor,
-                  fontSize: 20.0,
-                  fontWeight: !secondary ? FontWeight.bold : null,
+                      : Theme.of(context).primaryColor,
                 ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: !secondary
+                          ? Theme.of(context).backgroundColor
+                          : Theme.of(context).primaryColor,
+                      fontSize: 20.0,
+                      fontWeight: !secondary ? FontWeight.bold : null,
+                    ),
+                  ),
+                  if (suffixIcon != null)
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                  Icon(
+                    suffixIcon,
+                    color: !secondary
+                        ? Theme.of(context).backgroundColor
+                        : Theme.of(context).primaryColor,
+                  )
+                ],
               ),
       ),
     );

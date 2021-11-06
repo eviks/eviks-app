@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/post.dart';
 
@@ -8,7 +7,7 @@ import './edit_post_additional_info.dart';
 import './edit_post_building_info.dart';
 import './edit_post_estate_info.dart';
 import './edit_post_general_info.dart';
-import './edit_post_images.dart';
+import './edit_post_images/edit_post_images.dart';
 import './edit_post_map.dart';
 
 class EditPostScreen extends StatefulWidget {
@@ -101,21 +100,19 @@ class _EditPostScreenState extends State<EditPostScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: post.step != 1 && post.step != 4,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(
-              AppLocalizations.of(context)!.editPostScreenTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+        title: Row(),
         leading: IconButton(
           onPressed: _prevStep,
           icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: SafeArea(
-        child: getStepWidget(),
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight: SizeConfig.safeBlockVertical * 100.0,
+          ),
+          child: getStepWidget(),
+        ),
       ),
     );
   }

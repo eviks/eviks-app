@@ -55,6 +55,8 @@ class CustomIcons {
       IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData garden =
       IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData next =
+      IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hammer =
       IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart =
@@ -107,4 +109,10 @@ class CustomIcons {
       IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gas =
       IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData camera =
+      IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData garbage =
+      IconData(0xe82d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData image =
+      IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -59,95 +59,118 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.safeBlockHorizontal * 20.0, vertical: 32.0),
-        child: Center(
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StepTitle(
-                  title: AppLocalizations.of(context)!.generalInfo,
-                  icon: CustomIcons.information,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.safeBlockHorizontal * 20.0,
+                vertical: 32.0),
+            child: Center(
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StepTitle(
+                      title: AppLocalizations.of(context)!.generalInfo,
+                      icon: CustomIcons.information,
+                    ),
+                    ToggleFormField<UserType>(
+                      title: AppLocalizations.of(context)!.userTypeTitle,
+                      values: UserType.values,
+                      getDescription: userTypeDescription,
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocalizations.of(context)!.fieldIsRequired;
+                        }
+                      },
+                      onSaved: (value) {
+                        _userType = value;
+                      },
+                    ),
+                    ToggleFormField<EstateType>(
+                        title: AppLocalizations.of(context)!.estateTypeTitle,
+                        values: EstateType.values,
+                        getDescription: estateTypeDescription,
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)!
+                                .fieldIsRequired;
+                          }
+                        },
+                        onSaved: (value) {
+                          _estateType = value;
+                        },
+                        onPressed: (EstateType value) {
+                          setState(() {
+                            _isApartment = value == EstateType.apartment;
+                          });
+                        }),
+                    Visibility(
+                      visible: _isApartment,
+                      child: ToggleFormField<ApartmentType>(
+                        title: AppLocalizations.of(context)!.apartmentTypeTitle,
+                        values: ApartmentType.values,
+                        getDescription: apartmentTypeDescription,
+                        validator: (value) {
+                          if (_estateType == EstateType.apartment &&
+                              value == null) {
+                            return AppLocalizations.of(context)!
+                                .fieldIsRequired;
+                          }
+                        },
+                        onSaved: (value) {
+                          _apartmentType = value;
+                        },
+                      ),
+                    ),
+                    ToggleFormField<DealType>(
+                      title: AppLocalizations.of(context)!.dealTypeTitle,
+                      values: DealType.values,
+                      getDescription: dealTypeDescription,
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocalizations.of(context)!.fieldIsRequired;
+                        }
+                      },
+                      onSaved: (value) {
+                        _dealType = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 32.0,
+                    ),
+                  ],
                 ),
-                ToggleFormField<UserType>(
-                  title: AppLocalizations.of(context)!.userTypeTitle,
-                  values: UserType.values,
-                  getDescription: userTypeDescription,
-                  validator: (value) {
-                    if (value == null) {
-                      return AppLocalizations.of(context)!.fieldIsRequired;
-                    }
-                  },
-                  onSaved: (value) {
-                    _userType = value;
-                  },
-                ),
-                ToggleFormField<EstateType>(
-                    title: AppLocalizations.of(context)!.estateTypeTitle,
-                    values: EstateType.values,
-                    getDescription: estateTypeDescription,
-                    validator: (value) {
-                      if (value == null) {
-                        return AppLocalizations.of(context)!.fieldIsRequired;
-                      }
-                    },
-                    onSaved: (value) {
-                      _estateType = value;
-                    },
-                    onPressed: (EstateType value) {
-                      setState(() {
-                        _isApartment = value == EstateType.apartment;
-                      });
-                    }),
-                Visibility(
-                  visible: _isApartment,
-                  child: ToggleFormField<ApartmentType>(
-                    title: AppLocalizations.of(context)!.apartmentTypeTitle,
-                    values: ApartmentType.values,
-                    getDescription: apartmentTypeDescription,
-                    validator: (value) {
-                      if (_estateType == EstateType.apartment &&
-                          value == null) {
-                        return AppLocalizations.of(context)!.fieldIsRequired;
-                      }
-                    },
-                    onSaved: (value) {
-                      _apartmentType = value;
-                    },
-                  ),
-                ),
-                ToggleFormField<DealType>(
-                  title: AppLocalizations.of(context)!.dealTypeTitle,
-                  values: DealType.values,
-                  getDescription: dealTypeDescription,
-                  validator: (value) {
-                    if (value == null) {
-                      return AppLocalizations.of(context)!.fieldIsRequired;
-                    }
-                  },
-                  onSaved: (value) {
-                    _dealType = value;
-                  },
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                StyledElevatedButton(
-                  text: AppLocalizations.of(context)!.next,
-                  onPressed: _continuePressed,
-                  width: double.infinity,
-                ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.1),
+                  blurRadius: 8.0,
+                  offset: const Offset(10.0, 10.0),
+                )
+              ],
+            ),
+            child: StyledElevatedButton(
+              secondary: true,
+              text: AppLocalizations.of(context)!.next,
+              onPressed: _continuePressed,
+              width: SizeConfig.safeBlockHorizontal * 100.0,
+              suffixIcon: CustomIcons.next,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

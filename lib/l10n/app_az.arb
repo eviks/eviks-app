@@ -47,7 +47,6 @@
     "sale": "Satış",
     "rent": "Kirayə",
     "rentPerDay": "Günlük kirayə",
-    "editPostScreenTitle": "Yeni elan",
     "generalInfo": "Ümumi məlumat",
     "next": "Davam etmək",
     "back": "Geri",
@@ -101,5 +100,7 @@
     "garage": "Qaraj",
     "pool": "Hovuz",
     "bathhouse": "Hamam",
-    "descriptionMinLength": "Təsvir ən azı 50 hərfdən ibarət olmalıdır."
+    "descriptionMinLength": "Təsvir ən azı 50 simvoldan ibarət olmalıdır.",
+    "images": "Şəkillər",
+    "addImage": "Şəkili əlavə et"
 }

@@ -98,260 +98,286 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.safeBlockHorizontal * 8.0, vertical: 32.0),
-        child: Center(
-          child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StepTitle(
-                  title: AppLocalizations.of(context)!.additionalInfo,
-                  icon: CustomIcons.plus,
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                StyledInput(
-                  title: AppLocalizations.of(context)!.description,
-                  hintText: AppLocalizations.of(context)!.descriptionHint,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 5,
-                  maxLines: null,
-                  onSaved: (value) {
-                    _description = value;
-                  },
-                  validator: (value) {
-                    if (value == null ||
-                        value.replaceAll(RegExp('[^a-zA-Z]'), '').length < 50) {
-                      return AppLocalizations.of(context)!.descriptionMinLength;
-                    }
-                  },
-                ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8.0,
-                  runSpacing: 8.0,
-                  children: [
-                    Visibility(
-                      visible: !_isSale,
-                      child: IconChoiseChip(
-                          icon: CustomIcons.kids,
+    return Stack(children: [
+      SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 8.0,
+              8.0, SizeConfig.safeBlockHorizontal * 8.0, 32.0),
+          child: Center(
+            child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StepTitle(
+                    title: AppLocalizations.of(context)!.additionalInfo,
+                    icon: CustomIcons.plus,
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  StyledInput(
+                    title: AppLocalizations.of(context)!.description,
+                    hintText: AppLocalizations.of(context)!.descriptionHint,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 5,
+                    maxLines: null,
+                    onSaved: (value) {
+                      _description = value;
+                    },
+                    validator: (value) {
+                      if (value == null ||
+                          value
+                                  .replaceAll(RegExp(r'\s+\b|\b\s|\s|\b'), '')
+                                  .length <
+                              50) {
+                        return AppLocalizations.of(context)!
+                            .descriptionMinLength;
+                      }
+                    },
+                  ),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: [
+                      Visibility(
+                        visible: !_isSale,
+                        child: IconChoiseChip(
+                            icon: CustomIcons.kids,
+                            label:
+                                Text(AppLocalizations.of(context)!.kidsAllowed),
+                            value: _kidsAllowed ?? false,
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _kidsAllowed = selected;
+                              });
+                            }),
+                      ),
+                      Visibility(
+                        visible: !_isSale,
+                        child: IconChoiseChip(
+                            icon: CustomIcons.pets,
+                            label:
+                                Text(AppLocalizations.of(context)!.petsAllowed),
+                            value: _petsAllowed ?? false,
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _petsAllowed = selected;
+                              });
+                            }),
+                      ),
+                      Visibility(
+                        visible: _isHouse,
+                        child: IconChoiseChip(
+                            icon: CustomIcons.garage,
+                            label: Text(AppLocalizations.of(context)!.garage),
+                            value: _garage ?? false,
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _garage = selected;
+                              });
+                            }),
+                      ),
+                      Visibility(
+                        visible: _isHouse,
+                        child: IconChoiseChip(
+                            icon: CustomIcons.pool,
+                            label: Text(AppLocalizations.of(context)!.pool),
+                            value: _pool ?? false,
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _pool = selected;
+                              });
+                            }),
+                      ),
+                      Visibility(
+                        visible: _isHouse,
+                        child: IconChoiseChip(
+                            icon: CustomIcons.bathhouse,
+                            label:
+                                Text(AppLocalizations.of(context)!.bathhouse),
+                            value: _bathhouse ?? false,
+                            onSelected: (bool selected) {
+                              setState(() {
+                                _bathhouse = selected;
+                              });
+                            }),
+                      ),
+                      IconChoiseChip(
+                          icon: CustomIcons.balcony,
+                          label: Text(AppLocalizations.of(context)!.balcony),
+                          value: _balcony ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _balcony = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.furniture,
+                          label: Text(AppLocalizations.of(context)!.furniture),
+                          value: _furniture ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _furniture = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.kitchenfurniture,
+                          label: Text(
+                              AppLocalizations.of(context)!.kitchenFurniture),
+                          value: _kitchenFurniture ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _kitchenFurniture = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.tv,
+                          label: Text(AppLocalizations.of(context)!.cabelTv),
+                          value: _cableTv ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _cableTv = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.phone,
+                          label: Text(AppLocalizations.of(context)!.phone),
+                          value: _phone ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _phone = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.internet,
+                          label: Text(AppLocalizations.of(context)!.internet),
+                          value: _internet ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _internet = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.electricity,
                           label:
-                              Text(AppLocalizations.of(context)!.kidsAllowed),
-                          value: _kidsAllowed ?? false,
+                              Text(AppLocalizations.of(context)!.electricity),
+                          value: _electricity ?? false,
                           onSelected: (bool selected) {
                             setState(() {
-                              _kidsAllowed = selected;
+                              _electricity = selected;
                             });
                           }),
-                    ),
-                    Visibility(
-                      visible: !_isSale,
-                      child: IconChoiseChip(
-                          icon: CustomIcons.pets,
+                      IconChoiseChip(
+                          icon: CustomIcons.gas,
+                          label: Text(AppLocalizations.of(context)!.gas),
+                          value: _gas ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _gas = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.water,
+                          label: Text(AppLocalizations.of(context)!.water),
+                          value: _water ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _water = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.heat,
+                          label: Text(AppLocalizations.of(context)!.heating),
+                          value: _heating ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _heating = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.tv,
+                          label: Text(AppLocalizations.of(context)!.tv),
+                          value: _tv ?? false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _tv = selected;
+                            });
+                          }),
+                      IconChoiseChip(
+                          icon: CustomIcons.conditioner,
                           label:
-                              Text(AppLocalizations.of(context)!.petsAllowed),
-                          value: _petsAllowed ?? false,
+                              Text(AppLocalizations.of(context)!.conditioner),
+                          value: _conditioner ?? false,
                           onSelected: (bool selected) {
                             setState(() {
-                              _petsAllowed = selected;
+                              _conditioner = selected;
                             });
                           }),
-                    ),
-                    Visibility(
-                      visible: _isHouse,
-                      child: IconChoiseChip(
-                          icon: CustomIcons.garage,
-                          label: Text(AppLocalizations.of(context)!.garage),
-                          value: _garage ?? false,
+                      IconChoiseChip(
+                          icon: CustomIcons.washingmachine,
+                          label: Text(
+                              AppLocalizations.of(context)!.washingMachine),
+                          value: _washingMachine ?? false,
                           onSelected: (bool selected) {
                             setState(() {
-                              _garage = selected;
+                              _washingMachine = selected;
                             });
                           }),
-                    ),
-                    Visibility(
-                      visible: _isHouse,
-                      child: IconChoiseChip(
-                          icon: CustomIcons.pool,
-                          label: Text(AppLocalizations.of(context)!.pool),
-                          value: _pool ?? false,
+                      IconChoiseChip(
+                          icon: CustomIcons.dishwasher,
+                          label: Text(AppLocalizations.of(context)!.dishwasher),
+                          value: _dishwasher ?? false,
                           onSelected: (bool selected) {
                             setState(() {
-                              _pool = selected;
+                              _dishwasher = selected;
                             });
                           }),
-                    ),
-                    Visibility(
-                      visible: _isHouse,
-                      child: IconChoiseChip(
-                          icon: CustomIcons.bathhouse,
-                          label: Text(AppLocalizations.of(context)!.bathhouse),
-                          value: _bathhouse ?? false,
+                      IconChoiseChip(
+                          icon: CustomIcons.refrigerator,
+                          label:
+                              Text(AppLocalizations.of(context)!.refrigerator),
+                          value: _refrigerator ?? false,
                           onSelected: (bool selected) {
                             setState(() {
-                              _bathhouse = selected;
+                              _refrigerator = selected;
                             });
                           }),
-                    ),
-                    IconChoiseChip(
-                        icon: CustomIcons.balcony,
-                        label: Text(AppLocalizations.of(context)!.balcony),
-                        value: _balcony ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _balcony = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.furniture,
-                        label: Text(AppLocalizations.of(context)!.furniture),
-                        value: _furniture ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _furniture = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.kitchenfurniture,
-                        label: Text(
-                            AppLocalizations.of(context)!.kitchenFurniture),
-                        value: _kitchenFurniture ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _kitchenFurniture = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.tv,
-                        label: Text(AppLocalizations.of(context)!.cabelTv),
-                        value: _cableTv ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _cableTv = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.phone,
-                        label: Text(AppLocalizations.of(context)!.phone),
-                        value: _phone ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _phone = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.internet,
-                        label: Text(AppLocalizations.of(context)!.internet),
-                        value: _internet ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _internet = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.electricity,
-                        label: Text(AppLocalizations.of(context)!.electricity),
-                        value: _electricity ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _electricity = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.gas,
-                        label: Text(AppLocalizations.of(context)!.gas),
-                        value: _gas ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _gas = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.water,
-                        label: Text(AppLocalizations.of(context)!.water),
-                        value: _water ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _water = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.heat,
-                        label: Text(AppLocalizations.of(context)!.heating),
-                        value: _heating ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _heating = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.tv,
-                        label: Text(AppLocalizations.of(context)!.tv),
-                        value: _tv ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _tv = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.conditioner,
-                        label: Text(AppLocalizations.of(context)!.conditioner),
-                        value: _conditioner ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _conditioner = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.washingmachine,
-                        label:
-                            Text(AppLocalizations.of(context)!.washingMachine),
-                        value: _washingMachine ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _washingMachine = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.dishwasher,
-                        label: Text(AppLocalizations.of(context)!.dishwasher),
-                        value: _dishwasher ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _dishwasher = selected;
-                          });
-                        }),
-                    IconChoiseChip(
-                        icon: CustomIcons.refrigerator,
-                        label: Text(AppLocalizations.of(context)!.refrigerator),
-                        value: _refrigerator ?? false,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _refrigerator = selected;
-                          });
-                        }),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                StyledElevatedButton(
-                  text: AppLocalizations.of(context)!.next,
-                  onPressed: _continuePressed,
-                  width: double.infinity,
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32.0,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
+      Positioned(
+        bottom: 0,
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withOpacity(0.1),
+                blurRadius: 8.0,
+                offset: const Offset(10.0, 10.0),
+              )
+            ],
+          ),
+          child: StyledElevatedButton(
+            secondary: true,
+            text: AppLocalizations.of(context)!.next,
+            onPressed: _continuePressed,
+            width: SizeConfig.safeBlockHorizontal * 100.0,
+            suffixIcon: CustomIcons.next,
+          ),
+        ),
+      ),
+    ]);
   }
 }

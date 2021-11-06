@@ -335,22 +335,32 @@ class _EditPostMapState extends State<EditPostMap> {
                           itemCount: _addresses.length,
                         ),
                 ),
-              )
-            else
-              Padding(
-                padding: EdgeInsets.all(
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? 32.0
-                        : 0),
-                child: StyledElevatedButton(
-                  text: AppLocalizations.of(context)!.next,
-                  onPressed: _continuePressed,
-                  loading: _isLoading,
-                  width: SizeConfig.safeBlockHorizontal * 50,
-                ),
               ),
           ],
         ),
+        if (!_typeMode)
+          Positioned(
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).shadowColor.withOpacity(0.1),
+                    blurRadius: 8.0,
+                    offset: const Offset(10.0, 10.0),
+                  )
+                ],
+              ),
+              child: StyledElevatedButton(
+                secondary: true,
+                text: AppLocalizations.of(context)!.next,
+                loading: _isLoading,
+                onPressed: _continuePressed,
+                width: SizeConfig.safeBlockHorizontal * 100.0,
+                suffixIcon: CustomIcons.next,
+              ),
+            ),
+          ),
       ],
     );
   }

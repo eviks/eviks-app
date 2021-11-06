@@ -53,81 +53,105 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.safeBlockHorizontal * 15.0, vertical: 32.0),
-        child: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StepTitle(
-                  title: AppLocalizations.of(context)!.buildingInfo,
-                  icon: CustomIcons.apartment,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
+                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StepTitle(
+                      title: AppLocalizations.of(context)!.buildingInfo,
+                      icon: CustomIcons.apartment,
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    SizedBox(
+                      width: SizeConfig.safeBlockHorizontal * 40.0,
+                      child: StyledInput(
+                        icon: CustomIcons.calendar,
+                        title: AppLocalizations.of(context)!.yearBuild,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        onSaved: (value) {
+                          _yearBuild =
+                              value?.isEmpty ?? true ? 0 : int.parse(value!);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.safeBlockHorizontal * 40.0,
+                      child: StyledInput(
+                        icon: CustomIcons.measuring,
+                        title: AppLocalizations.of(context)!.ceilingHeight,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        onSaved: (value) {
+                          _ceilingHeight =
+                              value?.isEmpty ?? true ? 0 : double.parse(value!);
+                        },
+                      ),
+                    ),
+                    SwitchListTile(
+                        value: _elevator ?? false,
+                        secondary: const Icon(CustomIcons.elevator),
+                        title: Text(AppLocalizations.of(context)!.elevator),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _elevator = value;
+                          });
+                        }),
+                    SwitchListTile(
+                        value: _parkingLot ?? false,
+                        secondary: const Icon(CustomIcons.parkinglot),
+                        title: Text(AppLocalizations.of(context)!.parkingLot),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _parkingLot = value;
+                          });
+                        }),
+                    const SizedBox(
+                      height: 32.0,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                SizedBox(
-                  width: SizeConfig.safeBlockHorizontal * 40.0,
-                  child: StyledInput(
-                    icon: CustomIcons.calendar,
-                    title: AppLocalizations.of(context)!.yearBuild,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    onSaved: (value) {
-                      _yearBuild =
-                          value?.isEmpty ?? true ? 0 : int.parse(value!);
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: SizeConfig.safeBlockHorizontal * 40.0,
-                  child: StyledInput(
-                    icon: CustomIcons.measuring,
-                    title: AppLocalizations.of(context)!.ceilingHeight,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    onSaved: (value) {
-                      _ceilingHeight =
-                          value?.isEmpty ?? true ? 0 : double.parse(value!);
-                    },
-                  ),
-                ),
-                SwitchListTile(
-                    value: _elevator ?? false,
-                    secondary: const Icon(CustomIcons.elevator),
-                    title: Text(AppLocalizations.of(context)!.elevator),
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _elevator = value;
-                      });
-                    }),
-                SwitchListTile(
-                    value: _parkingLot ?? false,
-                    secondary: const Icon(CustomIcons.parkinglot),
-                    title: Text(AppLocalizations.of(context)!.parkingLot),
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _parkingLot = value;
-                      });
-                    }),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                StyledElevatedButton(
-                  text: AppLocalizations.of(context)!.next,
-                  onPressed: _continuePressed,
-                  width: double.infinity,
-                ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          bottom: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.1),
+                  blurRadius: 8.0,
+                  offset: const Offset(10.0, 10.0),
+                )
+              ],
+            ),
+            child: StyledElevatedButton(
+              secondary: true,
+              text: AppLocalizations.of(context)!.next,
+              onPressed: _continuePressed,
+              width: SizeConfig.safeBlockHorizontal * 100.0,
+              suffixIcon: CustomIcons.next,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
