@@ -102,5 +102,9 @@
     "bathhouse": "Баня",
     "descriptionMinLength": "Описание должно содержать как минимум 50 символов.",
     "images": "Фотографии",
-    "addImage": "Добавить фото"
+    "addImage": "Добавить фото",
+    "imagesError": "Нужно добавить хотя бы 3 фотографии",
+    "selectImageFromGallery": "Выбрать из галереи",
+    "takeAPhoto": "Снять фото"
+
 }

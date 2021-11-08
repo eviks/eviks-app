@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 
 import '../../../constants.dart';
 import '../../../models/failure.dart';
@@ -31,8 +32,9 @@ class EditPostImages extends StatefulWidget {
 class _EditPostImagesState extends State<EditPostImages> {
   final ImagePicker _picker = ImagePicker();
   List<ImageData> _imageDataList = [];
+  bool _isValid = true;
 
-  void onImageSelect() async {
+  void _selectImageFromGallery() async {
     final pickedFileList = await _picker.pickMultiImage();
     if (pickedFileList != null) {
       final List<ImageData> _newFiles = [];
@@ -71,6 +73,43 @@ class _EditPostImagesState extends State<EditPostImages> {
         _imageDataList = [
           ..._imageDataList,
           ..._newFiles,
+        ];
+      });
+    }
+  }
+
+  void _takeAPhoto() async {
+    final file = await _picker.pickImage(source: ImageSource.camera);
+    if (file != null) {
+      var id = '';
+
+      String _errorMessage = '';
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      try {
+        id =
+            await Provider.of<Posts>(context, listen: false).getImageUploadId();
+      } on Failure catch (error) {
+        if (error.statusCode >= 500) {
+          _errorMessage = AppLocalizations.of(context)!.serverError;
+        } else {
+          _errorMessage = error.toString();
+        }
+      } catch (error) {
+        _errorMessage = AppLocalizations.of(context)!.unknownError;
+      }
+
+      if (_errorMessage.isNotEmpty) {
+        displayErrorMessage(context, _errorMessage);
+        return;
+      }
+
+      setState(() {
+        _imageDataList = [
+          ..._imageDataList,
+          ImageData(
+            file: file,
+            id: id,
+          ),
         ];
       });
     }
@@ -117,9 +156,24 @@ class _EditPostImagesState extends State<EditPostImages> {
   }
 
   void _continuePressed() {
+    if (_imageDataList.length < 3) {
+      setState(() {
+        _isValid = false;
+      });
+      return;
+    }
+
     widget.updatePost(widget.post.copyWith(
+      images: _imageDataList.map((element) => element.id).toList(),
       step: 6,
     ));
+  }
+
+  bool get _isLoading {
+    return _imageDataList.firstWhereOrNull(
+          (element) => element.isUploaded == false,
+        ) !=
+        null;
   }
 
   @override
@@ -139,6 +193,18 @@ class _EditPostImagesState extends State<EditPostImages> {
                 const SizedBox(
                   height: 16.0,
                 ),
+                if (!_isValid)
+                  Column(
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.imagesError,
+                        style: TextStyle(color: Theme.of(context).errorColor),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                    ],
+                  ),
                 Expanded(
                   child: GridView.builder(
                       gridDelegate:
@@ -150,7 +216,49 @@ class _EditPostImagesState extends State<EditPostImages> {
                           return Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: OutlinedButton(
-                                onPressed: onImageSelect,
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(16.0),
+                                            topRight: Radius.circular(16.0)),
+                                      ),
+                                      builder: (BuildContext context) {
+                                        return SizedBox(
+                                          height: SizeConfig.safeBlockVertical *
+                                              40.0,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  _selectImageFromGallery();
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: const Icon(
+                                                    CustomIcons.image),
+                                                label: Text(AppLocalizations.of(
+                                                        context)!
+                                                    .selectImageFromGallery),
+                                              ),
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  _takeAPhoto();
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: const Icon(
+                                                    CustomIcons.camera),
+                                                label: Text(AppLocalizations.of(
+                                                        context)!
+                                                    .takeAPhoto),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -204,6 +312,7 @@ class _EditPostImagesState extends State<EditPostImages> {
             child: StyledElevatedButton(
               secondary: true,
               text: AppLocalizations.of(context)!.next,
+              loading: _isLoading,
               onPressed: _continuePressed,
               width: SizeConfig.safeBlockHorizontal * 100.0,
               suffixIcon: CustomIcons.next,

@@ -102,5 +102,8 @@
     "bathhouse": "Hamam",
     "descriptionMinLength": "Təsvir ən azı 50 simvoldan ibarət olmalıdır.",
     "images": "Şəkillər",
-    "addImage": "Şəkili əlavə et"
+    "addImage": "Şəkili əlavə et",
+    "imagesError": "Ən azı 3 şəkili əlavə etmək lazımdır",
+    "selectImageFromGallery": "Qalereyadan seçmək",
+    "takeAPhoto": "Şəkil çəkmək"
 }

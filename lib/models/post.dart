@@ -134,8 +134,8 @@ class Post {
   final bool? garage;
   final bool? pool;
   final bool? bathhouse;
-  final int price;
   final List<String> images;
+  final int price;
   final int step;
 
   Post({
@@ -184,8 +184,8 @@ class Post {
     this.garage = false,
     this.pool = false,
     this.bathhouse = false,
-    required this.price,
     required this.images,
+    required this.price,
     this.step = 0,
   });
 
@@ -266,8 +266,8 @@ class Post {
       garage: json['garage'] == null ? null : json['garage'] as bool,
       pool: json['pool'] == null ? null : json['pool'] as bool,
       bathhouse: json['bathhouse'] == null ? null : json['bathhouse'] as bool,
-      price: json['price'] as int,
       images: (json['images'] as List<dynamic>).cast<String>(),
+      price: json['price'] as int,
     );
   }
 
@@ -315,9 +315,9 @@ class Post {
     bool? petsAllowed,
     bool? garage,
     bool? pool,
+    List<String>? images,
     bool? bathhouse,
     int? price,
-    List<String>? images,
     int? step,
   }) {
     return Post(
@@ -382,8 +382,8 @@ class Post {
       bathhouse: (estateType ?? this.estateType) != EstateType.house
           ? null
           : bathhouse ?? this.bathhouse,
-      price: price ?? this.price,
       images: images ?? this.images,
+      price: price ?? this.price,
       step: step ?? this.step,
     );
   }
