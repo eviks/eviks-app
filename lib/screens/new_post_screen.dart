@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/screens/edit_post_screen/edit_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,6 +12,14 @@ class NewPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+              )
+            : null,
         title: Text(
           AppLocalizations.of(context)!.newPost,
           style: const TextStyle(fontWeight: FontWeight.bold),

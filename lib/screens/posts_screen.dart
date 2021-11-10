@@ -55,6 +55,14 @@ class _PostScreenState extends State<PostScreen> {
     final postsData = Provider.of<Posts>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+              )
+            : null,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

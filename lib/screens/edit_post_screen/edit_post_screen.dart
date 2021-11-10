@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/post.dart';
@@ -9,6 +10,7 @@ import './edit_post_estate_info.dart';
 import './edit_post_general_info.dart';
 import './edit_post_images/edit_post_images.dart';
 import './edit_post_map.dart';
+import './edit_post_price.dart';
 
 class EditPostScreen extends StatefulWidget {
   static const routeName = '/edit_post';
@@ -86,6 +88,11 @@ class _EditPostScreenState extends State<EditPostScreen> {
           post: post,
           updatePost: updatePost,
         );
+      case 6:
+        return EditPostPrice(
+          post: post,
+          updatePost: updatePost,
+        );
       default:
         return EditPostGeneralInfo(
           post: post,
@@ -101,10 +108,14 @@ class _EditPostScreenState extends State<EditPostScreen> {
       resizeToAvoidBottomInset: post.step != 1 && post.step != 4,
       appBar: AppBar(
         title: Row(),
-        leading: IconButton(
-          onPressed: _prevStep,
-          icon: const Icon(Icons.arrow_back),
-        ),
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+              )
+            : null,
       ),
       body: SafeArea(
         child: Container(

@@ -105,5 +105,11 @@
     "addImage": "Şəkili əlavə et",
     "imagesError": "Ən azı 3 şəkili əlavə etmək lazımdır",
     "selectImageFromGallery": "Qalereyadan seçmək",
-    "takeAPhoto": "Şəkil çəkmək"
+    "takeAPhoto": "Şəkil çəkmək",
+    "price": "Qiymət",
+    "haggle": "Enirim mümkündür",
+    "installmentOfPayment": "Hissə-hissə ödəniş mümkündür",
+    "prepayment": "Əvvəlcədən ödəniş tələb olunur",
+    "municipalServicesIncluded": "Kommunal xidmətlər daxildir",
+    "priceTitle": "Qiymət"
 }

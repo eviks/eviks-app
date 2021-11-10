@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+              )
+            : null,
         title: Text(
           AppLocalizations.of(context)!.favorites,
           style: const TextStyle(fontWeight: FontWeight.bold),

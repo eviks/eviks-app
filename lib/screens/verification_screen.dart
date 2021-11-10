@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -63,7 +64,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+              )
+            : null,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(

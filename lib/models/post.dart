@@ -136,6 +136,10 @@ class Post {
   final bool? bathhouse;
   final List<String> images;
   final int price;
+  final bool? haggle;
+  final bool? installmentOfPayment;
+  final bool? prepayment;
+  final bool? municipalServicesIncluded;
   final int step;
 
   Post({
@@ -186,6 +190,10 @@ class Post {
     this.bathhouse = false,
     required this.images,
     required this.price,
+    this.haggle,
+    this.installmentOfPayment,
+    this.prepayment,
+    this.municipalServicesIncluded,
     this.step = 0,
   });
 
@@ -268,6 +276,15 @@ class Post {
       bathhouse: json['bathhouse'] == null ? null : json['bathhouse'] as bool,
       images: (json['images'] as List<dynamic>).cast<String>(),
       price: json['price'] as int,
+      haggle: json['haggle'] == null ? null : json['haggle'] as bool,
+      installmentOfPayment: json['installmentOfPayment'] == null
+          ? null
+          : json['installmentOfPayment'] as bool,
+      prepayment:
+          json['prepayment'] == null ? null : json['prepayment'] as bool,
+      municipalServicesIncluded: json['municipalServicesIncluded'] == null
+          ? null
+          : json['municipalServicesIncluded'] as bool,
     );
   }
 
@@ -318,6 +335,10 @@ class Post {
     List<String>? images,
     bool? bathhouse,
     int? price,
+    bool? haggle,
+    bool? installmentOfPayment,
+    bool? prepayment,
+    bool? municipalServicesIncluded,
     int? step,
   }) {
     return Post(
@@ -384,6 +405,16 @@ class Post {
           : bathhouse ?? this.bathhouse,
       images: images ?? this.images,
       price: price ?? this.price,
+      haggle: haggle ?? this.haggle,
+      installmentOfPayment: (dealType ?? this.dealType) != DealType.sale
+          ? null
+          : installmentOfPayment ?? this.installmentOfPayment,
+      prepayment: (dealType ?? this.dealType) == DealType.sale
+          ? null
+          : prepayment ?? this.prepayment,
+      municipalServicesIncluded: (dealType ?? this.dealType) == DealType.sale
+          ? null
+          : municipalServicesIncluded ?? this.municipalServicesIncluded,
       step: step ?? this.step,
     );
   }

@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,14 @@ class PostDetailScreen extends StatelessWidget {
                   images: loadedPost.images,
                   height: SizeConfig.safeBlockVertical * headerHeight)),
           SliverAppBar(
+            leading: Navigator.canPop(context)
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(CustomIcons.back),
+                  )
+                : null,
             title: Text(
               currencyFormat.format(loadedPost.price),
               style:
