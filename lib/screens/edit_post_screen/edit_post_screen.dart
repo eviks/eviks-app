@@ -1,11 +1,14 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
 
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import './edit_post_additional_info.dart';
 import './edit_post_building_info.dart';
+import './edit_post_contacts.dart';
 import './edit_post_estate_info.dart';
 import './edit_post_general_info.dart';
 import './edit_post_images/edit_post_images.dart';
@@ -37,6 +40,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
     rooms: 0,
     images: [],
     description: '',
+    contact: '',
+    username: '',
   );
 
   void updatePost(Post value) {
@@ -45,64 +50,48 @@ class _EditPostScreenState extends State<EditPostScreen> {
     });
   }
 
-  void _prevStep() {
-    if (post.step == 0) {
+  void _prevStep(Post? postData) {
+    if ((postData?.step ?? 0) == 0) {
       Navigator.of(context).pop();
     } else {
-      updatePost(post.copyWith(
-        step: post.step - 1,
+      Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
+        step: postData.step - 1,
       ));
     }
   }
 
-  Widget getStepWidget() {
-    switch (post.step) {
+  Widget getStepWidget(Post? postData) {
+    switch (postData?.step ?? 0) {
       case 0:
-        return EditPostGeneralInfo(
-          post: post,
-          updatePost: updatePost,
-        );
-
+        return const EditPostGeneralInfo();
       case 1:
-        return EditPostMap(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostMap();
       case 2:
-        return EditPostEstateInfo(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostEstateInfo();
       case 3:
-        return EditPostBuildingInfo(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostBuildingInfo();
       case 4:
-        return EditPostAdditionalInfo(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostAdditionalInfo();
       case 5:
-        return EditPostImages(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostImages();
       case 6:
-        return EditPostPrice(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostPrice();
+      case 7:
+        return const EditPostContacts();
       default:
-        return EditPostGeneralInfo(
-          post: post,
-          updatePost: updatePost,
-        );
+        return const EditPostGeneralInfo();
     }
   }
 
   @override
+  void initState() {
+    Provider.of<Posts>(context, listen: false).initNewPost();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final postData = Provider.of<Posts>(context, listen: true).postData;
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: post.step != 1 && post.step != 4,
@@ -111,7 +100,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
         leading: Navigator.canPop(context)
             ? IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  _prevStep(postData);
                 },
                 icon: const Icon(CustomIcons.back),
               )
@@ -122,7 +111,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
           constraints: BoxConstraints(
             minHeight: SizeConfig.safeBlockVertical * 100.0,
           ),
-          child: getStepWidget(),
+          child: getStepWidget(postData),
         ),
       ),
     );

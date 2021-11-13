@@ -111,6 +111,9 @@
     "installmentOfPayment": "Возможна оплата в несколько этапов",
     "prepayment": "Требуется предоплата",
     "municipalServicesIncluded": "Включены коммунальные услуги",
-    "priceTitle": "Цена"
+    "priceTitle": "Цена",
+    "phoneNumber": "Номер телефона",
+    "submitPost": "Разместить объявление",
+    "contactTitle": "Контактные данные"
 
 }

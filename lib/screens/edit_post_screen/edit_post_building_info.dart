@@ -2,20 +2,17 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import './step_title.dart';
 
 class EditPostBuildingInfo extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostBuildingInfo({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -24,12 +21,28 @@ class EditPostBuildingInfo extends StatefulWidget {
 }
 
 class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   int? _yearBuild;
   double? _ceilingHeight;
   bool? _elevator = false;
   bool? _parkingLot = false;
+
+  @override
+  void initState() {
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 3) {
+      _yearBuild = postData?.yearBuild;
+      _ceilingHeight = postData?.ceilingHeight;
+      _elevator = postData?.elevator;
+      _parkingLot = postData?.parkingLot;
+    }
+
+    super.initState();
+  }
 
   void _continuePressed() {
     if (_formKey.currentState == null) {
@@ -42,11 +55,12 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       yearBuild: _yearBuild,
       ceilingHeight: _ceilingHeight,
       elevator: _elevator,
       parkingLot: _parkingLot,
+      lastStep: 3,
       step: 4,
     ));
   }

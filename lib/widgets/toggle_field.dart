@@ -7,6 +7,7 @@ class ToggleField<EnumType> extends StatefulWidget {
   final Function getDescription;
   final Function? onPressed;
   final Axis direction;
+  final EnumType? initialValue;
 
   const ToggleField({
     Key? key,
@@ -16,6 +17,7 @@ class ToggleField<EnumType> extends StatefulWidget {
     required this.getDescription,
     this.onPressed,
     this.direction = Axis.horizontal,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,9 @@ class _ToggleFieldState extends State<ToggleField> {
 
   @override
   void initState() {
-    _selections = List.generate(widget.values.length, (index) => false);
+    _selections = List.generate(widget.values.length, (index) {
+      return widget.values[index] == widget.initialValue;
+    });
     super.initState();
   }
 
@@ -98,10 +102,12 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
     required Function getDescription,
     Function? onPressed,
     Axis direction = Axis.horizontal,
+    EnumType? initialValue,
   }) : super(
             key: key,
             onSaved: onSaved,
             validator: validator,
+            initialValue: initialValue,
             builder: (FormFieldState<EnumType> state) {
               return ToggleField<EnumType>(
                 state: state,
@@ -110,6 +116,7 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
                 getDescription: getDescription,
                 onPressed: onPressed,
                 direction: direction,
+                initialValue: initialValue,
               );
             });
 }

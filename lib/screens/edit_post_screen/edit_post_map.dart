@@ -13,18 +13,14 @@ import '../../models/failure.dart';
 import '../../models/post.dart';
 import '../../models/settlement.dart';
 import '../../providers/localities.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import './step_title.dart';
 
 class EditPostMap extends StatefulWidget {
-  final Post post;
-  final Function updatePost;
-
   const EditPostMap({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +29,8 @@ class EditPostMap extends StatefulWidget {
 }
 
 class _EditPostMapState extends State<EditPostMap> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   late MapController _mapController;
@@ -54,6 +52,17 @@ class _EditPostMapState extends State<EditPostMap> {
 
   @override
   void initState() {
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 1) {
+      _location = postData?.location ?? [];
+      _city = postData?.city?.name ?? '';
+      _district = postData?.district?.name ?? '';
+      _subdistrict = postData?.subdistrict?.name ?? '';
+      _address = postData?.address ?? '';
+      _controller.text = _address;
+    }
+
     _mapController = MapController();
     _subscription = _mapController.mapEventStream.listen((MapEvent mapEvent) {
       if (mapEvent is MapEventMoveEnd || mapEvent is MapEventDoubleTapZoomEnd) {
@@ -97,8 +106,8 @@ class _EditPostMapState extends State<EditPostMap> {
     try {
       setState(() {
         _location = [
-          coords[1],
           coords[0],
+          coords[1],
         ];
       });
 
@@ -187,11 +196,13 @@ class _EditPostMapState extends State<EditPostMap> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       city: Settlement(id: '', name: _city),
       district: Settlement(id: '', name: _district),
       subdistrict: Settlement(id: '', name: _subdistrict),
       address: _address,
+      location: _location,
+      lastStep: 1,
       step: 2,
     ));
   }

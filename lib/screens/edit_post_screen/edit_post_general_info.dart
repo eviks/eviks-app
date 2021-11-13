@@ -1,20 +1,17 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/toggle_field.dart';
 import './step_title.dart';
 
 class EditPostGeneralInfo extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostGeneralInfo({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -23,6 +20,8 @@ class EditPostGeneralInfo extends StatefulWidget {
 }
 
 class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   UserType? _userType;
@@ -33,6 +32,15 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
 
   @override
   void initState() {
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 0) {
+      _userType = postData?.userType;
+      _estateType = postData?.estateType;
+      _apartmentType = postData?.apartmentType;
+      _dealType = postData?.dealType;
+    }
+
     _isApartment = _estateType == EstateType.apartment;
     super.initState();
   }
@@ -48,11 +56,12 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       userType: _userType,
       estateType: _estateType,
       apartmentType: _apartmentType,
       dealType: _dealType,
+      lastStep: 0,
       step: 1,
     ));
   }
@@ -69,7 +78,6 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
             child: Center(
               child: Form(
                 key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,6 +89,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                     ToggleFormField<UserType>(
                       title: AppLocalizations.of(context)!.userTypeTitle,
                       values: UserType.values,
+                      initialValue: _userType,
                       getDescription: userTypeDescription,
                       validator: (value) {
                         if (value == null) {
@@ -94,6 +103,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                     ToggleFormField<EstateType>(
                         title: AppLocalizations.of(context)!.estateTypeTitle,
                         values: EstateType.values,
+                        initialValue: _estateType,
                         getDescription: estateTypeDescription,
                         validator: (value) {
                           if (value == null) {
@@ -114,6 +124,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                       child: ToggleFormField<ApartmentType>(
                         title: AppLocalizations.of(context)!.apartmentTypeTitle,
                         values: ApartmentType.values,
+                        initialValue: _apartmentType,
                         getDescription: apartmentTypeDescription,
                         validator: (value) {
                           if (_estateType == EstateType.apartment &&
@@ -130,6 +141,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                     ToggleFormField<DealType>(
                       title: AppLocalizations.of(context)!.dealTypeTitle,
                       values: DealType.values,
+                      initialValue: _dealType,
                       getDescription: dealTypeDescription,
                       validator: (value) {
                         if (value == null) {

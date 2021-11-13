@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -140,7 +141,10 @@ class Post {
   final bool? installmentOfPayment;
   final bool? prepayment;
   final bool? municipalServicesIncluded;
+  final String contact;
+  final String username;
   final int step;
+  final int? lastStep;
 
   Post({
     required this.id,
@@ -194,7 +198,10 @@ class Post {
     this.installmentOfPayment,
     this.prepayment,
     this.municipalServicesIncluded,
+    required this.contact,
+    required this.username,
     this.step = 0,
+    this.lastStep,
   });
 
   factory Post.fromJson(dynamic json) {
@@ -285,6 +292,8 @@ class Post {
       municipalServicesIncluded: json['municipalServicesIncluded'] == null
           ? null
           : json['municipalServicesIncluded'] as bool,
+      contact: json['contact'] as String,
+      username: json['username'] as String,
     );
   }
 
@@ -339,7 +348,10 @@ class Post {
     bool? installmentOfPayment,
     bool? prepayment,
     bool? municipalServicesIncluded,
+    String? contact,
+    String? username,
     int? step,
+    int? lastStep,
   }) {
     return Post(
       id: id,
@@ -415,7 +427,11 @@ class Post {
       municipalServicesIncluded: (dealType ?? this.dealType) == DealType.sale
           ? null
           : municipalServicesIncluded ?? this.municipalServicesIncluded,
+      contact: contact ?? this.contact,
+      username: username ?? this.username,
       step: step ?? this.step,
+      lastStep:
+          lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),
     );
   }
 }

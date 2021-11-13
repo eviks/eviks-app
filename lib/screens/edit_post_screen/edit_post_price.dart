@@ -2,20 +2,17 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import './step_title.dart';
 
 class EditPostPrice extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostPrice({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -24,6 +21,8 @@ class EditPostPrice extends StatefulWidget {
 }
 
 class _EditPostPriceState extends State<EditPostPrice> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   int? _price;
@@ -36,7 +35,17 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
   @override
   void initState() {
-    _isRent = widget.post.dealType != DealType.sale;
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 6) {
+      _price = postData?.price;
+      _haggle = postData?.haggle;
+      _installmentOfPayment = postData?.installmentOfPayment;
+      _prepayment = postData?.prepayment;
+      _municipalServicesIncluded = postData?.municipalServicesIncluded;
+    }
+
+    _isRent = postData?.dealType != DealType.sale;
     super.initState();
   }
 
@@ -51,12 +60,13 @@ class _EditPostPriceState extends State<EditPostPrice> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       price: _price,
       haggle: _haggle,
       installmentOfPayment: _installmentOfPayment,
       prepayment: _prepayment,
       municipalServicesIncluded: _municipalServicesIncluded,
+      lastStep: 6,
       step: 7,
     ));
   }

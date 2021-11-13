@@ -2,8 +2,10 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/icon_choise_chip.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
@@ -11,12 +13,7 @@ import '../../widgets/styled_input.dart';
 import './step_title.dart';
 
 class EditPostAdditionalInfo extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostAdditionalInfo({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +22,8 @@ class EditPostAdditionalInfo extends StatefulWidget {
 }
 
 class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   String? _description;
@@ -54,8 +53,34 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
 
   @override
   void initState() {
-    _isHouse = widget.post.estateType == EstateType.house;
-    _isSale = widget.post.dealType == DealType.sale;
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 4) {
+      _description = postData?.description;
+      _balcony = postData?.balcony;
+      _furniture = postData?.furniture;
+      _kitchenFurniture = postData?.kitchenFurniture;
+      _cableTv = postData?.cableTv;
+      _phone = postData?.phone;
+      _internet = postData?.internet;
+      _electricity = postData?.electricity;
+      _gas = postData?.gas;
+      _water = postData?.water;
+      _heating = postData?.heating;
+      _tv = postData?.tv;
+      _conditioner = postData?.conditioner;
+      _washingMachine = postData?.washingMachine;
+      _dishwasher = postData?.dishwasher;
+      _refrigerator = postData?.refrigerator;
+      _kidsAllowed = postData?.kidsAllowed;
+      _petsAllowed = postData?.petsAllowed;
+      _garage = postData?.garage;
+      _pool = postData?.pool;
+      _bathhouse = postData?.bathhouse;
+    }
+
+    _isHouse = postData?.estateType == EstateType.house;
+    _isSale = postData?.dealType == DealType.sale;
     super.initState();
   }
 
@@ -70,7 +95,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       description: _description,
       balcony: _balcony,
       furniture: _furniture,
@@ -92,6 +117,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
       garage: _garage,
       pool: _pool,
       bathhouse: _bathhouse,
+      lastStep: 4,
       step: 5,
     ));
   }
@@ -105,7 +131,6 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
               8.0, SizeConfig.safeBlockHorizontal * 8.0, 32.0),
           child: Center(
             child: Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

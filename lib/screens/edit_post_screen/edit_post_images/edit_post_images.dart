@@ -16,12 +16,7 @@ import '../step_title.dart';
 import './uploaded_image.dart';
 
 class EditPostImages extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostImages({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -30,9 +25,25 @@ class EditPostImages extends StatefulWidget {
 }
 
 class _EditPostImagesState extends State<EditPostImages> {
+  late Post? postData;
+
   final ImagePicker _picker = ImagePicker();
   List<ImageData> _imageDataList = [];
   bool _isValid = true;
+
+  @override
+  void initState() {
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 5) {
+      _imageDataList = postData?.images
+              .map((id) => ImageData(id: id, isUploaded: true))
+              .toList() ??
+          [];
+    }
+
+    super.initState();
+  }
 
   void _selectImageFromGallery() async {
     final pickedFileList = await _picker.pickMultiImage();
@@ -163,8 +174,9 @@ class _EditPostImagesState extends State<EditPostImages> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
       images: _imageDataList.map((element) => element.id).toList(),
+      lastStep: 5,
       step: 6,
     ));
   }

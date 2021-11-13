@@ -31,7 +31,7 @@ class _UploadedImageState extends State<UploadedImage> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       final res = await Provider.of<Posts>(context, listen: false)
-          .uploadImage(widget.imageData.file, widget.imageData.id);
+          .uploadImage(widget.imageData.file!, widget.imageData.id);
       if (res) {
         widget.setUploadStatus(widget.imageData.id);
       }
@@ -95,7 +95,7 @@ class _UploadedImageState extends State<UploadedImage> {
             fit: StackFit.expand,
             children: [
               Image.file(
-                File(widget.imageData.file.path),
+                File(widget.imageData.file?.path ?? ''),
                 fit: BoxFit.fill,
               ),
               Container(

@@ -23,10 +23,11 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Posts>(
-          create: (ctx) => Posts('', []),
+          create: (ctx) => Posts('', [], null),
           update: (ctx, auth, previousPosts) => Posts(
             auth.token,
             previousPosts == null ? [] : previousPosts.posts,
+            previousPosts?.postData,
           ),
         ),
         ChangeNotifierProvider(create: (ctx) => Localities()),

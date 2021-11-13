@@ -2,8 +2,10 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
@@ -11,12 +13,7 @@ import '../../widgets/toggle_field.dart';
 import './step_title.dart';
 
 class EditPostEstateInfo extends StatefulWidget {
-  final Post post;
-  final Function(Post) updatePost;
-
   const EditPostEstateInfo({
-    required this.post,
-    required this.updatePost,
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +22,8 @@ class EditPostEstateInfo extends StatefulWidget {
 }
 
 class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
+  late Post? postData;
+
   final _formKey = GlobalKey<FormState>();
 
   int? _rooms;
@@ -44,8 +43,42 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
 
   @override
   void initState() {
-    _isHouse = widget.post.estateType == EstateType.house;
+    postData = Provider.of<Posts>(context, listen: false).postData;
+
+    if ((postData?.lastStep ?? -1) >= 2) {
+      _rooms = postData?.rooms;
+      _sqm = postData?.sqm;
+      _livingRoomsSqm = postData?.livingRoomsSqm;
+      _kitchenSqm = postData?.kitchenSqm;
+      _lotSqm = postData?.lotSqm;
+      _floor = postData?.floor;
+      _totalFloors = postData?.totalFloors;
+      _renovation = postData?.renovation;
+      _redevelopment = postData?.redevelopment;
+      _documented = postData?.documented;
+    }
+
+    _totalFloorsController.text = _totalFloors?.toString() ?? '';
+
+    _isHouse = postData?.estateType == EstateType.house;
     super.initState();
+  }
+
+  void _updatePost(int lastStep, int step) {
+    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
+      rooms: _rooms,
+      sqm: _sqm,
+      livingRoomsSqm: _livingRoomsSqm,
+      kitchenSqm: _kitchenSqm,
+      lotSqm: _lotSqm,
+      floor: _floor,
+      totalFloors: _totalFloors,
+      renovation: _renovation,
+      redevelopment: _redevelopment,
+      documented: _documented,
+      lastStep: lastStep,
+      step: step,
+    ));
   }
 
   void _continuePressed() {
@@ -59,19 +92,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       return;
     }
 
-    widget.updatePost(widget.post.copyWith(
-      rooms: _rooms,
-      sqm: _sqm,
-      livingRoomsSqm: _livingRoomsSqm,
-      kitchenSqm: _kitchenSqm,
-      lotSqm: _lotSqm,
-      floor: _floor,
-      totalFloors: _totalFloors,
-      renovation: _renovation,
-      redevelopment: _redevelopment,
-      documented: _documented,
-      step: 3,
-    ));
+    _updatePost(2, 3);
   }
 
   @override
@@ -84,7 +105,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                 8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
             child: Center(
               child: Form(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -102,6 +122,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       child: StyledInput(
                         icon: CustomIcons.door,
                         title: AppLocalizations.of(context)!.rooms,
+                        initialValue: _rooms?.toString(),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -123,6 +144,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       child: StyledInput(
                         icon: CustomIcons.sqm,
                         title: AppLocalizations.of(context)!.sqm,
+                        initialValue: _sqm?.toString(),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -140,6 +162,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       child: StyledInput(
                         icon: CustomIcons.sqm,
                         title: AppLocalizations.of(context)!.livingRoomsSqm,
+                        initialValue: _livingRoomsSqm?.toString(),
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           _livingRoomsSqm =
@@ -152,6 +175,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       child: StyledInput(
                         icon: CustomIcons.sqm,
                         title: AppLocalizations.of(context)!.kitchenSqm,
+                        initialValue: _kitchenSqm?.toString(),
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           _kitchenSqm =
@@ -166,6 +190,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         child: StyledInput(
                           icon: CustomIcons.garden,
                           title: AppLocalizations.of(context)!.lotSqm,
+                          initialValue: _lotSqm?.toString(),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (_isHouse && (value == null || value.isEmpty)) {
@@ -190,6 +215,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                             child: StyledInput(
                               icon: CustomIcons.elevator,
                               title: AppLocalizations.of(context)!.floor,
+                              initialValue: _floor?.toString(),
                               keyboardType: TextInputType.number,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
@@ -293,6 +319,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                     ToggleFormField<Renovation>(
                       title: AppLocalizations.of(context)!.renovation,
                       values: Renovation.values,
+                      initialValue: _renovation,
                       getDescription: renovationDescription,
                       direction: Axis.vertical,
                       validator: (value) {

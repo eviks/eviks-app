@@ -111,5 +111,8 @@
     "installmentOfPayment": "Hissə-hissə ödəniş mümkündür",
     "prepayment": "Əvvəlcədən ödəniş tələb olunur",
     "municipalServicesIncluded": "Kommunal xidmətlər daxildir",
-    "priceTitle": "Qiymət"
+    "priceTitle": "Qiymət",
+    "phoneNumber": "Telefon nömrəsi",
+    "submitPost": "Elanı vermək",
+    "contactTitle": "Əlaqə məlumat"
 }

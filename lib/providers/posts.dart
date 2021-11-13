@@ -11,11 +11,42 @@ import '../models/post.dart';
 class Posts with ChangeNotifier {
   String token;
   List<Post> _posts;
+  Post? _postData;
 
-  Posts(this.token, this._posts);
+  Posts(this.token, this._posts, this._postData);
 
   List<Post> get posts {
     return [..._posts];
+  }
+
+  Post? get postData {
+    return _postData;
+  }
+
+  void initNewPost() {
+    _postData = Post(
+      id: 0,
+      userType: UserType.owner,
+      estateType: EstateType.house,
+      dealType: DealType.sale,
+      location: [],
+      city: null,
+      district: null,
+      address: '',
+      sqm: 0,
+      renovation: Renovation.cosmetic,
+      price: 0,
+      rooms: 0,
+      images: [],
+      description: '',
+      contact: '',
+      username: '',
+    );
+  }
+
+  void updatePost(Post? value) {
+    _postData = value;
+    notifyListeners();
   }
 
   Future<void> fetchAndSetPosts(Map<String, dynamic> queryParameters) async {
