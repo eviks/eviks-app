@@ -21,6 +21,7 @@ class EditPostGeneralInfo extends StatefulWidget {
 
 class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -56,14 +57,30 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      userType: _userType,
-      estateType: _estateType,
-      apartmentType: _apartmentType,
-      dealType: _dealType,
-      lastStep: 0,
-      step: 1,
-    ));
+    _goToNextStep = true;
+    _updatePost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          userType: _userType,
+          estateType: _estateType,
+          apartmentType: _apartmentType,
+          dealType: _dealType,
+          lastStep: 0,
+          step: 1,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override

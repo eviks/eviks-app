@@ -23,6 +23,7 @@ class EditPostAdditionalInfo extends StatefulWidget {
 
 class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -95,31 +96,47 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      description: _description,
-      balcony: _balcony,
-      furniture: _furniture,
-      kitchenFurniture: _kitchenFurniture,
-      cableTv: _cableTv,
-      phone: _phone,
-      internet: _internet,
-      electricity: _electricity,
-      gas: _gas,
-      water: _water,
-      heating: _heating,
-      tv: _tv,
-      conditioner: _conditioner,
-      washingMachine: _washingMachine,
-      dishwasher: _dishwasher,
-      refrigerator: _refrigerator,
-      kidsAllowed: _kidsAllowed,
-      petsAllowed: _petsAllowed,
-      garage: _garage,
-      pool: _pool,
-      bathhouse: _bathhouse,
-      lastStep: 4,
-      step: 5,
-    ));
+    _goToNextStep = true;
+    _updatePost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          description: _description,
+          balcony: _balcony,
+          furniture: _furniture,
+          kitchenFurniture: _kitchenFurniture,
+          cableTv: _cableTv,
+          phone: _phone,
+          internet: _internet,
+          electricity: _electricity,
+          gas: _gas,
+          water: _water,
+          heating: _heating,
+          tv: _tv,
+          conditioner: _conditioner,
+          washingMachine: _washingMachine,
+          dishwasher: _dishwasher,
+          refrigerator: _refrigerator,
+          kidsAllowed: _kidsAllowed,
+          petsAllowed: _petsAllowed,
+          garage: _garage,
+          pool: _pool,
+          bathhouse: _bathhouse,
+          lastStep: 4,
+          step: 5,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override
@@ -149,6 +166,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
                     keyboardType: TextInputType.multiline,
                     minLines: 5,
                     maxLines: null,
+                    initialValue: _description,
                     onSaved: (value) {
                       _description = value;
                     },

@@ -44,9 +44,11 @@ class Posts with ChangeNotifier {
     );
   }
 
-  void updatePost(Post? value) {
+  void updatePost(Post? value, {bool notify = true}) {
     _postData = value;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
   }
 
   Future<void> fetchAndSetPosts(Map<String, dynamic> queryParameters) async {
@@ -80,6 +82,33 @@ class Posts with ChangeNotifier {
         loadedPosts.add(Post.fromJson(element));
       });
       _posts = loadedPosts;
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> createPost(Post post) async {
+    try {
+      final url = Uri.parse('http://192.168.1.9:5000/api/posts');
+      final response = await http.post(url,
+          body: json.encode(post.toJson()),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'JWT $token'
+          });
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
       notifyListeners();
     } catch (error) {
       rethrow;

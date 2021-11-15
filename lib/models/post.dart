@@ -297,6 +297,66 @@ class Post {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'userType': userType.toString().replaceAll('UserType.', ''),
+        'estateType': estateType.toString().replaceAll('EstateType.', ''),
+        'apartmentType':
+            apartmentType?.toString().replaceAll('ApartmentType.', ''),
+        'dealType': dealType.toString().replaceAll('DealType.', ''),
+        'location': location,
+        'city': city != null ? {'id': city?.id, 'name': city?.name} : null,
+        'district': district != null
+            ? {'id': district?.id, 'name': district?.name}
+            : null,
+        'subdistrict': subdistrict != null
+            ? {'id': subdistrict?.id, 'name': subdistrict?.name}
+            : null,
+        'address': address,
+        'rooms': rooms,
+        'sqm': sqm,
+        'livingRoomsSqm': livingRoomsSqm,
+        'kitchenSqm': kitchenSqm,
+        'lotSqm': lotSqm,
+        'floor': floor,
+        'totalFloors': totalFloors,
+        'redevelopment': redevelopment,
+        'documented': documented,
+        'renovation': renovation.toString().replaceAll('Renovation.', ''),
+        'yearBuild': yearBuild,
+        'ceilingHeight': ceilingHeight,
+        'elevator': elevator,
+        'parkingLot': parkingLot,
+        'description': description,
+        'balcony': balcony,
+        'furniture': furniture,
+        'kitchenFurniture': kitchenFurniture,
+        'cableTv': cableTv,
+        'phone': phone,
+        'internet': internet,
+        'electricity': electricity,
+        'gas': gas,
+        'water': water,
+        'heating': heating,
+        'tv': tv,
+        'conditioner': conditioner,
+        'washingMachine': washingMachine,
+        'dishwasher': dishwasher,
+        'refrigerator': refrigerator,
+        'kidsAllowed': kidsAllowed,
+        'petsAllowed': petsAllowed,
+        'garage': garage,
+        'pool': pool,
+        'images': images,
+        'bathhouse': bathhouse,
+        'price': price,
+        'haggle': haggle,
+        'installmentOfPayment': installmentOfPayment,
+        'prepayment': prepayment,
+        'municipalServicesIncluded': municipalServicesIncluded,
+        'contact': contact,
+        'username': username,
+      };
+
   Post copyWith({
     UserType? userType,
     EstateType? estateType,

@@ -26,6 +26,7 @@ class EditPostImages extends StatefulWidget {
 
 class _EditPostImagesState extends State<EditPostImages> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final ImagePicker _picker = ImagePicker();
   List<ImageData> _imageDataList = [];
@@ -166,6 +167,13 @@ class _EditPostImagesState extends State<EditPostImages> {
     });
   }
 
+  bool get _isLoading {
+    return _imageDataList.firstWhereOrNull(
+          (element) => element.isUploaded == false,
+        ) !=
+        null;
+  }
+
   void _continuePressed() {
     if (_imageDataList.length < 3) {
       setState(() {
@@ -174,18 +182,26 @@ class _EditPostImagesState extends State<EditPostImages> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      images: _imageDataList.map((element) => element.id).toList(),
-      lastStep: 5,
-      step: 6,
-    ));
+    _goToNextStep = true;
+    _updatePost();
   }
 
-  bool get _isLoading {
-    return _imageDataList.firstWhereOrNull(
-          (element) => element.isUploaded == false,
-        ) !=
-        null;
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          images: _imageDataList.map((element) => element.id).toList(),
+          lastStep: 5,
+          step: 6,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override

@@ -4,12 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+import '../../models/failure.dart';
 import '../../models/post.dart';
 import '../../providers/auth.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import '../tabs_screen.dart';
 import './step_title.dart';
 
 class EditPostContacts extends StatefulWidget {
@@ -23,8 +26,10 @@ class EditPostContacts extends StatefulWidget {
 
 class _EditPostContactsState extends State<EditPostContacts> {
   late Post? postData;
+  bool _confirmPost = false;
 
   final _formKey = GlobalKey<FormState>();
+  var _isLoading = false;
 
   String? _contact;
 
@@ -39,7 +44,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
     super.initState();
   }
 
-  void _continuePressed() {
+  void _onPostConfirm() {
     if (_formKey.currentState == null) {
       return;
     }
@@ -50,11 +55,71 @@ class _EditPostContactsState extends State<EditPostContacts> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      contact: _contact,
-      username:
-          Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
-    ));
+    _confirmPost = true;
+    _updatePost();
+    _createPost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          contact: _contact,
+          username:
+              Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
+          lastStep: 7,
+        ),
+        notify: notify);
+  }
+
+  void _createPost() async {
+    if (postData == null) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    try {
+      await Provider.of<Posts>(context, listen: false)
+          .createPost(postData!.copyWith(
+        contact: _contact,
+        username:
+            Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
+        lastStep: 7,
+      ));
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = error.toString();
+      }
+    } catch (error) {
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (_errorMessage.isNotEmpty) {
+      displayErrorMessage(context, _errorMessage);
+      return;
+    }
+
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
+  }
+
+  @override
+  void deactivate() {
+    if (!_confirmPost) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override
@@ -70,7 +135,6 @@ class _EditPostContactsState extends State<EditPostContacts> {
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     StepTitle(
                       title: AppLocalizations.of(context)!.contactTitle,
@@ -79,9 +143,37 @@ class _EditPostContactsState extends State<EditPostContacts> {
                     const SizedBox(
                       height: 16.0,
                     ),
+                    SizedBox(
+                      height: SizeConfig.safeBlockVertical * 30.0,
+                      child: Image.asset(
+                        "assets/img/illustrations/post_confirm.png",
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.postAlmostCreated,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.postAlmostCreatedHint,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     StyledInput(
                       icon: CustomIcons.phone,
                       title: AppLocalizations.of(context)!.phoneNumber,
+                      initialValue: _contact,
                       keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -115,9 +207,9 @@ class _EditPostContactsState extends State<EditPostContacts> {
               ],
             ),
             child: StyledElevatedButton(
-              secondary: true,
               text: AppLocalizations.of(context)!.submitPost,
-              onPressed: _continuePressed,
+              onPressed: _onPostConfirm,
+              loading: _isLoading,
               width: SizeConfig.safeBlockHorizontal * 100.0,
               suffixIcon: CustomIcons.checked,
             ),

@@ -114,6 +114,7 @@
     "priceTitle": "Цена",
     "phoneNumber": "Номер телефона",
     "submitPost": "Разместить объявление",
-    "contactTitle": "Контактные данные"
-
+    "contactTitle": "Контактные данные",
+    "postAlmostCreated": "Почти готово!",
+    "postAlmostCreatedHint": "Осталось ввести ваши контактные данные"
 }

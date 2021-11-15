@@ -22,6 +22,7 @@ class EditPostBuildingInfo extends StatefulWidget {
 
 class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,14 +56,30 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      yearBuild: _yearBuild,
-      ceilingHeight: _ceilingHeight,
-      elevator: _elevator,
-      parkingLot: _parkingLot,
-      lastStep: 3,
-      step: 4,
-    ));
+    _goToNextStep = true;
+    _updatePost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          yearBuild: _yearBuild,
+          ceilingHeight: _ceilingHeight,
+          elevator: _elevator,
+          parkingLot: _parkingLot,
+          lastStep: 3,
+          step: 4,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override
@@ -92,6 +109,8 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                       child: StyledInput(
                         icon: CustomIcons.calendar,
                         title: AppLocalizations.of(context)!.yearBuild,
+                        initialValue:
+                            _yearBuild != 0 ? _yearBuild?.toString() : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -107,6 +126,9 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                       child: StyledInput(
                         icon: CustomIcons.measuring,
                         title: AppLocalizations.of(context)!.ceilingHeight,
+                        initialValue: _ceilingHeight != 0
+                            ? _ceilingHeight?.toString()
+                            : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly

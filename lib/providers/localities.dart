@@ -5,9 +5,10 @@ import 'package:http/http.dart' as http;
 
 import '../models/address.dart';
 import '../models/failure.dart';
+import '../models/settlement.dart';
 
 class Localities with ChangeNotifier {
-  Future<Map<String, String>> getAddressByCoords(
+  Future<Map<String, dynamic>> getAddressByCoords(
       Map<String, dynamic> body) async {
     final url = Uri(
       scheme: 'http',
@@ -39,39 +40,54 @@ class Localities with ChangeNotifier {
 
       final dynamic data = json.decode(response.body);
 
-      final Map<String, String> addressComponents = {
-        'city': '',
-        'district': '',
-        'subdistrict': '',
-        'address': '',
-      };
+      String cityName = '';
+      String districtName = '';
+      String subdistrictName = '';
+      String address = '';
 
       if (data['success'] == true) {
-        data['addr_components'].forEach((addressComponent) {
+        data['addr_components'].forEach((addressComponent) async {
           if (addressComponent['type'] == 'country district') {
-            addressComponents['city'] = addressComponent['name'] as String;
+            cityName = addressComponent['name'] as String;
           }
           if (addressComponent['type'] == 'settlement district') {
-            addressComponents['district'] = addressComponent['name'] as String;
+            districtName = addressComponent['name'] as String;
           }
           if (addressComponent['type'] == 'settlement') {
-            addressComponents['subdistrict'] =
-                addressComponent['name'] as String;
+            subdistrictName = addressComponent['name'] as String;
           }
           if (addressComponent['type'] == 'street') {
-            addressComponents['address'] = addressComponent['name'] as String;
+            address = addressComponent['name'] as String;
           }
         });
       }
 
-      // Check if district is empty
-      if (addressComponents['district'] == '' &&
-          addressComponents['subdistrict'] != '') {
-        addressComponents['district'] = addressComponents['subdistrict'] ?? '';
-        addressComponents['subdistrict'] = '';
+      Settlement city;
+      Settlement? district;
+      Settlement? subdistrict;
+
+      // City
+      city = await getLocality({'name': cityName, 'type': '2'});
+
+      // District
+      if (districtName.isNotEmpty) {
+        district = city.children
+            ?.firstWhere((element) => element.name == districtName);
       }
 
-      return addressComponents;
+      // Subdistrict
+      if (subdistrictName.isNotEmpty && district != null) {
+        district = await getLocality({'id': district.id});
+        subdistrict = district.children
+            ?.firstWhere((element) => element.name == subdistrictName);
+      }
+
+      return {
+        'city': city,
+        'district': district,
+        'subdistrict': subdistrict,
+        'address': address,
+      };
     } catch (error) {
       rethrow;
     }
@@ -112,6 +128,38 @@ class Localities with ChangeNotifier {
       });
 
       return addresses;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<Settlement> getLocality(Map<String, dynamic> queryParameters) async {
+    final url = Uri(
+        scheme: 'http',
+        host: '192.168.1.9',
+        port: 5000,
+        path: 'api/localities',
+        queryParameters: queryParameters);
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final dynamic data = json.decode(response.body);
+      final settlement = Settlement.fromJson(data[0]);
+
+      return settlement;
     } catch (error) {
       rethrow;
     }

@@ -22,6 +22,7 @@ class EditPostPrice extends StatefulWidget {
 
 class _EditPostPriceState extends State<EditPostPrice> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -60,15 +61,31 @@ class _EditPostPriceState extends State<EditPostPrice> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      price: _price,
-      haggle: _haggle,
-      installmentOfPayment: _installmentOfPayment,
-      prepayment: _prepayment,
-      municipalServicesIncluded: _municipalServicesIncluded,
-      lastStep: 6,
-      step: 7,
-    ));
+    _goToNextStep = true;
+    _updatePost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          price: _price,
+          haggle: _haggle,
+          installmentOfPayment: _installmentOfPayment,
+          prepayment: _prepayment,
+          municipalServicesIncluded: _municipalServicesIncluded,
+          lastStep: 6,
+          step: 7,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override
@@ -98,6 +115,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
                       child: StyledInput(
                         icon: CustomIcons.money,
                         title: AppLocalizations.of(context)!.price,
+                        initialValue: _price != 0 ? _price?.toString() : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly

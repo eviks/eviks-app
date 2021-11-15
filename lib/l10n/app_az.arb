@@ -114,5 +114,7 @@
     "priceTitle": "Qiymət",
     "phoneNumber": "Telefon nömrəsi",
     "submitPost": "Elanı vermək",
-    "contactTitle": "Əlaqə məlumat"
+    "contactTitle": "Əlaqə məlumat",
+    "postAlmostCreated": "Demək olar ki, hazırdır!",
+    "postAlmostCreatedHint": "Ancaq əlaqə məlumatlarınızı daxil etmək qalır"
 }

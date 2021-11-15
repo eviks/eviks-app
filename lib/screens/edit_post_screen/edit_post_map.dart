@@ -30,17 +30,18 @@ class EditPostMap extends StatefulWidget {
 
 class _EditPostMapState extends State<EditPostMap> {
   late Post? postData;
+  bool _goToNextStep = false;
 
   final _formKey = GlobalKey<FormState>();
 
   late MapController _mapController;
   late StreamSubscription _subscription;
 
-  List<double> _location = [49.8786270618439, 40.379108951404];
-  String _city = '';
-  String _district = '';
-  String _subdistrict = '';
-  String _address = '';
+  List<double>? _location = [49.8786270618439, 40.379108951404];
+  Settlement? _city;
+  Settlement? _district;
+  Settlement? _subdistrict;
+  String? _address;
 
   var _isLoading = false;
   var _typeMode = false;
@@ -55,12 +56,13 @@ class _EditPostMapState extends State<EditPostMap> {
     postData = Provider.of<Posts>(context, listen: false).postData;
 
     if ((postData?.lastStep ?? -1) >= 1) {
-      _location = postData?.location ?? [];
-      _city = postData?.city?.name ?? '';
-      _district = postData?.district?.name ?? '';
-      _subdistrict = postData?.subdistrict?.name ?? '';
+      _location = postData?.location;
+      _city = postData?.city;
+      _district = postData?.district;
+      _subdistrict = postData?.subdistrict;
       _address = postData?.address ?? '';
-      _controller.text = _address;
+
+      _controller.text = _address ?? '';
     }
 
     _mapController = MapController();
@@ -119,11 +121,15 @@ class _EditPostMapState extends State<EditPostMap> {
       });
 
       setState(() {
-        _city = response['city'] ?? '';
-        _district = response['district'] ?? '';
-        _subdistrict = response['subdistrict'] ?? '';
-        _address = response['address'] ?? '';
-        _controller.value = TextEditingValue(text: _address);
+        _city = response['city'] as Settlement;
+        _district = response['district'] != null
+            ? response['district'] as Settlement
+            : null;
+        _subdistrict = response['subdistrict'] != null
+            ? response['subdistrict'] as Settlement
+            : null;
+        _address = response['address'] as String;
+        _controller.value = TextEditingValue(text: _address ?? '');
       });
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
@@ -196,15 +202,31 @@ class _EditPostMapState extends State<EditPostMap> {
       return;
     }
 
-    Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-      city: Settlement(id: '', name: _city),
-      district: Settlement(id: '', name: _district),
-      subdistrict: Settlement(id: '', name: _subdistrict),
-      address: _address,
-      location: _location,
-      lastStep: 1,
-      step: 2,
-    ));
+    _goToNextStep = true;
+    _updatePost();
+  }
+
+  void _updatePost({bool notify = true}) {
+    Provider.of<Posts>(context, listen: false).updatePost(
+        postData?.copyWith(
+          city: _city,
+          district: _district,
+          subdistrict: _subdistrict,
+          address: _address,
+          location: _location,
+          lastStep: 1,
+          step: 2,
+        ),
+        notify: notify);
+  }
+
+  @override
+  void deactivate() {
+    if (!_goToNextStep) {
+      _formKey.currentState?.save();
+      _updatePost(notify: false);
+    }
+    super.deactivate();
   }
 
   @override
@@ -214,7 +236,7 @@ class _EditPostMapState extends State<EditPostMap> {
         FlutterMap(
           mapController: _mapController,
           options: MapOptions(
-            center: LatLng(_location[1], _location[0]),
+            center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
             zoom: 16,
           ),
           layers: [
@@ -273,10 +295,10 @@ class _EditPostMapState extends State<EditPostMap> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.errorAddress;
-                        } else if (_location[0] == 0 ||
-                            _location[1] == 0 ||
-                            _city.isEmpty ||
-                            _district.isEmpty) {
+                        } else if ((_location?[0] ?? 0) == 0 ||
+                            (_location?[1] ?? 0) == 0 ||
+                            _city == null ||
+                            _district == null) {
                           return AppLocalizations.of(context)!.wrongAddress;
                         }
                       },
