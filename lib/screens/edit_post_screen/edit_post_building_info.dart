@@ -68,7 +68,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
           elevator: _elevator,
           parkingLot: _parkingLot,
           lastStep: 3,
-          step: 4,
+          step: _goToNextStep ? 4 : 2,
         ),
         notify: notify);
   }

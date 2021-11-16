@@ -215,7 +215,7 @@ class _EditPostMapState extends State<EditPostMap> {
           address: _address,
           location: _location,
           lastStep: 1,
-          step: 2,
+          step: _goToNextStep ? 2 : 0,
         ),
         notify: notify);
   }

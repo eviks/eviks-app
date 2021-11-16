@@ -95,7 +95,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
           redevelopment: _redevelopment,
           documented: _documented,
           lastStep: 2,
-          step: 3,
+          step: _goToNextStep ? 3 : 1,
         ),
         notify: notify);
   }

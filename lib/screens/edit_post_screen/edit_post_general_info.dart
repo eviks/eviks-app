@@ -69,7 +69,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
           apartmentType: _apartmentType,
           dealType: _dealType,
           lastStep: 0,
-          step: 1,
+          step: _goToNextStep ? 1 : -1,
         ),
         notify: notify);
   }

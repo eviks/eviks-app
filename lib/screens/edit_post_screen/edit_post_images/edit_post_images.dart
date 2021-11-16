@@ -191,7 +191,7 @@ class _EditPostImagesState extends State<EditPostImages> {
         postData?.copyWith(
           images: _imageDataList.map((element) => element.id).toList(),
           lastStep: 5,
-          step: 6,
+          step: _goToNextStep ? 6 : 4,
         ),
         notify: notify);
   }

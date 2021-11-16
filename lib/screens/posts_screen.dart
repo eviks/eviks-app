@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../models/failure.dart';
 import '../providers/posts.dart';
+import '../screens/filters_screen.dart';
 import '../widgets/post_item.dart';
 
 class PostScreen extends StatefulWidget {
@@ -63,6 +64,13 @@ class _PostScreenState extends State<PostScreen> {
                 icon: const Icon(CustomIcons.back),
               )
             : null,
+        actions: [
+          TextButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(FiltersScreen.routeName),
+            child: const Text('Filters'),
+          ),
+        ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -91,6 +91,7 @@ String renovationDescription(Renovation renovation, BuildContext ctx) {
 
 class Post {
   final int id;
+  final bool active;
   final UserType userType;
   final EstateType estateType;
   final ApartmentType? apartmentType;
@@ -148,6 +149,7 @@ class Post {
 
   Post({
     required this.id,
+    required this.active,
     required this.userType,
     required this.estateType,
     this.apartmentType,
@@ -207,6 +209,7 @@ class Post {
   factory Post.fromJson(dynamic json) {
     return Post(
       id: json['_id'] as int,
+      active: json['active'] as bool,
       userType: UserType.values.firstWhere((element) =>
           element.toString() == 'UserType.${json['userType'] as String}'),
       estateType: EstateType.values.firstWhere((element) =>
@@ -235,7 +238,7 @@ class Post {
           json['livingRoomsSqm'] == null ? null : json['livingRoomsSqm'] as int,
       kitchenSqm: json['kitchenSqm'] == null ? null : json['kitchenSqm'] as int,
       lotSqm: json['lotSqm'] == null ? null : json['lotSqm'] as int,
-      floor: json['floor'] as int,
+      floor: json['floor'] == null ? null : json['floor'] as int,
       totalFloors: json['totalFloors'] as int,
       redevelopment:
           json['redevelopment'] == null ? null : json['redevelopment'] as bool,
@@ -298,6 +301,7 @@ class Post {
   }
 
   Map<String, dynamic> toJson() => {
+        'active': active,
         'userType': userType.toString().replaceAll('UserType.', ''),
         'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
@@ -358,6 +362,7 @@ class Post {
       };
 
   Post copyWith({
+    bool? active,
     UserType? userType,
     EstateType? estateType,
     ApartmentType? apartmentType,
@@ -415,6 +420,7 @@ class Post {
   }) {
     return Post(
       id: id,
+      active: active ?? this.active,
       userType: userType ?? this.userType,
       estateType: estateType ?? this.estateType,
       apartmentType: (estateType ?? this.estateType) == EstateType.house

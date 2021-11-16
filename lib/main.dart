@@ -7,6 +7,7 @@ import './providers/localities.dart';
 import './providers/posts.dart';
 import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
+import './screens/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/verification_screen.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
             VerificationScreen.routeName: (ctx) => const VerificationScreen(),
             AuthScreen.routeName: (ctx) => const AuthScreen(),
             EditPostScreen.routeName: (ctx) => const EditPostScreen(),
+            FiltersScreen.routeName: (ctx) => const FiltersScreen(),
           },
         ),
       ),

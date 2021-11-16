@@ -25,31 +25,6 @@ class EditPostScreen extends StatefulWidget {
 }
 
 class _EditPostScreenState extends State<EditPostScreen> {
-  Post post = Post(
-    id: 0,
-    userType: UserType.owner,
-    estateType: EstateType.house,
-    dealType: DealType.sale,
-    location: [],
-    city: null,
-    district: null,
-    address: '',
-    sqm: 0,
-    renovation: Renovation.cosmetic,
-    price: 0,
-    rooms: 0,
-    images: [],
-    description: '',
-    contact: '',
-    username: '',
-  );
-
-  void updatePost(Post value) {
-    setState(() {
-      post = value;
-    });
-  }
-
   void _prevStep(Post? postData) {
     if ((postData?.step ?? 0) == 0) {
       Navigator.of(context).pop();
@@ -94,7 +69,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final postData = Provider.of<Posts>(context, listen: true).postData;
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: post.step != 1 && post.step != 4,
+      resizeToAvoidBottomInset: postData?.step != 1 && postData?.step != 4,
       appBar: AppBar(
         title: Row(),
         leading: Navigator.canPop(context)
@@ -107,11 +82,14 @@ class _EditPostScreenState extends State<EditPostScreen> {
             : null,
       ),
       body: SafeArea(
-        child: Container(
-          constraints: BoxConstraints(
-            minHeight: SizeConfig.safeBlockVertical * 100.0,
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Container(
+            constraints: BoxConstraints(
+              minHeight: SizeConfig.safeBlockVertical * 100.0,
+            ),
+            child: getStepWidget(postData),
           ),
-          child: getStepWidget(postData),
         ),
       ),
     );

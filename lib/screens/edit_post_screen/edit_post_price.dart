@@ -74,7 +74,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
           prepayment: _prepayment,
           municipalServicesIncluded: _municipalServicesIncluded,
           lastStep: 6,
-          step: 7,
+          step: _goToNextStep ? 7 : 5,
         ),
         notify: notify);
   }

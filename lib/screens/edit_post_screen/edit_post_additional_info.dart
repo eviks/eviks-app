@@ -125,7 +125,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
           pool: _pool,
           bathhouse: _bathhouse,
           lastStep: 4,
-          step: 5,
+          step: _goToNextStep ? 5 : 3,
         ),
         notify: notify);
   }

@@ -26,6 +26,7 @@ class Posts with ChangeNotifier {
   void initNewPost() {
     _postData = Post(
       id: 0,
+      active: true,
       userType: UserType.owner,
       estateType: EstateType.house,
       dealType: DealType.sale,
