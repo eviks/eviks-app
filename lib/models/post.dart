@@ -144,6 +144,7 @@ class Post {
   final bool? municipalServicesIncluded;
   final String contact;
   final String username;
+  final DateTime updatedAt;
   final int step;
   final int? lastStep;
 
@@ -202,6 +203,7 @@ class Post {
     this.municipalServicesIncluded,
     required this.contact,
     required this.username,
+    required this.updatedAt,
     this.step = 0,
     this.lastStep,
   });
@@ -297,6 +299,7 @@ class Post {
           : json['municipalServicesIncluded'] as bool,
       contact: json['contact'] as String,
       username: json['username'] as String,
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
   }
 
@@ -415,6 +418,7 @@ class Post {
     bool? municipalServicesIncluded,
     String? contact,
     String? username,
+    DateTime? updatedAt,
     int? step,
     int? lastStep,
   }) {
@@ -495,6 +499,7 @@ class Post {
           : municipalServicesIncluded ?? this.municipalServicesIncluded,
       contact: contact ?? this.contact,
       username: username ?? this.username,
+      updatedAt: updatedAt ?? this.updatedAt,
       step: step ?? this.step,
       lastStep:
           lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),

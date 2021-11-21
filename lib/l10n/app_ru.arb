@@ -116,5 +116,7 @@
     "submitPost": "Разместить объявление",
     "contactTitle": "Контактные данные",
     "postAlmostCreated": "Почти готово!",
-    "postAlmostCreatedHint": "Осталось ввести ваши контактные данные"
+    "postAlmostCreatedHint": "Осталось ввести ваши контактные данные",
+    "showPosts": "Показать объявления",
+    "filters": "Фильтры"
 }

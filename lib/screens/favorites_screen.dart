@@ -36,12 +36,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
 
     if (ids.isNotEmpty) {
-      final Map<String, dynamic> conditions = {'ids': ids.join(',')};
+      final Map<String, dynamic> _queryParameters = {'ids': ids.join(',')};
 
       String _errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       await Provider.of<Posts>(context, listen: false)
-          .fetchAndSetPosts(conditions);
+          .fetchAndSetPosts(queryParameters: _queryParameters);
       try {} on Failure catch (error) {
         if (error.statusCode >= 500) {
           _errorMessage = AppLocalizations.of(context)!.serverError;

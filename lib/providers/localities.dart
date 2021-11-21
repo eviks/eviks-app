@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/address.dart';
+import '../models/address_not_found.dart';
 import '../models/failure.dart';
 import '../models/settlement.dart';
 
@@ -60,6 +61,10 @@ class Localities with ChangeNotifier {
             address = addressComponent['name'] as String;
           }
         });
+      }
+
+      if (cityName.isEmpty) {
+        throw AddressNotFound();
       }
 
       Settlement city;

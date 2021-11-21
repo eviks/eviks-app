@@ -5,15 +5,16 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 import '../models/failure.dart';
-
+import '../models/filters.dart';
 import '../models/post.dart';
 
 class Posts with ChangeNotifier {
   String token;
   List<Post> _posts;
   Post? _postData;
+  Filters? _filters;
 
-  Posts(this.token, this._posts, this._postData);
+  Posts(this.token, this._posts, this._postData, this._filters);
 
   List<Post> get posts {
     return [..._posts];
@@ -21,6 +22,10 @@ class Posts with ChangeNotifier {
 
   Post? get postData {
     return _postData;
+  }
+
+  Filters? get filters {
+    return _filters;
   }
 
   void initNewPost() {
@@ -42,6 +47,7 @@ class Posts with ChangeNotifier {
       description: '',
       contact: '',
       username: '',
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -52,15 +58,28 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetPosts(Map<String, dynamic> queryParameters) async {
-    queryParameters['limit'] = '15';
+  void updateFilters(Filters value) {
+    _filters = value;
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetPosts({Map<String, dynamic>? queryParameters}) async {
+    Map<String, dynamic> _parameters;
+
+    if (queryParameters == null) {
+      _parameters = _filters?.toQueryParameters() ?? {};
+    } else {
+      _parameters = queryParameters;
+    }
+
+    _parameters['limit'] = '15';
 
     final url = Uri(
         scheme: 'http',
         host: '192.168.1.9',
         port: 5000,
         path: 'api/posts',
-        queryParameters: queryParameters);
+        queryParameters: _parameters);
 
     try {
       final response = await http.get(url);

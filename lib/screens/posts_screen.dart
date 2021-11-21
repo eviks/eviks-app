@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../models/failure.dart';
 import '../providers/posts.dart';
-import '../screens/filters_screen.dart';
 import '../widgets/post_item.dart';
+import './filters_screen/filters_screen.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -24,28 +24,29 @@ class _PostScreenState extends State<PostScreen> {
       setState(() {
         _isLoading = true;
       });
-    }
 
-    String _errorMessage = '';
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    await Provider.of<Posts>(context, listen: false).fetchAndSetPosts({});
-    try {} on Failure catch (error) {
-      if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
-      } else {
-        _errorMessage = AppLocalizations.of(context)!.networkError;
+      String _errorMessage = '';
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      try {
+        await Provider.of<Posts>(context, listen: false).fetchAndSetPosts();
+      } on Failure catch (error) {
+        if (error.statusCode >= 500) {
+          _errorMessage = AppLocalizations.of(context)!.serverError;
+        } else {
+          _errorMessage = AppLocalizations.of(context)!.networkError;
+        }
+      } catch (error) {
+        _errorMessage = AppLocalizations.of(context)!.unknownError;
       }
-    } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
-    }
 
-    if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
-    }
+      if (_errorMessage.isNotEmpty) {
+        displayErrorMessage(context, _errorMessage);
+      }
 
-    setState(() {
-      _isLoading = false;
-    });
+      setState(() {
+        _isLoading = false;
+      });
+    }
 
     _isInit = false;
     super.didChangeDependencies();
@@ -53,7 +54,7 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postsData = Provider.of<Posts>(context, listen: false);
+    final postsData = Provider.of<Posts>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         leading: Navigator.canPop(context)
@@ -68,7 +69,7 @@ class _PostScreenState extends State<PostScreen> {
           TextButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(FiltersScreen.routeName),
-            child: const Text('Filters'),
+            child: Text(AppLocalizations.of(context)!.filters),
           ),
         ],
         title: Row(

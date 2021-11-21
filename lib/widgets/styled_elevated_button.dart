@@ -58,6 +58,7 @@ class StyledElevatedButton extends StatelessWidget {
                 children: [
                   Text(
                     text,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: !secondary
                           ? Theme.of(context).backgroundColor
@@ -70,12 +71,13 @@ class StyledElevatedButton extends StatelessWidget {
                     const SizedBox(
                       width: 8.0,
                     ),
-                  Icon(
-                    suffixIcon,
-                    color: !secondary
-                        ? Theme.of(context).backgroundColor
-                        : Theme.of(context).primaryColor,
-                  )
+                  if (suffixIcon != null)
+                    Icon(
+                      suffixIcon,
+                      color: !secondary
+                          ? Theme.of(context).backgroundColor
+                          : Theme.of(context).primaryColor,
+                    )
                 ],
               ),
       ),

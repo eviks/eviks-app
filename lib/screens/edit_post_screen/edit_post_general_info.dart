@@ -131,7 +131,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                         onSaved: (value) {
                           _estateType = value;
                         },
-                        onPressed: (EstateType value) {
+                        onPressed: (EstateType? value) {
                           setState(() {
                             _isApartment = value == EstateType.apartment;
                           });

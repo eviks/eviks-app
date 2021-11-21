@@ -116,5 +116,7 @@
     "submitPost": "Elanı vermək",
     "contactTitle": "Əlaqə məlumat",
     "postAlmostCreated": "Demək olar ki, hazırdır!",
-    "postAlmostCreatedHint": "Ancaq əlaqə məlumatlarınızı daxil etmək qalır"
+    "postAlmostCreatedHint": "Ancaq əlaqə məlumatlarınızı daxil etmək qalır",
+    "showPosts": "Elanları göstərmək",
+    "filters": "Filterlər"
 }

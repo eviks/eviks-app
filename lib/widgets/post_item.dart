@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,6 +24,9 @@ class PostItem extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.portrait
             ? 30.0
             : 50.0;
+
+    final dateFormatter = DateFormat(
+        'dd MMMM yyyy HH:mm', Localizations.localeOf(context).languageCode);
 
     SizeConfig().init(context);
     return GestureDetector(
@@ -65,7 +69,7 @@ class PostItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        post.district?.name ?? '',
+                        post.subdistrict?.name ?? post.district?.name ?? '',
                         style: const TextStyle(fontSize: 24.0),
                       ),
                     ],
@@ -108,7 +112,7 @@ class PostItem extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        '20.06.2021',
+                        dateFormatter.format(post.updatedAt),
                         style:
                             TextStyle(color: Theme.of(context).disabledColor),
                       ),

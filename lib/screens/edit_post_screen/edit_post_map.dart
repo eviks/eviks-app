@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eviks_mobile/models/address_not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -131,6 +132,8 @@ class _EditPostMapState extends State<EditPostMap> {
         _address = response['address'] as String;
         _controller.value = TextEditingValue(text: _address ?? '');
       });
+    } on AddressNotFound {
+      // no user notification
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
         _errorMessage = AppLocalizations.of(context)!.serverError;
