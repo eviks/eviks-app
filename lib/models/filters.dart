@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/models/post.dart';
 
 class Filters {
+  DealType? dealType;
   EstateType? estateType;
   ApartmentType? apartmentType;
   int? priceMin;
@@ -9,6 +10,7 @@ class Filters {
   int? roomsMax;
 
   Filters({
+    this.dealType,
     this.estateType,
     this.apartmentType,
     this.priceMin,
@@ -18,6 +20,7 @@ class Filters {
   });
 
   Map<String, dynamic> toQueryParameters() => {
+        'dealType': dealType?.toString().replaceAll('DealType.', ''),
         'estateType': estateType?.toString().replaceAll('EstateType.', ''),
         'apartmentType':
             apartmentType?.toString().replaceAll('ApartmentType.', ''),

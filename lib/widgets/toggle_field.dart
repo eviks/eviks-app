@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/widgets/sized_config.dart';
 import 'package:flutter/material.dart';
 
 class ToggleField<EnumType> extends StatefulWidget {
@@ -8,6 +9,7 @@ class ToggleField<EnumType> extends StatefulWidget {
   final Function? onPressed;
   final Axis direction;
   final EnumType? initialValue;
+  final List<IconData>? icons;
 
   const ToggleField({
     Key? key,
@@ -18,6 +20,7 @@ class ToggleField<EnumType> extends StatefulWidget {
     this.onPressed,
     this.direction = Axis.horizontal,
     this.initialValue,
+    this.icons,
   }) : super(key: key);
 
   @override
@@ -52,13 +55,13 @@ class _ToggleFieldState extends State<ToggleField> {
           height: 2.0,
         ),
         SizedBox(
-          width: widget.direction == Axis.vertical
-              ? double.infinity
-              : double.infinity,
+          width: widget.direction == Axis.vertical ? double.infinity : null,
           child: ToggleButtons(
             direction: widget.direction,
-            borderRadius: BorderRadius.circular(10.0),
             isSelected: _selections,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(8.0),
+            ),
             onPressed: (int newIndex) {
               var _unselected = false;
               setState(() {
@@ -76,12 +79,31 @@ class _ToggleFieldState extends State<ToggleField> {
                   ?.didChange(_unselected ? null : widget.values[newIndex]);
             },
             children: widget.values
+                .asMap()
+                .entries
                 .map<Widget>(
-                  (value) => Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 18.0),
-                    child:
-                        Text(widget.getDescription(value, context) as String),
+                  (element) => SizedBox(
+                    width: SizeConfig.safeBlockHorizontal *
+                        (widget.direction == Axis.horizontal ? 25.0 : 100.0),
+                    height: SizeConfig.safeBlockVertical *
+                        (widget.direction == Axis.horizontal ? 16.0 : 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.icons != null)
+                          Icon(widget.icons?[element.key]),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        Flexible(
+                          child: Text(
+                            widget.getDescription(element.value, context)
+                                as String,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
                 .toList(),
@@ -110,6 +132,7 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
     Function? onPressed,
     Axis direction = Axis.horizontal,
     EnumType? initialValue,
+    List<IconData>? icons,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -124,6 +147,7 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
                 onPressed: onPressed,
                 direction: direction,
                 initialValue: initialValue,
+                icons: icons,
               );
             });
 }

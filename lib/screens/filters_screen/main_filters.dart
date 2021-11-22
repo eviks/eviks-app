@@ -31,7 +31,25 @@ class _MainFiltersState extends State<MainFilters> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ToggleFormField<EstateType>(
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ToggleFormField<DealType>(
+            values: DealType.values,
+            initialValue: widget.filters.dealType,
+            getDescription: dealTypeDescription,
+            onPressed: (DealType? value) {
+              widget.filters.dealType = value;
+            },
+            icons: const [
+              CustomIcons.sale,
+              CustomIcons.rent,
+              CustomIcons.rentperday,
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ToggleFormField<EstateType>(
             values: EstateType.values,
             initialValue: widget.filters.estateType,
             getDescription: estateTypeDescription,
@@ -43,16 +61,27 @@ class _MainFiltersState extends State<MainFilters> {
               setState(() {
                 _isApartment = value == EstateType.apartment;
               });
-            }),
+            },
+            icons: const [
+              CustomIcons.apartment,
+              CustomIcons.house,
+            ],
+          ),
+        ),
         Visibility(
           visible: _isApartment,
           child: ToggleFormField<ApartmentType>(
-              values: ApartmentType.values,
-              initialValue: widget.filters.apartmentType,
-              getDescription: apartmentTypeDescription,
-              onPressed: (ApartmentType? value) {
-                widget.filters.apartmentType = value;
-              }),
+            values: ApartmentType.values,
+            initialValue: widget.filters.apartmentType,
+            getDescription: apartmentTypeDescription,
+            onPressed: (ApartmentType? value) {
+              widget.filters.apartmentType = value;
+            },
+            icons: const [
+              CustomIcons.newbuilding,
+              CustomIcons.secondarybuilding,
+            ],
+          ),
         ),
         const SizedBox(
           height: 16.0,

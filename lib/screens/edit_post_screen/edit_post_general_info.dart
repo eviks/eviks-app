@@ -89,9 +89,8 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.safeBlockHorizontal * 20.0,
-                vertical: 32.0),
+            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 4.0,
+                8.0, SizeConfig.safeBlockHorizontal * 4.0, 32.0),
             child: Center(
               child: Form(
                 key: _formKey,
@@ -103,21 +102,31 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                       title: AppLocalizations.of(context)!.generalInfo,
                       icon: CustomIcons.information,
                     ),
-                    ToggleFormField<UserType>(
-                      title: AppLocalizations.of(context)!.userTypeTitle,
-                      values: UserType.values,
-                      initialValue: _userType,
-                      getDescription: userTypeDescription,
-                      validator: (value) {
-                        if (value == null) {
-                          return AppLocalizations.of(context)!.fieldIsRequired;
-                        }
-                      },
-                      onSaved: (value) {
-                        _userType = value;
-                      },
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleFormField<UserType>(
+                        title: AppLocalizations.of(context)!.userTypeTitle,
+                        values: UserType.values,
+                        initialValue: _userType,
+                        getDescription: userTypeDescription,
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)!
+                                .fieldIsRequired;
+                          }
+                        },
+                        onSaved: (value) {
+                          _userType = value;
+                        },
+                        icons: const [
+                          CustomIcons.user,
+                          CustomIcons.agent,
+                        ],
+                      ),
                     ),
-                    ToggleFormField<EstateType>(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleFormField<EstateType>(
                         title: AppLocalizations.of(context)!.estateTypeTitle,
                         values: EstateType.values,
                         initialValue: _estateType,
@@ -135,39 +144,62 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                           setState(() {
                             _isApartment = value == EstateType.apartment;
                           });
-                        }),
+                        },
+                        icons: const [
+                          CustomIcons.apartment,
+                          CustomIcons.house,
+                        ],
+                      ),
+                    ),
                     Visibility(
                       visible: _isApartment,
-                      child: ToggleFormField<ApartmentType>(
-                        title: AppLocalizations.of(context)!.apartmentTypeTitle,
-                        values: ApartmentType.values,
-                        initialValue: _apartmentType,
-                        getDescription: apartmentTypeDescription,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ToggleFormField<ApartmentType>(
+                          title:
+                              AppLocalizations.of(context)!.apartmentTypeTitle,
+                          values: ApartmentType.values,
+                          initialValue: _apartmentType,
+                          getDescription: apartmentTypeDescription,
+                          validator: (value) {
+                            if (_estateType == EstateType.apartment &&
+                                value == null) {
+                              return AppLocalizations.of(context)!
+                                  .fieldIsRequired;
+                            }
+                          },
+                          onSaved: (value) {
+                            _apartmentType = value;
+                          },
+                          icons: const [
+                            CustomIcons.newbuilding,
+                            CustomIcons.secondarybuilding,
+                          ],
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ToggleFormField<DealType>(
+                        title: AppLocalizations.of(context)!.dealTypeTitle,
+                        values: DealType.values,
+                        initialValue: _dealType,
+                        getDescription: dealTypeDescription,
                         validator: (value) {
-                          if (_estateType == EstateType.apartment &&
-                              value == null) {
+                          if (value == null) {
                             return AppLocalizations.of(context)!
                                 .fieldIsRequired;
                           }
                         },
                         onSaved: (value) {
-                          _apartmentType = value;
+                          _dealType = value;
                         },
+                        icons: const [
+                          CustomIcons.sale,
+                          CustomIcons.rent,
+                          CustomIcons.rentperday,
+                        ],
                       ),
-                    ),
-                    ToggleFormField<DealType>(
-                      title: AppLocalizations.of(context)!.dealTypeTitle,
-                      values: DealType.values,
-                      initialValue: _dealType,
-                      getDescription: dealTypeDescription,
-                      validator: (value) {
-                        if (value == null) {
-                          return AppLocalizations.of(context)!.fieldIsRequired;
-                        }
-                      },
-                      onSaved: (value) {
-                        _dealType = value;
-                      },
                     ),
                     const SizedBox(
                       height: 32.0,

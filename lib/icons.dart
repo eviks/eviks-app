@@ -48,99 +48,99 @@ class CustomIcons {
     0xe806,
     fontFamily: _kFontFam,
   );
-  static const IconData close = IconData(
+  static const IconData checked = IconData(
     0xe807,
     fontFamily: _kFontFam,
   );
-  static const IconData conditioner = IconData(
+  static const IconData close = IconData(
     0xe808,
     fontFamily: _kFontFam,
   );
-  static const IconData dishwasher = IconData(
+  static const IconData conditioner = IconData(
     0xe809,
     fontFamily: _kFontFam,
   );
-  static const IconData document = IconData(
+  static const IconData dishwasher = IconData(
     0xe80a,
     fontFamily: _kFontFam,
   );
-  static const IconData door = IconData(
+  static const IconData document = IconData(
     0xe80b,
     fontFamily: _kFontFam,
   );
-  static const IconData electricity = IconData(
+  static const IconData door = IconData(
     0xe80c,
     fontFamily: _kFontFam,
   );
-  static const IconData elevator = IconData(
+  static const IconData electricity = IconData(
     0xe80d,
     fontFamily: _kFontFam,
   );
-  static const IconData email = IconData(
+  static const IconData elevator = IconData(
     0xe80e,
     fontFamily: _kFontFam,
   );
-  static const IconData furniture = IconData(
+  static const IconData email = IconData(
     0xe80f,
     fontFamily: _kFontFam,
   );
-  static const IconData garage = IconData(
+  static const IconData furniture = IconData(
     0xe810,
     fontFamily: _kFontFam,
   );
-  static const IconData garbage = IconData(
+  static const IconData garage = IconData(
     0xe811,
     fontFamily: _kFontFam,
   );
-  static const IconData garden = IconData(
+  static const IconData garbage = IconData(
     0xe812,
     fontFamily: _kFontFam,
   );
-  static const IconData gas = IconData(
+  static const IconData garden = IconData(
     0xe813,
     fontFamily: _kFontFam,
   );
-  static const IconData hammer = IconData(
+  static const IconData gas = IconData(
     0xe814,
     fontFamily: _kFontFam,
   );
-  static const IconData heart = IconData(
+  static const IconData hammer = IconData(
     0xe815,
     fontFamily: _kFontFam,
   );
-  static const IconData heat = IconData(
+  static const IconData heart = IconData(
     0xe816,
     fontFamily: _kFontFam,
   );
-  static const IconData house = IconData(
+  static const IconData heat = IconData(
     0xe817,
     fontFamily: _kFontFam,
   );
-  static const IconData image = IconData(
+  static const IconData house = IconData(
     0xe818,
     fontFamily: _kFontFam,
   );
-  static const IconData information = IconData(
+  static const IconData image = IconData(
     0xe819,
     fontFamily: _kFontFam,
   );
-  static const IconData internet = IconData(
+  static const IconData information = IconData(
     0xe81a,
     fontFamily: _kFontFam,
   );
-  static const IconData kids = IconData(
+  static const IconData internet = IconData(
     0xe81b,
     fontFamily: _kFontFam,
   );
-  static const IconData kitchenfurniture = IconData(
+  static const IconData kids = IconData(
     0xe81c,
     fontFamily: _kFontFam,
   );
-  static const IconData logo = IconData(
+  static const IconData kitchenfurniture = IconData(
     0xe81d,
     fontFamily: _kFontFam,
   );
-  static const IconData marker = IconData(
+  static const IconData logo = IconData(
     0xe81e,
     fontFamily: _kFontFam,
   );
@@ -148,80 +148,104 @@ class CustomIcons {
     0xe81f,
     fontFamily: _kFontFam,
   );
-  static const IconData next = IconData(
+  static const IconData marker = IconData(
     0xe820,
     fontFamily: _kFontFam,
   );
-  static const IconData parkinglot = IconData(
+  static const IconData money = IconData(
     0xe821,
     fontFamily: _kFontFam,
   );
-  static const IconData password = IconData(
+  static const IconData newbuilding = IconData(
     0xe822,
     fontFamily: _kFontFam,
   );
-  static const IconData pets = IconData(
+  static const IconData next = IconData(
     0xe823,
     fontFamily: _kFontFam,
   );
-  static const IconData phone = IconData(
+  static const IconData parkinglot = IconData(
     0xe824,
     fontFamily: _kFontFam,
   );
-  static const IconData plus = IconData(
+  static const IconData password = IconData(
     0xe825,
     fontFamily: _kFontFam,
   );
-  static const IconData pool = IconData(
+  static const IconData pets = IconData(
     0xe826,
     fontFamily: _kFontFam,
   );
-  static const IconData refrigerator = IconData(
+  static const IconData phone = IconData(
     0xe827,
     fontFamily: _kFontFam,
   );
-  static const IconData search = IconData(
+  static const IconData phonering = IconData(
     0xe828,
     fontFamily: _kFontFam,
   );
-  static const IconData settings = IconData(
+  static const IconData plus = IconData(
     0xe829,
     fontFamily: _kFontFam,
   );
-  static const IconData sqm = IconData(
+  static const IconData pool = IconData(
     0xe82a,
     fontFamily: _kFontFam,
   );
-  static const IconData tv = IconData(
+  static const IconData refrigerator = IconData(
     0xe82b,
     fontFamily: _kFontFam,
   );
-  static const IconData user = IconData(
+  static const IconData rent = IconData(
     0xe82c,
     fontFamily: _kFontFam,
   );
-  static const IconData wallet = IconData(
+  static const IconData rentperday = IconData(
     0xe82d,
     fontFamily: _kFontFam,
   );
-  static const IconData washingmachine = IconData(
+  static const IconData sale = IconData(
     0xe82e,
     fontFamily: _kFontFam,
   );
-  static const IconData water = IconData(
+  static const IconData search = IconData(
     0xe82f,
     fontFamily: _kFontFam,
   );
-  static const IconData money = IconData(
+  static const IconData secondarybuilding = IconData(
     0xe830,
     fontFamily: _kFontFam,
   );
-  static const IconData checked = IconData(
+  static const IconData settings = IconData(
     0xe831,
     fontFamily: _kFontFam,
   );
-  static const IconData phonering = IconData(
+  static const IconData sqm = IconData(
     0xe832,
+    fontFamily: _kFontFam,
+  );
+  static const IconData tv = IconData(
+    0xe833,
+    fontFamily: _kFontFam,
+  );
+  static const IconData user = IconData(
+    0xe834,
+    fontFamily: _kFontFam,
+  );
+  static const IconData wallet = IconData(
+    0xe835,
+    fontFamily: _kFontFam,
+  );
+  static const IconData washingmachine = IconData(
+    0xe836,
+    fontFamily: _kFontFam,
+  );
+  static const IconData water = IconData(
+    0xe837,
+    fontFamily: _kFontFam,
+  );
+  static const IconData agent = IconData(
+    0xe838,
     fontFamily: _kFontFam,
   );
 }
