@@ -1,6 +1,11 @@
 import 'package:eviks_mobile/models/post.dart';
 
+import './settlement.dart';
+
 class Filters {
+  Settlement city;
+  List<Settlement>? distrcit;
+  List<Settlement>? subdistrcit;
   DealType? dealType;
   EstateType? estateType;
   ApartmentType? apartmentType;
@@ -10,6 +15,9 @@ class Filters {
   int? roomsMax;
 
   Filters({
+    required this.city,
+    this.distrcit,
+    this.subdistrcit,
     this.dealType,
     this.estateType,
     this.apartmentType,
@@ -20,6 +28,7 @@ class Filters {
   });
 
   Map<String, dynamic> toQueryParameters() => {
+        'cityId': city.id,
         'dealType': dealType?.toString().replaceAll('DealType.', ''),
         'estateType': estateType?.toString().replaceAll('EstateType.', ''),
         'apartmentType':

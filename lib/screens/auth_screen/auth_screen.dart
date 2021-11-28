@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -33,86 +34,110 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Container(
           color: Theme.of(context).primaryColor,
           width: double.infinity,
-          child: Column(
-            children: [
-              CustomPaint(
-                painter: Background(Theme.of(context).primaryColor),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: SizeConfig.safeBlockVertical * 30.0,
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          child: SafeArea(
+            child: Column(
+              children: [
+                CustomPaint(
+                  painter: Background(Theme.of(context).primaryColor),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: SizeConfig.safeBlockVertical * 30.0,
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
-                              _authMode == AuthMode.login
-                                  ? AppLocalizations.of(context)!.signInTitle
-                                  : AppLocalizations.of(context)!.signUpTitle,
-                              style: TextStyle(
+                            IconButton(
+                              icon: Icon(
+                                CustomIcons.close,
                                 color: Theme.of(context).backgroundColor,
-                                fontSize: 32.0,
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Text(
-                              _authMode == AuthMode.login
-                                  ? AppLocalizations.of(context)!.signInSubtitle
-                                  : AppLocalizations.of(context)!
-                                      .signUpSubtitle,
-                              style: TextStyle(
-                                color: Theme.of(context).backgroundColor,
-                                fontSize: 18.0,
-                              ),
+                              onPressed: () {
+                                print('123');
+                                Navigator.of(context).pop();
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Image.asset(
-                            "assets/img/illustrations/auth.png",
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _authMode == AuthMode.login
+                                    ? AppLocalizations.of(context)!.signInTitle
+                                    : AppLocalizations.of(context)!.signUpTitle,
+                                style: TextStyle(
+                                  color: Theme.of(context).backgroundColor,
+                                  fontSize: 32.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                _authMode == AuthMode.login
+                                    ? AppLocalizations.of(context)!
+                                        .signInSubtitle
+                                    : AppLocalizations.of(context)!
+                                        .signUpSubtitle,
+                                style: TextStyle(
+                                  color: Theme.of(context).backgroundColor,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        Visibility(
+                          visible: MediaQuery.of(context).orientation ==
+                              Orientation.portrait,
+                          child: IgnorePointer(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Image.asset(
+                                  "assets/img/illustrations/auth.png",
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  constraints: BoxConstraints(
-                      minHeight: SizeConfig.safeBlockVertical * 70.0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(
-                          50.0,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minHeight: SizeConfig.safeBlockVertical * 70.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(
+                            50.0,
+                          ),
+                          topRight: Radius.circular(
+                            50.0,
+                          )),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(
+                            32.0,
+                          ),
+                          child: _authMode == AuthMode.login
+                              ? LoginForm(switchAuthMode)
+                              : RegisterForm(switchAuthMode),
                         ),
-                        topRight: Radius.circular(
-                          50.0,
-                        )),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(
-                          32.0,
-                        ),
-                        child: _authMode == AuthMode.login
-                            ? LoginForm(switchAuthMode)
-                            : RegisterForm(switchAuthMode),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

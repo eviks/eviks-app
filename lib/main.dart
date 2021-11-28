@@ -1,8 +1,9 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './models/filters.dart';
+import './constants.dart';
 import './providers/auth.dart';
 import './providers/localities.dart';
 import './providers/posts.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Posts>(
-          create: (ctx) => Posts('', [], null, Filters()),
+          create: (ctx) => Posts('', [], null, null),
           update: (ctx, auth, previousPosts) => Posts(
             auth.token,
             previousPosts == null ? [] : previousPosts.posts,
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Eviks',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -49,7 +51,33 @@ class MyApp extends StatelessWidget {
                   builder: (ctx, authResultSnapshot) =>
                       authResultSnapshot.connectionState ==
                               ConnectionState.waiting
-                          ? const Text('Loading...')
+                          ? Scaffold(
+                              backgroundColor: primaryColor,
+                              body: SizedBox(
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      CustomIcons.logo,
+                                      color: lightColor,
+                                      size: 52.0,
+                                    ),
+                                    SizedBox(
+                                      height: 4.0,
+                                    ),
+                                    Text(
+                                      'Eviks',
+                                      style: TextStyle(
+                                        color: lightColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 32.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           : TabsScreen(),
                 ),
           routes: {

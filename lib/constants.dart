@@ -45,3 +45,15 @@ void displayErrorMessage(BuildContext context, String mesaage) {
   );
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
+
+String removeAzerbaijaniChars(String value) {
+  String newValue = value;
+  newValue = newValue.replaceAll(RegExp('ç', caseSensitive: false), 'c');
+  newValue = newValue.replaceAll(RegExp('ə', caseSensitive: false), 'e');
+  newValue = newValue.replaceAll(RegExp('ğ', caseSensitive: false), 'g');
+  newValue = newValue.replaceAll(RegExp('ı', caseSensitive: false), 'i');
+  newValue = newValue.replaceAll(RegExp('ö', caseSensitive: false), 'o');
+  newValue = newValue.replaceAll(RegExp('ş', caseSensitive: false), 's');
+  newValue = newValue.replaceAll(RegExp('ü', caseSensitive: false), 'u');
+  return newValue;
+}

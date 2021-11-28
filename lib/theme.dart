@@ -41,7 +41,6 @@ ThemeData lightThemeData(BuildContext context) {
           width: 2.0,
         ),
       ),
-      fillColor: lightGreyColor,
       errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: primaryColor, width: 2.0),
       ),
@@ -65,7 +64,8 @@ ThemeData lightThemeData(BuildContext context) {
       behavior: SnackBarBehavior.floating,
     ),
     toggleButtonsTheme: const ToggleButtonsThemeData(
-      selectedColor: primaryColor,
+      selectedColor: lightColor,
+      fillColor: primaryColor,
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateColor.resolveWith((states) {
@@ -105,6 +105,7 @@ ThemeData darkThemeData(BuildContext context) {
     scaffoldBackgroundColor: darkColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: darkColor,
+      shadowColor: Colors.transparent,
       centerTitle: true,
     ),
     iconTheme: const IconThemeData(color: lightGreyColor),
@@ -158,8 +159,10 @@ ThemeData darkThemeData(BuildContext context) {
       behavior: SnackBarBehavior.floating,
     ),
     toggleButtonsTheme: const ToggleButtonsThemeData(
-      selectedColor: lightPrimaryColor,
+      selectedColor: lightGreyColor,
       color: lightGreyColor,
+      fillColor: lightPrimaryColor,
+      borderColor: darkGreyColor,
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateColor.resolveWith((states) {

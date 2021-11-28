@@ -7,6 +7,7 @@ import '../constants.dart';
 import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
+import '../widgets/sized_config.dart';
 import './filters_screen/filters_screen.dart';
 
 class PostScreen extends StatefulWidget {
@@ -57,14 +58,6 @@ class _PostScreenState extends State<PostScreen> {
     final postsData = Provider.of<Posts>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(CustomIcons.back),
-              )
-            : null,
         actions: [
           TextButton(
             onPressed: () =>
@@ -90,14 +83,56 @@ class _PostScreenState extends State<PostScreen> {
           ? (const Center(
               child: CircularProgressIndicator(),
             ))
-          : (ListView.builder(
-              itemBuilder: (ctx, index) {
-                return PostItem(
-                  post: postsData.posts[index],
-                );
-              },
-              itemCount: postsData.posts.length,
-            )),
+          : postsData.posts.isEmpty
+              ? SingleChildScrollView(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical * 40.0,
+                            child: Image.asset(
+                              "assets/img/illustrations/no_result.png",
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.noResult,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.noResultHint,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).dividerColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : (ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    return PostItem(
+                      post: postsData.posts[index],
+                    );
+                  },
+                  itemCount: postsData.posts.length,
+                )),
     );
   }
 }

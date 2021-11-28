@@ -4,10 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/filters.dart';
+import '../../models/settlement.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../tabs_screen.dart';
+import './city_filter.dart';
 import './main_filters.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -25,8 +27,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   void initState() {
-    _filters = Provider.of<Posts>(context, listen: false).filters ?? Filters();
+    _filters = Provider.of<Posts>(context, listen: false).filters ??
+        Filters(
+          city: Settlement(id: '2', name: 'Bakı'),
+        );
     super.initState();
+  }
+
+  void _updateState() {
+    setState(() {});
   }
 
   void _setFilters() {
@@ -77,13 +86,18 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     SizeConfig.safeBlockHorizontal * 8.0,
                     8.0,
                     SizeConfig.safeBlockHorizontal * 8.0,
-                    32.0),
+                    64.0),
                 child: SingleChildScrollView(
                   child: Center(
                     child: Form(
                       key: _formKey,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          CityFilter(
+                            filters: _filters,
+                            updateState: _updateState,
+                          ),
                           MainFilters(
                             filters: _filters,
                           ),

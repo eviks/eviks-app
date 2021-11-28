@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import './styled_input.dart';
 
@@ -58,6 +59,7 @@ class RangeField extends StatelessWidget {
               validator: validatorFrom,
               onSaved: onSavedFrom,
               onChanged: onChangedFrom,
+              hintText: AppLocalizations.of(context)!.valueFrom,
             ),
           ),
         ),
@@ -79,6 +81,7 @@ class RangeField extends StatelessWidget {
               validator: validatorTo,
               onSaved: onSavedTo,
               onChanged: onChangedTo,
+              hintText: AppLocalizations.of(context)!.valueTo,
             ),
           ),
         ),

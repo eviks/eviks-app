@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
+import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import '../tabs_screen.dart';
 
@@ -104,30 +105,9 @@ class _LoginFormState extends State<LoginForm> {
               _authData['password'] = value ?? '';
             },
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 8.0,
-            ),
-            width: double.infinity,
-            height: 60.0,
-            child: ElevatedButton(
-              onPressed: _login,
-              child: _isLoading
-                  ? SizedBox(
-                      width: 24.0,
-                      height: 24.0,
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).backgroundColor,
-                      ),
-                    )
-                  : Text(
-                      AppLocalizations.of(context)!.loginButton,
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-            ),
+          StyledElevatedButton(
+            text: AppLocalizations.of(context)!.loginButton,
+            onPressed: _login,
           ),
           TextButton(
             onPressed: () {

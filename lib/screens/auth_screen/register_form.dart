@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
+import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import '../verification_screen.dart';
 
@@ -137,30 +138,9 @@ class _RegisterFormState extends State<RegisterForm> {
               _authData['password'] = value ?? '';
             },
           ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 8.0,
-            ),
-            width: double.infinity,
-            height: 60.0,
-            child: ElevatedButton(
-              onPressed: _register,
-              child: _isLoading
-                  ? SizedBox(
-                      width: 24.0,
-                      height: 24.0,
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).backgroundColor,
-                      ),
-                    )
-                  : Text(
-                      AppLocalizations.of(context)!.registerButton,
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-            ),
+          StyledElevatedButton(
+            text: AppLocalizations.of(context)!.registerButton,
+            onPressed: _register,
           ),
           TextButton(
             onPressed: () {

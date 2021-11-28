@@ -72,7 +72,8 @@ class Localities with ChangeNotifier {
       Settlement? subdistrict;
 
       // City
-      city = await getLocality({'name': cityName, 'type': '2'});
+      final result = await getLocalities({'name': cityName, 'type': '2'});
+      city = result[0];
 
       // District
       if (districtName.isNotEmpty) {
@@ -82,7 +83,8 @@ class Localities with ChangeNotifier {
 
       // Subdistrict
       if (subdistrictName.isNotEmpty && district != null) {
-        district = await getLocality({'id': district.id});
+        final result = await getLocalities({'id': district.id});
+        district = result[0];
         subdistrict = district.children
             ?.firstWhere((element) => element.name == subdistrictName);
       }
@@ -138,7 +140,8 @@ class Localities with ChangeNotifier {
     }
   }
 
-  Future<Settlement> getLocality(Map<String, dynamic> queryParameters) async {
+  Future<List<Settlement>> getLocalities(
+      Map<String, dynamic> queryParameters) async {
     final url = Uri(
         scheme: 'http',
         host: '192.168.1.9',
@@ -161,10 +164,11 @@ class Localities with ChangeNotifier {
         throw Failure(buffer.toString(), response.statusCode);
       }
 
-      final dynamic data = json.decode(response.body);
-      final settlement = Settlement.fromJson(data[0]);
+      final List data = json.decode(response.body) as List;
+      final settlements =
+          data.map((element) => Settlement.fromJson(element)).toList();
 
-      return settlement;
+      return settlements;
     } catch (error) {
       rethrow;
     }

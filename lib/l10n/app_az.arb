@@ -118,5 +118,12 @@
     "postAlmostCreated": "Demək olar ki, hazırdır!",
     "postAlmostCreatedHint": "Ancaq əlaqə məlumatlarınızı daxil etmək qalır",
     "showPosts": "Elanları göstərmək",
-    "filters": "Filterlər"
+    "filters": "Filterlər",
+    "valueFrom": "min.",
+    "valueTo": "maks.",
+    "city": "Şəhər",
+    "selectCity": "Şəhəri seçin",
+    "selectCityHint": "Şəhərin adını yazın",
+    "noResult": "Hmmm...Belə elanı hələ heç kim vermədi",
+    "noResultHint": "Bəlkə, filtrlərdə nə isə dəyişmək lazımdır?"
 }

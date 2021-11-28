@@ -118,5 +118,12 @@
     "postAlmostCreated": "Почти готово!",
     "postAlmostCreatedHint": "Осталось ввести ваши контактные данные",
     "showPosts": "Показать объявления",
-    "filters": "Фильтры"
+    "filters": "Фильтры",
+    "valueFrom": "от",
+    "valueTo": "до",
+    "city": "Город",
+    "selectCity": "Выберите город",
+    "selectCityHint": "Введите имя города",
+    "noResult": "Хммм...Таких объявлений еще никто не выложил",
+    "noResultHint": "Попробуйте поменять что-нибудь в фильтрах"
 }
