@@ -53,7 +53,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                 color: Theme.of(context).backgroundColor,
                               ),
                               onPressed: () {
-                                print('123');
                                 Navigator.of(context).pop();
                               },
                             ),

@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../constants.dart';
-import '../models/failure.dart';
-import '../models/settlement.dart';
-import '../providers/localities.dart';
+import '../../constants.dart';
+import '../../models/failure.dart';
+import '../../models/settlement.dart';
+import '../../providers/localities.dart';
 
-class SelectionScreen extends StatefulWidget {
-  const SelectionScreen({Key? key}) : super(key: key);
+class CitySelection extends StatefulWidget {
+  const CitySelection({Key? key}) : super(key: key);
 
   @override
-  _SelectionScreenState createState() => _SelectionScreenState();
+  _CitySelectionState createState() => _CitySelectionState();
 }
 
-class _SelectionScreenState extends State<SelectionScreen> {
+class _CitySelectionState extends State<CitySelection> {
   var _isInit = true;
   var _isLoading = false;
 
-  List<Settlement> settlements = [];
-  List<Settlement> filteredSettlements = [];
+  List<Settlement> _settlements = [];
+  List<Settlement> _filteredSettlements = [];
   late TextEditingController _controller;
 
   @override
@@ -36,8 +36,8 @@ class _SelectionScreenState extends State<SelectionScreen> {
         final result = await Provider.of<Localities>(context, listen: false)
             .getLocalities({'type': '2'});
         setState(() {
-          settlements = result;
-          filteredSettlements = result;
+          _settlements = result;
+          _filteredSettlements = result;
         });
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
@@ -114,13 +114,16 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     ),
                     onChanged: (String value) {
                       setState(() {
-                        filteredSettlements = settlements
-                            .where((element) =>
-                                removeAzerbaijaniChars(element.name)
-                                    .contains(RegExp(
+                        _filteredSettlements = _settlements
+                            .where(
+                              (element) =>
+                                  removeAzerbaijaniChars(element.name).contains(
+                                RegExp(
                                   removeAzerbaijaniChars(value),
                                   caseSensitive: false,
-                                )))
+                                ),
+                              ),
+                            )
                             .toList();
                       });
                     },
@@ -132,14 +135,15 @@ class _SelectionScreenState extends State<SelectionScreen> {
                     child: ListView.builder(
                       itemBuilder: (ctx, index) {
                         return ListTile(
-                          title: Text(filteredSettlements[index].name),
+                          key: Key(_filteredSettlements[index].id),
+                          title: Text(_filteredSettlements[index].name),
                           onTap: () {
                             Navigator.of(context)
-                                .pop(filteredSettlements[index]);
+                                .pop(_filteredSettlements[index]);
                           },
                         );
                       },
-                      itemCount: filteredSettlements.length,
+                      itemCount: _filteredSettlements.length,
                     ),
                   ),
                 ],

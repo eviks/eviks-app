@@ -141,13 +141,47 @@ class Localities with ChangeNotifier {
   }
 
   Future<List<Settlement>> getLocalities(
-      Map<String, dynamic> queryParameters) async {
+      Map<String, String> queryParameters) async {
     final url = Uri(
         scheme: 'http',
         host: '192.168.1.9',
         port: 5000,
         path: 'api/localities',
         queryParameters: queryParameters);
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final List data = json.decode(response.body) as List;
+      final settlements =
+          data.map((element) => Settlement.fromJson(element)).toList();
+
+      return settlements;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<List<Settlement>> getLocalitiesByIds(List<String> ids) async {
+    final url = Uri(
+      scheme: 'http',
+      host: '192.168.1.9',
+      port: 5000,
+      path: 'api/localities/getByIds',
+      queryParameters: {'ids': ids.join(',')},
+    );
 
     try {
       final response = await http.get(url);

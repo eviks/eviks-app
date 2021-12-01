@@ -10,6 +10,7 @@ import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../tabs_screen.dart';
 import './city_filter.dart';
+import './district_filter.dart';
 import './main_filters.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -29,7 +30,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
   void initState() {
     _filters = Provider.of<Posts>(context, listen: false).filters ??
         Filters(
-          city: Settlement(id: '2', name: 'Bakı'),
+          city: Settlement(id: '10', name: 'Bakı', children: [
+            Settlement(id: '117', name: 'Binəqədi'),
+            Settlement(id: '112', name: 'Nərimanov'),
+            Settlement(id: '111', name: 'Nəsimi'),
+            Settlement(id: '113', name: 'Nizami'),
+            Settlement(id: '122', name: 'Pirallahı'),
+            Settlement(id: '121', name: 'Qaradağ'),
+            Settlement(id: '118', name: 'Sabunçu'),
+            Settlement(id: '115', name: 'Səbail'),
+            Settlement(id: '119', name: 'Suraxanı'),
+            Settlement(id: '114', name: 'Xətai'),
+            Settlement(id: '120', name: 'Xəzər'),
+            Settlement(id: '116', name: 'Yasamal'),
+          ]),
         );
     super.initState();
   }
@@ -95,6 +109,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CityFilter(
+                            filters: _filters,
+                            updateState: _updateState,
+                          ),
+                          DistrictFilter(
                             filters: _filters,
                             updateState: _updateState,
                           ),

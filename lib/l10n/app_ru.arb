@@ -122,8 +122,12 @@
     "valueFrom": "от",
     "valueTo": "до",
     "city": "Город",
+    "district": "Район",
+    "specifyArea": "Указать",
     "selectCity": "Выберите город",
-    "selectCityHint": "Введите имя города",
+    "selectCityHint": "Поиск",
     "noResult": "Хммм...Таких объявлений еще никто не выложил",
-    "noResultHint": "Попробуйте поменять что-нибудь в фильтрах"
+    "noResultHint": "Попробуйте поменять что-нибудь в фильтрах",
+    "selectDistrict": "Выберите район",
+    "selectDistrictHint": "Поиск"
 }

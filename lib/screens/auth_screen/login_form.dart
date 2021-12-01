@@ -108,6 +108,7 @@ class _LoginFormState extends State<LoginForm> {
           StyledElevatedButton(
             text: AppLocalizations.of(context)!.loginButton,
             onPressed: _login,
+            loading: _isLoading,
           ),
           TextButton(
             onPressed: () {

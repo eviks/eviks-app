@@ -141,6 +141,7 @@ class _RegisterFormState extends State<RegisterForm> {
           StyledElevatedButton(
             text: AppLocalizations.of(context)!.registerButton,
             onPressed: _register,
+            loading: _isLoading,
           ),
           TextButton(
             onPressed: () {

@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/filters.dart';
-import '../../widgets/selections/city_selection.dart';
+import '../../widgets/selections/district_selection.dart';
 
-class CityFilter extends StatelessWidget {
+class DistrictFilter extends StatelessWidget {
   final Filters filters;
   final Function updateState;
-  const CityFilter({required this.filters, required this.updateState, Key? key})
+  const DistrictFilter(
+      {required this.filters, required this.updateState, Key? key})
       : super(key: key);
 
-  void _selectCity(BuildContext context) async {
+  void _selectDistrict(BuildContext context) async {
     final result = await Navigator.push<Settlement?>(
       context,
-      MaterialPageRoute(builder: (context) => const CitySelection()),
+      MaterialPageRoute(
+          builder: (context) => DistrictSelection(
+                city: filters.city,
+                selectedDistricts: filters.distrcits ?? [],
+                selectedSubdistricts: filters.subdistrcits ?? [],
+              )),
     );
     if (result != null) {
       filters.city = result;
@@ -27,15 +33,15 @@ class CityFilter extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '${AppLocalizations.of(context)!.city}: ',
+          '${AppLocalizations.of(context)!.specifyArea}: ',
           style: const TextStyle(fontSize: 18.0),
         ),
         TextButton(
           onPressed: () {
-            _selectCity(context);
+            _selectDistrict(context);
           },
           child: Text(
-            filters.city.name,
+            AppLocalizations.of(context)!.district,
             style: const TextStyle(fontSize: 18.0),
           ),
         ),
