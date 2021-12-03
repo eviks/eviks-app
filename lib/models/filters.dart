@@ -4,8 +4,8 @@ import './settlement.dart';
 
 class Filters {
   Settlement city;
-  List<Settlement>? distrcits;
-  List<Settlement>? subdistrcits;
+  List<Settlement>? districts;
+  List<Settlement>? subdistricts;
   DealType? dealType;
   EstateType? estateType;
   ApartmentType? apartmentType;
@@ -16,8 +16,8 @@ class Filters {
 
   Filters({
     required this.city,
-    this.distrcits,
-    this.subdistrcits,
+    this.districts,
+    this.subdistricts,
     this.dealType,
     this.estateType,
     this.apartmentType,

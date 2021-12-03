@@ -129,5 +129,6 @@
     "noResult": "Хммм...Таких объявлений еще никто не выложил",
     "noResultHint": "Попробуйте поменять что-нибудь в фильтрах",
     "selectDistrict": "Выберите район",
-    "selectDistrictHint": "Поиск"
+    "selectDistrictHint": "Поиск",
+    "select": "Выбрать"
 }

@@ -2,11 +2,13 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:collection/collection.dart';
 
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/settlement.dart';
 import '../../providers/localities.dart';
+import '../../widgets/styled_elevated_button.dart';
 import './tree_branch.dart';
 
 class DistrictSelection extends StatefulWidget {
@@ -53,7 +55,6 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       try {
         setState(() {
           _districts = result;
-          _districts = result;
         });
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
@@ -96,21 +97,30 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       if (parentValue == true) {
         _selectedDistricts.add(district);
         for (final Settlement subdistrict in district.children ?? []) {
-          _selectedSubdistricts.remove(subdistrict);
+          _selectedSubdistricts
+              .removeWhere((element) => element.id == subdistrict.id);
         }
       } else {
-        _selectedDistricts.remove(district);
+        _selectedDistricts.removeWhere((element) => element.id == district.id);
         for (int index = 0; index < (district.children?.length ?? 0); index++) {
           if (childrenValue[index] &&
-              !_selectedSubdistricts.contains(district.children![index])) {
+              !_settlementIsSelected(
+                  _selectedSubdistricts, district.children![index])) {
             _selectedSubdistricts.add(district.children![index]);
           } else if (!childrenValue[index] &&
-              _selectedSubdistricts.contains(district.children![index])) {
-            _selectedSubdistricts.remove(district.children![index]);
+              _settlementIsSelected(
+                  _selectedSubdistricts, district.children![index])) {
+            _selectedSubdistricts.removeWhere(
+                (element) => element.id == district.children![index].id);
           }
         }
       }
     });
+  }
+
+  bool _settlementIsSelected(List<Settlement> list, Settlement settlement) {
+    return list.firstWhereOrNull((element) => element.id == settlement.id) !=
+        null;
   }
 
   @override
@@ -179,6 +189,18 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                 ],
               ),
             ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StyledElevatedButton(
+          text: AppLocalizations.of(context)!.select,
+          onPressed: () {
+            Navigator.of(context).pop({
+              'districts': _selectedDistricts,
+              'subdistricts': _selectedSubdistricts
+            });
+          },
+        ),
+      ),
     );
   }
 }

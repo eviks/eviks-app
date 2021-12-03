@@ -39,13 +39,13 @@ class _TreeBranchState extends State<TreeBranch> {
 
     _children = widget.district.children ?? [];
 
-    if (widget.selectedDistricts.contains(widget.district)) {
+    if (_settlementIsSelected(widget.selectedDistricts, widget.district)) {
       _parentValue = true;
       _childrenValue = List.generate(_children.length, (index) => true);
     } else {
       _childrenValue = _children
           .map((Settlement subdistrict) =>
-              widget.selectedSubdistricts.contains(subdistrict))
+              _settlementIsSelected(widget.selectedSubdistricts, subdistrict))
           .toList();
       _parentValue = _childrenValue.contains(true) ? null : false;
     }
@@ -58,6 +58,11 @@ class _TreeBranchState extends State<TreeBranch> {
         null;
 
     super.didChangeDependencies();
+  }
+
+  bool _settlementIsSelected(List<Settlement> list, Settlement settlement) {
+    return list.firstWhereOrNull((element) => element.id == settlement.id) !=
+        null;
   }
 
   bool _searchStringMatch(String value) {

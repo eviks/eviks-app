@@ -89,58 +89,41 @@ class _FiltersScreenState extends State<FiltersScreen> {
             : null,
       ),
       body: SafeArea(
-        child: Container(
-          constraints: BoxConstraints(
-            minHeight: SizeConfig.safeBlockVertical * 100.0,
-          ),
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    SizeConfig.safeBlockHorizontal * 8.0,
-                    8.0,
-                    SizeConfig.safeBlockHorizontal * 8.0,
-                    64.0),
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CityFilter(
-                            filters: _filters,
-                            updateState: _updateState,
-                          ),
-                          DistrictFilter(
-                            filters: _filters,
-                            updateState: _updateState,
-                          ),
-                          MainFilters(
-                            filters: _filters,
-                          ),
-                        ],
+        child: SizedBox(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.safeBlockHorizontal * 8.0),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CityFilter(
+                        filters: _filters,
+                        updateState: _updateState,
                       ),
-                    ),
+                      DistrictFilter(
+                        filters: _filters,
+                        updateState: _updateState,
+                      ),
+                      MainFilters(
+                        filters: _filters,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                width: SizeConfig.safeBlockHorizontal * 100.0,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: StyledElevatedButton(
-                      text: AppLocalizations.of(context)!.showPosts,
-                      onPressed: _setFilters,
-                      width: SizeConfig.safeBlockHorizontal * 80.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StyledElevatedButton(
+          text: AppLocalizations.of(context)!.showPosts,
+          onPressed: _setFilters,
         ),
       ),
     );

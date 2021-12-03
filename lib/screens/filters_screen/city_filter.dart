@@ -18,6 +18,8 @@ class CityFilter extends StatelessWidget {
     );
     if (result != null) {
       filters.city = result;
+      filters.districts = null;
+      filters.subdistricts = null;
       updateState();
     }
   }
