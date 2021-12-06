@@ -6,7 +6,7 @@ class Filters {
   Settlement city;
   List<Settlement>? districts;
   List<Settlement>? subdistricts;
-  DealType? dealType;
+  DealType dealType;
   EstateType? estateType;
   ApartmentType? apartmentType;
   int? priceMin;
@@ -16,9 +16,9 @@ class Filters {
 
   Filters({
     required this.city,
+    required this.dealType,
     this.districts,
     this.subdistricts,
-    this.dealType,
     this.estateType,
     this.apartmentType,
     this.priceMin,
@@ -29,7 +29,9 @@ class Filters {
 
   Map<String, dynamic> toQueryParameters() => {
         'cityId': city.id,
-        'dealType': dealType?.toString().replaceAll('DealType.', ''),
+        'dealType': dealType.toString().replaceAll('DealType.', ''),
+        'districtId': districts?.map((e) => e.id).toList().join(','),
+        'subdistrictId': subdistricts?.map((e) => e.id).toList().join(','),
         'estateType': estateType?.toString().replaceAll('EstateType.', ''),
         'apartmentType':
             apartmentType?.toString().replaceAll('ApartmentType.', ''),

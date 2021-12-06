@@ -10,6 +10,7 @@ class ToggleField<EnumType> extends StatefulWidget {
   final Axis direction;
   final EnumType? initialValue;
   final List<IconData>? icons;
+  final bool allowUnselect;
 
   const ToggleField({
     Key? key,
@@ -21,6 +22,7 @@ class ToggleField<EnumType> extends StatefulWidget {
     this.direction = Axis.horizontal,
     this.initialValue,
     this.icons,
+    this.allowUnselect = true,
   }) : super(key: key);
 
   @override
@@ -69,14 +71,18 @@ class _ToggleFieldState extends State<ToggleField> {
                   if (!_unselected) {
                     _unselected = _selections[index] && index == newIndex;
                   }
-                  _selections[index] = index == newIndex && !_selections[index];
+                  _selections[index] = index == newIndex &&
+                      (!_selections[index] || !widget.allowUnselect);
                 }
               });
               if (widget.onPressed != null) {
-                widget.onPressed!(_unselected ? null : widget.values[newIndex]);
+                widget.onPressed!((_unselected && widget.allowUnselect)
+                    ? null
+                    : widget.values[newIndex]);
               }
-              widget.state
-                  ?.didChange(_unselected ? null : widget.values[newIndex]);
+              widget.state?.didChange((_unselected && widget.allowUnselect)
+                  ? null
+                  : widget.values[newIndex]);
             },
             children: widget.values
                 .asMap()
@@ -133,6 +139,7 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
     Axis direction = Axis.horizontal,
     EnumType? initialValue,
     List<IconData>? icons,
+    bool allowUnselect = true,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -148,6 +155,7 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
                 direction: direction,
                 initialValue: initialValue,
                 icons: icons,
+                allowUnselect: allowUnselect,
               );
             });
 }

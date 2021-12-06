@@ -37,7 +37,7 @@ class _MainFiltersState extends State<MainFilters> {
             values: DealType.values,
             initialValue: widget.filters.dealType,
             getDescription: dealTypeDescription,
-            onPressed: (DealType? value) {
+            onPressed: (DealType value) {
               widget.filters.dealType = value;
             },
             icons: const [
@@ -45,6 +45,7 @@ class _MainFiltersState extends State<MainFilters> {
               CustomIcons.rent,
               CustomIcons.rentperday,
             ],
+            allowUnselect: false,
           ),
         ),
         SingleChildScrollView(

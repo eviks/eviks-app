@@ -50,8 +50,9 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       String _errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       final result = await Provider.of<Localities>(context, listen: false)
-          .getLocalitiesByIds(
-              widget.city.children?.map((e) => e.id).toList() ?? []);
+          .getLocalities({
+        'id': widget.city.children?.map((e) => e.id).toList().join(',') ?? ''
+      });
       try {
         setState(() {
           _districts = result;
