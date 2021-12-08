@@ -130,5 +130,6 @@
     "noResultHint": "Bəlkə, filtrlərdə nə isə dəyişmək lazımdır?",
     "selectDistrict": "Rayonu seçin",
     "selectDistrictHint": "Axtarış",
-    "select": "Seçmək"
+    "select": "Seçmək",
+    "sqmTitle": "Sahə"
 }

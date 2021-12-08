@@ -130,5 +130,6 @@
     "noResultHint": "Попробуйте поменять что-нибудь в фильтрах",
     "selectDistrict": "Выберите район",
     "selectDistrictHint": "Поиск",
-    "select": "Выбрать"
+    "select": "Выбрать",
+    "sqmTitle": "Площадь"
 }

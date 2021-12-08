@@ -1,26 +1,26 @@
 import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/filters.dart';
+import '../../providers/posts.dart';
 import '../../widgets/selections/city_selection.dart';
 
 class CityFilter extends StatelessWidget {
-  final Filters filters;
-  final Function updateState;
-  const CityFilter({required this.filters, required this.updateState, Key? key})
-      : super(key: key);
+  const CityFilter({Key? key}) : super(key: key);
 
   void _selectCity(BuildContext context) async {
-    final result = await Navigator.push<Settlement?>(
+    final city = await Navigator.push<Settlement?>(
       context,
       MaterialPageRoute(builder: (context) => const CitySelection()),
     );
-    if (result != null) {
-      filters.city = result;
-      filters.districts = null;
-      filters.subdistricts = null;
-      updateState();
+
+    if (city != null) {
+      Provider.of<Posts>(context, listen: false).updateFilters({
+        'city': city,
+        'districts': null,
+        'subdistricts': null,
+      });
     }
   }
 
@@ -36,9 +36,11 @@ class CityFilter extends StatelessWidget {
           onPressed: () {
             _selectCity(context);
           },
-          child: Text(
-            filters.city.name,
-            style: const TextStyle(fontSize: 18.0),
+          child: Consumer<Posts>(
+            builder: (context, posts, child) => Text(
+              posts.filters.city.name,
+              style: const TextStyle(fontSize: 18.0),
+            ),
           ),
         ),
       ],

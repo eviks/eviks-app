@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +13,7 @@ class Posts with ChangeNotifier {
   String token;
   List<Post> _posts;
   Post? _postData;
-  Filters? _filters;
+  final Filters _filters;
 
   Posts(this.token, this._posts, this._postData, this._filters);
 
@@ -24,7 +25,7 @@ class Posts with ChangeNotifier {
     return _postData;
   }
 
-  Filters? get filters {
+  Filters get filters {
     return _filters;
   }
 
@@ -58,8 +59,67 @@ class Posts with ChangeNotifier {
     }
   }
 
-  void updateFilters(Filters value) {
-    _filters = value;
+  void updateFilters(Map<String, dynamic> newValues) {
+    newValues.forEach((key, value) {
+      switch (key) {
+        case 'city':
+          _filters.city = value as Settlement;
+          break;
+        case 'districts':
+          _filters.districts = value as List<Settlement>?;
+          break;
+        case 'subdistricts':
+          _filters.subdistricts = value as List<Settlement>?;
+          break;
+
+        case 'dealType':
+          _filters.dealType = value as DealType;
+          break;
+        case 'estateType':
+          _filters.estateType = value as EstateType?;
+          break;
+        case 'apartmentType':
+          _filters.apartmentType = value as ApartmentType?;
+          break;
+        case 'priceMin':
+          _filters.priceMin = value as int?;
+          break;
+        case 'priceMax':
+          _filters.priceMax = value as int?;
+          break;
+        case 'roomsMin':
+          _filters.roomsMin = value as int?;
+          break;
+        case 'roomsMax':
+          _filters.roomsMax = value as int?;
+          break;
+        case 'sqmMin':
+          _filters.sqmMin = value as int?;
+          break;
+        case 'sqmMax':
+          _filters.sqmMax = value as int?;
+          break;
+        case 'livingRoomsSqmMin':
+          _filters.livingRoomsSqmMin = value as int?;
+          break;
+        case 'livingRoomsSqmMax':
+          _filters.livingRoomsSqmMax = value as int?;
+          break;
+        case 'kitchenSqmMin':
+          _filters.kitchenSqmMin = value as int?;
+          break;
+        case 'kitchenSqmMax':
+          _filters.kitchenSqmMax = value as int?;
+          break;
+        case 'lotSqmMin':
+          _filters.lotSqmMin = value as int?;
+          break;
+        case 'lotSqmMax':
+          _filters.lotSqmMax = value as int?;
+          break;
+        default:
+      }
+    });
     notifyListeners();
   }
 
@@ -67,7 +127,7 @@ class Posts with ChangeNotifier {
     Map<String, dynamic> _parameters;
 
     if (queryParameters == null) {
-      _parameters = _filters?.toQueryParameters() ?? {};
+      _parameters = _filters.toQueryParameters();
     } else {
       _parameters = queryParameters;
     }

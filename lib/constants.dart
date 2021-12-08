@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import './models/filters.dart';
+import './models/post.dart';
+import './models/settlement.dart';
+
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
 const lightColor = Color(0xFFFFFFFF);
@@ -56,4 +60,28 @@ String removeAzerbaijaniChars(String value) {
   newValue = newValue.replaceAll(RegExp('ş', caseSensitive: false), 's');
   newValue = newValue.replaceAll(RegExp('ü', caseSensitive: false), 'u');
   return newValue;
+}
+
+Filters initFilters() {
+  return Filters(
+    city: Settlement(
+      id: '10',
+      name: 'Bakı',
+      children: [
+        Settlement(id: '117', name: 'Binəqədi'),
+        Settlement(id: '112', name: 'Nərimanov'),
+        Settlement(id: '111', name: 'Nəsimi'),
+        Settlement(id: '113', name: 'Nizami'),
+        Settlement(id: '122', name: 'Pirallahı'),
+        Settlement(id: '121', name: 'Qaradağ'),
+        Settlement(id: '118', name: 'Sabunçu'),
+        Settlement(id: '115', name: 'Səbail'),
+        Settlement(id: '119', name: 'Suraxanı'),
+        Settlement(id: '114', name: 'Xətai'),
+        Settlement(id: '120', name: 'Xəzər'),
+        Settlement(id: '116', name: 'Yasamal'),
+      ],
+    ),
+    dealType: DealType.sale,
+  );
 }

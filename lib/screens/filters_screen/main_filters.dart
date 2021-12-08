@@ -2,32 +2,24 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/filters.dart';
 import '../../models/post.dart';
+import '../../providers/posts.dart';
 import '../../widgets/range_field.dart';
 import '../../widgets/toggle_field.dart';
 
-class MainFilters extends StatefulWidget {
-  final Filters filters;
-
-  const MainFilters({required this.filters, Key? key}) : super(key: key);
-
-  @override
-  _MainFiltersState createState() => _MainFiltersState();
-}
-
-class _MainFiltersState extends State<MainFilters> {
-  late bool _isApartment;
-
-  @override
-  void initState() {
-    _isApartment = widget.filters.estateType == EstateType.apartment;
-    super.initState();
-  }
+class MainFilters extends StatelessWidget {
+  const MainFilters({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _filters = Provider.of<Posts>(context).filters;
+
+    void _updateFilters(Map<String, dynamic> newValues) {
+      Provider.of<Posts>(context, listen: false).updateFilters(newValues);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,10 +27,10 @@ class _MainFiltersState extends State<MainFilters> {
           scrollDirection: Axis.horizontal,
           child: ToggleFormField<DealType>(
             values: DealType.values,
-            initialValue: widget.filters.dealType,
+            initialValue: _filters.dealType,
             getDescription: dealTypeDescription,
             onPressed: (DealType value) {
-              widget.filters.dealType = value;
+              _updateFilters({'dealType': value});
             },
             icons: const [
               CustomIcons.sale,
@@ -52,16 +44,20 @@ class _MainFiltersState extends State<MainFilters> {
           scrollDirection: Axis.horizontal,
           child: ToggleFormField<EstateType>(
             values: EstateType.values,
-            initialValue: widget.filters.estateType,
+            initialValue: _filters.estateType,
             getDescription: estateTypeDescription,
             onPressed: (EstateType? value) {
-              widget.filters.estateType = value;
+              final Map<String, dynamic> _newValues = {};
+
+              _newValues['estateType'] = value;
               if (value != EstateType.apartment) {
-                widget.filters.apartmentType = null;
+                _newValues['apartmentType'] = null;
+              } else {
+                _newValues['lotSqmMin'] = null;
+                _newValues['lotSqmMax'] = null;
               }
-              setState(() {
-                _isApartment = value == EstateType.apartment;
-              });
+
+              _updateFilters(_newValues);
             },
             icons: const [
               CustomIcons.apartment,
@@ -70,18 +66,21 @@ class _MainFiltersState extends State<MainFilters> {
           ),
         ),
         Visibility(
-          visible: _isApartment,
-          child: ToggleFormField<ApartmentType>(
-            values: ApartmentType.values,
-            initialValue: widget.filters.apartmentType,
-            getDescription: apartmentTypeDescription,
-            onPressed: (ApartmentType? value) {
-              widget.filters.apartmentType = value;
-            },
-            icons: const [
-              CustomIcons.newbuilding,
-              CustomIcons.secondarybuilding,
-            ],
+          visible: _filters.estateType == EstateType.apartment,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ToggleFormField<ApartmentType>(
+              values: ApartmentType.values,
+              initialValue: _filters.apartmentType,
+              getDescription: apartmentTypeDescription,
+              onPressed: (ApartmentType? value) {
+                _updateFilters({'apartmentType': value});
+              },
+              icons: const [
+                CustomIcons.newbuilding,
+                CustomIcons.secondarybuilding,
+              ],
+            ),
           ),
         ),
         const SizedBox(
@@ -90,45 +89,45 @@ class _MainFiltersState extends State<MainFilters> {
         RangeField(
           title: AppLocalizations.of(context)!.price,
           icon: CustomIcons.money,
-          initialValueFrom: widget.filters.priceMin != 0
-              ? widget.filters.priceMin?.toString()
-              : null,
+          initialValueFrom:
+              _filters.priceMin != 0 ? _filters.priceMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
-          initialValueTo: widget.filters.priceMax != 0
-              ? widget.filters.priceMax?.toString()
-              : null,
+          initialValueTo:
+              _filters.priceMax != 0 ? _filters.priceMax?.toString() : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            widget.filters.priceMin =
-                value?.isEmpty ?? true ? null : int.parse(value!);
+            _updateFilters({
+              'priceMin': value?.isEmpty ?? true ? null : int.parse(value!)
+            });
           },
           onChangedTo: (value) {
-            widget.filters.priceMax =
-                value?.isEmpty ?? true ? null : int.parse(value!);
+            _updateFilters({
+              'priceMax': value?.isEmpty ?? true ? null : int.parse(value!)
+            });
           },
         ),
         RangeField(
           title: AppLocalizations.of(context)!.rooms,
           icon: CustomIcons.door,
-          initialValueFrom: widget.filters.roomsMin != 0
-              ? widget.filters.roomsMin?.toString()
-              : null,
+          initialValueFrom:
+              _filters.roomsMin != 0 ? _filters.roomsMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
-          initialValueTo: widget.filters.roomsMax != 0
-              ? widget.filters.roomsMax?.toString()
-              : null,
+          initialValueTo:
+              _filters.roomsMax != 0 ? _filters.roomsMax?.toString() : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            widget.filters.roomsMin =
-                value?.isEmpty ?? true ? null : int.parse(value!);
+            _updateFilters({
+              'roomsMin': value?.isEmpty ?? true ? null : int.parse(value!)
+            });
           },
           onChangedTo: (value) {
-            widget.filters.roomsMax =
-                value?.isEmpty ?? true ? null : int.parse(value!);
+            _updateFilters({
+              'roomsMax': value?.isEmpty ?? true ? null : int.parse(value!)
+            });
           },
         ),
       ],

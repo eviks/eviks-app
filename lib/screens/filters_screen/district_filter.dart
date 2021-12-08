@@ -1,32 +1,32 @@
 import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/filters.dart';
+import '../../providers/posts.dart';
 import '../../widgets/selections/district_selection.dart';
 import '../../widgets/tag.dart';
 
 class DistrictFilter extends StatelessWidget {
-  final Filters filters;
-  final Function updateState;
-  const DistrictFilter(
-      {required this.filters, required this.updateState, Key? key})
-      : super(key: key);
+  const DistrictFilter({Key? key}) : super(key: key);
 
   void _selectDistrict(BuildContext context) async {
+    final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
     final result = await Navigator.push<Map<String, List<Settlement>>?>(
       context,
       MaterialPageRoute(
           builder: (context) => DistrictSelection(
-                city: filters.city,
-                selectedDistricts: filters.districts ?? [],
-                selectedSubdistricts: filters.subdistricts ?? [],
+                city: _filters.city,
+                selectedDistricts: _filters.districts ?? [],
+                selectedSubdistricts: _filters.subdistricts ?? [],
               )),
     );
     if (result != null) {
-      filters.districts = result['districts'];
-      filters.subdistricts = result['subdistricts'];
-      updateState();
+      Provider.of<Posts>(context, listen: false).updateFilters({
+        'districts': result['districts'],
+        'subdistricts': result['subdistricts'],
+      });
     }
   }
 
@@ -52,45 +52,47 @@ class DistrictFilter extends StatelessWidget {
             ),
           ],
         ),
-        Wrap(
-          children: filters.districts
-                  ?.map(
-                    (district) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Tag(
-                        key: Key(district.id),
-                        label: district.name,
-                        icon: Icons.close,
-                        onPressed: () {
-                          filters.districts?.removeWhere(
-                              (element) => element.id == district.id);
-                          updateState();
-                        },
+        Consumer<Posts>(
+          builder: (context, posts, child) => Wrap(
+            children: posts.filters.districts
+                    ?.map(
+                      (district) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Tag(
+                          key: Key(district.id),
+                          label: district.name,
+                          icon: Icons.close,
+                          onPressed: () {
+                            posts.filters.districts?.removeWhere(
+                                (element) => element.id == district.id);
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                  .toList() ??
-              [],
+                    )
+                    .toList() ??
+                [],
+          ),
         ),
-        Wrap(
-          children: filters.subdistricts
-                  ?.map(
-                    (subdistrict) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Tag(
-                        key: Key(subdistrict.id),
-                        label: subdistrict.name,
-                        icon: Icons.close,
-                        onPressed: () {
-                          filters.subdistricts?.removeWhere(
-                              (element) => element.id == subdistrict.id);
-                          updateState();
-                        },
+        Consumer<Posts>(
+          builder: (context, posts, child) => Wrap(
+            children: posts.filters.subdistricts
+                    ?.map(
+                      (subdistrict) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Tag(
+                          key: Key(subdistrict.id),
+                          label: subdistrict.name,
+                          icon: Icons.close,
+                          onPressed: () {
+                            posts.filters.subdistricts?.removeWhere(
+                                (element) => element.id == subdistrict.id);
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                  .toList() ??
-              [],
+                    )
+                    .toList() ??
+                [],
+          ),
         )
       ],
     );
