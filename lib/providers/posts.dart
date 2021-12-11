@@ -52,11 +52,9 @@ class Posts with ChangeNotifier {
     );
   }
 
-  void updatePost(Post? value, {bool notify = true}) {
+  void updatePost(Post? value) {
     _postData = value;
-    if (notify) {
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   void updateFilters(Map<String, dynamic> newValues) {

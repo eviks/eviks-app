@@ -209,195 +209,188 @@ class _EditPostMapState extends State<EditPostMap> {
     _updatePost();
   }
 
-  void _updatePost({bool notify = true}) {
+  void _updatePost() {
     Provider.of<Posts>(context, listen: false).updatePost(
-        postData?.copyWith(
-          city: _city,
-          district: _district,
-          subdistrict: _subdistrict,
-          address: _address,
-          location: _location,
-          lastStep: 1,
-          step: _goToNextStep ? 2 : 0,
-        ),
-        notify: notify);
+      postData?.copyWith(
+        city: _city,
+        district: _district,
+        subdistrict: _subdistrict,
+        address: _address,
+        location: _location,
+        lastStep: 1,
+        step: _goToNextStep ? 2 : 0,
+      ),
+    );
   }
 
-  @override
-  void deactivate() {
-    if (!_goToNextStep) {
-      _formKey.currentState?.save();
-      _updatePost(notify: false);
-    }
-    super.deactivate();
+  void _prevStep(Post? postData) {
+    _updatePost();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        FlutterMap(
-          mapController: _mapController,
-          options: MapOptions(
-            center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
-            zoom: 16,
-          ),
-          layers: [
-            TileLayerOptions(
-              urlTemplate:
-                  'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(),
+        leading: IconButton(
+          onPressed: () {
+            _prevStep(postData);
+          },
+          icon: const Icon(CustomIcons.back),
+        ),
+      ),
+      body: Stack(
+        children: [
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
+              zoom: 16,
             ),
-          ],
-        ),
-        Center(
-          child: SvgPicture.asset(
-            "assets/img/svg/location.svg",
-            width: 60.0,
-            height: 60.0,
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Form(
-              key: _formKey,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                  borderRadius: _typeMode
-                      ? null
-                      : const BorderRadius.only(
-                          bottomRight: Radius.circular(
-                            50.0,
-                          ),
-                          bottomLeft: Radius.circular(
-                            50.0,
-                          )),
-                ),
-                child: Column(children: [
-                  if (!_typeMode &&
-                      MediaQuery.of(context).orientation ==
-                          Orientation.portrait)
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.address,
-                      icon: CustomIcons.marker,
-                    ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 32.0, vertical: 8.0),
-                    child: StyledInput(
-                      icon: CustomIcons.marker,
-                      onFocus: (value) {
-                        setState(() {
-                          _typeMode = value;
-                        });
-                      },
-                      onChanged: _onInputChange,
-                      keyboardType: TextInputType.text,
-                      controller: _controller,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.errorAddress;
-                        } else if ((_location?[0] ?? 0) == 0 ||
-                            (_location?[1] ?? 0) == 0 ||
-                            _city == null ||
-                            _district == null) {
-                          return AppLocalizations.of(context)!.wrongAddress;
-                        }
-                      },
-                      onSaved: (value) {
-                        _address = value ?? '';
-                      },
-                      suffix: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            _controller.text = '';
-                          },
-                          child: Icon(
-                            CustomIcons.close,
-                            size: 14.0,
-                            color: Theme.of(context).dividerColor,
-                          ),
-                        ),
-                      ),
-                      prefix: _typeMode
-                          ? IconButton(
-                              onPressed: _exitFromTypeMode,
-                              icon: Icon(
-                                CustomIcons.back,
-                                color: Theme.of(context).dividerColor,
-                              ),
-                            )
-                          : null,
-                    ),
-                  ),
-                ]),
+            layers: [
+              TileLayerOptions(
+                urlTemplate:
+                    'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
               ),
+            ],
+          ),
+          Center(
+            child: SvgPicture.asset(
+              "assets/img/svg/location.svg",
+              width: 60.0,
+              height: 60.0,
             ),
-            if (_typeMode)
-              Expanded(
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Form(
+                key: _formKey,
                 child: Container(
-                  color: Theme.of(context).backgroundColor,
-                  width: SizeConfig.screenWidth,
-                  child: _isLoading
-                      ? Align(
-                          alignment: Alignment.topCenter,
-                          child: SizedBox(
-                            width: 24.0,
-                            height: 24.0,
-                            child: CircularProgressIndicator(
-                              color: Theme.of(context).primaryColor,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: _typeMode
+                        ? null
+                        : const BorderRadius.only(
+                            bottomRight: Radius.circular(
+                              50.0,
+                            ),
+                            bottomLeft: Radius.circular(
+                              50.0,
+                            )),
+                  ),
+                  child: Column(children: [
+                    if (!_typeMode &&
+                        MediaQuery.of(context).orientation ==
+                            Orientation.portrait)
+                      StepTitle(
+                        title: AppLocalizations.of(context)!.address,
+                        icon: CustomIcons.marker,
+                      ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 32.0, vertical: 8.0),
+                      child: StyledInput(
+                        icon: CustomIcons.marker,
+                        onFocus: (value) {
+                          setState(() {
+                            _typeMode = value;
+                          });
+                        },
+                        onChanged: _onInputChange,
+                        keyboardType: TextInputType.text,
+                        controller: _controller,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.errorAddress;
+                          } else if ((_location?[0] ?? 0) == 0 ||
+                              (_location?[1] ?? 0) == 0 ||
+                              _city == null ||
+                              _district == null) {
+                            return AppLocalizations.of(context)!.wrongAddress;
+                          }
+                        },
+                        onSaved: (value) {
+                          _address = value ?? '';
+                        },
+                        suffix: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              _controller.text = '';
+                            },
+                            child: Icon(
+                              CustomIcons.close,
+                              size: 14.0,
+                              color: Theme.of(context).dividerColor,
                             ),
                           ),
-                        )
-                      : ListView.builder(
-                          itemBuilder: (ctx, index) {
-                            return Card(
-                              child: ListTile(
-                                title: Text(_addresses[index].name),
-                                subtitle: Text(_addresses[index].address),
-                                onTap: () {
-                                  onAddressSelect([
-                                    _addresses[index].longitude,
-                                    _addresses[index].latitude
-                                  ]);
-                                },
-                              ),
-                            );
-                          },
-                          itemCount: _addresses.length,
                         ),
+                        prefix: _typeMode
+                            ? IconButton(
+                                onPressed: _exitFromTypeMode,
+                                icon: Icon(
+                                  CustomIcons.back,
+                                  color: Theme.of(context).dividerColor,
+                                ),
+                              )
+                            : null,
+                      ),
+                    ),
+                  ]),
                 ),
               ),
-          ],
-        ),
-        if (!_typeMode)
-          Positioned(
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).shadowColor.withOpacity(0.1),
-                    blurRadius: 8.0,
-                    offset: const Offset(10.0, 10.0),
-                  )
-                ],
-              ),
-              child: StyledElevatedButton(
-                secondary: true,
-                text: AppLocalizations.of(context)!.next,
-                loading: _isLoading,
-                onPressed: _continuePressed,
-                width: SizeConfig.safeBlockHorizontal * 100.0,
-                suffixIcon: CustomIcons.next,
-              ),
-            ),
+              if (_typeMode)
+                Expanded(
+                  child: Container(
+                    color: Theme.of(context).backgroundColor,
+                    width: SizeConfig.screenWidth,
+                    child: _isLoading
+                        ? Align(
+                            alignment: Alignment.topCenter,
+                            child: SizedBox(
+                              width: 24.0,
+                              height: 24.0,
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemBuilder: (ctx, index) {
+                              return Card(
+                                child: ListTile(
+                                  title: Text(_addresses[index].name),
+                                  subtitle: Text(_addresses[index].address),
+                                  onTap: () {
+                                    onAddressSelect([
+                                      _addresses[index].longitude,
+                                      _addresses[index].latitude
+                                    ]);
+                                  },
+                                ),
+                              );
+                            },
+                            itemCount: _addresses.length,
+                          ),
+                  ),
+                ),
+            ],
           ),
-      ],
+        ],
+      ),
+      bottomNavigationBar: _typeMode
+          ? null
+          : StyledElevatedButton(
+              secondary: true,
+              text: AppLocalizations.of(context)!.next,
+              loading: _isLoading,
+              onPressed: _continuePressed,
+              width: SizeConfig.safeBlockHorizontal * 100.0,
+              suffixIcon: CustomIcons.next,
+            ),
     );
   }
 }

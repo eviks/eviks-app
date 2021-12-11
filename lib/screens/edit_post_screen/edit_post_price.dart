@@ -65,34 +65,38 @@ class _EditPostPriceState extends State<EditPostPrice> {
     _updatePost();
   }
 
-  void _updatePost({bool notify = true}) {
+  void _updatePost() {
     Provider.of<Posts>(context, listen: false).updatePost(
-        postData?.copyWith(
-          price: _price,
-          haggle: _haggle,
-          installmentOfPayment: _installmentOfPayment,
-          prepayment: _prepayment,
-          municipalServicesIncluded: _municipalServicesIncluded,
-          lastStep: 6,
-          step: _goToNextStep ? 7 : 5,
-        ),
-        notify: notify);
+      postData?.copyWith(
+        price: _price,
+        haggle: _haggle,
+        installmentOfPayment: _installmentOfPayment,
+        prepayment: _prepayment,
+        municipalServicesIncluded: _municipalServicesIncluded,
+        lastStep: 6,
+        step: _goToNextStep ? 7 : 5,
+      ),
+    );
   }
 
-  @override
-  void deactivate() {
-    if (!_goToNextStep) {
-      _formKey.currentState?.save();
-      _updatePost(notify: false);
-    }
-    super.deactivate();
+  void _prevStep(Post? postData) {
+    _updatePost();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(),
+        leading: IconButton(
+          onPressed: () {
+            _prevStep(postData);
+          },
+          icon: const Icon(CustomIcons.back),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
                 8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
@@ -184,28 +188,14 @@ class _EditPostPriceState extends State<EditPostPrice> {
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
-                  blurRadius: 8.0,
-                  offset: const Offset(10.0, 10.0),
-                )
-              ],
-            ),
-            child: StyledElevatedButton(
-              secondary: true,
-              text: AppLocalizations.of(context)!.next,
-              onPressed: _continuePressed,
-              width: SizeConfig.safeBlockHorizontal * 100.0,
-              suffixIcon: CustomIcons.next,
-            ),
-          ),
-        ),
-      ],
+      ),
+      bottomNavigationBar: StyledElevatedButton(
+        secondary: true,
+        text: AppLocalizations.of(context)!.next,
+        onPressed: _continuePressed,
+        width: SizeConfig.safeBlockHorizontal * 100.0,
+        suffixIcon: CustomIcons.next,
+      ),
     );
   }
 }

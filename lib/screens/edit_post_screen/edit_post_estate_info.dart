@@ -81,39 +81,43 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
     _updatePost();
   }
 
-  void _updatePost({bool notify = true}) {
+  void _updatePost() {
     Provider.of<Posts>(context, listen: false).updatePost(
-        postData?.copyWith(
-          rooms: _rooms,
-          sqm: _sqm,
-          livingRoomsSqm: _livingRoomsSqm,
-          kitchenSqm: _kitchenSqm,
-          lotSqm: _lotSqm,
-          floor: _floor,
-          totalFloors: _totalFloors,
-          renovation: _renovation,
-          redevelopment: _redevelopment,
-          documented: _documented,
-          lastStep: 2,
-          step: _goToNextStep ? 3 : 1,
-        ),
-        notify: notify);
+      postData?.copyWith(
+        rooms: _rooms,
+        sqm: _sqm,
+        livingRoomsSqm: _livingRoomsSqm,
+        kitchenSqm: _kitchenSqm,
+        lotSqm: _lotSqm,
+        floor: _floor,
+        totalFloors: _totalFloors,
+        renovation: _renovation,
+        redevelopment: _redevelopment,
+        documented: _documented,
+        lastStep: 2,
+        step: _goToNextStep ? 3 : 1,
+      ),
+    );
   }
 
-  @override
-  void deactivate() {
-    if (!_goToNextStep) {
-      _formKey.currentState?.save();
-      _updatePost(notify: false);
-    }
-    super.deactivate();
+  void _prevStep(Post? postData) {
+    _updatePost();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(),
+        leading: IconButton(
+          onPressed: () {
+            _prevStep(postData);
+          },
+          icon: const Icon(CustomIcons.back),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
                 8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
@@ -359,28 +363,14 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
-                  blurRadius: 8.0,
-                  offset: const Offset(10.0, 10.0),
-                )
-              ],
-            ),
-            child: StyledElevatedButton(
-              secondary: true,
-              text: AppLocalizations.of(context)!.next,
-              onPressed: _continuePressed,
-              width: SizeConfig.safeBlockHorizontal * 100.0,
-              suffixIcon: CustomIcons.next,
-            ),
-          ),
-        ),
-      ],
+      ),
+      bottomNavigationBar: StyledElevatedButton(
+        secondary: true,
+        text: AppLocalizations.of(context)!.next,
+        onPressed: _continuePressed,
+        width: SizeConfig.safeBlockHorizontal * 100.0,
+        suffixIcon: CustomIcons.next,
+      ),
     );
   }
 }

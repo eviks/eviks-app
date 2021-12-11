@@ -60,15 +60,16 @@ class _EditPostContactsState extends State<EditPostContacts> {
     _createPost();
   }
 
-  void _updatePost({bool notify = true}) {
+  void _updatePost() {
     Provider.of<Posts>(context, listen: false).updatePost(
-        postData?.copyWith(
-          contact: _contact,
-          username:
-              Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
-          lastStep: 7,
-        ),
-        notify: notify);
+      postData?.copyWith(
+        contact: _contact,
+        username:
+            Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
+        lastStep: 7,
+        step: !_confirmPost ? 6 : 7,
+      ),
+    );
   }
 
   void _createPost() async {
@@ -113,20 +114,24 @@ class _EditPostContactsState extends State<EditPostContacts> {
         .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
   }
 
-  @override
-  void deactivate() {
-    if (!_confirmPost) {
-      _formKey.currentState?.save();
-      _updatePost(notify: false);
-    }
-    super.deactivate();
+  void _prevStep(Post? postData) {
+    _updatePost();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(),
+        leading: IconButton(
+          onPressed: () {
+            _prevStep(postData);
+          },
+          icon: const Icon(CustomIcons.back),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
                 8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
@@ -194,28 +199,14 @@ class _EditPostContactsState extends State<EditPostContacts> {
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
-                  blurRadius: 8.0,
-                  offset: const Offset(10.0, 10.0),
-                )
-              ],
-            ),
-            child: StyledElevatedButton(
-              text: AppLocalizations.of(context)!.submitPost,
-              onPressed: _onPostConfirm,
-              loading: _isLoading,
-              width: SizeConfig.safeBlockHorizontal * 100.0,
-              suffixIcon: CustomIcons.checked,
-            ),
-          ),
-        ),
-      ],
+      ),
+      bottomNavigationBar: StyledElevatedButton(
+        text: AppLocalizations.of(context)!.submitPost,
+        onPressed: _onPostConfirm,
+        loading: _isLoading,
+        width: SizeConfig.safeBlockHorizontal * 100.0,
+        suffixIcon: CustomIcons.checked,
+      ),
     );
   }
 }

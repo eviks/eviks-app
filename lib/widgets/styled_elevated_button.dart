@@ -43,8 +43,11 @@ class StyledElevatedButton extends StatelessWidget {
             },
           ),
         ),
-        child: loading
-            ? SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (loading)
+              SizedBox(
                 width: 24.0,
                 height: 24.0,
                 child: CircularProgressIndicator(
@@ -53,8 +56,8 @@ class StyledElevatedButton extends StatelessWidget {
                       : Theme.of(context).primaryColor,
                 ),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            else
+              Row(
                 children: [
                   Text(
                     text,
@@ -80,6 +83,8 @@ class StyledElevatedButton extends StatelessWidget {
                     )
                 ],
               ),
+          ],
+        ),
       ),
     );
   }

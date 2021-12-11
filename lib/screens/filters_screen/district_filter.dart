@@ -63,8 +63,16 @@ class DistrictFilter extends StatelessWidget {
                           label: district.name,
                           icon: Icons.close,
                           onPressed: () {
-                            posts.filters.districts?.removeWhere(
-                                (element) => element.id == district.id);
+                            Provider.of<Posts>(context, listen: false)
+                                .updateFilters(
+                              {
+                                'districts': posts.filters.districts
+                                    ?.where(
+                                      (element) => element.id != district.id,
+                                    )
+                                    .toList(),
+                              },
+                            );
                           },
                         ),
                       ),
@@ -84,8 +92,16 @@ class DistrictFilter extends StatelessWidget {
                           label: subdistrict.name,
                           icon: Icons.close,
                           onPressed: () {
-                            posts.filters.subdistricts?.removeWhere(
-                                (element) => element.id == subdistrict.id);
+                            Provider.of<Posts>(context, listen: false)
+                                .updateFilters(
+                              {
+                                'subdistricts': posts.filters.subdistricts
+                                    ?.where(
+                                      (element) => element.id != subdistrict.id,
+                                    )
+                                    .toList(),
+                              },
+                            );
                           },
                         ),
                       ),

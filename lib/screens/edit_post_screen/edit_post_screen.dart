@@ -1,4 +1,3 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,16 +24,6 @@ class EditPostScreen extends StatefulWidget {
 }
 
 class _EditPostScreenState extends State<EditPostScreen> {
-  void _prevStep(Post? postData) {
-    if ((postData?.step ?? 0) == 0) {
-      Navigator.of(context).pop();
-    } else {
-      Provider.of<Posts>(context, listen: false).updatePost(postData?.copyWith(
-        step: postData.step - 1,
-      ));
-    }
-  }
-
   Widget getStepWidget(Post? postData) {
     switch (postData?.step ?? 0) {
       case 0:
@@ -68,30 +57,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Widget build(BuildContext context) {
     final postData = Provider.of<Posts>(context, listen: true).postData;
     SizeConfig().init(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: postData?.step != 1 && postData?.step != 4,
-      appBar: AppBar(
-        title: Row(),
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                onPressed: () {
-                  _prevStep(postData);
-                },
-                icon: const Icon(CustomIcons.back),
-              )
-            : null,
-      ),
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Container(
-            constraints: BoxConstraints(
-              minHeight: SizeConfig.safeBlockVertical * 100.0,
-            ),
-            child: getStepWidget(postData),
-          ),
-        ),
-      ),
-    );
+    return getStepWidget(postData);
   }
 }
