@@ -68,13 +68,13 @@ class SqmFilters extends StatelessWidget {
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
             _updateFilters({
-              'livingRoomsMin':
+              'livingRoomsSqmMin':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
             _updateFilters({
-              'livingRoomsMax':
+              'livingRoomsSqmMax':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },

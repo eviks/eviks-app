@@ -63,6 +63,7 @@ class MainFilters extends StatelessWidget {
               CustomIcons.apartment,
               CustomIcons.house,
             ],
+            allowUnselect: false,
           ),
         ),
         Visibility(

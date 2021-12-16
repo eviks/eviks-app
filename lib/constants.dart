@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import './models/filters.dart';
+import './models/pagination.dart';
 import './models/post.dart';
 import './models/settlement.dart';
 
@@ -83,5 +84,12 @@ Filters initFilters() {
       ],
     ),
     dealType: DealType.sale,
+    estateType: EstateType.apartment,
+  );
+}
+
+Pagination initPagination() {
+  return Pagination(
+    current: 0,
   );
 }

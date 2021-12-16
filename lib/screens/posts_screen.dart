@@ -17,19 +17,22 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   var _isInit = true;
+  var _isInitLoading = false;
   var _isLoading = false;
+  final ScrollController _scrollController = ScrollController();
 
-  @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
+  Future<void> _fetchPosts() async {
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    final _pagination = Provider.of<Posts>(context, listen: false).pagination;
+    if (_pagination.available != null || _pagination.current == 0) {
+      final _page = _pagination.current + 1;
 
-      String _errorMessage = '';
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       try {
-        await Provider.of<Posts>(context, listen: false).fetchAndSetPosts();
+        await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
+          page: _page,
+          updatePosts: true,
+        );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
           _errorMessage = AppLocalizations.of(context)!.serverError;
@@ -43,14 +46,50 @@ class _PostScreenState extends State<PostScreen> {
       if (_errorMessage.isNotEmpty) {
         displayErrorMessage(context, _errorMessage);
       }
+    }
+  }
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      _scrollController.addListener(
+        () async {
+          if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent) {
+            setState(() {
+              _isLoading = true;
+            });
+
+            await _fetchPosts();
+
+            setState(() {
+              _isLoading = false;
+            });
+          }
+        },
+      );
 
       setState(() {
-        _isLoading = false;
+        _isInitLoading = true;
       });
-    }
 
-    _isInit = false;
+      Provider.of<Posts>(context, listen: false).clearPosts();
+
+      await _fetchPosts();
+
+      setState(() {
+        _isInitLoading = false;
+      });
+
+      _isInit = false;
+    }
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,10 +118,10 @@ class _PostScreenState extends State<PostScreen> {
           ],
         ),
       ),
-      body: _isLoading
-          ? (const Center(
+      body: _isInitLoading
+          ? const Center(
               child: CircularProgressIndicator(),
-            ))
+            )
           : postsData.posts.isEmpty
               ? SingleChildScrollView(
                   child: Center(
@@ -125,14 +164,35 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                   ),
                 )
-              : (ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    return PostItem(
-                      post: postsData.posts[index],
-                    );
-                  },
-                  itemCount: postsData.posts.length,
-                )),
+              : Stack(
+                  alignment: AlignmentDirectional.topEnd,
+                  children: [
+                    ListView.builder(
+                      controller: _scrollController,
+                      itemBuilder: (ctx, index) {
+                        return PostItem(
+                          key: Key(postsData.posts[index].id.toString()),
+                          post: postsData.posts[index],
+                        );
+                      },
+                      itemCount: postsData.posts.length,
+                    ),
+                    if (_isLoading)
+                      Positioned(
+                        bottom: 0,
+                        width: SizeConfig.blockSizeHorizontal * 100.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
     );
   }
 }

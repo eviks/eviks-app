@@ -7,7 +7,7 @@ class Filters {
   List<Settlement>? districts;
   List<Settlement>? subdistricts;
   DealType dealType;
-  EstateType? estateType;
+  EstateType estateType;
   ApartmentType? apartmentType;
   int? priceMin;
   int? priceMax;
@@ -21,13 +21,17 @@ class Filters {
   int? kitchenSqmMax;
   int? lotSqmMin;
   int? lotSqmMax;
+  int? floorMin;
+  int? floorMax;
+  int? totalFloorsMin;
+  int? totalFloorsMax;
 
   Filters({
     required this.city,
     required this.dealType,
     this.districts,
     this.subdistricts,
-    this.estateType,
+    required this.estateType,
     this.apartmentType,
     this.priceMin,
     this.priceMax,
@@ -41,6 +45,10 @@ class Filters {
     this.kitchenSqmMax,
     this.lotSqmMin,
     this.lotSqmMax,
+    this.floorMin,
+    this.floorMax,
+    this.totalFloorsMin,
+    this.totalFloorsMax,
   });
 
   Map<String, dynamic> toQueryParameters() => {
@@ -48,7 +56,7 @@ class Filters {
         'dealType': dealType.toString().replaceAll('DealType.', ''),
         'districtId': districts?.map((e) => e.id).toList().join(','),
         'subdistrictId': subdistricts?.map((e) => e.id).toList().join(','),
-        'estateType': estateType?.toString().replaceAll('EstateType.', ''),
+        'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
             apartmentType?.toString().replaceAll('ApartmentType.', ''),
         'priceMin': priceMin == 0 ? null : priceMin?.toString(),
@@ -65,5 +73,11 @@ class Filters {
         'kitchenSqmMax': kitchenSqmMax == 0 ? null : kitchenSqmMax?.toString(),
         'lotSqmMin': lotSqmMin == 0 ? null : lotSqmMin?.toString(),
         'lotSqmMax': lotSqmMax == 0 ? null : lotSqmMax?.toString(),
+        'floorMin': floorMin == 0 ? null : floorMin?.toString(),
+        'floorMax': floorMax == 0 ? null : floorMax?.toString(),
+        'totalFloorsMin':
+            totalFloorsMin == 0 ? null : totalFloorsMin?.toString(),
+        'totalFloorsMax':
+            totalFloorsMax == 0 ? null : totalFloorsMax?.toString(),
       };
 }

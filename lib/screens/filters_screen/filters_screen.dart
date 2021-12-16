@@ -7,6 +7,7 @@ import '../../widgets/styled_elevated_button.dart';
 import '../tabs_screen.dart';
 import './city_filter.dart';
 import './district_filter.dart';
+import './floor_filters.dart';
 import './main_filters.dart';
 import './sqm_filters.dart';
 
@@ -72,6 +73,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       DistrictFilter(),
                       MainFilters(),
                       SqmFilters(),
+                      FloorFilters(),
                     ],
                   ),
                 ),

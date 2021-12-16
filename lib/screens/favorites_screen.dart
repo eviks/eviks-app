@@ -17,56 +17,83 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
   var _isInit = true;
+  var _isInitLoading = false;
   var _isLoading = false;
+  List<String> ids = [];
+  final ScrollController _scrollController = ScrollController();
 
-  @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
-
-    final favorites = Provider.of<Auth>(context, listen: true).favorites;
-    final ids = [];
-    favorites.forEach((key, value) {
-      if (value == true) {
-        ids.add(key.toString());
-      }
-    });
-
+  Future<void> _fetchPosts() async {
     if (ids.isNotEmpty) {
       final Map<String, dynamic> _queryParameters = {'ids': ids.join(',')};
 
       String _errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      await Provider.of<Posts>(context, listen: false)
-          .fetchAndSetPosts(queryParameters: _queryParameters);
-      try {} on Failure catch (error) {
-        if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
-        } else {
-          _errorMessage = AppLocalizations.of(context)!.networkError;
+      final _pagination = Provider.of<Posts>(context, listen: false).pagination;
+      if (_pagination.available != null || _pagination.current == 0) {
+        final _page = _pagination.current + 1;
+        await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
+          queryParameters: _queryParameters,
+          page: _page,
+          updatePosts: true,
+        );
+        try {} on Failure catch (error) {
+          if (error.statusCode >= 500) {
+            _errorMessage = AppLocalizations.of(context)!.serverError;
+          } else {
+            _errorMessage = AppLocalizations.of(context)!.networkError;
+          }
+        } catch (error) {
+          _errorMessage = AppLocalizations.of(context)!.unknownError;
         }
-      } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
-      }
 
-      if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        if (_errorMessage.isNotEmpty) {
+          displayErrorMessage(context, _errorMessage);
+        }
       }
-
-      setState(() {
-        _isLoading = false;
-      });
-    } else {
-      Provider.of<Posts>(context, listen: false).clearPosts();
-      setState(() {
-        _isLoading = false;
-      });
     }
+  }
 
-    _isInit = false;
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      _scrollController.addListener(
+        () async {
+          if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent) {
+            setState(() {
+              _isLoading = true;
+            });
+
+            await _fetchPosts();
+
+            setState(() {
+              _isLoading = false;
+            });
+          }
+        },
+      );
+
+      setState(() {
+        _isInitLoading = true;
+      });
+
+      final favorites = Provider.of<Auth>(context, listen: false).favorites;
+      favorites.forEach((key, value) {
+        if (value == true) {
+          ids.add(key.toString());
+        }
+      });
+
+      Provider.of<Posts>(context, listen: false).clearPosts();
+
+      await _fetchPosts();
+
+      setState(() {
+        _isInitLoading = false;
+      });
+
+      _isInit = false;
+    }
     super.didChangeDependencies();
   }
 
@@ -89,11 +116,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: _isLoading
+      body: _isInitLoading
           ? (const Center(
               child: CircularProgressIndicator(),
             ))
-          : (postsData.posts.isEmpty
+          : postsData.posts.isEmpty
               ? SingleChildScrollView(
                   child: Center(
                     child: Padding(
@@ -135,14 +162,34 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                   ),
                 )
-              : ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    return PostItem(
-                      post: postsData.posts[index],
-                    );
-                  },
-                  itemCount: postsData.posts.length,
-                )),
+              : Stack(
+                  children: [
+                    ListView.builder(
+                      controller: _scrollController,
+                      itemBuilder: (ctx, index) {
+                        return PostItem(
+                          key: Key(postsData.posts[index].id.toString()),
+                          post: postsData.posts[index],
+                        );
+                      },
+                      itemCount: postsData.posts.length,
+                    ),
+                    if (_isLoading)
+                      Positioned(
+                        bottom: 0,
+                        width: SizeConfig.blockSizeHorizontal * 100.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
     );
   }
 }

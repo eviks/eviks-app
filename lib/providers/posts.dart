@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../models/failure.dart';
 import '../models/filters.dart';
+import '../models/pagination.dart';
 import '../models/post.dart';
 
 class Posts with ChangeNotifier {
@@ -14,8 +15,15 @@ class Posts with ChangeNotifier {
   List<Post> _posts;
   Post? _postData;
   final Filters _filters;
+  Pagination _pagination;
 
-  Posts(this.token, this._posts, this._postData, this._filters);
+  Posts(
+    this.token,
+    this._posts,
+    this._postData,
+    this._filters,
+    this._pagination,
+  );
 
   List<Post> get posts {
     return [..._posts];
@@ -27,6 +35,10 @@ class Posts with ChangeNotifier {
 
   Filters get filters {
     return _filters;
+  }
+
+  Pagination get pagination {
+    return _pagination;
   }
 
   void initNewPost() {
@@ -74,7 +86,7 @@ class Posts with ChangeNotifier {
           _filters.dealType = value as DealType;
           break;
         case 'estateType':
-          _filters.estateType = value as EstateType?;
+          _filters.estateType = value as EstateType;
           break;
         case 'apartmentType':
           _filters.apartmentType = value as ApartmentType?;
@@ -115,13 +127,28 @@ class Posts with ChangeNotifier {
         case 'lotSqmMax':
           _filters.lotSqmMax = value as int?;
           break;
+        case 'floorMin':
+          _filters.floorMin = value as int?;
+          break;
+        case 'floorMax':
+          _filters.floorMax = value as int?;
+          break;
+        case 'totalFloorsMin':
+          _filters.totalFloorsMin = value as int?;
+          break;
+        case 'totalFloorsMax':
+          _filters.totalFloorsMax = value as int?;
+          break;
         default:
       }
     });
     notifyListeners();
   }
 
-  Future<void> fetchAndSetPosts({Map<String, dynamic>? queryParameters}) async {
+  Future<void> fetchAndSetPosts(
+      {Map<String, dynamic>? queryParameters,
+      int page = 1,
+      bool updatePosts = false}) async {
     Map<String, dynamic> _parameters;
 
     if (queryParameters == null) {
@@ -130,7 +157,8 @@ class Posts with ChangeNotifier {
       _parameters = queryParameters;
     }
 
-    _parameters['limit'] = '15';
+    _parameters['page'] = page.toString();
+    _parameters['limit'] = '2';
 
     final url = Uri(
         scheme: 'http',
@@ -159,7 +187,17 @@ class Posts with ChangeNotifier {
       data['result'].forEach((element) {
         loadedPosts.add(Post.fromJson(element));
       });
-      _posts = loadedPosts;
+
+      if (updatePosts) {
+        _posts.addAll(loadedPosts);
+      } else {
+        _posts = loadedPosts;
+      }
+
+      _pagination = Pagination.fromJson(
+        data['pagination'],
+      );
+
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -297,5 +335,8 @@ class Posts with ChangeNotifier {
 
   void clearPosts() {
     _posts = [];
+    _pagination = Pagination(
+      current: 0,
+    );
   }
 }
