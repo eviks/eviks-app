@@ -1,10 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 
+import './uploaded_image.dart';
 import '../../../constants.dart';
 import '../../../models/failure.dart';
 import '../../../models/image_data.dart';
@@ -13,7 +14,6 @@ import '../../../providers/posts.dart';
 import '../../../widgets/sized_config.dart';
 import '../../../widgets/styled_elevated_button.dart';
 import '../step_title.dart';
-import './uploaded_image.dart';
 
 class EditPostImages extends StatefulWidget {
   const EditPostImages({

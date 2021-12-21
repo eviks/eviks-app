@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './filters_screen/filters_screen.dart';
 import '../constants.dart';
 import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
-import './filters_screen/filters_screen.dart';
 
 class PostScreen extends StatefulWidget {
   @override

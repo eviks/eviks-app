@@ -22,11 +22,13 @@ environment:
 
 dependencies:
   carousel_slider: ^4.0.0
+  firebase_auth: ^3.3.4
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   flutter_map: any
+  google_sign_in: ^5.2.1
   http: ^0.13.3
   intl: ^0.17.0
   provider: ^5.0.0

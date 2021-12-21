@@ -1,9 +1,9 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './step_title.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/post.dart';
@@ -13,7 +13,6 @@ import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import '../tabs_screen.dart';
-import './step_title.dart';
 
 class EditPostContacts extends StatefulWidget {
   const EditPostContacts({

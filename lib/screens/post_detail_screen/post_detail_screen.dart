@@ -2,11 +2,11 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './post_detail_content.dart';
+import './post_detail_header.dart';
 import '../../constants.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
-import './post_detail_content.dart';
-import './post_detail_header.dart';
 
 class PostDetailScreen extends StatelessWidget {
   const PostDetailScreen({Key? key}) : super(key: key);

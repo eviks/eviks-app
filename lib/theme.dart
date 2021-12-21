@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 import './constants.dart';
 
@@ -13,6 +12,14 @@ ThemeData lightThemeData(BuildContext context) {
       backgroundColor: lightColor,
       shadowColor: Colors.transparent,
       centerTitle: true,
+      elevation: 0,
+      iconTheme: IconThemeData(
+        color: primaryColor,
+      ),
+      titleTextStyle: TextStyle(
+        color: primaryColor,
+        fontSize: 24.0,
+      ),
     ),
     iconTheme: const IconThemeData(color: darkColor),
     textTheme: ThemeData.light().textTheme.apply(
@@ -107,6 +114,14 @@ ThemeData darkThemeData(BuildContext context) {
       backgroundColor: darkColor,
       shadowColor: Colors.transparent,
       centerTitle: true,
+      elevation: 0,
+      iconTheme: IconThemeData(
+        color: lightPrimaryColor,
+      ),
+      titleTextStyle: TextStyle(
+        color: lightPrimaryColor,
+        fontSize: 24.0,
+      ),
     ),
     iconTheme: const IconThemeData(color: lightGreyColor),
     textTheme: ThemeData.dark().textTheme.apply(

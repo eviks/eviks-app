@@ -1,14 +1,14 @@
-import 'package:intl/intl.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
+import './carousel.dart';
+import './favorite_button.dart';
 import '../constants.dart';
 import '../models/post.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
-import './carousel.dart';
-import './favorite_button.dart';
 
 class PostItem extends StatelessWidget {
   final Post post;

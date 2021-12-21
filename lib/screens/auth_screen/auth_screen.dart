@@ -2,11 +2,11 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../providers/auth.dart';
-import '../../widgets/sized_config.dart';
 import './background.dart';
 import './login_form.dart';
 import './register_form.dart';
+import '../../providers/auth.dart';
+import '../../widgets/sized_config.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/auth';

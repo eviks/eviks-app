@@ -1,15 +1,15 @@
+import 'package:collection/collection.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:collection/collection.dart';
+import 'package:provider/provider.dart';
 
+import './tree_branch.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/settlement.dart';
 import '../../providers/localities.dart';
 import '../../widgets/styled_elevated_button.dart';
-import './tree_branch.dart';
 
 class DistrictSelection extends StatefulWidget {
   final Settlement city;

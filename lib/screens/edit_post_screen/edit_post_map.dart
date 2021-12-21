@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/address_not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,8 +7,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:eviks_mobile/icons.dart';
 
+import './step_title.dart';
 import '../../constants.dart';
 import '../../models/address.dart';
 import '../../models/failure.dart';
@@ -18,7 +19,6 @@ import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
-import './step_title.dart';
 
 class EditPostMap extends StatefulWidget {
   const EditPostMap({

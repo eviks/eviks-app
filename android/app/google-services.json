@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "571116264351",
+    "project_id": "eviks-335609",
+    "storage_bucket": "eviks-335609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571116264351:android:9ede385b9fe3ff93367baa",
+        "android_client_info": {
+          "package_name": "com.example.eviks_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571116264351-g9ik18j6snbtfbsknm2gr1eh1ndsvu74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCivCsHQY4GirkAk5jdfCfvn4gd9CD90Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571116264351-g9ik18j6snbtfbsknm2gr1eh1ndsvu74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

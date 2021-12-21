@@ -2,14 +2,14 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../widgets/sized_config.dart';
-import '../../widgets/styled_elevated_button.dart';
-import '../tabs_screen.dart';
 import './city_filter.dart';
 import './district_filter.dart';
 import './floor_filters.dart';
 import './main_filters.dart';
 import './sqm_filters.dart';
+import '../../widgets/sized_config.dart';
+import '../../widgets/styled_elevated_button.dart';
+import '../tabs_screen.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../models/post.dart';
 import './post_detail_main_info.dart';
 import './post_detail_map.dart';
+import '../../models/post.dart';
 
 class PostDetailContent extends StatelessWidget {
   final Post post;

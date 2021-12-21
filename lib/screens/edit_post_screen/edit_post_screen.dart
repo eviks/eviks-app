@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/post.dart';
-
-import '../../providers/posts.dart';
-import '../../widgets/sized_config.dart';
 import './edit_post_additional_info.dart';
 import './edit_post_building_info.dart';
 import './edit_post_contacts.dart';
@@ -13,6 +9,9 @@ import './edit_post_general_info.dart';
 import './edit_post_images/edit_post_images.dart';
 import './edit_post_map.dart';
 import './edit_post_price.dart';
+import '../../models/post.dart';
+import '../../providers/posts.dart';
+import '../../widgets/sized_config.dart';
 
 class EditPostScreen extends StatefulWidget {
   static const routeName = '/edit_post';
