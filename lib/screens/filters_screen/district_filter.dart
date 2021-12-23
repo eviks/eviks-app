@@ -11,7 +11,7 @@ import '../../widgets/tag.dart';
 class DistrictFilter extends StatelessWidget {
   const DistrictFilter({Key? key}) : super(key: key);
 
-  void _selectDistrict(BuildContext context) async {
+  Future<void> _selectDistrict(BuildContext context) async {
     final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
     final result = await Navigator.push<Map<String, List<Settlement>>?>(
       context,

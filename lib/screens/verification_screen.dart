@@ -23,7 +23,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   var _isLoading = false;
   var _activationToken = '';
 
-  void _verify() async {
+  Future<void> _verify() async {
     if (_activationToken.length < 5) {
       return;
     }

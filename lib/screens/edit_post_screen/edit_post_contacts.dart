@@ -71,7 +71,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
     );
   }
 
-  void _createPost() async {
+  Future<void> _createPost() async {
     if (postData == null) {
       return;
     }

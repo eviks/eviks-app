@@ -16,11 +16,16 @@ class UserInfo extends StatelessWidget {
         SizedBox(
           height: SizeConfig.safeBlockHorizontal * 25.0,
           width: SizeConfig.safeBlockVertical * 25.0,
-          child: CircleAvatar(
-            backgroundImage:
-                const AssetImage('assets/img/illustrations/avatar.png'),
-            backgroundColor: Theme.of(context).backgroundColor,
-          ),
+          child: user?.picture != null
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(user!.picture!),
+                  backgroundColor: Theme.of(context).backgroundColor,
+                )
+              : CircleAvatar(
+                  backgroundImage:
+                      const AssetImage('assets/img/illustrations/avatar.png'),
+                  backgroundColor: Theme.of(context).backgroundColor,
+                ),
         ),
         const SizedBox(
           height: 10.0,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ enum AuthMode { login, register }
 class Auth with ChangeNotifier {
   String _token = '';
   User? _user;
+  final _googleSignIn = GoogleSignIn();
 
   User? get user {
     return _user;
@@ -61,6 +63,45 @@ class Auth with ChangeNotifier {
       await loadUser();
       await saveTokenOnDevice();
       notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final url =
+            Uri.parse('http://192.168.1.9:5000/api/auth/login_with_google');
+        final response = await http.post(url,
+            body: json.encode({
+              'displayName': googleUser.displayName,
+              'email': googleUser.email,
+              'googleId': googleUser.id,
+              'picture': googleUser.photoUrl,
+            }),
+            headers: {'Content-Type': 'application/json'});
+
+        if (response.statusCode >= 500) {
+          throw Failure('Server error', response.statusCode);
+        } else if (response.statusCode != 200) {
+          final data = json.decode(response.body) as Map<String, dynamic>;
+
+          final buffer = StringBuffer();
+          buffer.writeAll(
+              data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+              '\n');
+          throw Failure(buffer.toString(), response.statusCode);
+        }
+
+        final data = (json.decode(response.body) as Map<String, dynamic>)
+            .cast<String, String>();
+        _token = data['token'] ?? '';
+        await loadUser();
+        await saveTokenOnDevice();
+        notifyListeners();
+      }
     } catch (error) {
       rethrow;
     }

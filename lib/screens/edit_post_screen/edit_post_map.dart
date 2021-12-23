@@ -99,7 +99,7 @@ class _EditPostMapState extends State<EditPostMap> {
     FocusScope.of(context).unfocus();
   }
 
-  void _getAddressByCoords(List<double> coords) async {
+  Future<void> _getAddressByCoords(List<double> coords) async {
     setState(() {
       _isLoading = true;
     });
@@ -153,7 +153,7 @@ class _EditPostMapState extends State<EditPostMap> {
     });
   }
 
-  void _searchForAddress(String value) async {
+  Future<void> _searchForAddress(String value) async {
     setState(() {
       _isLoading = true;
     });

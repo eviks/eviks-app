@@ -22,7 +22,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   List<String> ids = [];
   final ScrollController _scrollController = ScrollController();
 
-  Future<void> _fetchPosts() async {
+  Future<void> _fetchPosts(bool updatePosts) async {
     if (ids.isNotEmpty) {
       final Map<String, dynamic> _queryParameters = {'ids': ids.join(',')};
 
@@ -34,7 +34,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
           queryParameters: _queryParameters,
           page: _page,
-          updatePosts: true,
+          updatePosts: updatePosts,
         );
         try {} on Failure catch (error) {
           if (error.statusCode >= 500) {
@@ -54,7 +54,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   @override
-  void didChangeDependencies() async {
+  Future<void> didChangeDependencies() async {
     if (_isInit) {
       _scrollController.addListener(
         () async {
@@ -64,7 +64,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               _isLoading = true;
             });
 
-            await _fetchPosts();
+            await _fetchPosts(true);
 
             setState(() {
               _isLoading = false;
@@ -86,7 +86,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
       Provider.of<Posts>(context, listen: false).clearPosts();
 
-      await _fetchPosts();
+      await _fetchPosts(false);
 
       setState(() {
         _isInitLoading = false;

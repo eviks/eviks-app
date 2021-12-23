@@ -26,7 +26,7 @@ class UploadedImage extends StatefulWidget {
 }
 
 class _UploadedImageState extends State<UploadedImage> {
-  void uploadImage() async {
+  Future<void> uploadImage() async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {

@@ -15,7 +15,7 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _logout() async {
+    Future<void> _logout() async {
       String _errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       try {

@@ -1,6 +1,5 @@
 class User {
   final String id;
-  final String username;
   final String displayName;
   final String email;
   final DateTime createdAt;
@@ -10,11 +9,11 @@ class User {
   final DateTime? activationTokenExpires;
   final String? resetPasswordToken;
   final DateTime? resetPasswordExpires;
+  final String? picture;
   Map<String, bool>? favorites;
 
   User({
     required this.id,
-    required this.username,
     required this.displayName,
     required this.email,
     required this.createdAt,
@@ -25,12 +24,12 @@ class User {
     this.resetPasswordToken,
     this.resetPasswordExpires,
     this.favorites,
+    this.picture,
   });
 
   factory User.fromJson(dynamic json) {
     return User(
       id: json['_id'] as String,
-      username: json['username'] as String,
       displayName: json['displayName'] as String,
       email: json['email'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
@@ -47,6 +46,7 @@ class User {
       favorites: json['favorites'] == null
           ? null
           : (json['favorites'] as Map<String, dynamic>).cast<String, bool>(),
+      picture: json['picture'] == null ? null : json['picture'] as String,
     );
   }
 }

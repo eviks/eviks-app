@@ -131,5 +131,7 @@
     "selectDistrict": "Rayonu seçin",
     "selectDistrictHint": "Axtarış",
     "select": "Seçmək",
-    "sqmTitle": "Sahə"
+    "sqmTitle": "Sahə",
+    "loginOr": "yaxud",
+    "loginWithGoogle": "Google"
 }

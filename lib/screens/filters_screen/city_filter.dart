@@ -9,7 +9,7 @@ import '../../widgets/selections/city_selection.dart';
 class CityFilter extends StatelessWidget {
   const CityFilter({Key? key}) : super(key: key);
 
-  void _selectCity(BuildContext context) async {
+  Future<void> _selectCity(BuildContext context) async {
     final city = await Navigator.push<Settlement?>(
       context,
       MaterialPageRoute(builder: (context) => const CitySelection()),

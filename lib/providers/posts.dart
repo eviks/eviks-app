@@ -145,6 +145,13 @@ class Posts with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearPosts() {
+    _posts = [];
+    _pagination = Pagination(
+      current: 0,
+    );
+  }
+
   Future<void> fetchAndSetPosts(
       {Map<String, dynamic>? queryParameters,
       int page = 1,
@@ -331,12 +338,5 @@ class Posts with ChangeNotifier {
 
   Post findById(int id) {
     return _posts.firstWhere((element) => element.id == id);
-  }
-
-  void clearPosts() {
-    _posts = [];
-    _pagination = Pagination(
-      current: 0,
-    );
   }
 }

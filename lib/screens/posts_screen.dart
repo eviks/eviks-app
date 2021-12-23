@@ -21,7 +21,7 @@ class _PostScreenState extends State<PostScreen> {
   var _isLoading = false;
   final ScrollController _scrollController = ScrollController();
 
-  Future<void> _fetchPosts() async {
+  Future<void> _fetchPosts(bool updatePosts) async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     final _pagination = Provider.of<Posts>(context, listen: false).pagination;
@@ -31,7 +31,7 @@ class _PostScreenState extends State<PostScreen> {
       try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
           page: _page,
-          updatePosts: true,
+          updatePosts: updatePosts,
         );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
@@ -50,7 +50,7 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   @override
-  void didChangeDependencies() async {
+  Future<void> didChangeDependencies() async {
     if (_isInit) {
       _scrollController.addListener(
         () async {
@@ -60,7 +60,7 @@ class _PostScreenState extends State<PostScreen> {
               _isLoading = true;
             });
 
-            await _fetchPosts();
+            await _fetchPosts(true);
 
             setState(() {
               _isLoading = false;
@@ -75,7 +75,7 @@ class _PostScreenState extends State<PostScreen> {
 
       Provider.of<Posts>(context, listen: false).clearPosts();
 
-      await _fetchPosts();
+      await _fetchPosts(false);
 
       setState(() {
         _isInitLoading = false;

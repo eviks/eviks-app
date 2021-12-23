@@ -30,7 +30,7 @@ class _RegisterFormState extends State<RegisterForm> {
     'password': '',
   };
 
-  void _register() async {
+  Future<void> _register() async {
     if (_formKey.currentState == null) {
       return;
     }

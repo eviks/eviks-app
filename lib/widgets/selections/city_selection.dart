@@ -24,7 +24,7 @@ class _CitySelectionState extends State<CitySelection> {
   late TextEditingController _controller;
 
   @override
-  void didChangeDependencies() async {
+  Future<void> didChangeDependencies() async {
     if (_isInit) {
       setState(() {
         _isLoading = true;

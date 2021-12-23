@@ -46,7 +46,7 @@ class _EditPostImagesState extends State<EditPostImages> {
     super.initState();
   }
 
-  void _selectImageFromGallery() async {
+  Future<void> _selectImageFromGallery() async {
     final pickedFileList = await _picker.pickMultiImage();
     if (pickedFileList != null) {
       final List<ImageData> _newFiles = [];
@@ -90,7 +90,7 @@ class _EditPostImagesState extends State<EditPostImages> {
     }
   }
 
-  void _takeAPhoto() async {
+  Future<void> _takeAPhoto() async {
     final file = await _picker.pickImage(source: ImageSource.camera);
     if (file != null) {
       var id = '';
@@ -141,7 +141,7 @@ class _EditPostImagesState extends State<EditPostImages> {
     });
   }
 
-  void deleteImage(String id) async {
+  Future<void> deleteImage(String id) async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {

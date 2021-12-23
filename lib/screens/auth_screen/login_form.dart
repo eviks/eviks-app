@@ -27,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
     'password': '',
   };
 
-  void _login() async {
+  Future<void> _login() async {
     if (_formKey.currentState == null) {
       return;
     }
@@ -60,6 +60,29 @@ class _LoginFormState extends State<LoginForm> {
     setState(() {
       _isLoading = false;
     });
+
+    if (_errorMessage.isNotEmpty) {
+      displayErrorMessage(context, _errorMessage);
+      return;
+    }
+
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
+  }
+
+  Future<void> _loginWithGoogle() async {
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    await Provider.of<Auth>(context, listen: false).loginWithGoogle();
+    try {} on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = error.toString();
+      }
+    } catch (error) {
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
+    }
 
     if (_errorMessage.isNotEmpty) {
       displayErrorMessage(context, _errorMessage);
@@ -115,7 +138,39 @@ class _LoginFormState extends State<LoginForm> {
               widget.switchAuthMode(AuthMode.register);
             },
             child: Text(AppLocalizations.of(context)!.createAccount),
-          )
+          ),
+          Row(
+            children: [
+              const Expanded(child: Divider()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  AppLocalizations.of(context)!.loginOr,
+                ),
+              ),
+              const Expanded(child: Divider()),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              top: 8.0,
+            ),
+            height: 60.0,
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: Image.asset(
+                "assets/img/svg/google.png",
+                height: 24.0,
+              ),
+              label: Text(
+                AppLocalizations.of(context)!.loginWithGoogle,
+              ),
+              onPressed: _loginWithGoogle,
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).backgroundColor,
+                  onPrimary: Theme.of(context).textTheme.bodyText1?.color),
+            ),
+          ),
         ],
       ),
     );
