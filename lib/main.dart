@@ -1,13 +1,16 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/providers/theme_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './constants.dart';
 import './providers/auth.dart';
 import './providers/localities.dart';
 import './providers/posts.dart';
+import './providers/theme_preferences.dart';
 import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
 import './screens/filters_screen/filters_screen.dart';
@@ -19,10 +22,29 @@ import './theme.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  final themeMode = await getThemePreferences();
+  runApp(MyApp(
+    themeMode: themeMode,
+  ));
+}
+
+Future<ThemeMode> getThemePreferences() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final savedThemeMode = prefs.getString('themeMode') ?? 'system';
+
+    return ThemeMode.values.firstWhere(
+        (element) => element.toString() == 'ThemeMode.$savedThemeMode');
+  } catch (error) {
+    return ThemeMode.system;
+  }
 }
 
 class MyApp extends StatelessWidget {
+  final ThemeMode? themeMode;
+
+  const MyApp({this.themeMode});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -39,13 +61,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (ctx) => Localities()),
+        ChangeNotifierProvider(
+            create: (ctx) => ThemePreferences(themeMode ?? ThemeMode.system)),
       ],
-      child: Consumer<Auth>(
-        builder: (ctx, auth, _) => MaterialApp(
+      child: Consumer2<Auth, ThemePreferences>(
+        builder: (ctx, auth, themePreferences, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          themeMode: themePreferences.themeMode,
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           home: auth.isAuth

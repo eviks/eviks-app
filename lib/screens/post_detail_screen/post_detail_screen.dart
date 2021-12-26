@@ -1,12 +1,15 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_content.dart';
 import './post_detail_header.dart';
 import '../../constants.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
+import '../../widgets/styled_elevated_button.dart';
 
 class PostDetailScreen extends StatelessWidget {
   const PostDetailScreen({Key? key}) : super(key: key);
@@ -50,6 +53,16 @@ class PostDetailScreen extends StatelessWidget {
             loadedPost,
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StyledElevatedButton(
+          text: AppLocalizations.of(context)!.call,
+          suffixIcon: CustomIcons.phonecall,
+          onPressed: () async {
+            launch('tel://${loadedPost.contact}');
+          },
+        ),
       ),
     );
   }

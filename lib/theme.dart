@@ -5,6 +5,7 @@ import './constants.dart';
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
     primaryColor: primaryColor,
+    androidOverscrollIndicator: AndroidOverscrollIndicator.glow,
     disabledColor: greyColor,
     backgroundColor: lightColor,
     scaffoldBackgroundColor: lightColor,
@@ -36,6 +37,7 @@ ThemeData lightThemeData(BuildContext context) {
     colorScheme: const ColorScheme.light(
       primary: primaryColor,
       error: dangerColor,
+      secondary: primaryColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
@@ -138,6 +140,7 @@ ThemeData darkThemeData(BuildContext context) {
     colorScheme: const ColorScheme.light(
       primary: lightPrimaryColor,
       error: lightDangerColor,
+      secondary: lightPrimaryColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

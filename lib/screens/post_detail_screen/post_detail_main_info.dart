@@ -14,7 +14,9 @@ class PostDetailMainInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _MainInfo(
               value: post.rooms.toString(),
@@ -22,6 +24,15 @@ class PostDetailMainInfo extends StatelessWidget {
           _MainInfo(
               value: '${post.sqm.toString()} m²',
               hint: AppLocalizations.of(context)!.postSqm),
+          if (post.estateType == EstateType.apartment)
+            _MainInfo(
+                value:
+                    '${post.floor.toString()} / ${post.totalFloors.toString()}',
+                hint: AppLocalizations.of(context)!.floor),
+          if (post.estateType == EstateType.house)
+            _MainInfo(
+                value: '${post.lotSqm.toString()} ',
+                hint: AppLocalizations.of(context)!.lotSqm),
         ],
       ),
     );

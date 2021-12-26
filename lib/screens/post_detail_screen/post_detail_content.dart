@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import './post_detail_additional.dart';
 import './post_detail_main_info.dart';
 import './post_detail_map.dart';
 import '../../models/post.dart';
@@ -9,6 +10,29 @@ class PostDetailContent extends StatelessWidget {
   final Post post;
 
   const PostDetailContent(this.post);
+
+  bool _postHasAdditionalItems() {
+    return (post.kidsAllowed ?? false) ||
+        (post.petsAllowed ?? false) ||
+        (post.garage ?? false) ||
+        (post.pool ?? false) ||
+        (post.bathhouse ?? false) ||
+        (post.balcony ?? false) ||
+        (post.furniture ?? false) ||
+        (post.kitchenFurniture ?? false) ||
+        (post.cableTv ?? false) ||
+        (post.phone ?? false) ||
+        (post.internet ?? false) ||
+        (post.electricity ?? false) ||
+        (post.gas ?? false) ||
+        (post.water ?? false) ||
+        (post.heating ?? false) ||
+        (post.tv ?? false) ||
+        (post.conditioner ?? false) ||
+        (post.washingMachine ?? false) ||
+        (post.dishwasher ?? false) ||
+        (post.refrigerator ?? false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +53,13 @@ class PostDetailContent extends StatelessWidget {
                 post.description,
                 style: const TextStyle(fontSize: 16.0),
               ),
+              if (_postHasAdditionalItems())
+                _ContentTitle(
+                    AppLocalizations.of(context)!.postDetailAdditional),
+              PostDetailAdditional(post: post),
               _ContentTitle(AppLocalizations.of(context)!.postDetailLocation),
               SizedBox(
-                height: 200.0,
+                height: 300.0,
                 child: PostDetailMap(post.location),
               )
             ],

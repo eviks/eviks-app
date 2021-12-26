@@ -4,6 +4,7 @@
     "tabsScreenProfile": "Profil",
     "postsScreenTitle": "Eviks",
     "postDetailDescription": "Təsvir",
+    "postDetailAdditional": "Əlavə",
     "postDetailLocation": "Xəritə",
     "postRooms": "Otaq",
     "postSqm": "Ümumi sahəsi",
@@ -133,5 +134,7 @@
     "select": "Seçmək",
     "sqmTitle": "Sahə",
     "loginOr": "yaxud",
-    "loginWithGoogle": "Google"
+    "loginWithGoogle": "Google",
+    "call": "Zəng vurmaq",
+    "profile": "Profil"
 }

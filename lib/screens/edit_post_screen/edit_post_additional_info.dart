@@ -283,7 +283,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
                               });
                             }),
                         IconChoiseChip(
-                            icon: CustomIcons.tv,
+                            icon: CustomIcons.cabeltv,
                             label: Text(AppLocalizations.of(context)!.cabelTv),
                             value: _cableTv ?? false,
                             onSelected: (bool selected) {

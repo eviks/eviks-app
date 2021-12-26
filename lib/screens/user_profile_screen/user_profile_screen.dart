@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,20 @@ class UserProfileScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.profile,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              CustomIcons.settings,
+            ),
+          )
+        ],
+      ),
       body: Center(
         child: Container(
           height: SizeConfig.safeBlockVertical * 100.0,

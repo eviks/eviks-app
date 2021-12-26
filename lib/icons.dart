@@ -248,4 +248,8 @@ class CustomIcons {
     0xe838,
     fontFamily: _kFontFam,
   );
+  static const IconData phonecall = IconData(
+    0xe839,
+    fontFamily: _kFontFam,
+  );
 }

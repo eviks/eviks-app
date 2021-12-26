@@ -4,6 +4,7 @@
     "tabsScreenProfile": "Профиль",
     "postsScreenTitle": "Eviks",
     "postDetailDescription": "Описание",
+    "postDetailAdditional": "Дополнительно",
     "postDetailLocation": "Расположение",
     "postRooms": "Комн.",
     "postSqm": "Общая площадь",
@@ -133,5 +134,7 @@
     "select": "Выбрать",
     "sqmTitle": "Площадь",
     "loginOr": "или",
-    "loginWithGoogle": "Google"
+    "loginWithGoogle": "Google",
+    "call": "Позвонить",
+    "profile": "Профиль"
 }

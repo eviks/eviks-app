@@ -40,7 +40,7 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _selectPage(int index) {
-    if (index > 0 && !_isAuth) {
+    if (index != 0 && index != 3 && !_isAuth) {
       Navigator.pushNamed(context, AuthScreen.routeName);
     } else {
       setState(() {

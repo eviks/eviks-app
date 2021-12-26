@@ -255,17 +255,17 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> tryAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('token')) {
-      return false;
-    }
-    _token = prefs.getString('token') ?? '';
-
-    if (_token == '') {
-      return false;
-    }
-
     try {
+      final prefs = await SharedPreferences.getInstance();
+      if (!prefs.containsKey('token')) {
+        return false;
+      }
+      _token = prefs.getString('token') ?? '';
+
+      if (_token == '') {
+        return false;
+      }
+
       await loadUser();
       notifyListeners();
       return true;
@@ -276,12 +276,20 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> saveTokenOnDevice() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', token);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', token);
+    } catch (error) {
+      rethrow;
+    }
   }
 
   Future<void> clearTokenFromDevice() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove('token');
+    } catch (error) {
+      rethrow;
+    }
   }
 }
