@@ -18,7 +18,6 @@
     "errorPassword": "Введите пароль",
     "createAccount": "Зарегистрироваться",
     "errorRequiredField": "Пожалуйста, заполните это поле",
-    "authUsername": "Никнейм",
     "authDisplayName": "Имя",
     "registerButton": "Зарегистрироваться",
     "signUpTitle": "Регистрация",
@@ -136,5 +135,6 @@
     "loginOr": "или",
     "loginWithGoogle": "Google",
     "call": "Позвонить",
-    "profile": "Профиль"
+    "profile": "Профиль",
+    "theme": "Тема"
 }

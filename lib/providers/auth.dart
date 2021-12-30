@@ -107,13 +107,12 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> register(String username, String displayName, String email,
-      String password) async {
+  Future<void> register(
+      String displayName, String email, String password) async {
     try {
       final url = Uri.parse('http://192.168.1.9:5000/api/users');
       final response = await http.post(url,
           body: json.encode({
-            'username': username,
             'displayName': displayName,
             'email': email,
             'password': password,

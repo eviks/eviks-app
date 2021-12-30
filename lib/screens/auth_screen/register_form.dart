@@ -24,7 +24,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final _passwordController = TextEditingController();
   var _isLoading = false;
   final Map<String, String> _authData = {
-    'username': '',
     'displayName': '',
     'email': '',
     'password': '',
@@ -49,7 +48,6 @@ class _RegisterFormState extends State<RegisterForm> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false).register(
-        _authData['username']!,
         _authData['displayName']!,
         _authData['email']!,
         _authData['password']!,
@@ -84,19 +82,6 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           const SizedBox(
             height: 32.0,
-          ),
-          StyledInput(
-            icon: CustomIcons.user,
-            title: AppLocalizations.of(context)!.authUsername,
-            keyboardType: TextInputType.name,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorRequiredField;
-              }
-            },
-            onSaved: (value) {
-              _authData['username'] = value ?? '';
-            },
           ),
           StyledInput(
             icon: CustomIcons.user,

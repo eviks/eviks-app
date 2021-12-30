@@ -17,7 +17,6 @@ import './screens/filters_screen/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/verification_screen.dart';
-import './theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
