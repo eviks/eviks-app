@@ -121,7 +121,10 @@ class _EditPostContactsState extends State<EditPostContacts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.contactTitle,
+          icon: CustomIcons.phonering,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -140,13 +143,6 @@ class _EditPostContactsState extends State<EditPostContacts> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.contactTitle,
-                      icon: CustomIcons.phonering,
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
                     SizedBox(
                       height: SizeConfig.safeBlockVertical * 30.0,
                       child: Image.asset(

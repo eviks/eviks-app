@@ -79,12 +79,14 @@ class Localities with ChangeNotifier {
       if (districtName.isNotEmpty) {
         district = city.children
             ?.firstWhere((element) => element.name == districtName);
+        if (district != null) {
+          final result = await getLocalities({'id': district.id});
+          district = result[0];
+        }
       }
 
       // Subdistrict
       if (subdistrictName.isNotEmpty && district != null) {
-        final result = await getLocalities({'id': district.id});
-        district = result[0];
         subdistrict = district.children
             ?.firstWhere((element) => element.name == subdistrictName);
       }

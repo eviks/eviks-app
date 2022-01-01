@@ -84,4 +84,5 @@ class CustomIcons {
   static const IconData thememode = IconData(0xe83a, fontFamily: _kFontFam);
   static const IconData login = IconData(0xe83b, fontFamily: _kFontFam);
   static const IconData logout = IconData(0xe83c, fontFamily: _kFontFam);
+  static const IconData globe = IconData(0xe83d, fontFamily: _kFontFam);
 }

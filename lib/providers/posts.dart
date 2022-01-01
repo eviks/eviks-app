@@ -14,7 +14,7 @@ class Posts with ChangeNotifier {
   String token;
   List<Post> _posts;
   Post? _postData;
-  final Filters _filters;
+  Filters _filters;
   Pagination _pagination;
 
   Posts(
@@ -66,6 +66,11 @@ class Posts with ChangeNotifier {
 
   void updatePost(Post? value) {
     _postData = value;
+    notifyListeners();
+  }
+
+  void setFilters(Filters value) {
+    _filters = value;
     notifyListeners();
   }
 

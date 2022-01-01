@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:eviks_mobile/widgets/selections/district_selection.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -11,6 +12,8 @@ class TreeBranch extends StatefulWidget {
   final List<Settlement> selectedSubdistricts;
   final Function(Settlement, bool?, List<bool>) updateSelectedSettlements;
   final String? searchString;
+  final SubdistrictSelectMode selectMode;
+  final Function(Settlement, Settlement?)? onSingleSelect;
 
   const TreeBranch({
     required this.district,
@@ -18,6 +21,8 @@ class TreeBranch extends StatefulWidget {
     required this.selectedDistricts,
     required this.selectedSubdistricts,
     this.searchString,
+    required this.selectMode,
+    this.onSingleSelect,
     Key? key,
   }) : super(key: key);
 
@@ -112,38 +117,73 @@ class _TreeBranchState extends State<TreeBranch> {
       children: [
         Visibility(
           visible: _parentMatches || _childrenMatch,
-          child: CustomLabeledCheckbox(
-            label: widget.district.name,
-            value: _parentValue,
-            onChanged: (value) {
-              if (value != null) {
-                _checkAll(value);
-              } else {
-                _checkAll(true);
-              }
-              widget.updateSelectedSettlements(
-                  widget.district, _parentValue, _childrenValue);
-            },
-            checkboxType: CheckboxType.parent,
-            labelStyle: Theme.of(context)
-                .textTheme
-                .subtitle1
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
+          child: widget.selectMode == SubdistrictSelectMode.multiple
+              ? CustomLabeledCheckbox(
+                  label: widget.district.name,
+                  value: _parentValue,
+                  onChanged: (value) {
+                    if (value != null) {
+                      _checkAll(value);
+                    } else {
+                      _checkAll(true);
+                    }
+                    widget.updateSelectedSettlements(
+                        widget.district, _parentValue, _childrenValue);
+                  },
+                  checkboxType: CheckboxType.parent,
+                  labelStyle: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                )
+              : ListTile(
+                  key: Key(widget.district.id),
+                  title: Text(
+                    widget.district.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: widget.district.children?.isNotEmpty ?? false
+                      ? null
+                      : () {
+                          if (widget.onSingleSelect != null) {
+                            widget.onSingleSelect!(widget.district, null);
+                          }
+                        },
+                ),
         ),
         ListView.builder(
           itemCount: _children.length,
           itemBuilder: (context, index) => Visibility(
             visible: _searchStringMatch(_children[index].name),
-            child: CustomLabeledCheckbox(
-              label: _children[index].name,
-              value: _childrenValue[index],
-              onChanged: (value) {
-                _manageTristate(index, value!);
-                widget.updateSelectedSettlements(
-                    widget.district, _parentValue, _childrenValue);
-              },
-            ),
+            child: widget.selectMode == SubdistrictSelectMode.multiple
+                ? CustomLabeledCheckbox(
+                    label: _children[index].name,
+                    value: _childrenValue[index],
+                    onChanged: (value) {
+                      _manageTristate(index, value!);
+                      widget.updateSelectedSettlements(
+                          widget.district, _parentValue, _childrenValue);
+                    },
+                  )
+                : ListTile(
+                    key: Key(_children[index].id),
+                    title: Row(
+                      children: [
+                        const SizedBox(
+                          width: 32.0,
+                        ),
+                        Text(_children[index].name),
+                      ],
+                    ),
+                    onTap: () {
+                      if (widget.onSingleSelect != null) {
+                        widget.onSingleSelect!(
+                            widget.district, _children[index]);
+                      }
+                    },
+                  ),
           ),
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),

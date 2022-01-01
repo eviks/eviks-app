@@ -56,19 +56,19 @@ class _ThemeModeSettingsState extends State<ThemeModeSettings> {
       body: Column(
         children: [
           RadioListTile<ThemeMode>(
-            title: const Text('Light'),
+            title: Text(AppLocalizations.of(context)!.lightTheme),
             value: ThemeMode.light,
             groupValue: _themeMode,
             onChanged: _onChanged,
           ),
           RadioListTile<ThemeMode>(
-            title: const Text('Dark'),
+            title: Text(AppLocalizations.of(context)!.darkTheme),
             value: ThemeMode.dark,
             groupValue: _themeMode,
             onChanged: _onChanged,
           ),
           RadioListTile<ThemeMode>(
-              title: const Text('System'),
+              title: Text(AppLocalizations.of(context)!.systemTheme),
               value: ThemeMode.system,
               groupValue: _themeMode,
               onChanged: _onChanged),

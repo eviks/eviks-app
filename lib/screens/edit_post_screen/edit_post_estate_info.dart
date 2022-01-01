@@ -108,7 +108,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.estateInfo,
+          icon: CustomIcons.house,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -128,13 +131,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.estateInfo,
-                      icon: CustomIcons.house,
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
                     SizedBox(
                       width: SizeConfig.safeBlockHorizontal * 40.0,
                       child: StyledInput(

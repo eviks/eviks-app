@@ -63,26 +63,30 @@ String removeAzerbaijaniChars(String value) {
   return newValue;
 }
 
+Settlement getCapitalCity() {
+  return Settlement(
+    id: '10',
+    name: 'Bakı',
+    children: [
+      Settlement(id: '117', name: 'Binəqədi'),
+      Settlement(id: '112', name: 'Nərimanov'),
+      Settlement(id: '111', name: 'Nəsimi'),
+      Settlement(id: '113', name: 'Nizami'),
+      Settlement(id: '122', name: 'Pirallahı'),
+      Settlement(id: '121', name: 'Qaradağ'),
+      Settlement(id: '118', name: 'Sabunçu'),
+      Settlement(id: '115', name: 'Səbail'),
+      Settlement(id: '119', name: 'Suraxanı'),
+      Settlement(id: '114', name: 'Xətai'),
+      Settlement(id: '120', name: 'Xəzər'),
+      Settlement(id: '116', name: 'Yasamal'),
+    ],
+  );
+}
+
 Filters initFilters() {
   return Filters(
-    city: Settlement(
-      id: '10',
-      name: 'Bakı',
-      children: [
-        Settlement(id: '117', name: 'Binəqədi'),
-        Settlement(id: '112', name: 'Nərimanov'),
-        Settlement(id: '111', name: 'Nəsimi'),
-        Settlement(id: '113', name: 'Nizami'),
-        Settlement(id: '122', name: 'Pirallahı'),
-        Settlement(id: '121', name: 'Qaradağ'),
-        Settlement(id: '118', name: 'Sabunçu'),
-        Settlement(id: '115', name: 'Səbail'),
-        Settlement(id: '119', name: 'Suraxanı'),
-        Settlement(id: '114', name: 'Xətai'),
-        Settlement(id: '120', name: 'Xəzər'),
-        Settlement(id: '116', name: 'Yasamal'),
-      ],
-    ),
+    city: getCapitalCity(),
     dealType: DealType.sale,
     estateType: EstateType.apartment,
   );

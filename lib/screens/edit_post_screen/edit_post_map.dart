@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import './edit_post_district.dart';
 import './step_title.dart';
 import '../../constants.dart';
 import '../../models/address.dart';
@@ -65,6 +66,8 @@ class _EditPostMapState extends State<EditPostMap> {
 
       _controller.text = _address ?? '';
     }
+
+    _city ??= getCapitalCity();
 
     _mapController = MapController();
     _subscription = _mapController.mapEventStream.listen((MapEvent mapEvent) {
@@ -195,6 +198,29 @@ class _EditPostMapState extends State<EditPostMap> {
   }
 
   void _continuePressed() {
+    if (_city == null) {
+      displayErrorMessage(context, AppLocalizations.of(context)!.cityError);
+      return;
+    }
+
+    if (_district == null) {
+      displayErrorMessage(context, AppLocalizations.of(context)!.districtError);
+      return;
+    }
+
+    if ((_district?.children?.isNotEmpty ?? false) && _subdistrict == null) {
+      displayErrorMessage(
+          context, AppLocalizations.of(context)!.subdistrictError);
+      return;
+    }
+
+    print(
+      _location?[0],
+    );
+    print(
+      _location?[1],
+    );
+
     if (_formKey.currentState == null) {
       return;
     }
@@ -231,7 +257,10 @@ class _EditPostMapState extends State<EditPostMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.address,
+          icon: CustomIcons.marker,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -245,7 +274,6 @@ class _EditPostMapState extends State<EditPostMap> {
             mapController: _mapController,
             options: MapOptions(
               center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
-              zoom: 16,
             ),
             layers: [
               TileLayerOptions(
@@ -280,63 +308,89 @@ class _EditPostMapState extends State<EditPostMap> {
                             )),
                   ),
                   child: Column(children: [
-                    if (!_typeMode &&
-                        MediaQuery.of(context).orientation ==
-                            Orientation.portrait)
-                      StepTitle(
-                        title: AppLocalizations.of(context)!.address,
-                        icon: CustomIcons.marker,
-                      ),
                     Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 32.0, vertical: 8.0),
-                      child: StyledInput(
-                        icon: CustomIcons.marker,
-                        onFocus: (value) {
-                          setState(() {
-                            _typeMode = value;
-                          });
-                        },
-                        onChanged: _onInputChange,
-                        keyboardType: TextInputType.text,
-                        controller: _controller,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.errorAddress;
-                          } else if ((_location?[0] ?? 0) == 0 ||
-                              (_location?[1] ?? 0) == 0 ||
-                              _city == null ||
-                              _district == null) {
-                            return AppLocalizations.of(context)!.wrongAddress;
-                          }
-                        },
-                        onSaved: (value) {
-                          _address = value ?? '';
-                        },
-                        suffix: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              _controller.text = '';
-                            },
-                            child: Icon(
-                              CustomIcons.close,
-                              size: 14.0,
-                              color: Theme.of(context).dividerColor,
+                      child: Column(
+                        children: [
+                          if (!_typeMode)
+                            EditPostDistrict(
+                              city: _city ?? getCapitalCity(),
+                              district: _district,
+                              subdistrict: _subdistrict,
+                              updateCity: (Settlement value) {
+                                setState(
+                                  () {
+                                    _city = value;
+                                    _district = null;
+                                    _subdistrict = null;
+                                    if (_city?.x != null && _city?.y != null) {
+                                      _location = [_city!.x!, _city!.y!];
+                                      _mapController.move(
+                                          LatLng(_city!.y!, _city!.x!), 12);
+                                    }
+                                  },
+                                );
+                              },
+                              updateDistrict: (Settlement districtValue,
+                                  Settlement? subdistrictValue) {
+                                setState(() {
+                                  _district = districtValue;
+                                  _subdistrict = subdistrictValue;
+                                });
+                              },
                             ),
-                          ),
-                        ),
-                        prefix: _typeMode
-                            ? IconButton(
-                                onPressed: _exitFromTypeMode,
-                                icon: Icon(
-                                  CustomIcons.back,
+                          StyledInput(
+                            icon: CustomIcons.marker,
+                            onFocus: (value) {
+                              setState(() {
+                                _typeMode = value;
+                              });
+                            },
+                            onChanged: _onInputChange,
+                            keyboardType: TextInputType.text,
+                            controller: _controller,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppLocalizations.of(context)!
+                                    .errorAddress;
+                              } else if ((_location?[0] ?? 0) == 0 ||
+                                  (_location?[1] ?? 0) == 0 ||
+                                  _city == null ||
+                                  _district == null) {
+                                return AppLocalizations.of(context)!
+                                    .wrongAddress;
+                              }
+                            },
+                            onSaved: (value) {
+                              _address = value ?? '';
+                            },
+                            suffix: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  _controller.text = '';
+                                },
+                                child: Icon(
+                                  CustomIcons.close,
+                                  size: 14.0,
                                   color: Theme.of(context).dividerColor,
                                 ),
-                              )
-                            : null,
+                              ),
+                            ),
+                            prefix: _typeMode
+                                ? IconButton(
+                                    onPressed: _exitFromTypeMode,
+                                    icon: Icon(
+                                      CustomIcons.back,
+                                      color: Theme.of(context).dividerColor,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ],
                       ),
                     ),
                   ]),

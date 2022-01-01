@@ -123,6 +123,7 @@
     "valueTo": "до",
     "city": "Город",
     "district": "Район",
+    "subdistrict": "Поселок",
     "specifyArea": "Указать",
     "selectCity": "Выберите город",
     "selectCityHint": "Поиск",
@@ -136,5 +137,16 @@
     "loginWithGoogle": "Google",
     "call": "Позвонить",
     "profile": "Профиль",
-    "theme": "Тема"
+    "theme": "Тема",
+    "lightTheme": "Светлая",
+    "darkTheme": "Темная",
+    "systemTheme": "Как в системе",
+    "language": "Язык",
+    "azeriLanguage": "Азербайджанский язык",
+    "russianLanguage": "Русский язык",
+    "districtNotSelected": "Район не указан",
+    "subdistrictNotSelected": "Поселеок не указан",
+    "cityError": "Пожалуйста, укажите город",
+    "districtError": "Пожалуйста, укажите район",
+    "subdistrictError": "Пожалуйста, укажите поселок"
 }

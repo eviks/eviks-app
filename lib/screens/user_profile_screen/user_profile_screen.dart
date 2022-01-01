@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './settings/locale_settings.dart';
 import './settings/theme_mode_settings.dart';
 import './user_info.dart';
 import './user_profile_menu.dart';
@@ -56,6 +57,15 @@ class UserProfileScreen extends StatelessWidget {
       );
     }
 
+    void _changeLanguage() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LocaleSettings(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,14 +73,19 @@ class UserProfileScreen extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
-          height: SizeConfig.safeBlockVertical * 100.0,
-          margin: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          constraints: BoxConstraints(
+            minHeight: SizeConfig.safeBlockVertical * 70.0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const UserInfo(),
+              const SizedBox(
+                height: 8.0,
+              ),
               if (!_isAuth)
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.login,
@@ -81,6 +96,11 @@ class UserProfileScreen extends StatelessWidget {
                 title: AppLocalizations.of(context)!.theme,
                 icon: CustomIcons.thememode,
                 onPressed: _changeThemeMode,
+              ),
+              UserProfileMenu(
+                title: AppLocalizations.of(context)!.language,
+                icon: CustomIcons.globe,
+                onPressed: _changeLanguage,
               ),
               if (_isAuth)
                 UserProfileMenu(

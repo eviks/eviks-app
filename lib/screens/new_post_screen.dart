@@ -57,7 +57,6 @@ class NewPostScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(
                           top: 8.0,
                         ),
-                        width: SizeConfig.safeBlockHorizontal * 50,
                         height: 60.0,
                         child: StyledElevatedButton(
                           onPressed: () => Navigator.of(context)

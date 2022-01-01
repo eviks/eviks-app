@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import './constants.dart';
 import './providers/auth.dart';
+import './providers/locale_provider.dart';
 import './providers/localities.dart';
 import './providers/posts.dart';
 import './providers/theme_preferences.dart';
@@ -22,8 +23,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
+  final locale = await getLocale();
   runApp(MyApp(
     themeMode: themeMode,
+    locale: locale,
   ));
 }
 
@@ -39,10 +42,26 @@ Future<ThemeMode> getThemePreferences() async {
   }
 }
 
+Future<Locale> getLocale() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final savedLocale = prefs.getString('locale') ?? 'az';
+
+    if (!AppLocalizations.supportedLocales.contains(Locale(savedLocale))) {
+      return const Locale('az');
+    }
+
+    return Locale(savedLocale);
+  } catch (error) {
+    return const Locale('az');
+  }
+}
+
 class MyApp extends StatelessWidget {
   final ThemeMode? themeMode;
+  final Locale? locale;
 
-  const MyApp({this.themeMode});
+  const MyApp({this.themeMode, this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +80,20 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (ctx) => Localities()),
         ChangeNotifierProvider(
-            create: (ctx) => ThemePreferences(themeMode ?? ThemeMode.system)),
+          create: (ctx) => ThemePreferences(themeMode ?? ThemeMode.system),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => LocaleProvider(
+            locale ?? const Locale('az'),
+          ),
+        ),
       ],
-      child: Consumer2<Auth, ThemePreferences>(
-        builder: (ctx, auth, themePreferences, _) => MaterialApp(
+      child: Consumer3<Auth, ThemePreferences, LocaleProvider>(
+        builder: (ctx, auth, themePreferences, _localeProvider, _) =>
+            MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
+          locale: _localeProvider.locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themePreferences.themeMode,

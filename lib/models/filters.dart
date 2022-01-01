@@ -80,4 +80,31 @@ class Filters {
         'totalFloorsMax':
             totalFloorsMax == 0 ? null : totalFloorsMax?.toString(),
       };
+
+  Filters copy() {
+    return Filters(
+      city: city,
+      dealType: dealType,
+      districts: districts,
+      subdistricts: subdistricts,
+      estateType: estateType,
+      apartmentType: apartmentType,
+      priceMin: priceMin,
+      priceMax: priceMax,
+      roomsMin: roomsMin,
+      roomsMax: roomsMax,
+      sqmMin: sqmMin,
+      sqmMax: sqmMax,
+      livingRoomsSqmMin: livingRoomsSqmMin,
+      livingRoomsSqmMax: livingRoomsSqmMax,
+      kitchenSqmMin: kitchenSqmMin,
+      kitchenSqmMax: kitchenSqmMax,
+      lotSqmMin: lotSqmMin,
+      lotSqmMax: lotSqmMax,
+      floorMin: floorMin,
+      floorMax: floorMax,
+      totalFloorsMin: totalFloorsMin,
+      totalFloorsMax: totalFloorsMax,
+    );
+  }
 }

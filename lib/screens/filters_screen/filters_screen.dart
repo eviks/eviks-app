@@ -1,12 +1,15 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import './city_filter.dart';
 import './district_filter.dart';
 import './floor_filters.dart';
 import './main_filters.dart';
 import './sqm_filters.dart';
+import '../../models/filters.dart';
+import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../tabs_screen.dart';
@@ -22,6 +25,7 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   final _formKey = GlobalKey<FormState>();
+  late final Filters prevFilters;
 
   void _setFilters() {
     if (_formKey.currentState == null) {
@@ -39,6 +43,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   @override
+  void initState() {
+    prevFilters = Provider.of<Posts>(context, listen: false).filters.copy();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -51,6 +61,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
         leading: Navigator.canPop(context)
             ? IconButton(
                 onPressed: () {
+                  Provider.of<Posts>(context, listen: false)
+                      .setFilters(prevFilters);
                   Navigator.of(context).pop();
                 },
                 icon: const Icon(CustomIcons.close),

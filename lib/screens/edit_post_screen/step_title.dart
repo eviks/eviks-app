@@ -22,7 +22,7 @@ class StepTitle extends StatelessWidget {
                   Border.all(width: 2, color: Theme.of(context).primaryColor),
             ),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(100),

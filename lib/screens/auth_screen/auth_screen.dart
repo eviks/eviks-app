@@ -110,7 +110,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     constraints: BoxConstraints(
-                        minHeight: SizeConfig.safeBlockVertical * 70.0),
+                      minHeight: SizeConfig.safeBlockVertical * 70.0,
+                    ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       borderRadius: const BorderRadius.only(

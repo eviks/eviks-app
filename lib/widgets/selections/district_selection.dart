@@ -11,15 +11,19 @@ import '../../models/settlement.dart';
 import '../../providers/localities.dart';
 import '../../widgets/styled_elevated_button.dart';
 
+enum SubdistrictSelectMode { multiple, single }
+
 class DistrictSelection extends StatefulWidget {
   final Settlement city;
   final List<Settlement> selectedDistricts;
   final List<Settlement> selectedSubdistricts;
+  final SubdistrictSelectMode selecMode;
 
   const DistrictSelection({
     required this.city,
     required this.selectedDistricts,
     required this.selectedSubdistricts,
+    this.selecMode = SubdistrictSelectMode.multiple,
     Key? key,
   }) : super(key: key);
 
@@ -124,6 +128,17 @@ class _DistrictSelectionState extends State<DistrictSelection> {
         null;
   }
 
+  void _onSingleSelect(Settlement distric, Settlement? subdistrict) {
+    final Map<String, List<Settlement>> value = {};
+
+    value['districts'] = [distric];
+    if (subdistrict != null) {
+      value['subdistricts'] = [subdistrict];
+    }
+
+    Navigator.of(context).pop(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,6 +197,11 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                         selectedSubdistricts: _selectedSubdistricts,
                         updateSelectedSettlements: _updateSelectedSettlements,
                         searchString: _searchString,
+                        selectMode: widget.selecMode,
+                        onSingleSelect:
+                            widget.selecMode == SubdistrictSelectMode.multiple
+                                ? null
+                                : _onSingleSelect,
                       ),
                       itemCount: _districts.length,
                       shrinkWrap: true,
@@ -190,18 +210,20 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                 ],
               ),
             ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StyledElevatedButton(
-          text: AppLocalizations.of(context)!.select,
-          onPressed: () {
-            Navigator.of(context).pop({
-              'districts': _selectedDistricts,
-              'subdistricts': _selectedSubdistricts
-            });
-          },
-        ),
-      ),
+      bottomNavigationBar: widget.selecMode == SubdistrictSelectMode.multiple
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: StyledElevatedButton(
+                text: AppLocalizations.of(context)!.select,
+                onPressed: () {
+                  Navigator.of(context).pop({
+                    'districts': _selectedDistricts,
+                    'subdistricts': _selectedSubdistricts
+                  });
+                },
+              ),
+            )
+          : null,
     );
   }
 }

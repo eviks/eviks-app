@@ -87,7 +87,10 @@ class _EditPostPriceState extends State<EditPostPrice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.priceTitle,
+          icon: CustomIcons.wallet,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -107,13 +110,6 @@ class _EditPostPriceState extends State<EditPostPrice> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.priceTitle,
-                      icon: CustomIcons.wallet,
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
                     SizedBox(
                       width: SizeConfig.safeBlockHorizontal * 40.0,
                       child: StyledInput(

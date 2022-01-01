@@ -82,7 +82,10 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.generalInfo,
+          icon: CustomIcons.information,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -102,10 +105,6 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  StepTitle(
-                    title: AppLocalizations.of(context)!.generalInfo,
-                    icon: CustomIcons.information,
-                  ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: ToggleFormField<UserType>(

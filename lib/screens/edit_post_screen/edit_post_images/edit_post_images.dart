@@ -204,7 +204,10 @@ class _EditPostImagesState extends State<EditPostImages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.images,
+          icon: CustomIcons.camera,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -218,13 +221,6 @@ class _EditPostImagesState extends State<EditPostImages> {
         child: Center(
           child: Column(
             children: [
-              StepTitle(
-                title: AppLocalizations.of(context)!.images,
-                icon: CustomIcons.camera,
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
               if (!_isValid)
                 Column(
                   children: [

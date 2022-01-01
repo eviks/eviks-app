@@ -137,7 +137,10 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.additionalInfo,
+          icon: CustomIcons.plus,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -157,13 +160,6 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.additionalInfo,
-                      icon: CustomIcons.plus,
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
                     StyledInput(
                       title: AppLocalizations.of(context)!.description,
                       hintText: AppLocalizations.of(context)!.descriptionHint,

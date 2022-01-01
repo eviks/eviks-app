@@ -81,7 +81,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(),
+        title: StepTitle(
+          title: AppLocalizations.of(context)!.buildingInfo,
+          icon: CustomIcons.apartment,
+        ),
         leading: IconButton(
           onPressed: () {
             _prevStep(postData);
@@ -101,13 +104,6 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StepTitle(
-                      title: AppLocalizations.of(context)!.buildingInfo,
-                      icon: CustomIcons.apartment,
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
                     SizedBox(
                       width: SizeConfig.safeBlockHorizontal * 40.0,
                       child: StyledInput(
