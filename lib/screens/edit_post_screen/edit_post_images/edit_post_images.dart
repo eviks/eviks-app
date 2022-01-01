@@ -36,9 +36,16 @@ class _EditPostImagesState extends State<EditPostImages> {
   void initState() {
     postData = Provider.of<Posts>(context, listen: false).postData;
 
+    bool _isTemp(String id) {
+      return postData?.originalImages
+              .firstWhereOrNull((element) => element == id) ==
+          null;
+    }
+
     if ((postData?.lastStep ?? -1) >= 5) {
       _imageDataList = postData?.images
-              .map((id) => ImageData(id: id, isUploaded: true))
+              .map((id) =>
+                  ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)))
               .toList() ??
           [];
     }
@@ -144,16 +151,18 @@ class _EditPostImagesState extends State<EditPostImages> {
   Future<void> deleteImage(String id) async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    try {
-      await Provider.of<Posts>(context, listen: false).deleteImage(id);
-    } on Failure catch (error) {
-      if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
-      } else {
-        _errorMessage = error.toString();
+    if ((postData?.id ?? 0) == 0) {
+      try {
+        await Provider.of<Posts>(context, listen: false).deleteImage(id);
+      } on Failure catch (error) {
+        if (error.statusCode >= 500) {
+          _errorMessage = AppLocalizations.of(context)!.serverError;
+        } else {
+          _errorMessage = error.toString();
+        }
+      } catch (error) {
+        _errorMessage = AppLocalizations.of(context)!.unknownError;
       }
-    } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     if (_errorMessage.isNotEmpty) {
@@ -187,7 +196,7 @@ class _EditPostImagesState extends State<EditPostImages> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         images: _imageDataList.map((element) => element.id).toList(),
         lastStep: 5,

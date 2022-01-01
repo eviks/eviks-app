@@ -100,7 +100,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         description: _description,
         balcony: _balcony,

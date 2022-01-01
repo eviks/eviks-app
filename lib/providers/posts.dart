@@ -12,6 +12,7 @@ import '../models/post.dart';
 
 class Posts with ChangeNotifier {
   String token;
+  String? user;
   List<Post> _posts;
   Post? _postData;
   Filters _filters;
@@ -19,6 +20,7 @@ class Posts with ChangeNotifier {
 
   Posts(
     this.token,
+    this.user,
     this._posts,
     this._postData,
     this._filters,
@@ -41,30 +43,36 @@ class Posts with ChangeNotifier {
     return _pagination;
   }
 
-  void initNewPost() {
-    _postData = Post(
-      id: 0,
-      active: true,
-      userType: UserType.owner,
-      estateType: EstateType.house,
-      dealType: DealType.sale,
-      location: [],
-      city: null,
-      district: null,
-      address: '',
-      sqm: 0,
-      renovation: Renovation.cosmetic,
-      price: 0,
-      rooms: 0,
-      images: [],
-      description: '',
-      contact: '',
-      username: '',
-      updatedAt: DateTime.now(),
-    );
+  Future<void> initNewPost(Post? loadedPost) async {
+    if (loadedPost != null) {
+      _postData = loadedPost;
+    } else {
+      _postData = Post(
+        id: 0,
+        active: true,
+        userType: UserType.owner,
+        estateType: EstateType.house,
+        dealType: DealType.sale,
+        location: [],
+        city: null,
+        district: null,
+        address: '',
+        sqm: 0,
+        renovation: Renovation.cosmetic,
+        price: 0,
+        rooms: 0,
+        images: [],
+        description: '',
+        contact: '',
+        username: '',
+        updatedAt: DateTime.now(),
+        user: user!,
+        originalImages: [],
+      );
+    }
   }
 
-  void updatePost(Post? value) {
+  void setPostData(Post? value) {
     _postData = value;
     notifyListeners();
   }
@@ -220,6 +228,33 @@ class Posts with ChangeNotifier {
     try {
       final url = Uri.parse('http://192.168.1.9:5000/api/posts');
       final response = await http.post(url,
+          body: json.encode(post.toJson()),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'JWT $token'
+          });
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePost(Post post) async {
+    try {
+      final url = Uri.parse('http://192.168.1.9:5000/api/posts/${post.id}');
+      final response = await http.put(url,
           body: json.encode(post.toJson()),
           headers: {
             'Content-Type': 'application/json',

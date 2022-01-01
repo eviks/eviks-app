@@ -82,7 +82,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         rooms: _rooms,
         sqm: _sqm,

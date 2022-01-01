@@ -37,7 +37,7 @@ class FloorFilters extends StatelessWidget {
           visible: _filters.estateType == EstateType.apartment,
           child: RangeField(
             title: AppLocalizations.of(context)!.floor,
-            icon: CustomIcons.door,
+            icon: CustomIcons.elevator,
             initialValueFrom:
                 _filters.floorMin != 0 ? _filters.floorMin?.toString() : null,
             keyboardTypeFrom: TextInputType.number,
@@ -60,7 +60,7 @@ class FloorFilters extends StatelessWidget {
         ),
         RangeField(
           title: AppLocalizations.of(context)!.totalFloors,
-          icon: CustomIcons.door,
+          icon: CustomIcons.elevator,
           initialValueFrom: _filters.totalFloorsMin != 0
               ? _filters.totalFloorsMin?.toString()
               : null,

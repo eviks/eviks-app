@@ -35,7 +35,7 @@ class SqmFilters extends StatelessWidget {
         ),
         RangeField(
           title: AppLocalizations.of(context)!.sqm,
-          icon: CustomIcons.door,
+          icon: CustomIcons.sqm,
           initialValueFrom:
               _filters.sqmMin != 0 ? _filters.sqmMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
@@ -55,7 +55,7 @@ class SqmFilters extends StatelessWidget {
         ),
         RangeField(
           title: AppLocalizations.of(context)!.livingRoomsSqm,
-          icon: CustomIcons.door,
+          icon: CustomIcons.sqm,
           initialValueFrom: _filters.livingRoomsSqmMin != 0
               ? _filters.livingRoomsSqmMin?.toString()
               : null,
@@ -81,7 +81,7 @@ class SqmFilters extends StatelessWidget {
         ),
         RangeField(
           title: AppLocalizations.of(context)!.kitchenSqm,
-          icon: CustomIcons.door,
+          icon: CustomIcons.sqm,
           initialValueFrom: _filters.kitchenSqmMin != 0
               ? _filters.kitchenSqmMin?.toString()
               : null,
@@ -107,7 +107,7 @@ class SqmFilters extends StatelessWidget {
           visible: _filters.estateType == EstateType.house,
           child: RangeField(
             title: AppLocalizations.of(context)!.lotSqm,
-            icon: CustomIcons.door,
+            icon: CustomIcons.sqm,
             initialValueFrom:
                 _filters.lotSqmMin != 0 ? _filters.lotSqmMin?.toString() : null,
             keyboardTypeFrom: TextInputType.number,

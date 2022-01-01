@@ -2,11 +2,14 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import './carousel.dart';
-import './favorite_button.dart';
+import './post_buttons/edit_post_button.dart';
+import './post_buttons/favorite_button.dart';
 import '../constants.dart';
 import '../models/post.dart';
+import '../providers/auth.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 import '../widgets/sized_config.dart';
 
@@ -47,9 +50,19 @@ class PostItem extends StatelessWidget {
                   images: post.images,
                   height: SizeConfig.safeBlockVertical * headerHeight,
                 ),
-                Container(
-                  margin: const EdgeInsets.all(4.0),
-                  child: FavoriteButton(post.id),
+                Consumer<Auth>(
+                  builder: (context, auth, child) {
+                    if ((auth.user?.id ?? '') == post.user) {
+                      return Container(
+                        margin: const EdgeInsets.all(4.0),
+                        child: EditPostButton(post.id),
+                      );
+                    }
+                    return Container(
+                      margin: const EdgeInsets.all(4.0),
+                      child: FavoriteButton(post.id),
+                    );
+                  },
                 ),
               ],
             ),

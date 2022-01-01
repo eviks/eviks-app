@@ -62,7 +62,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         userType: _userType,
         estateType: _estateType,

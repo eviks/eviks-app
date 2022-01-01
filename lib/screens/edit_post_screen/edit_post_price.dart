@@ -66,7 +66,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         price: _price,
         haggle: _haggle,

@@ -214,13 +214,6 @@ class _EditPostMapState extends State<EditPostMap> {
       return;
     }
 
-    print(
-      _location?[0],
-    );
-    print(
-      _location?[1],
-    );
-
     if (_formKey.currentState == null) {
       return;
     }
@@ -236,7 +229,7 @@ class _EditPostMapState extends State<EditPostMap> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         city: _city,
         district: _district,
@@ -274,6 +267,7 @@ class _EditPostMapState extends State<EditPostMap> {
             mapController: _mapController,
             options: MapOptions(
               center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
+              zoom: 17,
             ),
             layers: [
               TileLayerOptions(

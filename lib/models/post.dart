@@ -147,6 +147,8 @@ class Post {
   final DateTime updatedAt;
   final int step;
   final int? lastStep;
+  final String user;
+  final List<String> originalImages;
 
   Post({
     required this.id,
@@ -206,6 +208,8 @@ class Post {
     required this.updatedAt,
     this.step = 0,
     this.lastStep,
+    required this.user,
+    required this.originalImages,
   });
 
   factory Post.fromJson(dynamic json) {
@@ -300,6 +304,9 @@ class Post {
       contact: json['contact'] as String,
       username: json['username'] as String,
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      user: json['user'] as String,
+      lastStep: 7,
+      originalImages: (json['images'] as List<dynamic>).cast<String>(),
     );
   }
 
@@ -503,6 +510,8 @@ class Post {
       step: step ?? this.step,
       lastStep:
           lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),
+      user: user,
+      originalImages: originalImages,
     );
   }
 }

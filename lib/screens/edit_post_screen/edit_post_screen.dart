@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +11,8 @@ import './edit_post_images/edit_post_images.dart';
 import './edit_post_map.dart';
 import './edit_post_price.dart';
 import '../../models/post.dart';
+import '../../providers/localities.dart';
 import '../../providers/posts.dart';
-import '../../widgets/sized_config.dart';
 
 class EditPostScreen extends StatefulWidget {
   static const routeName = '/edit_post';
@@ -23,6 +24,8 @@ class EditPostScreen extends StatefulWidget {
 }
 
 class _EditPostScreenState extends State<EditPostScreen> {
+  var _isInit = true;
+
   Widget getStepWidget(Post? postData) {
     switch (postData?.step ?? 0) {
       case 0:
@@ -47,15 +50,57 @@ class _EditPostScreenState extends State<EditPostScreen> {
   }
 
   @override
-  void initState() {
-    Provider.of<Posts>(context, listen: false).initNewPost();
-    super.initState();
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      Post? loadedPost;
+      Settlement? city;
+      Settlement? district;
+
+      final arguments = ModalRoute.of(context)!.settings.arguments;
+      if (arguments != null) {
+        final postId = arguments as int;
+        loadedPost =
+            Provider.of<Posts>(context, listen: false).findById(postId);
+
+        try {
+          // Get city
+          if (loadedPost.city != null) {
+            final result = await Provider.of<Localities>(context, listen: false)
+                .getLocalities({'id': loadedPost.city!.id});
+            city = result[0];
+          }
+
+          // Get district
+          if (loadedPost.district != null) {
+            final result = await Provider.of<Localities>(context, listen: false)
+                .getLocalities({'id': loadedPost.district!.id});
+            district = result[0];
+          }
+
+          loadedPost = loadedPost.copyWith(city: city, district: district);
+        } catch (e) {
+          // No error handler
+        }
+      }
+
+      Provider.of<Posts>(context, listen: false).initNewPost(loadedPost);
+
+      setState(() {
+        _isInit = false;
+      });
+    }
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final postData = Provider.of<Posts>(context, listen: true).postData;
-    SizeConfig().init(context);
-    return getStepWidget(postData);
+    if (_isInit) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      final postData = Provider.of<Posts>(context, listen: true).postData;
+      return getStepWidget(postData);
+    }
   }
 }

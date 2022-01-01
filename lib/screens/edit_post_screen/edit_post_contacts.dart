@@ -60,7 +60,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         contact: _contact,
         username:
@@ -83,13 +83,27 @@ class _EditPostContactsState extends State<EditPostContacts> {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
-      await Provider.of<Posts>(context, listen: false)
-          .createPost(postData!.copyWith(
-        contact: _contact,
-        username:
-            Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
-        lastStep: 7,
-      ));
+      if ((postData?.id ?? 0) == 0) {
+        await Provider.of<Posts>(context, listen: false).createPost(
+          postData!.copyWith(
+            contact: _contact,
+            username:
+                Provider.of<Auth>(context, listen: false).user?.displayName ??
+                    '',
+            lastStep: 7,
+          ),
+        );
+      } else {
+        await Provider.of<Posts>(context, listen: false).updatePost(
+          postData!.copyWith(
+            contact: _contact,
+            username:
+                Provider.of<Auth>(context, listen: false).user?.displayName ??
+                    '',
+            lastStep: 7,
+          ),
+        );
+      }
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
         _errorMessage = AppLocalizations.of(context)!.serverError;

@@ -61,7 +61,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   }
 
   void _updatePost() {
-    Provider.of<Posts>(context, listen: false).updatePost(
+    Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         yearBuild: _yearBuild,
         ceilingHeight: _ceilingHeight,

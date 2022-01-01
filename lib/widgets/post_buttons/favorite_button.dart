@@ -2,7 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/auth.dart';
+import '../../providers/auth.dart';
 
 class FavoriteButton extends StatelessWidget {
   final int postId;
