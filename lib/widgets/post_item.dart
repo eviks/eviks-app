@@ -60,7 +60,9 @@ class PostItem extends StatelessWidget {
                     }
                     return Container(
                       margin: const EdgeInsets.all(4.0),
-                      child: FavoriteButton(post.id),
+                      child: FavoriteButton(
+                        postId: post.id,
+                      ),
                     );
                   },
                 ),

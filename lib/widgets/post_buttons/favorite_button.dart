@@ -6,10 +6,12 @@ import '../../providers/auth.dart';
 
 class FavoriteButton extends StatelessWidget {
   final int postId;
+  final double? elevation;
 
-  const FavoriteButton(
-    this.postId,
-  );
+  const FavoriteButton({
+    required this.postId,
+    this.elevation,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class FavoriteButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         fixedSize: const Size.fromRadius(25.0),
+        elevation: elevation,
         primary: _isFavorite
             ? Theme.of(context).primaryColor
             : Theme.of(context).backgroundColor,
