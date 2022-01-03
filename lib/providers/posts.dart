@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
+import '../constants.dart';
 import '../models/failure.dart';
 import '../models/filters.dart';
 import '../models/pagination.dart';
@@ -168,7 +169,8 @@ class Posts with ChangeNotifier {
   Future<void> fetchAndSetPosts(
       {Map<String, dynamic>? queryParameters,
       int page = 1,
-      bool updatePosts = false}) async {
+      bool updatePosts = false,
+      bool? active}) async {
     Map<String, dynamic> _parameters;
 
     if (queryParameters == null) {
@@ -180,10 +182,12 @@ class Posts with ChangeNotifier {
     _parameters['page'] = page.toString();
     _parameters['limit'] = '2';
 
+    if (active != null) _parameters['active'] = active.toString();
+
     final url = Uri(
-        scheme: 'http',
-        host: '192.168.1.9',
-        port: 5000,
+        scheme: baseScheme,
+        host: baseHost,
+        port: basePort,
         path: 'api/posts',
         queryParameters: _parameters);
 
@@ -226,7 +230,7 @@ class Posts with ChangeNotifier {
 
   Future<void> createPost(Post post) async {
     try {
-      final url = Uri.parse('http://192.168.1.9:5000/api/posts');
+      final url = Uri.parse('$baseUrl/api/posts');
       final response = await http.post(url,
           body: json.encode(post.toJson()),
           headers: {
@@ -253,7 +257,7 @@ class Posts with ChangeNotifier {
 
   Future<void> updatePost(Post post) async {
     try {
-      final url = Uri.parse('http://192.168.1.9:5000/api/posts/${post.id}');
+      final url = Uri.parse('$baseUrl/api/posts/${post.id}');
       final response = await http.put(url,
           body: json.encode(post.toJson()),
           headers: {
@@ -278,11 +282,34 @@ class Posts with ChangeNotifier {
     }
   }
 
+  Future<void> deactivatePost(int postId) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/posts/deactivate/$postId');
+      final response =
+          await http.put(url, headers: {'Authorization': 'JWT $token'});
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<String> getImageUploadId() async {
     final url = Uri(
-      scheme: 'http',
-      host: '192.168.1.9',
-      port: 5000,
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
       path: 'api/posts/generate_upload_id',
     );
 
@@ -311,9 +338,9 @@ class Posts with ChangeNotifier {
 
   Future<bool> uploadImage(XFile file, String id) async {
     final url = Uri(
-      scheme: 'http',
-      host: '192.168.1.9',
-      port: 5000,
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
       path: 'api/posts/upload_image',
     );
 
@@ -350,9 +377,9 @@ class Posts with ChangeNotifier {
 
   Future<void> deleteImage(String id) async {
     final url = Uri(
-      scheme: 'http',
-      host: '192.168.1.9',
-      port: 5000,
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
       path: 'api/posts/delete_image/$id',
     );
 

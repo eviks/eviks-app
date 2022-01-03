@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/carousel.dart';
+import '../../widgets/post_buttons/delete_post_button.dart';
 import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
 
@@ -31,6 +32,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
         Carousel(
           images: images,
           height: height,
+          imageSize: '640',
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
@@ -57,7 +59,12 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                   if ((auth.user?.id ?? '') == user)
                     Container(
                       margin: const EdgeInsets.all(4.0),
-                      child: EditPostButton(postId),
+                      child: Row(
+                        children: [
+                          EditPostButton(postId),
+                          DeletePostButton(postId),
+                        ],
+                      ),
                     )
                   else
                     Container(

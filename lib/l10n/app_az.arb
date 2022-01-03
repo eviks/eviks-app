@@ -148,5 +148,11 @@
     "subdistrictNotSelected": "Qəsəbə seçilməyib",
     "cityError": "Zəhmət olmasa, şəhəri seçin",
     "districtError": "Zəhmət olmasa, rayonu seçin",
-    "subdistrictError": "Zəhmət olmasa, qəsəbəni seçin"
+    "subdistrictError": "Zəhmət olmasa, qəsəbəni seçin",
+    "m2": "m²",
+    "deletePostTitle": "Elanlızı ləğv etmək?",
+    "deletePostContent": "Ləğv etdikdən sonra digər istifadəçilər bu elanı görməyəcəklər",
+    "deletePostCancel": "Fikrimi dəyişdim",
+    "deletePost": "Ləğv etmək",
+    "postIsDeactivated": "Bu elan artıq aktual deyil"
 }

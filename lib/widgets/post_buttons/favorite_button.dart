@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
+import '../../screens/auth_screen/auth_screen.dart';
 
 class FavoriteButton extends StatelessWidget {
   final int postId;
@@ -21,6 +22,7 @@ class FavoriteButton extends StatelessWidget {
 
     void _toggleFavoriteStatus() {
       if (user == null) {
+        Navigator.of(context).pushNamed(AuthScreen.routeName);
         return;
       }
 

@@ -22,7 +22,8 @@ class PostDetailMainInfo extends StatelessWidget {
               value: post.rooms.toString(),
               hint: AppLocalizations.of(context)!.postRooms),
           _MainInfo(
-              value: '${post.sqm.toString()} m²',
+              value:
+                  '${post.sqm.toString()} ${AppLocalizations.of(context)!.m2}',
               hint: AppLocalizations.of(context)!.postSqm),
           if (post.estateType == EstateType.apartment)
             _MainInfo(

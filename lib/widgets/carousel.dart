@@ -1,15 +1,19 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class Carousel extends StatefulWidget {
-  const Carousel({
-    Key? key,
-    required this.images,
-    required this.height,
-  }) : super(key: key);
+  const Carousel(
+      {Key? key,
+      required this.images,
+      required this.height,
+      this.imageSize = '320'})
+      : super(key: key);
 
   final List<String> images;
   final double height;
+  final String imageSize;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -34,7 +38,7 @@ class _CarouselState extends State<Carousel> {
             itemCount: widget.images.length,
             itemBuilder: (ctx, index, _) {
               return Image.network(
-                'http://192.168.1.9:5000/uploads/post_images/${widget.images[index]}/image_320.png',
+                '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
               );

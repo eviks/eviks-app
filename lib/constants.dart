@@ -7,6 +7,18 @@ import './models/pagination.dart';
 import './models/post.dart';
 import './models/settlement.dart';
 
+// Production
+// const baseUrl = 'http://194.87.101.186';
+// const baseScheme = 'http';
+// const baseHost = '194.87.101.186';
+// const basePort = 80;
+
+// Development
+const baseUrl = 'http://192.168.1.9:5000';
+const baseScheme = 'http';
+const baseHost = '192.168.1.9';
+const basePort = 5000;
+
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
 const lightColor = Color(0xFFFFFFFF);

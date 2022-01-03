@@ -17,7 +17,6 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   var _isInit = true;
-  var _isInitLoading = false;
   var _isLoading = false;
   final ScrollController _scrollController = ScrollController();
 
@@ -30,6 +29,7 @@ class _PostScreenState extends State<PostScreen> {
 
       try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
+          active: true,
           page: _page,
           updatePosts: updatePosts,
         );
@@ -69,19 +69,13 @@ class _PostScreenState extends State<PostScreen> {
         },
       );
 
-      setState(() {
-        _isInitLoading = true;
-      });
-
       Provider.of<Posts>(context, listen: false).clearPosts();
 
       await _fetchPosts(false);
 
       setState(() {
-        _isInitLoading = false;
+        _isInit = false;
       });
-
-      _isInit = false;
     }
     super.didChangeDependencies();
   }
@@ -94,105 +88,107 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postsData = Provider.of<Posts>(context, listen: true);
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(FiltersScreen.routeName),
-            child: Text(AppLocalizations.of(context)!.filters),
-          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(CustomIcons.logo),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              AppLocalizations.of(context)!.postsScreenTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+    if (_isInit) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      final postsData = Provider.of<Posts>(context, listen: true);
+      return Scaffold(
+        appBar: AppBar(
+          actions: [
+            TextButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(FiltersScreen.routeName),
+              child: Text(AppLocalizations.of(context)!.filters),
             ),
           ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(CustomIcons.logo),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                AppLocalizations.of(context)!.postsScreenTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: _isInitLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : postsData.posts.isEmpty
-              ? SingleChildScrollView(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: SizeConfig.safeBlockVertical * 40.0,
-                            child: Image.asset(
-                              "assets/img/illustrations/no_result.png",
-                            ),
+        body: postsData.posts.isEmpty
+            ? SingleChildScrollView(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 40.0,
+                          child: Image.asset(
+                            "assets/img/illustrations/no_result.png",
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.noResult,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.noResultHint,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).dividerColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : Stack(
+                alignment: AlignmentDirectional.topEnd,
+                children: [
+                  ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (ctx, index) {
+                      return PostItem(
+                        key: Key(postsData.posts[index].id.toString()),
+                        post: postsData.posts[index],
+                      );
+                    },
+                    itemCount: postsData.posts.length,
+                  ),
+                  if (_isLoading)
+                    Positioned(
+                      bottom: 0,
+                      width: SizeConfig.blockSizeHorizontal * 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.noResult,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Text(
-                                  AppLocalizations.of(context)!.noResultHint,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).dividerColor),
-                                ),
-                              ],
-                            ),
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                )
-              : Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: [
-                    ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (ctx, index) {
-                        return PostItem(
-                          key: Key(postsData.posts[index].id.toString()),
-                          post: postsData.posts[index],
-                        );
-                      },
-                      itemCount: postsData.posts.length,
-                    ),
-                    if (_isLoading)
-                      Positioned(
-                        bottom: 0,
-                        width: SizeConfig.blockSizeHorizontal * 100.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-    );
+                ],
+              ),
+      );
+    }
   }
 }

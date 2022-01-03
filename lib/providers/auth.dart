@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants.dart';
 import '../models/failure.dart';
 import '../models/user.dart';
 
@@ -38,7 +39,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     try {
-      final url = Uri.parse('http://192.168.1.9:5000/api/auth');
+      final url = Uri.parse('$baseUrl/api/auth');
       final response = await http.post(url,
           body: json.encode({
             'email': email,
@@ -72,8 +73,7 @@ class Auth with ChangeNotifier {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
-        final url =
-            Uri.parse('http://192.168.1.9:5000/api/auth/login_with_google');
+        final url = Uri.parse('$baseUrl/api/auth/login_with_google');
         final response = await http.post(url,
             body: json.encode({
               'displayName': googleUser.displayName,
@@ -110,7 +110,7 @@ class Auth with ChangeNotifier {
   Future<void> register(
       String displayName, String email, String password) async {
     try {
-      final url = Uri.parse('http://192.168.1.9:5000/api/users');
+      final url = Uri.parse('$baseUrl/api/users');
       final response = await http.post(url,
           body: json.encode({
             'displayName': displayName,
@@ -139,8 +139,7 @@ class Auth with ChangeNotifier {
 
   Future<void> verifyUser(String activationToken) async {
     try {
-      final url = Uri.parse(
-          'http://192.168.1.9:5000/api/auth/verification/$activationToken');
+      final url = Uri.parse('$baseUrl/api/auth/verification/$activationToken');
       final response =
           await http.post(url, headers: {'Authorization': 'JWT $token'});
 
@@ -168,7 +167,7 @@ class Auth with ChangeNotifier {
 
   Future<void> loadUser() async {
     try {
-      final url = Uri.parse('http://192.168.1.9:5000/api/auth');
+      final url = Uri.parse('$baseUrl/api/auth');
       final response =
           await http.get(url, headers: {'Authorization': 'JWT $token'});
       if (response.statusCode >= 500) {
@@ -201,8 +200,7 @@ class Auth with ChangeNotifier {
     if (user == null) {
       return;
     }
-    final url =
-        Uri.parse('http://192.168.1.9:5000/api/users/add_to_favorites/$postId');
+    final url = Uri.parse('$baseUrl/api/users/add_to_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',
@@ -229,8 +227,7 @@ class Auth with ChangeNotifier {
     if (user == null) {
       return;
     }
-    final url = Uri.parse(
-        'http://192.168.1.9:5000/api/users/remove_from_favorites/$postId');
+    final url = Uri.parse('$baseUrl/api/users/remove_from_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
       'Content-Type': 'application/json',

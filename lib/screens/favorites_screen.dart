@@ -17,7 +17,6 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
   var _isInit = true;
-  var _isInitLoading = false;
   var _isLoading = false;
   List<String> ids = [];
   final ScrollController _scrollController = ScrollController();
@@ -73,10 +72,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         },
       );
 
-      setState(() {
-        _isInitLoading = true;
-      });
-
       final favorites = Provider.of<Auth>(context, listen: false).favorites;
       favorites.forEach((key, value) {
         if (value == true) {
@@ -89,107 +84,107 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       await _fetchPosts(false);
 
       setState(() {
-        _isInitLoading = false;
+        _isInit = false;
       });
-
-      _isInit = false;
     }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final postsData = Provider.of<Posts>(context, listen: false);
-    SizeConfig().init(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(CustomIcons.back),
-              )
-            : null,
-        title: Text(
-          AppLocalizations.of(context)!.favorites,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+    if (_isInit) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      final postsData = Provider.of<Posts>(context, listen: false);
+      SizeConfig().init(context);
+      return Scaffold(
+        appBar: AppBar(
+          leading: Navigator.canPop(context)
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(CustomIcons.back),
+                )
+              : null,
+          title: Text(
+            AppLocalizations.of(context)!.favorites,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      body: _isInitLoading
-          ? (const Center(
-              child: CircularProgressIndicator(),
-            ))
-          : postsData.posts.isEmpty
-              ? SingleChildScrollView(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: SizeConfig.safeBlockVertical * 40.0,
-                            child: Image.asset(
-                              "assets/img/illustrations/favorites.png",
-                            ),
+        body: postsData.posts.isEmpty
+            ? SingleChildScrollView(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 40.0,
+                          child: Image.asset(
+                            "assets/img/illustrations/favorites.png",
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.favoritesTitle,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.favoritesHint,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).dividerColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : Stack(
+                children: [
+                  ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (ctx, index) {
+                      return PostItem(
+                        key: Key(postsData.posts[index].id.toString()),
+                        post: postsData.posts[index],
+                      );
+                    },
+                    itemCount: postsData.posts.length,
+                  ),
+                  if (_isLoading)
+                    Positioned(
+                      bottom: 0,
+                      width: SizeConfig.blockSizeHorizontal * 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.favoritesTitle,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Text(
-                                  AppLocalizations.of(context)!.favoritesHint,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).dividerColor),
-                                ),
-                              ],
-                            ),
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                )
-              : Stack(
-                  children: [
-                    ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (ctx, index) {
-                        return PostItem(
-                          key: Key(postsData.posts[index].id.toString()),
-                          post: postsData.posts[index],
-                        );
-                      },
-                      itemCount: postsData.posts.length,
-                    ),
-                    if (_isLoading)
-                      Positioned(
-                        bottom: 0,
-                        width: SizeConfig.blockSizeHorizontal * 100.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-    );
+                ],
+              ),
+      );
+    }
   }
 }

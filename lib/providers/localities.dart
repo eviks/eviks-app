@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eviks_mobile/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,9 +13,9 @@ class Localities with ChangeNotifier {
   Future<Map<String, dynamic>> getAddressByCoords(
       Map<String, dynamic> body) async {
     final url = Uri(
-      scheme: 'http',
-      host: '192.168.1.9',
-      port: 5000,
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
       path: '/api/localities/getAddressByCoords',
     );
 
@@ -104,9 +105,9 @@ class Localities with ChangeNotifier {
 
   Future<List<Address>> geocoder(String text) async {
     final url = Uri(
-        scheme: 'http',
-        host: '192.168.1.9',
-        port: 5000,
+        scheme: baseScheme,
+        host: baseHost,
+        port: basePort,
         path: 'api/localities/geocoder',
         queryParameters: {
           'q': text,
@@ -145,9 +146,9 @@ class Localities with ChangeNotifier {
   Future<List<Settlement>> getLocalities(
       Map<String, String> queryParameters) async {
     final url = Uri(
-        scheme: 'http',
-        host: '192.168.1.9',
-        port: 5000,
+        scheme: baseScheme,
+        host: baseHost,
+        port: basePort,
         path: 'api/localities',
         queryParameters: queryParameters);
 

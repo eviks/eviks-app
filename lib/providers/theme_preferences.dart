@@ -210,7 +210,7 @@ ThemeData darkThemeData(BuildContext context) {
       behavior: SnackBarBehavior.floating,
     ),
     toggleButtonsTheme: const ToggleButtonsThemeData(
-      selectedColor: lightGreyColor,
+      selectedColor: darkColor,
       color: lightGreyColor,
       fillColor: lightPrimaryColor,
       borderColor: darkGreyColor,
