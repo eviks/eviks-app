@@ -154,5 +154,8 @@
     "deletePostContent": "После удаления это объявление не будет видно другим пользователям",
     "deletePostCancel": "Я передумал",
     "deletePost": "Все равно удалить",
-    "postIsDeactivated": "Это объявление более не действительно"
+    "postIsDeactivated": "Это объявление более не действительно",
+    "postAuthor": "Автор объявления",
+    "postDetailGeneral": "Общие сведения",
+    "apartmentType": "Тип квартиры"
 }

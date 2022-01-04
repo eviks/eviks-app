@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './post_detail_additional.dart';
 import './post_detail_main_info.dart';
 import './post_detail_map.dart';
+import './post_detail_user.dart';
+import './post_detail_general.dart';
 import '../../models/post.dart';
 
 class PostDetailContent extends StatelessWidget {
@@ -43,24 +45,40 @@ class PostDetailContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PostDetailMainInfo(post: post),
-              Divider(
-                color: Theme.of(context).dividerColor,
+              PostDetailMainInfo(
+                post: post,
+              ),
+              PostDetailUser(
+                post: post,
               ),
               _ContentTitle(
-                  AppLocalizations.of(context)!.postDetailDescription),
+                AppLocalizations.of(context)!.postDetailGeneral,
+              ),
+              PostDetailGeneral(
+                post: post,
+              ),
+              _ContentTitle(
+                AppLocalizations.of(context)!.postDetailDescription,
+              ),
               Text(
                 post.description,
                 style: const TextStyle(fontSize: 16.0),
               ),
               if (_postHasAdditionalItems())
                 _ContentTitle(
-                    AppLocalizations.of(context)!.postDetailAdditional),
-              PostDetailAdditional(post: post),
-              _ContentTitle(AppLocalizations.of(context)!.postDetailLocation),
+                  AppLocalizations.of(context)!.postDetailAdditional,
+                ),
+              PostDetailAdditional(
+                post: post,
+              ),
+              _ContentTitle(
+                AppLocalizations.of(context)!.postDetailLocation,
+              ),
               SizedBox(
                 height: 300.0,
-                child: PostDetailMap(post.location),
+                child: PostDetailMap(
+                  post,
+                ),
               )
             ],
           ),

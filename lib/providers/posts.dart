@@ -48,6 +48,7 @@ class Posts with ChangeNotifier {
     if (loadedPost != null) {
       _postData = loadedPost;
     } else {
+      final _capital = getCapitalCity();
       _postData = Post(
         id: 0,
         active: true,
@@ -55,8 +56,8 @@ class Posts with ChangeNotifier {
         estateType: EstateType.house,
         dealType: DealType.sale,
         location: [],
-        city: null,
-        district: null,
+        city: _capital,
+        district: _capital.children![0],
         address: '',
         sqm: 0,
         renovation: Renovation.cosmetic,

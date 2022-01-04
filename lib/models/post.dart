@@ -97,8 +97,8 @@ class Post {
   final ApartmentType? apartmentType;
   final DealType dealType;
   final List<double> location;
-  final Settlement? city;
-  final Settlement? district;
+  final Settlement city;
+  final Settlement district;
   final Settlement? subdistrict;
   final String address;
   final int rooms;
@@ -318,10 +318,8 @@ class Post {
             apartmentType?.toString().replaceAll('ApartmentType.', ''),
         'dealType': dealType.toString().replaceAll('DealType.', ''),
         'location': location,
-        'city': city != null ? {'id': city?.id, 'name': city?.name} : null,
-        'district': district != null
-            ? {'id': district?.id, 'name': district?.name}
-            : null,
+        'city': {'id': city.id, 'name': city.name},
+        'district': {'id': district.id, 'name': district.name},
         'subdistrict': subdistrict != null
             ? {'id': subdistrict?.id, 'name': subdistrict?.name}
             : null,

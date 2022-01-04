@@ -138,6 +138,7 @@ class _AdditionalItem extends StatelessWidget {
             children: [
               Icon(
                 icon,
+                size: 32.0,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),

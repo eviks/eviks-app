@@ -93,7 +93,7 @@ class _PostScreenState extends State<PostScreen> {
         child: CircularProgressIndicator(),
       );
     } else {
-      final postsData = Provider.of<Posts>(context, listen: true);
+      final posts = Provider.of<Posts>(context).posts;
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -117,7 +117,7 @@ class _PostScreenState extends State<PostScreen> {
             ],
           ),
         ),
-        body: postsData.posts.isEmpty
+        body: posts.isEmpty
             ? SingleChildScrollView(
                 child: Center(
                   child: Padding(
@@ -166,11 +166,11 @@ class _PostScreenState extends State<PostScreen> {
                     controller: _scrollController,
                     itemBuilder: (ctx, index) {
                       return PostItem(
-                        key: Key(postsData.posts[index].id.toString()),
-                        post: postsData.posts[index],
+                        key: Key(posts[index].id.toString()),
+                        post: posts[index],
                       );
                     },
-                    itemCount: postsData.posts.length,
+                    itemCount: posts.length,
                   ),
                   if (_isLoading)
                     Positioned(

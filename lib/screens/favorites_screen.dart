@@ -97,7 +97,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         child: CircularProgressIndicator(),
       );
     } else {
-      final postsData = Provider.of<Posts>(context, listen: false);
+      final posts = Provider.of<Posts>(context).posts;
       SizeConfig().init(context);
       return Scaffold(
         appBar: AppBar(
@@ -114,7 +114,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: postsData.posts.isEmpty
+        body: posts.isEmpty
             ? SingleChildScrollView(
                 child: Center(
                   child: Padding(
@@ -162,11 +162,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     controller: _scrollController,
                     itemBuilder: (ctx, index) {
                       return PostItem(
-                        key: Key(postsData.posts[index].id.toString()),
-                        post: postsData.posts[index],
+                        key: Key(posts[index].id.toString()),
+                        post: posts[index],
                       );
                     },
-                    itemCount: postsData.posts.length,
+                    itemCount: posts.length,
                   ),
                   if (_isLoading)
                     Positioned(

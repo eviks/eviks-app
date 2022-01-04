@@ -64,18 +64,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
         try {
           // Get city
-          if (loadedPost.city != null) {
-            final result = await Provider.of<Localities>(context, listen: false)
-                .getLocalities({'id': loadedPost.city!.id});
-            city = result[0];
-          }
+          final cityResult =
+              await Provider.of<Localities>(context, listen: false)
+                  .getLocalities({'id': loadedPost.city.id});
+          city = cityResult[0];
 
           // Get district
-          if (loadedPost.district != null) {
-            final result = await Provider.of<Localities>(context, listen: false)
-                .getLocalities({'id': loadedPost.district!.id});
-            district = result[0];
-          }
+          final districtResult =
+              await Provider.of<Localities>(context, listen: false)
+                  .getLocalities({'id': loadedPost.district.id});
+          district = districtResult[0];
 
           loadedPost = loadedPost.copyWith(city: city, district: district);
         } catch (e) {

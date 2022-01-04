@@ -40,17 +40,22 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    _scrollController.addListener(() => _isAppBarExpanded
-        ? setState(
-            () {
-              _leadingVisibility = true;
-            },
-          )
-        : setState(
-            () {
-              _leadingVisibility = false;
-            },
-          ));
+    _scrollController.addListener(() {
+      if (_isAppBarExpanded && _leadingVisibility == false) {
+        setState(
+          () {
+            _leadingVisibility = true;
+          },
+        );
+      } else if (!_isAppBarExpanded && _leadingVisibility == true) {
+        setState(
+          () {
+            _leadingVisibility = false;
+          },
+        );
+      }
+    });
+
     super.didChangeDependencies();
   }
 

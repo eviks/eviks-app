@@ -154,5 +154,8 @@
     "deletePostContent": "Ləğv etdikdən sonra digər istifadəçilər bu elanı görməyəcəklər",
     "deletePostCancel": "Fikrimi dəyişdim",
     "deletePost": "Ləğv etmək",
-    "postIsDeactivated": "Bu elan artıq aktual deyil"
+    "postIsDeactivated": "Bu elan artıq aktual deyil",
+    "postAuthor": "Elanın müəllifi",
+    "postDetailGeneral": "Ümumi məlumat",
+    "apartmentType": "Mənzilin növü"
 }
