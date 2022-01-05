@@ -157,5 +157,9 @@
     "postIsDeactivated": "Это объявление более не действительно",
     "postAuthor": "Автор объявления",
     "postDetailGeneral": "Общие сведения",
-    "apartmentType": "Тип квартиры"
+    "apartmentType": "Тип квартиры",
+    "postDetailBuilding": "Сведения о здании",
+    "saleType": "Продажа",
+    "rentType": "Аренда",
+    "rentPerDayType": "Посуточная аренда"
 }

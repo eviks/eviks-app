@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import './post_detail_additional.dart';
+import './post_detail_building.dart';
+import './post_detail_general.dart';
 import './post_detail_main_info.dart';
 import './post_detail_map.dart';
 import './post_detail_user.dart';
-import './post_detail_general.dart';
 import '../../models/post.dart';
 
 class PostDetailContent extends StatelessWidget {
@@ -36,6 +37,13 @@ class PostDetailContent extends StatelessWidget {
         (post.refrigerator ?? false);
   }
 
+  bool _postHasBuildingInfo() {
+    return (post.yearBuild != null && post.yearBuild != 0) ||
+        (post.ceilingHeight != null && post.ceilingHeight != 0) ||
+        (post.elevator ?? false) ||
+        (post.parkingLot ?? false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverList(
@@ -57,6 +65,18 @@ class PostDetailContent extends StatelessWidget {
               PostDetailGeneral(
                 post: post,
               ),
+              if (_postHasBuildingInfo())
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _ContentTitle(
+                      AppLocalizations.of(context)!.postDetailBuilding,
+                    ),
+                    PostDetailBuilding(
+                      post: post,
+                    ),
+                  ],
+                ),
               _ContentTitle(
                 AppLocalizations.of(context)!.postDetailDescription,
               ),
@@ -65,12 +85,17 @@ class PostDetailContent extends StatelessWidget {
                 style: const TextStyle(fontSize: 16.0),
               ),
               if (_postHasAdditionalItems())
-                _ContentTitle(
-                  AppLocalizations.of(context)!.postDetailAdditional,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _ContentTitle(
+                      AppLocalizations.of(context)!.postDetailAdditional,
+                    ),
+                    PostDetailAdditional(
+                      post: post,
+                    ),
+                  ],
                 ),
-              PostDetailAdditional(
-                post: post,
-              ),
               _ContentTitle(
                 AppLocalizations.of(context)!.postDetailLocation,
               ),

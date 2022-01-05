@@ -76,6 +76,19 @@ String dealTypeDescription(DealType dealType, BuildContext ctx) {
   }
 }
 
+String dealTypeDescriptionAlternative(DealType dealType, BuildContext ctx) {
+  switch (dealType) {
+    case DealType.sale:
+      return AppLocalizations.of(ctx)!.saleType;
+    case DealType.rent:
+      return AppLocalizations.of(ctx)!.rentType;
+    case DealType.rentPerDay:
+      return AppLocalizations.of(ctx)!.rentPerDayType;
+    default:
+      return '';
+  }
+}
+
 String renovationDescription(Renovation renovation, BuildContext ctx) {
   switch (renovation) {
     case Renovation.cosmetic:

@@ -30,8 +30,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   bool get _isAppBarExpanded {
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 50.0
-            : 70.0;
+            ? 45.0
+            : 65.0;
 
     return _scrollController.hasClients &&
         _scrollController.offset >

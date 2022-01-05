@@ -157,5 +157,9 @@
     "postIsDeactivated": "Bu elan artıq aktual deyil",
     "postAuthor": "Elanın müəllifi",
     "postDetailGeneral": "Ümumi məlumat",
-    "apartmentType": "Mənzilin növü"
+    "apartmentType": "Mənzilin növü",
+    "postDetailBuilding": "Bina haqqında məlumat",
+    "saleType": "Satış",
+    "rentType": "Kirayə",
+    "rentPerDayType": "Günlük kirayə"
 }

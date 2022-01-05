@@ -15,7 +15,7 @@ class PostDetailGeneral extends StatelessWidget {
     return Column(
       children: [
         _GeneralItem(
-          value: dealTypeDescription(post.dealType, context),
+          value: dealTypeDescriptionAlternative(post.dealType, context),
           label: AppLocalizations.of(context)!.dealTypeTitle,
         ),
         _GeneralItem(
