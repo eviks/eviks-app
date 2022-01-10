@@ -8,9 +8,9 @@ import './models/post.dart';
 import './models/settlement.dart';
 
 // Production
-// const baseUrl = 'http://194.87.101.186';
+// const baseUrl = 'http://eviks.xyz';
 // const baseScheme = 'http';
-// const baseHost = '194.87.101.186';
+// const baseHost = 'eviks.xyz';
 // const basePort = 80;
 
 // Development

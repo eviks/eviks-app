@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eviks_mobile">
    <application
-        android:label="eviks_mobile"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Eviks"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
