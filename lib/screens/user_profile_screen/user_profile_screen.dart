@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './settings/locale_settings.dart';
-import './settings/theme_mode_settings.dart';
+import './menu/locale_settings.dart';
+import './menu/theme_mode_settings.dart';
+import './menu/user_posts.dart';
 import './user_info.dart';
 import './user_profile_menu.dart';
 import '../../constants.dart';
@@ -48,6 +49,15 @@ class UserProfileScreen extends StatelessWidget {
       Navigator.of(context).pushNamed(AuthScreen.routeName);
     }
 
+    void _goToUserPosts() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserPosts(),
+        ),
+      );
+    }
+
     void _changeThemeMode() {
       Navigator.push(
         context,
@@ -86,6 +96,12 @@ class UserProfileScreen extends StatelessWidget {
               const SizedBox(
                 height: 8.0,
               ),
+              if (_isAuth)
+                UserProfileMenu(
+                  title: AppLocalizations.of(context)!.myPosts,
+                  icon: CustomIcons.bookmark,
+                  onPressed: _goToUserPosts,
+                ),
               if (!_isAuth)
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.login,

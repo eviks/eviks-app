@@ -107,8 +107,6 @@ class _EditPostMapState extends State<EditPostMap> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       setState(() {
         _location = [
@@ -137,18 +135,10 @@ class _EditPostMapState extends State<EditPostMap> {
       });
     } on AddressNotFound {
       // no user notification
-    } on Failure catch (error) {
-      if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
-      } else {
-        _errorMessage = error.toString();
-      }
+    } on Failure catch (_) {
+      // no user notification
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
-    }
-
-    if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      // no user notification
     }
 
     setState(() {

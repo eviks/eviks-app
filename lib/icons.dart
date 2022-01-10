@@ -86,4 +86,5 @@ class CustomIcons {
   static const IconData logout = IconData(0xe83c, fontFamily: _kFontFam);
   static const IconData globe = IconData(0xe83d, fontFamily: _kFontFam);
   static const IconData pencil = IconData(0xe83e, fontFamily: _kFontFam);
+  static const IconData bookmark = IconData(0xe83f, fontFamily: _kFontFam);
 }

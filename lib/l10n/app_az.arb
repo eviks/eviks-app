@@ -161,5 +161,8 @@
     "postDetailBuilding": "Bina haqqında məlumat",
     "saleType": "Satış",
     "rentType": "Kirayə",
-    "rentPerDayType": "Günlük kirayə"
+    "rentPerDayType": "Günlük kirayə",
+    "myPosts": "Mənim elanlarım",
+    "myPostsTitle": "Burada bütün elanlarınızı görə bilərsiniz",
+    "myPostsHint": "Siz pulsuz elanı verə bilərsiniz"
 }
