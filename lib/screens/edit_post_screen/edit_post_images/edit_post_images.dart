@@ -76,7 +76,7 @@ class _EditPostImagesState extends State<EditPostImages> {
         }
 
         if (_errorMessage.isNotEmpty) {
-          displayErrorMessage(context, _errorMessage);
+          showSnackBar(context, _errorMessage);
           return;
         }
 
@@ -118,7 +118,7 @@ class _EditPostImagesState extends State<EditPostImages> {
       }
 
       if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        showSnackBar(context, _errorMessage);
         return;
       }
 
@@ -166,7 +166,7 @@ class _EditPostImagesState extends State<EditPostImages> {
     }
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 

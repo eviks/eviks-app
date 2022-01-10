@@ -67,7 +67,7 @@ class _RegisterFormState extends State<RegisterForm> {
     });
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 
@@ -85,7 +85,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           StyledInput(
             icon: CustomIcons.user,
-            title: AppLocalizations.of(context)!.authDisplayName,
+            title: AppLocalizations.of(context)!.displayName,
             keyboardType: TextInputType.name,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -111,12 +111,14 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           StyledInput(
             icon: CustomIcons.password,
-            title: AppLocalizations.of(context)!.authPassword,
+            title: AppLocalizations.of(context)!.password,
             obscureText: true,
             controller: _passwordController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorPassword;
+              } else if (value.length < 6) {
+                return AppLocalizations.of(context)!.invalidPassword;
               }
             },
             onSaved: (value) {

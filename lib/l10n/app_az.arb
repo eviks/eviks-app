@@ -10,7 +10,7 @@
     "postSqm": "Ümumi sahəsi",
     "postLot": "Sot",
     "authEmail": "Email",
-    "authPassword": "Parol",
+    "password": "Parol",
     "signInTitle": "Daxil ol",
     "signInSubtitle": "Xoş gəlmisiniz!",
     "loginButton": "Daxil ol",
@@ -18,7 +18,7 @@
     "errorPassword": "Parol göstərilməyib",
     "createAccount": "Qeydiyyatdan keçmək",
     "errorRequiredField": "Bu sahə boş ola bilməz",
-    "authDisplayName": "Adı",
+    "displayName": "Adı",
     "registerButton": "Qeydiyyatdan keç",
     "signUpTitle": "Qeydiyyat",
     "signUpSubtitle": "Gəlin tanış olaq!",
@@ -164,5 +164,10 @@
     "rentPerDayType": "Günlük kirayə",
     "myPosts": "Mənim elanlarım",
     "myPostsTitle": "Burada bütün elanlarınızı görə bilərsiniz",
-    "myPostsHint": "Siz pulsuz elanı verə bilərsiniz"
+    "myPostsHint": "Siz pulsuz elanı verə bilərsiniz",
+    "profileSettings": "Profili dəyişmək",
+    "updateProfile": "Profili yeniləmək",
+    "newPassword": "Yeni parol",
+    "errorNewPassword": "Parol ən azı 6 simvoldan ibarət olmalıdır",
+    "profileIsUpdated": "Profil uğurla yeniləndi"
 }

@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import './menu/locale_settings.dart';
+import './menu/profile_settings.dart';
 import './menu/theme_mode_settings.dart';
 import './menu/user_posts.dart';
 import './user_info.dart';
@@ -38,7 +39,7 @@ class UserProfileScreen extends StatelessWidget {
       }
 
       if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        showSnackBar(context, _errorMessage);
         return;
       }
       Navigator.of(context)
@@ -54,6 +55,15 @@ class UserProfileScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => UserPosts(),
+        ),
+      );
+    }
+
+    void _goToProfileSettings() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfileSettings(),
         ),
       );
     }
@@ -97,10 +107,19 @@ class UserProfileScreen extends StatelessWidget {
                 height: 8.0,
               ),
               if (_isAuth)
-                UserProfileMenu(
-                  title: AppLocalizations.of(context)!.myPosts,
-                  icon: CustomIcons.bookmark,
-                  onPressed: _goToUserPosts,
+                Column(
+                  children: [
+                    UserProfileMenu(
+                      title: AppLocalizations.of(context)!.myPosts,
+                      icon: CustomIcons.bookmark,
+                      onPressed: _goToUserPosts,
+                    ),
+                    UserProfileMenu(
+                      title: AppLocalizations.of(context)!.profileSettings,
+                      icon: CustomIcons.user,
+                      onPressed: _goToProfileSettings,
+                    ),
+                  ],
                 ),
               if (!_isAuth)
                 UserProfileMenu(

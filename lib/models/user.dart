@@ -10,6 +10,7 @@ class User {
   final String? resetPasswordToken;
   final DateTime? resetPasswordExpires;
   final String? picture;
+  final String? googleId;
   Map<String, bool>? favorites;
 
   User({
@@ -25,6 +26,7 @@ class User {
     this.resetPasswordExpires,
     this.favorites,
     this.picture,
+    this.googleId,
   });
 
   factory User.fromJson(dynamic json) {
@@ -47,6 +49,7 @@ class User {
           ? null
           : (json['favorites'] as Map<String, dynamic>).cast<String, bool>(),
       picture: json['picture'] == null ? null : json['picture'] as String,
+      googleId: json['googleId'] == null ? null : json['googleId'] as String,
     );
   }
 }

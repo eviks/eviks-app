@@ -53,7 +53,7 @@ class DeletePostButton extends StatelessWidget {
                       }
 
                       if (_errorMessage.isNotEmpty) {
-                        displayErrorMessage(context, _errorMessage);
+                        showSnackBar(context, _errorMessage);
                       }
 
                       Navigator.pop(context);

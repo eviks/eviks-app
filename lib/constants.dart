@@ -51,7 +51,7 @@ Color lighten(Color color, [double amount = .1]) {
   return hslLight.toColor();
 }
 
-void displayErrorMessage(BuildContext context, String mesaage) {
+void showSnackBar(BuildContext context, String mesaage) {
   final snackbar = SnackBar(
     content: Text(mesaage),
     duration: const Duration(seconds: 5),

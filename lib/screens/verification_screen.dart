@@ -52,7 +52,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 

@@ -46,7 +46,7 @@ class _UserPostsState extends State<UserPosts> {
         }
 
         if (_errorMessage.isNotEmpty) {
-          displayErrorMessage(context, _errorMessage);
+          showSnackBar(context, _errorMessage);
         }
       }
     }

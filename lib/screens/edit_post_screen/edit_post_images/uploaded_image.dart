@@ -47,7 +47,7 @@ class _UploadedImageState extends State<UploadedImage> {
 
     if (_errorMessage.isNotEmpty) {
       widget.deleteImage(widget.imageData.id);
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
   }

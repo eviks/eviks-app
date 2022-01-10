@@ -196,6 +196,40 @@ class Auth with ChangeNotifier {
     await clearTokenFromDevice();
   }
 
+  Future<void> updateProfile(
+      String displayName, String password, String newPassword) async {
+    final url = Uri.parse('$baseUrl/api/users');
+    final response = await http.put(
+      url,
+      headers: {
+        'Authorization': 'JWT $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'displayName': displayName,
+        'password': password,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (response.statusCode >= 500) {
+      throw Failure('Server error', response.statusCode);
+    } else if (response.statusCode != 200) {
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      final buffer = StringBuffer();
+      buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n');
+      throw Failure(buffer.toString(), response.statusCode);
+    }
+    final dynamic data = json.decode(response.body);
+    _user!.favorites =
+        (data['favorites'] as Map<String, dynamic>).cast<String, bool>();
+    await loadUser();
+    notifyListeners();
+  }
+
   Future<void> addPostToFavorites(int postId) async {
     if (user == null) {
       return;
@@ -203,7 +237,6 @@ class Auth with ChangeNotifier {
     final url = Uri.parse('$baseUrl/api/users/add_to_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
-      'Content-Type': 'application/json',
     });
 
     if (response.statusCode >= 500) {
@@ -230,7 +263,6 @@ class Auth with ChangeNotifier {
     final url = Uri.parse('$baseUrl/api/users/remove_from_favorites/$postId');
     final response = await http.put(url, headers: {
       'Authorization': 'JWT $token',
-      'Content-Type': 'application/json',
     });
 
     if (response.statusCode >= 500) {

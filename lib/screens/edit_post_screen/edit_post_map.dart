@@ -171,7 +171,7 @@ class _EditPostMapState extends State<EditPostMap> {
     }
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
     }
 
     setState(() {
@@ -189,18 +189,17 @@ class _EditPostMapState extends State<EditPostMap> {
 
   void _continuePressed() {
     if (_city == null) {
-      displayErrorMessage(context, AppLocalizations.of(context)!.cityError);
+      showSnackBar(context, AppLocalizations.of(context)!.cityError);
       return;
     }
 
     if (_district == null) {
-      displayErrorMessage(context, AppLocalizations.of(context)!.districtError);
+      showSnackBar(context, AppLocalizations.of(context)!.districtError);
       return;
     }
 
     if ((_district?.children?.isNotEmpty ?? false) && _subdistrict == null) {
-      displayErrorMessage(
-          context, AppLocalizations.of(context)!.subdistrictError);
+      showSnackBar(context, AppLocalizations.of(context)!.subdistrictError);
       return;
     }
 

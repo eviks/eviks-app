@@ -72,7 +72,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       }
 
       if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        showSnackBar(context, _errorMessage);
       }
 
       setState(() {

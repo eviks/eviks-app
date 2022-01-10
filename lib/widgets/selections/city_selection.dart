@@ -50,7 +50,7 @@ class _CitySelectionState extends State<CitySelection> {
       }
 
       if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        showSnackBar(context, _errorMessage);
       }
 
       setState(() {

@@ -44,7 +44,7 @@ class _PostScreenState extends State<PostScreen> {
       }
 
       if (_errorMessage.isNotEmpty) {
-        displayErrorMessage(context, _errorMessage);
+        showSnackBar(context, _errorMessage);
       }
     }
   }

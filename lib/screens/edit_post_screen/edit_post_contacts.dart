@@ -119,7 +119,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
     });
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 

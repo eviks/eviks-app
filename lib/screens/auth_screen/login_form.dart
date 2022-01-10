@@ -62,7 +62,7 @@ class _LoginFormState extends State<LoginForm> {
     });
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 
@@ -85,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
     }
 
     if (_errorMessage.isNotEmpty) {
-      displayErrorMessage(context, _errorMessage);
+      showSnackBar(context, _errorMessage);
       return;
     }
 
@@ -117,7 +117,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           StyledInput(
             icon: CustomIcons.password,
-            title: AppLocalizations.of(context)!.authPassword,
+            title: AppLocalizations.of(context)!.password,
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {

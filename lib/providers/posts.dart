@@ -181,7 +181,7 @@ class Posts with ChangeNotifier {
     }
 
     _parameters['page'] = page.toString();
-    _parameters['limit'] = '2';
+    _parameters['limit'] = '20';
 
     if (active != null) _parameters['active'] = active.toString();
 
