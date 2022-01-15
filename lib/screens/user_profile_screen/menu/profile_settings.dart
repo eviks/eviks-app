@@ -9,6 +9,7 @@ import '../../../providers/auth.dart';
 import '../../../widgets/sized_config.dart';
 import '../../../widgets/styled_elevated_button.dart';
 import '../../../widgets/styled_input.dart';
+import '../../tabs_screen.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({
@@ -72,6 +73,58 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     } else {
       showSnackBar(context, AppLocalizations.of(context)!.profileIsUpdated);
     }
+  }
+
+  void _deleteProfile() {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) => AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)!.deleteProfileTitle,
+        ),
+        content: Text(
+          AppLocalizations.of(context)!.deleteProfileContent,
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              AppLocalizations.of(context)!.deleteProfileCancel,
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              String _errorMessage = '';
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              try {
+                await Provider.of<Auth>(context, listen: false).deleteProfile();
+              } on Failure catch (error) {
+                if (error.statusCode >= 500) {
+                  _errorMessage = AppLocalizations.of(context)!.serverError;
+                } else {
+                  _errorMessage = error.toString();
+                }
+              } catch (error) {
+                _errorMessage = AppLocalizations.of(context)!.unknownError;
+              }
+
+              if (_errorMessage.isNotEmpty) {
+                showSnackBar(context, _errorMessage);
+              }
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  TabsScreen.routeName, (route) => false);
+            },
+            child: Text(
+              AppLocalizations.of(context)!.deleteProfile,
+              style: TextStyle(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -155,6 +208,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     onSaved: (value) {
                       _newPassword = value ?? '';
                     },
+                  ),
+                  const SizedBox(
+                    height: 32.0,
+                  ),
+                  InkWell(
+                    onTap: _deleteProfile,
+                    child: Text(
+                      AppLocalizations.of(context)!.deleteProfileButton,
+                      style: TextStyle(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -116,7 +116,6 @@ class Auth with ChangeNotifier {
             'displayName': displayName,
             'email': email,
             'password': password,
-            'pinMode': true,
           }),
           headers: {'Content-Type': 'application/json'});
 
@@ -137,11 +136,20 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> verifyUser(String activationToken) async {
+  Future<void> verifyUser(String email, String activationToken) async {
     try {
-      final url = Uri.parse('$baseUrl/api/auth/verification/$activationToken');
-      final response =
-          await http.post(url, headers: {'Authorization': 'JWT $token'});
+      final url = Uri.parse('$baseUrl/api/auth/verification');
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'JWT $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'activationToken': activationToken,
+        }),
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -154,6 +162,106 @@ class Auth with ChangeNotifier {
             '\n');
         throw Failure(buffer.toString(), response.statusCode);
       }
+      final data = (json.decode(response.body) as Map<String, dynamic>)
+          .cast<String, String>();
+      _token = data['token'] == null ? '' : data['token']!;
+      await loadUser();
+      await saveTokenOnDevice();
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> createResetPasswordToken(String email) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/auth/create_reset_password_token');
+      final response = await http.post(url,
+          body: json.encode({
+            'email': email,
+          }),
+          headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> verifyResetPasswordToken(
+      String email, String resetPasswordToken) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/auth/check_reset_password_token');
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'JWT $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'resetPasswordToken': resetPasswordToken,
+        }),
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> resetPassword(
+      String email, String resetPasswordToken, String password) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/auth/reset_password');
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'JWT $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'resetPasswordToken': resetPasswordToken,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
       final data = (json.decode(response.body) as Map<String, dynamic>)
           .cast<String, String>();
       _token = data['token'] == null ? '' : data['token']!;
@@ -280,6 +388,37 @@ class Auth with ChangeNotifier {
     _user!.favorites =
         (data['favorites'] as Map<String, dynamic>).cast<String, bool>();
     notifyListeners();
+  }
+
+  Future<void> deleteProfile() async {
+    try {
+      final url = Uri.parse('$baseUrl/api/users');
+      final response = await http.delete(
+        url,
+        headers: {
+          'Authorization': 'JWT $token',
+        },
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      _user = null;
+      _token = '';
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
 
   Future<bool> tryAutoLogin() async {

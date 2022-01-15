@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
@@ -12,6 +13,12 @@ class ThemePreferences with ChangeNotifier {
 
   Future<void> setThemePreferences(ThemeMode selectedThemeMode) async {
     _themeMode = selectedThemeMode;
+
+    final mySystemTheme = themeMode == ThemeMode.dark
+        ? SystemUiOverlayStyle.dark
+        : SystemUiOverlayStyle.light;
+    SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
+
     try {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(

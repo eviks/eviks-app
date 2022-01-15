@@ -86,8 +86,11 @@ class _UserPostsState extends State<UserPosts> {
   @override
   Widget build(BuildContext context) {
     if (_isInit) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Container(
+        color: Theme.of(context).backgroundColor,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;

@@ -4,27 +4,29 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
+import './set_new_password.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
-import '../screens/tabs_screen.dart';
-import '../widgets/sized_config.dart';
+import '../../widgets/sized_config.dart';
 
-class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({Key? key}) : super(key: key);
+class ResetPasswordVerification extends StatefulWidget {
+  final String email;
 
-  static const routeName = '/verification';
+  const ResetPasswordVerification({required this.email, Key? key})
+      : super(key: key);
 
   @override
-  _VerificationScreenState createState() => _VerificationScreenState();
+  _ResetPasswordVerificationState createState() =>
+      _ResetPasswordVerificationState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
+class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
   var _isLoading = false;
-  var _activationToken = '';
+  var _resetPasswordToken = '';
 
-  Future<void> _verify() async {
-    if (_activationToken.length < 5) {
+  Future<void> _checkToken() async {
+    if (_resetPasswordToken.length < 5) {
       return;
     }
 
@@ -36,7 +38,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
-          .verifyUser(_activationToken);
+          .verifyResetPasswordToken(widget.email, _resetPasswordToken);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
         _errorMessage = AppLocalizations.of(context)!.serverError;
@@ -56,8 +58,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
       return;
     }
 
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SetNewPassword(
+          email: widget.email,
+          resetPasswordToken: _resetPasswordToken,
+        ),
+      ),
+    );
   }
 
   @override
@@ -130,7 +139,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   cursorColor: Theme.of(context).primaryColor,
                   onChanged: (value) {
                     setState(() {
-                      _activationToken = value;
+                      _resetPasswordToken = value;
                     });
                   },
                 ),
@@ -141,7 +150,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   width: double.infinity,
                   height: 60.0,
                   child: ElevatedButton(
-                    onPressed: _verify,
+                    onPressed: _checkToken,
                     child: _isLoading
                         ? SizedBox(
                             width: 24.0,

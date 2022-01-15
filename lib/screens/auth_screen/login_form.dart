@@ -8,6 +8,7 @@ import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import '../reset_password_screen/reset_password_screen.dart';
 import '../tabs_screen.dart';
 
 class LoginForm extends StatefulWidget {
@@ -100,7 +101,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           const SizedBox(
-            height: 32.0,
+            height: 8.0,
           ),
           StyledInput(
             icon: CustomIcons.email,
@@ -128,22 +129,40 @@ class _LoginFormState extends State<LoginForm> {
               _authData['password'] = value ?? '';
             },
           ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, ResetPasswordScreen.routeName);
+            },
+            child: Text(
+              AppLocalizations.of(context)!.oopsforgotPassword,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 4.0,
+          ),
           StyledElevatedButton(
             text: AppLocalizations.of(context)!.loginButton,
             onPressed: _login,
             loading: _isLoading,
           ),
-          TextButton(
+          StyledElevatedButton(
             onPressed: () {
               widget.switchAuthMode(AuthMode.register);
             },
-            child: Text(AppLocalizations.of(context)!.createAccount),
+            secondary: true,
+            text: AppLocalizations.of(context)!.createAccount,
           ),
           Row(
             children: [
               const Expanded(child: Divider()),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 16.0,
+                ),
                 child: Text(
                   AppLocalizations.of(context)!.loginOr,
                 ),

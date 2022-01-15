@@ -2,6 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/providers/theme_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,14 +17,20 @@ import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
 import './screens/filters_screen/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
+import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
-import './screens/verification_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
   final locale = await getLocale();
+
+  final mySystemTheme = themeMode == ThemeMode.dark
+      ? SystemUiOverlayStyle.dark
+      : SystemUiOverlayStyle.light;
+  SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
+
   runApp(MyApp(
     themeMode: themeMode,
     locale: locale,
@@ -140,10 +147,10 @@ class MyApp extends StatelessWidget {
           routes: {
             TabsScreen.routeName: (ctx) => TabsScreen(),
             PostDetailScreen.routeName: (ctx) => const PostDetailScreen(),
-            VerificationScreen.routeName: (ctx) => const VerificationScreen(),
             AuthScreen.routeName: (ctx) => const AuthScreen(),
             EditPostScreen.routeName: (ctx) => const EditPostScreen(),
             FiltersScreen.routeName: (ctx) => const FiltersScreen(),
+            ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
           },
         ),
       ),

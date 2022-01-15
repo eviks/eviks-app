@@ -168,6 +168,19 @@
     "profileSettings": "Profili dəyişmək",
     "updateProfile": "Profili yeniləmək",
     "newPassword": "Yeni parol",
-    "errorNewPassword": "Parol ən azı 6 simvoldan ibarət olmalıdır",
-    "profileIsUpdated": "Profil uğurla yeniləndi"
+    "errorNewPassword": "Yeni parolu daxil edin",
+    "invalidPassword": "Parol ən azı 6 simvoldan ibarət olmalıdır",
+    "profileIsUpdated": "Profil uğurla yeniləndi",
+    "oopsforgotPassword": "Ups...Parolu unutdum",
+    "resetPasswordTitle": "Parolu unutduz? Olan bir şeydir",
+    "resetPasswordHint": "Sadəcə emailı göstərin, və biz sizə parolunuzu bərpa etmək üçün kodu göndərərik",
+    "resetPassword": "Parolun bərpası",
+    "resetPasswordButton": "Parolu bərpa etmək",
+    "setNewPassword": "Yeni parol təyin etmək",
+    "deleteProfile": "Profili ləğv eləmək",
+    "deleteProfileTitle": "Profilinizi ləğv etmək?",
+    "deleteProfileContent": "Bütün elanlarınız ləğv olunacaq. Profilinizi bərpa etmək mümkün olmayacaq",
+    "deleteProfileCancel": "Fikrimi dəyişdim",
+    "deleteProfile": "Ləğv etmək",
+    "deleteProfileButton": "Profilinizi ləğv etmək"
 }

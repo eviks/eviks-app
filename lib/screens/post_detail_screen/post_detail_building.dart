@@ -16,12 +16,12 @@ class PostDetailBuilding extends StatelessWidget {
     return Column(
       children: [
         if (post.yearBuild != null && post.yearBuild != 0)
-          _BuildingInfo(
+          _BuildingInfoItem(
             value: post.yearBuild.toString(),
             label: AppLocalizations.of(context)!.yearBuild,
           ),
         if (post.ceilingHeight != null && post.ceilingHeight != 0)
-          _BuildingInfo(
+          _BuildingInfoItem(
             value: post.ceilingHeight.toString(),
             label: AppLocalizations.of(context)!.ceilingHeight,
           ),
@@ -43,10 +43,10 @@ class PostDetailBuilding extends StatelessWidget {
   }
 }
 
-class _BuildingInfo extends StatelessWidget {
+class _BuildingInfoItem extends StatelessWidget {
   final String value;
   final String label;
-  const _BuildingInfo({
+  const _BuildingInfoItem({
     required this.value,
     required this.label,
   });

@@ -100,7 +100,7 @@
     "garage": "Гараж",
     "pool": "Бассейн",
     "bathhouse": "Баня",
-    "descriptionMinLength": "Описание должно содержать как  6 символов 50 символов.",
+    "descriptionMinLength": "Описание должно содержать как минимум 50 символов.",
     "images": "Фотографии",
     "addImage": "Добавить фото",
     "imagesError": "Нужно добавить хотя бы 3 фотографии",
@@ -170,5 +170,17 @@
     "newPassword": "Новый пароль",
     "errorNewPassword": "Введите новый пароль",
     "invalidPassword": "Пароль должен содержать как минимум 6 символов",
-    "profileIsUpdated": "Профиль успешно обновлен"
+    "profileIsUpdated": "Профиль успешно обновлен",
+    "oopsforgotPassword": "Упс...Я забыл пароль",
+    "resetPasswordTitle": "Забыли пароль? С кем не бывает",
+    "resetPasswordHint": "Просто отправьте нам ваш email, и мы вышлем вам код для восстановления пароля",
+    "resetPassword": "Восстановление пароля",
+    "resetPasswordButton": "Восстановить пароль",
+    "setNewPassword": "Установить новый пароль",
+    "deleteProfile": "Удалить профиль",
+    "deleteProfileTitle": "Ой, неужели вы нас покидаете?",
+    "deleteProfileContent": "Все ваши объявления также будут удалены. Восстановить профиль будет уже невозможно",
+    "deleteProfileCancel": "Я передумал",
+    "deleteProfile": "Все равно удалить",
+    "deleteProfileButton": "Удалить профиль"
 }

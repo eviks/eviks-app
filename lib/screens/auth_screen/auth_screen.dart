@@ -41,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   painter: Background(Theme.of(context).primaryColor),
                   child: SizedBox(
                     width: double.infinity,
-                    height: SizeConfig.safeBlockVertical * 30.0,
+                    height: SizeConfig.safeBlockVertical * 25.0,
                     child: Stack(
                       children: [
                         Row(
@@ -110,7 +110,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     constraints: BoxConstraints(
-                      minHeight: SizeConfig.safeBlockVertical * 70.0,
+                      minHeight: SizeConfig.safeBlockVertical * 75.0,
                     ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,

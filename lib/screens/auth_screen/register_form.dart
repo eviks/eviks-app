@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './verification.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
-import '../verification_screen.dart';
 
 class RegisterForm extends StatefulWidget {
   final Function switchAuthMode;
@@ -71,7 +71,14 @@ class _RegisterFormState extends State<RegisterForm> {
       return;
     }
 
-    Navigator.of(context).pushNamed(VerificationScreen.routeName);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Verification(
+          email: _authData['email']!,
+        ),
+      ),
+    );
   }
 
   @override
@@ -81,7 +88,7 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
           const SizedBox(
-            height: 32.0,
+            height: 16.0,
           ),
           StyledInput(
             icon: CustomIcons.user,
@@ -130,11 +137,12 @@ class _RegisterFormState extends State<RegisterForm> {
             onPressed: _register,
             loading: _isLoading,
           ),
-          TextButton(
+          StyledElevatedButton(
             onPressed: () {
               widget.switchAuthMode(AuthMode.login);
             },
-            child: Text(AppLocalizations.of(context)!.login),
+            text: AppLocalizations.of(context)!.login,
+            secondary: true,
           )
         ],
       ),
