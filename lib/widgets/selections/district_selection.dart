@@ -160,56 +160,58 @@ class _DistrictSelectionState extends State<DistrictSelection> {
           ? (const Center(
               child: CircularProgressIndicator(),
             ))
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _controller,
-                    cursorColor: Theme.of(context).iconTheme.color,
-                    decoration: InputDecoration(
-                      hintText:
-                          AppLocalizations.of(context)!.selectDistrictHint,
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
+          : SafeArea(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _controller,
+                      cursorColor: Theme.of(context).iconTheme.color,
+                      decoration: InputDecoration(
+                        hintText:
+                            AppLocalizations.of(context)!.selectDistrictHint,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        fillColor:
+                            Theme.of(context).inputDecorationTheme.fillColor,
+                        filled: true,
+                        suffixIcon: const Icon(Icons.saved_search),
                       ),
-                      fillColor:
-                          Theme.of(context).inputDecorationTheme.fillColor,
-                      filled: true,
-                      suffixIcon: const Icon(Icons.saved_search),
+                      onChanged: (String value) {
+                        setState(() {
+                          _searchString = _controller.text;
+                        });
+                      },
                     ),
-                    onChanged: (String value) {
-                      setState(() {
-                        _searchString = _controller.text;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      key: ValueKey(_searchString),
-                      itemBuilder: (contex, index) => TreeBranch(
-                        key: Key(_districts[index].id),
-                        district: _districts[index],
-                        selectedDistricts: _selectedDistricts,
-                        selectedSubdistricts: _selectedSubdistricts,
-                        updateSelectedSettlements: _updateSelectedSettlements,
-                        searchString: _searchString,
-                        selectMode: widget.selecMode,
-                        onSingleSelect:
-                            widget.selecMode == SubdistrictSelectMode.multiple
-                                ? null
-                                : _onSingleSelect,
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        key: ValueKey(_searchString),
+                        itemBuilder: (contex, index) => TreeBranch(
+                          key: Key(_districts[index].id),
+                          district: _districts[index],
+                          selectedDistricts: _selectedDistricts,
+                          selectedSubdistricts: _selectedSubdistricts,
+                          updateSelectedSettlements: _updateSelectedSettlements,
+                          searchString: _searchString,
+                          selectMode: widget.selecMode,
+                          onSingleSelect:
+                              widget.selecMode == SubdistrictSelectMode.multiple
+                                  ? null
+                                  : _onSingleSelect,
+                        ),
+                        itemCount: _districts.length,
+                        shrinkWrap: true,
                       ),
-                      itemCount: _districts.length,
-                      shrinkWrap: true,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+          ),
       bottomNavigationBar: widget.selecMode == SubdistrictSelectMode.multiple
           ? Padding(
               padding: const EdgeInsets.all(8.0),

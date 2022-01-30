@@ -74,8 +74,9 @@ class _LoginFormState extends State<LoginForm> {
   Future<void> _loginWithGoogle() async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    await Provider.of<Auth>(context, listen: false).loginWithGoogle();
-    try {} on Failure catch (error) {
+    try {
+      await Provider.of<Auth>(context, listen: false).loginWithGoogle();
+    } on Failure catch (error) {
       if (error.statusCode >= 500) {
         _errorMessage = AppLocalizations.of(context)!.serverError;
       } else {

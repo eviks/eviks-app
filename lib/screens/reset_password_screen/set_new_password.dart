@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../models/failure.dart';
 import '../../../providers/auth.dart';
-import '../../../widgets/sized_config.dart';
-import '../../../widgets/styled_elevated_button.dart';
-import '../../../widgets/styled_input.dart';
 import '../../screens/tabs_screen.dart';
+import '../../widgets/sized_config.dart';
+import '../../widgets/styled_elevated_button.dart';
+import '../../widgets/styled_input.dart';
 
 class SetNewPassword extends StatefulWidget {
   final String email;

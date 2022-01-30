@@ -93,57 +93,60 @@ class UserProfileScreen extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          constraints: BoxConstraints(
-            minHeight: SizeConfig.safeBlockVertical * 70.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const UserInfo(),
-              const SizedBox(
-                height: 8.0,
-              ),
-              if (_isAuth)
-                Column(
-                  children: [
-                    UserProfileMenu(
-                      title: AppLocalizations.of(context)!.myPosts,
-                      icon: CustomIcons.bookmark,
-                      onPressed: _goToUserPosts,
-                    ),
-                    UserProfileMenu(
-                      title: AppLocalizations.of(context)!.profileSettings,
-                      icon: CustomIcons.user,
-                      onPressed: _goToProfileSettings,
-                    ),
-                  ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            constraints: BoxConstraints(
+              minHeight: SizeConfig.safeBlockVertical * 70.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const UserInfo(),
+                const SizedBox(
+                  height: 8.0,
                 ),
-              if (!_isAuth)
+                if (_isAuth)
+                  Column(
+                    children: [
+                      UserProfileMenu(
+                        title: AppLocalizations.of(context)!.myPosts,
+                        icon: CustomIcons.bookmark,
+                        onPressed: _goToUserPosts,
+                      ),
+                      UserProfileMenu(
+                        title: AppLocalizations.of(context)!.profileSettings,
+                        icon: CustomIcons.user,
+                        onPressed: _goToProfileSettings,
+                      ),
+                    ],
+                  ),
+                if (!_isAuth)
+                  UserProfileMenu(
+                    title: AppLocalizations.of(context)!.login,
+                    icon: CustomIcons.login,
+                    onPressed: _login,
+                  ),
                 UserProfileMenu(
-                  title: AppLocalizations.of(context)!.login,
-                  icon: CustomIcons.login,
-                  onPressed: _login,
+                  title: AppLocalizations.of(context)!.theme,
+                  icon: CustomIcons.thememode,
+                  onPressed: _changeThemeMode,
                 ),
-              UserProfileMenu(
-                title: AppLocalizations.of(context)!.theme,
-                icon: CustomIcons.thememode,
-                onPressed: _changeThemeMode,
-              ),
-              UserProfileMenu(
-                title: AppLocalizations.of(context)!.language,
-                icon: CustomIcons.globe,
-                onPressed: _changeLanguage,
-              ),
-              if (_isAuth)
                 UserProfileMenu(
-                  title: AppLocalizations.of(context)!.logout,
-                  icon: CustomIcons.logout,
-                  onPressed: _logout,
-                )
-            ],
+                  title: AppLocalizations.of(context)!.language,
+                  icon: CustomIcons.globe,
+                  onPressed: _changeLanguage,
+                ),
+                if (_isAuth)
+                  UserProfileMenu(
+                    title: AppLocalizations.of(context)!.logout,
+                    icon: CustomIcons.logout,
+                    onPressed: _logout,
+                  ),
+                const Text('0.0.1'),
+              ],
+            ),
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import './uploaded_image.dart';
@@ -270,9 +271,13 @@ class _EditPostImagesState extends State<EditPostImages> {
                                               MainAxisAlignment.center,
                                           children: [
                                             TextButton.icon(
-                                              onPressed: () {
-                                                _selectImageFromGallery();
-                                                Navigator.pop(context);
+                                              onPressed: () async {
+                                                if (await Permission.storage
+                                                    .request()
+                                                    .isGranted) {
+                                                  _selectImageFromGallery();
+                                                  Navigator.pop(context);
+                                                }
                                               },
                                               icon:
                                                   const Icon(CustomIcons.image),
@@ -281,9 +286,28 @@ class _EditPostImagesState extends State<EditPostImages> {
                                                       .selectImageFromGallery),
                                             ),
                                             TextButton.icon(
-                                              onPressed: () {
-                                                _takeAPhoto();
-                                                Navigator.pop(context);
+                                              onPressed: () async {
+                                                final Map<Permission,
+                                                        PermissionStatus>
+                                                    statuses = await [
+                                                  Permission.camera,
+                                                  Permission.storage
+                                                ].request();
+                                                bool _areGranted = true;
+                                                statuses.forEach(
+                                                  (key, value) {
+                                                    if (_areGranted &&
+                                                        value !=
+                                                            PermissionStatus
+                                                                .granted) {
+                                                      _areGranted = false;
+                                                    }
+                                                  },
+                                                );
+                                                if (_areGranted) {
+                                                  _takeAPhoto();
+                                                  Navigator.pop(context);
+                                                }
                                               },
                                               icon: const Icon(
                                                   CustomIcons.camera),

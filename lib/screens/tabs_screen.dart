@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,26 +56,38 @@ class _TabsScreenState extends State<TabsScreen> {
     _isAuth = Provider.of<Auth>(context, listen: true).isAuth;
     return Scaffold(
       body: _pages[_selectedPageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        showUnselectedLabels: true,
-        selectedFontSize: 12.0,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.search),
-              label: AppLocalizations.of(context)!.tabsScreenSearch),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.heart),
-              label: AppLocalizations.of(context)!.favorites),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.plus),
-              label: AppLocalizations.of(context)!.tabsScreenCreate),
-          BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.settings),
-              label: AppLocalizations.of(context)!.tabsScreenProfile),
-        ],
+      extendBody: true,
+      bottomNavigationBar: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 10,
+            sigmaY: 10,
+          ),
+          child: Opacity(
+             opacity: 0.8,
+            child: BottomNavigationBar(
+              onTap: _selectPage,
+              currentIndex: _selectedPageIndex,
+              showUnselectedLabels: true,
+              selectedFontSize: 12.0,
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                    icon: const Icon(CustomIcons.search),
+                    label: AppLocalizations.of(context)!.tabsScreenSearch),
+                BottomNavigationBarItem(
+                    icon: const Icon(CustomIcons.heart),
+                    label: AppLocalizations.of(context)!.favorites),
+                BottomNavigationBarItem(
+                    icon: const Icon(CustomIcons.plus),
+                    label: AppLocalizations.of(context)!.tabsScreenCreate),
+                BottomNavigationBarItem(
+                    icon: const Icon(CustomIcons.settings),
+                    label: AppLocalizations.of(context)!.tabsScreenProfile),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

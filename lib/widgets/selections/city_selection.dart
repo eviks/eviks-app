@@ -95,60 +95,62 @@ class _CitySelectionState extends State<CitySelection> {
           ? (const Center(
               child: CircularProgressIndicator(),
             ))
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _controller,
-                    cursorColor: Theme.of(context).iconTheme.color,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.selectCityHint,
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
+          : SafeArea(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _controller,
+                      cursorColor: Theme.of(context).iconTheme.color,
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.selectCityHint,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        fillColor:
+                            Theme.of(context).inputDecorationTheme.fillColor,
+                        filled: true,
+                        suffixIcon: const Icon(Icons.saved_search),
                       ),
-                      fillColor:
-                          Theme.of(context).inputDecorationTheme.fillColor,
-                      filled: true,
-                      suffixIcon: const Icon(Icons.saved_search),
-                    ),
-                    onChanged: (String value) {
-                      setState(() {
-                        _filteredSettlements = _settlements
-                            .where(
-                              (element) =>
-                                  removeAzerbaijaniChars(element.name).contains(
-                                RegExp(
-                                  removeAzerbaijaniChars(value),
-                                  caseSensitive: false,
+                      onChanged: (String value) {
+                        setState(() {
+                          _filteredSettlements = _settlements
+                              .where(
+                                (element) =>
+                                    removeAzerbaijaniChars(element.name).contains(
+                                  RegExp(
+                                    removeAzerbaijaniChars(value),
+                                    caseSensitive: false,
+                                  ),
                                 ),
-                              ),
-                            )
-                            .toList();
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (ctx, index) {
-                        return ListTile(
-                          key: Key(_filteredSettlements[index].id),
-                          title: Text(_filteredSettlements[index].name),
-                          onTap: () {
-                            Navigator.of(context)
-                                .pop(_filteredSettlements[index]);
-                          },
-                        );
+                              )
+                              .toList();
+                        });
                       },
-                      itemCount: _filteredSettlements.length,
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (ctx, index) {
+                          return ListTile(
+                            key: Key(_filteredSettlements[index].id),
+                            title: Text(_filteredSettlements[index].name),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pop(_filteredSettlements[index]);
+                            },
+                          );
+                        },
+                        itemCount: _filteredSettlements.length,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+          ),
     );
   }
 }

@@ -9,6 +9,7 @@ import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
+import '../widgets/styled_app_bar.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -41,6 +42,7 @@ class _PostScreenState extends State<PostScreen> {
         }
       } catch (error) {
         _errorMessage = AppLocalizations.of(context)!.unknownError;
+        _errorMessage = error.toString();
       }
 
       if (_errorMessage.isNotEmpty) {
@@ -73,9 +75,11 @@ class _PostScreenState extends State<PostScreen> {
 
       await _fetchPosts(false);
 
-      setState(() {
-        _isInit = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isInit = false;
+        });
+      }
     }
     super.didChangeDependencies();
   }
@@ -95,7 +99,8 @@ class _PostScreenState extends State<PostScreen> {
     } else {
       final posts = Provider.of<Posts>(context).posts;
       return Scaffold(
-        appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: StyledAppBar(
           actions: [
             TextButton(
               onPressed: () =>

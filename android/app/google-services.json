@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "571116264351",
-    "project_id": "eviks-335609",
-    "storage_bucket": "eviks-335609.appspot.com"
+    "project_number": "731592839393",
+    "project_id": "eviks-207d1",
+    "storage_bucket": "eviks-207d1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:571116264351:android:9ede385b9fe3ff93367baa",
+        "mobilesdk_app_id": "1:731592839393:android:5ea2cb42515c5626b427a0",
         "android_client_info": {
-          "package_name": "com.example.eviks_mobile"
+          "package_name": "xyz.eviks.eviks_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "571116264351-g9ik18j6snbtfbsknm2gr1eh1ndsvu74.apps.googleusercontent.com",
+          "client_id": "731592839393-lhi0mvt5bskvs7cds0qmovm4qt50ef9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.eviks.eviks_mobile",
+            "certificate_hash": "30914f00bd513e935c1428a95a1b845828fcb792"
+          }
+        },
+        {
+          "client_id": "731592839393-j9j1bb543dikkm29hgdvv34rntfek355.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCivCsHQY4GirkAk5jdfCfvn4gd9CD90Sg"
+          "current_key": "AIzaSyAO5jaLz0OdLCpAQx1kCv5TKTbOhFS4Y3Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "571116264351-g9ik18j6snbtfbsknm2gr1eh1ndsvu74.apps.googleusercontent.com",
+              "client_id": "731592839393-j9j1bb543dikkm29hgdvv34rntfek355.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -9,6 +9,7 @@ import '../../../providers/auth.dart';
 import '../../../providers/posts.dart';
 import '../../../widgets/post_item.dart';
 import '../../../widgets/sized_config.dart';
+import '../../../widgets/styled_app_bar.dart';
 
 class UserPosts extends StatefulWidget {
   @override
@@ -76,9 +77,11 @@ class _UserPostsState extends State<UserPosts> {
 
       await _fetchPosts(false);
 
-      setState(() {
-        _isInit = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isInit = false;
+        });
+      }
     }
     super.didChangeDependencies();
   }
@@ -96,7 +99,8 @@ class _UserPostsState extends State<UserPosts> {
       final posts = Provider.of<Posts>(context).posts;
       SizeConfig().init(context);
       return Scaffold(
-        appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: StyledAppBar(
           leading: Navigator.canPop(context)
               ? IconButton(
                   onPressed: () {

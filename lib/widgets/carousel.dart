@@ -23,6 +23,19 @@ class _CarouselState extends State<Carousel> {
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      for (final imageUrl in widget.images) {
+        precacheImage(
+            NetworkImage(
+                '$baseUrl/uploads/post_images/$imageUrl/image_${widget.imageSize}.png'),
+            context);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -41,6 +54,16 @@ class _CarouselState extends State<Carousel> {
                 '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
+                loadingBuilder: (BuildContext ctx, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               );
             }),
         SizedBox(

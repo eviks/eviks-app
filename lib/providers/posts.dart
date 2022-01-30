@@ -361,7 +361,6 @@ class Posts with ChangeNotifier {
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
       } else if (response.statusCode != 200) {
-        print(response.body);
         final data = json.decode(response.body) as Map<String, dynamic>;
 
         final buffer = StringBuffer();
