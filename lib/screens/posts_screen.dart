@@ -124,42 +124,44 @@ class _PostScreenState extends State<PostScreen> {
         ),
         body: posts.isEmpty
             ? SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: SizeConfig.safeBlockVertical * 40.0,
-                          child: Image.asset(
-                            "assets/img/illustrations/no_result.png",
+                child: SafeArea(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical * 40.0,
+                            child: Image.asset(
+                              "assets/img/illustrations/no_result.png",
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.noResult,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.noResult,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 8.0,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!.noResultHint,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).dividerColor),
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.noResultHint,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).dividerColor),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

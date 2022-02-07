@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -78,8 +80,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
     SizeConfig().init(context);
     return Scaffold(
+      extendBody: true,
       body: SafeArea(
-        child: CustomScrollView(
+        child: CustomScrollView( 
+          
           controller: _scrollController,
           slivers: [
             SliverPersistentHeader(
@@ -92,6 +96,22 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ),
             ),
             SliverAppBar(
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Stack(
+                children: [
+                  ClipRRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Opacity(
+                         opacity: 0.8,
+                        child: Container(
+                          color: Theme.of(context).backgroundColor,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               leading: Navigator.canPop(context)
                   ? Visibility(
                       visible: _leadingVisibility,

@@ -116,42 +116,44 @@ class _UserPostsState extends State<UserPosts> {
         ),
         body: posts.isEmpty
             ? SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: SizeConfig.safeBlockVertical * 40.0,
-                          child: Image.asset(
-                            "assets/img/illustrations/my_posts.png",
+                child: SafeArea(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical * 40.0,
+                            child: Image.asset(
+                              "assets/img/illustrations/my_posts.png",
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.myPostsTitle,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.myPostsTitle,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 8.0,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!.myPostsHint,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).dividerColor),
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.myPostsHint,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Theme.of(context).dividerColor),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
