@@ -209,6 +209,7 @@ ThemeData darkThemeData(BuildContext context) {
       focusedErrorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: primaryColor, width: 2.0),
       ),
+      iconColor: lightGreyColor,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: softDarkColor,

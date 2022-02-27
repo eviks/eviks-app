@@ -141,7 +141,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                     ),
                     SwitchListTile(
                         value: _elevator ?? false,
-                        secondary: const Icon(CustomIcons.elevator),
+                        secondary: Icon(
+                          CustomIcons.elevator,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         title: Text(AppLocalizations.of(context)!.elevator),
                         onChanged: (bool? value) {
                           setState(() {
@@ -150,7 +153,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                         }),
                     SwitchListTile(
                         value: _parkingLot ?? false,
-                        secondary: const Icon(CustomIcons.parkinglot),
+                        secondary: Icon(
+                          CustomIcons.parkinglot,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         title: Text(AppLocalizations.of(context)!.parkingLot),
                         onChanged: (bool? value) {
                           setState(() {

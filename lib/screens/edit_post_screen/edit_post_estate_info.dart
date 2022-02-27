@@ -318,7 +318,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                     ),
                     SwitchListTile(
                         value: _documented ?? false,
-                        secondary: const Icon(CustomIcons.document),
+                        secondary: Icon(
+                          CustomIcons.document,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         title: Text(AppLocalizations.of(context)!.documented),
                         onChanged: (bool? value) {
                           setState(() {
@@ -327,7 +330,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         }),
                     SwitchListTile(
                         value: _redevelopment ?? false,
-                        secondary: const Icon(CustomIcons.hammer),
+                        secondary: Icon(
+                          CustomIcons.hammer,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         title:
                             Text(AppLocalizations.of(context)!.redevelopment),
                         onChanged: (bool? value) {
