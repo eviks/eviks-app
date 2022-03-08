@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
-import '../widgets/custom_page_transition.dart';
 
 class ThemePreferences with ChangeNotifier {
   ThemeMode _themeMode;
@@ -35,9 +34,9 @@ class ThemePreferences with ChangeNotifier {
 
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
-    pageTransitionsTheme: PageTransitionsTheme(builders: {
-      TargetPlatform.android: CustomPageTransitionBuilder(),
-      TargetPlatform.iOS: CustomPageTransitionBuilder(),
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     }),
     primaryColor: primaryColor,
     androidOverscrollIndicator: AndroidOverscrollIndicator.glow,
@@ -153,9 +152,9 @@ ThemeData lightThemeData(BuildContext context) {
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
-    pageTransitionsTheme: PageTransitionsTheme(builders: {
-      TargetPlatform.android: CustomPageTransitionBuilder(),
-      TargetPlatform.iOS: CustomPageTransitionBuilder(),
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     }),
     primaryColor: lightPrimaryColor,
     disabledColor: greyColor,

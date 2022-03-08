@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './edit_post_map.dart';
 import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
@@ -32,8 +33,8 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   late bool _isApartment;
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     if ((postData?.lastStep ?? -1) >= 0) {
       _userType = postData?.userType;
@@ -43,7 +44,8 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
     }
 
     _isApartment = _estateType == EstateType.apartment;
-    super.initState();
+
+    super.didChangeDependencies();
   }
 
   void _continuePressed() {
@@ -59,6 +61,8 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
 
     _goToNextStep = true;
     _updatePost();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const EditPostMap()));
   }
 
   void _updatePost() {
@@ -74,7 +78,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
     );
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     Navigator.of(context).pop();
   }
 
@@ -88,7 +92,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),

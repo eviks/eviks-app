@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './edit_post_contacts.dart';
 import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
@@ -35,8 +36,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
   late bool _isRent;
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     if ((postData?.lastStep ?? -1) >= 6) {
       _price = postData?.price;
@@ -47,7 +48,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
     }
 
     _isRent = postData?.dealType != DealType.sale;
-    super.initState();
+    super.didChangeDependencies();
   }
 
   void _continuePressed() {
@@ -63,6 +64,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
     _goToNextStep = true;
     _updatePost();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const EditPostContacts()));
   }
 
   void _updatePost() {
@@ -79,8 +82,9 @@ class _EditPostPriceState extends State<EditPostPrice> {
     );
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     _updatePost();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -93,7 +97,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),

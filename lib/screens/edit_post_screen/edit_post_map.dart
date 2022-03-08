@@ -10,6 +10,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 import './edit_post_district.dart';
+import './edit_post_estate_info.dart';
 import './step_title.dart';
 import '../../constants.dart';
 import '../../models/address.dart';
@@ -55,8 +56,8 @@ class _EditPostMapState extends State<EditPostMap> {
   final _controller = TextEditingController();
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     if ((postData?.lastStep ?? -1) >= 1) {
       _location = postData?.location;
@@ -77,7 +78,8 @@ class _EditPostMapState extends State<EditPostMap> {
             [_mapController.center.longitude, _mapController.center.latitude]);
       }
     });
-    super.initState();
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -216,6 +218,8 @@ class _EditPostMapState extends State<EditPostMap> {
 
     _goToNextStep = true;
     _updatePost();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const EditPostEstateInfo()));
   }
 
   void _updatePost() {
@@ -232,8 +236,9 @@ class _EditPostMapState extends State<EditPostMap> {
     );
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     _updatePost();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -246,7 +251,7 @@ class _EditPostMapState extends State<EditPostMap> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),
@@ -258,6 +263,9 @@ class _EditPostMapState extends State<EditPostMap> {
             options: MapOptions(
               center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
               zoom: 17,
+              interactiveFlags: InteractiveFlag.pinchZoom |
+                  InteractiveFlag.drag |
+                  InteractiveFlag.doubleTapZoom,
             ),
             layers: [
               TileLayerOptions(

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './edit_post_additional_info.dart';
 import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
@@ -32,8 +33,8 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   bool? _parkingLot = false;
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     if ((postData?.lastStep ?? -1) >= 3) {
       _yearBuild = postData?.yearBuild;
@@ -42,7 +43,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
       _parkingLot = postData?.parkingLot;
     }
 
-    super.initState();
+    super.didChangeDependencies();
   }
 
   void _continuePressed() {
@@ -58,6 +59,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
 
     _goToNextStep = true;
     _updatePost();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const EditPostAdditionalInfo()));
   }
 
   void _updatePost() {
@@ -73,8 +78,9 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
     );
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     _updatePost();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -87,7 +93,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),

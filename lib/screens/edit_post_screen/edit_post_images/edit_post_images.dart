@@ -14,6 +14,7 @@ import '../../../models/post.dart';
 import '../../../providers/posts.dart';
 import '../../../widgets/sized_config.dart';
 import '../../../widgets/styled_elevated_button.dart';
+import '../edit_post_price.dart';
 import '../step_title.dart';
 
 class EditPostImages extends StatefulWidget {
@@ -34,8 +35,8 @@ class _EditPostImagesState extends State<EditPostImages> {
   bool _isValid = true;
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     bool _isTemp(String id) {
       return postData?.originalImages
@@ -51,7 +52,7 @@ class _EditPostImagesState extends State<EditPostImages> {
           [];
     }
 
-    super.initState();
+    super.didChangeDependencies();
   }
 
   Future<void> _selectImageFromGallery() async {
@@ -194,6 +195,8 @@ class _EditPostImagesState extends State<EditPostImages> {
 
     _goToNextStep = true;
     _updatePost();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const EditPostPrice()));
   }
 
   void _updatePost() {
@@ -206,8 +209,9 @@ class _EditPostImagesState extends State<EditPostImages> {
     );
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     _updatePost();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -220,7 +224,7 @@ class _EditPostImagesState extends State<EditPostImages> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),

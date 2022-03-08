@@ -37,7 +37,10 @@ class PostDetailMap extends StatelessWidget {
           child: FlutterMap(
             options: MapOptions(
               center: LatLng(post.location[1], post.location[0]),
-              zoom: 17,
+              zoom: 14,
+              interactiveFlags: InteractiveFlag.pinchZoom |
+                  InteractiveFlag.drag |
+                  InteractiveFlag.doubleTapZoom,
             ),
             layers: [
               TileLayerOptions(

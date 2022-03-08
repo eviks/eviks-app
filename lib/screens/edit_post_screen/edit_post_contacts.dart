@@ -33,14 +33,14 @@ class _EditPostContactsState extends State<EditPostContacts> {
   String? _contact;
 
   @override
-  void initState() {
-    postData = Provider.of<Posts>(context, listen: false).postData;
+  void didChangeDependencies() {
+    postData = Provider.of<Posts>(context, listen: true).postData;
 
     if ((postData?.lastStep ?? -1) >= 7) {
       _contact = postData?.contact;
     }
 
-    super.initState();
+    super.didChangeDependencies();
   }
 
   void _onPostConfirm() {
@@ -127,8 +127,9 @@ class _EditPostContactsState extends State<EditPostContacts> {
         .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
   }
 
-  void _prevStep(Post? postData) {
+  void _prevStep() {
     _updatePost();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -141,7 +142,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
         ),
         leading: IconButton(
           onPressed: () {
-            _prevStep(postData);
+            _prevStep();
           },
           icon: const Icon(CustomIcons.back),
         ),

@@ -31,12 +31,13 @@ class _UserPostsState extends State<UserPosts> {
       final _pagination = Provider.of<Posts>(context, listen: false).pagination;
       if (_pagination.available != null || _pagination.current == 0) {
         final _page = _pagination.current + 1;
-        await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-          queryParameters: _queryParameters,
-          page: _page,
-          updatePosts: updatePosts,
-        );
-        try {} on Failure catch (error) {
+        try {
+          await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
+            queryParameters: _queryParameters,
+            page: _page,
+            updatePosts: updatePosts,
+          );
+        } on Failure catch (error) {
           if (error.statusCode >= 500) {
             _errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
