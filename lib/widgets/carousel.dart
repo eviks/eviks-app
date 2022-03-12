@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +27,10 @@ class _CarouselState extends State<Carousel> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      for (final imageUrl in widget.images) {
+      for (var i = 0; i < min(widget.images.length, 3); i++) {
         precacheImage(
             NetworkImage(
-                '$baseUrl/uploads/post_images/$imageUrl/image_${widget.imageSize}.png'),
+                '$baseUrl/uploads/post_images/${widget.images[i]}/image_${widget.imageSize}.png'),
             context);
       }
     });

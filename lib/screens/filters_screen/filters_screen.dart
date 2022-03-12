@@ -80,12 +80,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      CityFilter(),
-                      DistrictFilter(),
-                      MainFilters(),
-                      SqmFilters(),
-                      FloorFilters(),
+                    children: [
+                      const CityFilter(),
+                      const DistrictFilter(),
+                      const MainFilters(),
+                      const SqmFilters(),
+                      const FloorFilters(),
+                      SizedBox(
+                        height: SizeConfig.safeBlockVertical * 10.0,
+                      ),
                     ],
                   ),
                 ),
@@ -94,7 +97,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StyledElevatedButton(
           text: AppLocalizations.of(context)!.showPosts,

@@ -82,8 +82,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     return Scaffold(
       extendBody: true,
       body: SafeArea(
-        child: CustomScrollView( 
-          
+        child: CustomScrollView(
           controller: _scrollController,
           slivers: [
             SliverPersistentHeader(
@@ -103,7 +102,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Opacity(
-                         opacity: 0.8,
+                        opacity: 0.8,
                         child: Container(
                           color: Theme.of(context).backgroundColor,
                         ),
@@ -155,7 +154,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StyledElevatedButton(
           text: AppLocalizations.of(context)!.call,

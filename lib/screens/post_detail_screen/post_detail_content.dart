@@ -8,6 +8,7 @@ import './post_detail_main_info.dart';
 import './post_detail_map.dart';
 import './post_detail_user.dart';
 import '../../models/post.dart';
+import '../../widgets/sized_config.dart';
 
 class PostDetailContent extends StatelessWidget {
   final Post post;
@@ -46,6 +47,7 @@ class PostDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SliverList(
       delegate: SliverChildListDelegate([
         Container(
@@ -104,7 +106,10 @@ class PostDetailContent extends StatelessWidget {
                 child: PostDetailMap(
                   post,
                 ),
-              )
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical * 10.0,
+              ),
             ],
           ),
         ),

@@ -26,7 +26,7 @@ class PostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 30.0
+            ? 35.0
             : 50.0;
 
     final dateFormatter = DateFormat(
@@ -41,6 +41,8 @@ class PostItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(
           top: 20.0,
+          right: 10.0,
+          left: 10.0,
         ),
         child: Column(
           children: <Widget>[
@@ -51,9 +53,12 @@ class PostItem extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.bottomRight,
                 children: <Widget>[
-                  Carousel(
-                    images: post.images,
-                    height: SizeConfig.safeBlockVertical * headerHeight,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Carousel(
+                      images: post.images,
+                      height: SizeConfig.safeBlockVertical * headerHeight,
+                    ),
                   ),
                   Consumer<Auth>(
                     builder: (context, auth, child) {

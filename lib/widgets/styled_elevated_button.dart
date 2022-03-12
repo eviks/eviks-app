@@ -26,6 +26,7 @@ class StyledElevatedButton extends StatelessWidget {
       ),
       width: width,
       height: 60.0,
+      color: Colors.transparent,
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
         style: ButtonStyle(
