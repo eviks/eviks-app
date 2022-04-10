@@ -331,10 +331,25 @@ class Post {
             apartmentType?.toString().replaceAll('ApartmentType.', ''),
         'dealType': dealType.toString().replaceAll('DealType.', ''),
         'location': location,
-        'city': {'id': city.id, 'name': city.name},
-        'district': {'id': district.id, 'name': district.name},
+        'city': {
+          'id': city.id,
+          'name': city.name,
+          'nameRu': city.nameRu,
+          'nameEn': city.nameEn,
+        },
+        'district': {
+          'id': district.id,
+          'name': district.name,
+          'nameRu': district.nameRu,
+          'nameEn': district.nameEn,
+        },
         'subdistrict': subdistrict != null
-            ? {'id': subdistrict?.id, 'name': subdistrict?.name}
+            ? {
+                'id': subdistrict?.id,
+                'name': subdistrict?.name,
+                'nameRu': subdistrict?.nameRu,
+                'nameEn': subdistrict?.nameEn,
+              }
             : null,
         'address': address,
         'rooms': rooms,

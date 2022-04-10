@@ -10,8 +10,8 @@ class PostDetailMap extends StatelessWidget {
 
   const PostDetailMap(this.post);
 
-  String _getlocationName() {
-    return '${post.city.name}, ${post.district.name}${post.subdistrict != null ? ', ${post.subdistrict!.name}' : ''}';
+  String _getlocationName(BuildContext context) {
+    return '${post.city.getLocaliedName(context)}, ${post.district.getLocaliedName(context)}${post.subdistrict != null ? ', ${post.subdistrict!.getLocaliedName(context)}' : ''}';
   }
 
   @override
@@ -25,7 +25,7 @@ class PostDetailMap extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _getlocationName(),
+                _getlocationName(context),
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 18.0),
               ),

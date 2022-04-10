@@ -96,7 +96,7 @@ class _CitySelectionState extends State<CitySelection> {
               child: CircularProgressIndicator(),
             ))
           : SafeArea(
-            child: Padding(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
@@ -117,8 +117,9 @@ class _CitySelectionState extends State<CitySelection> {
                         setState(() {
                           _filteredSettlements = _settlements
                               .where(
-                                (element) =>
-                                    removeAzerbaijaniChars(element.name).contains(
+                                (element) => removeAzerbaijaniChars(
+                                        element.getLocaliedName(context))
+                                    .contains(
                                   RegExp(
                                     removeAzerbaijaniChars(value),
                                     caseSensitive: false,
@@ -137,7 +138,8 @@ class _CitySelectionState extends State<CitySelection> {
                         itemBuilder: (ctx, index) {
                           return ListTile(
                             key: Key(_filteredSettlements[index].id),
-                            title: Text(_filteredSettlements[index].name),
+                            title: Text(_filteredSettlements[index]
+                                .getLocaliedName(context)),
                             onTap: () {
                               Navigator.of(context)
                                   .pop(_filteredSettlements[index]);
@@ -150,7 +152,7 @@ class _CitySelectionState extends State<CitySelection> {
                   ],
                 ),
               ),
-          ),
+            ),
     );
   }
 }

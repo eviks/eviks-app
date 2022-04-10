@@ -122,7 +122,8 @@ class PostItem extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             Text(
-                              post.subdistrict?.name ?? post.district.name,
+                              post.subdistrict?.getLocaliedName(context) ??
+                                  post.district.getLocaliedName(context),
                               style: const TextStyle(fontSize: 24.0),
                             ),
                           ],

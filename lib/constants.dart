@@ -14,10 +14,10 @@ const baseHost = 'eviks.xyz';
 const basePort = 443;
 
 // Development
-// const baseUrl = 'http://192.168.1.9:5000';
+// const baseUrl = 'http://192.168.1.10:3000';
 // const baseScheme = 'http';
-// const baseHost = '192.168.1.9';
-// const basePort = 5000;
+// const baseHost = '192.168.1.10';
+// const basePort = 3000;
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
@@ -79,19 +79,94 @@ Settlement getCapitalCity() {
   return Settlement(
     id: '10',
     name: 'Bakı',
+    nameRu: 'Баку',
+    nameEn: 'Baku',
+    routeName: 'baku',
     children: [
-      Settlement(id: '117', name: 'Binəqədi'),
-      Settlement(id: '112', name: 'Nərimanov'),
-      Settlement(id: '111', name: 'Nəsimi'),
-      Settlement(id: '113', name: 'Nizami'),
-      Settlement(id: '122', name: 'Pirallahı'),
-      Settlement(id: '121', name: 'Qaradağ'),
-      Settlement(id: '118', name: 'Sabunçu'),
-      Settlement(id: '115', name: 'Səbail'),
-      Settlement(id: '119', name: 'Suraxanı'),
-      Settlement(id: '114', name: 'Xətai'),
-      Settlement(id: '120', name: 'Xəzər'),
-      Settlement(id: '116', name: 'Yasamal'),
+      Settlement(
+        id: '117',
+        name: 'Binəqədi',
+        nameRu: 'Бинагади',
+        nameEn: 'Binagadi',
+        routeName: 'binagadi',
+      ),
+      Settlement(
+        id: '112',
+        name: 'Nərimanov',
+        nameRu: 'Нариманов',
+        nameEn: 'Narimanov',
+        routeName: 'narimanov',
+      ),
+      Settlement(
+        id: '111',
+        name: 'Nəsimi',
+        nameRu: 'Насими',
+        nameEn: 'Nasimi',
+        routeName: 'nasimi',
+      ),
+      Settlement(
+        id: '113',
+        name: 'Nizami',
+        nameRu: 'Низами',
+        nameEn: 'Nizami',
+        routeName: 'nizami',
+      ),
+      Settlement(
+        id: '122',
+        name: 'Pirallahı',
+        nameRu: 'Пираллахи',
+        nameEn: 'Pirallahi',
+        routeName: 'pirallahi',
+      ),
+      Settlement(
+        id: '121',
+        name: 'Qaradağ',
+        nameRu: 'Гарадаг',
+        nameEn: 'Garadagh',
+        routeName: 'garadagh',
+      ),
+      Settlement(
+        id: '118',
+        name: 'Sabunçu',
+        nameRu: 'Сабунчи',
+        nameEn: 'Sabunchu',
+        routeName: 'sabunchu',
+      ),
+      Settlement(
+        id: '115',
+        name: 'Səbail',
+        nameRu: 'Сабаил',
+        nameEn: 'Sabail',
+        routeName: 'sabail',
+      ),
+      Settlement(
+        id: '119',
+        name: 'Suraxanı',
+        nameRu: 'Сураханы',
+        nameEn: 'Surakhani',
+        routeName: 'surakhani',
+      ),
+      Settlement(
+        id: '114',
+        name: 'Xətai',
+        nameRu: 'Хатаи',
+        nameEn: 'Khatai',
+        routeName: 'khatai',
+      ),
+      Settlement(
+        id: '120',
+        name: 'Xəzər',
+        nameRu: 'Хазар',
+        nameEn: 'Khazar',
+        routeName: 'khazar',
+      ),
+      Settlement(
+        id: '116',
+        name: 'Yasamal',
+        nameRu: 'Ясамал',
+        nameEn: 'Yasamal',
+        routeName: 'yasamal',
+      ),
     ],
   );
 }

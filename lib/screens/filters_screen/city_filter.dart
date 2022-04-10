@@ -38,7 +38,7 @@ class CityFilter extends StatelessWidget {
           },
           child: Consumer<Posts>(
             builder: (context, posts, child) => Text(
-              posts.filters.city.name,
+              posts.filters.city.getLocaliedName(context),
               style: const TextStyle(fontSize: 18.0),
             ),
           ),

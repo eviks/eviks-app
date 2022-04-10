@@ -54,11 +54,11 @@ class EditPostDistrict extends StatelessWidget {
 
   String _getDistrictPresentation(BuildContext context) {
     String presentation = '';
-    presentation =
-        district?.name ?? AppLocalizations.of(context)!.districtNotSelected;
+    presentation = district?.getLocaliedName(context) ??
+        AppLocalizations.of(context)!.districtNotSelected;
     if (district?.children?.isNotEmpty ?? false) {
       presentation =
-          '$presentation, ${subdistrict?.name ?? AppLocalizations.of(context)!.subdistrictNotSelected}';
+          '$presentation, ${subdistrict?.getLocaliedName(context) ?? AppLocalizations.of(context)!.subdistrictNotSelected}';
     }
     return presentation;
   }
@@ -69,7 +69,7 @@ class EditPostDistrict extends StatelessWidget {
       children: [
         SettlementSelect(
           label: '${AppLocalizations.of(context)!.city}:',
-          text: city.name,
+          text: city.getLocaliedName(context),
           onTap: () {
             _selectCity(context);
           },
