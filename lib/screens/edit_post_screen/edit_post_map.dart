@@ -247,7 +247,6 @@ class _EditPostMapState extends State<EditPostMap> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.address,
-          icon: CustomIcons.marker,
         ),
         leading: IconButton(
           onPressed: () {

@@ -89,7 +89,6 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.buildingInfo,
-          icon: CustomIcons.apartment,
         ),
         leading: IconButton(
           onPressed: () {

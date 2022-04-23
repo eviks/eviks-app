@@ -16,8 +16,12 @@ class EditPostButton extends StatelessWidget {
       onPressed: () => Navigator.of(context)
           .pushNamed(EditPostScreen.routeName, arguments: postId),
       style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        fixedSize: const Size.fromRadius(25.0),
+        padding: const EdgeInsets.all(0.0),
+        minimumSize: const Size(50, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        fixedSize: const Size(50.0, 50.0),
         primary: Theme.of(context).backgroundColor,
         onPrimary: Theme.of(context).dividerColor,
       ),

@@ -93,7 +93,6 @@ class _EditPostPriceState extends State<EditPostPrice> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.priceTitle,
-          icon: CustomIcons.wallet,
         ),
         leading: IconButton(
           onPressed: () {

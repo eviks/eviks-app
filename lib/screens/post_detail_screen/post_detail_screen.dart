@@ -34,7 +34,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
             ? 45.0
-            : 65.0;
+            : 60.0;
 
     return _scrollController.hasClients &&
         _scrollController.offset >
@@ -80,7 +80,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
     SizeConfig().init(context);
     return Scaffold(
-      extendBody: true,
       body: SafeArea(
         child: CustomScrollView(
           controller: _scrollController,
@@ -98,16 +97,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               backgroundColor: Colors.transparent,
               flexibleSpace: Stack(
                 children: [
-                  ClipRRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Opacity(
-                        opacity: 0.8,
-                        child: Container(
-                          color: Theme.of(context).backgroundColor,
-                        ),
-                      ),
-                    ),
+                  Container(
+                    color: Theme.of(context).backgroundColor,
                   )
                 ],
               ),
@@ -134,11 +125,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   child: Container(
                     child: userId == loadedPost.user
                         ? Container(
-                            margin: const EdgeInsets.all(4.0),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 4.0),
                             child: EditPostButton(postId),
                           )
                         : Container(
-                            margin: const EdgeInsets.all(4.0),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 4.0),
                             child: FavoriteButton(
                               postId: postId,
                               elevation: 0.0,

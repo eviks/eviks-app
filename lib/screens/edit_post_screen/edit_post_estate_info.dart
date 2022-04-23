@@ -114,7 +114,6 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.estateInfo,
-          icon: CustomIcons.house,
         ),
         leading: IconButton(
           onPressed: () {

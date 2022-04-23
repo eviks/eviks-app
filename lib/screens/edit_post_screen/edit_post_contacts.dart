@@ -138,7 +138,6 @@ class _EditPostContactsState extends State<EditPostContacts> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.contactTitle,
-          icon: CustomIcons.phonering,
         ),
         leading: IconButton(
           onPressed: () {

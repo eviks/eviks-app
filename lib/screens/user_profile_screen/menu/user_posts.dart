@@ -9,7 +9,6 @@ import '../../../providers/auth.dart';
 import '../../../providers/posts.dart';
 import '../../../widgets/post_item.dart';
 import '../../../widgets/sized_config.dart';
-import '../../../widgets/styled_app_bar.dart';
 
 class UserPosts extends StatefulWidget {
   @override
@@ -100,8 +99,7 @@ class _UserPostsState extends State<UserPosts> {
       final posts = Provider.of<Posts>(context).posts;
       SizeConfig().init(context);
       return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: StyledAppBar(
+        appBar: AppBar(
           leading: Navigator.canPop(context)
               ? IconButton(
                   onPressed: () {

@@ -95,7 +95,7 @@ ThemeData lightThemeData(BuildContext context) {
       backgroundColor: lightColor,
       selectedItemColor: primaryColor,
       selectedIconTheme: IconThemeData(color: primaryColor),
-      unselectedItemColor: greyColor,
+      unselectedItemColor: darkGreyColor,
     ),
     dividerColor: greyColor,
     snackBarTheme: const SnackBarThemeData(

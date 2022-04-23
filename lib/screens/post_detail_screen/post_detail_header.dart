@@ -42,33 +42,41 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    onPressed: Navigator.canPop(context)
-                        ? () {
-                            Navigator.pop(context);
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      fixedSize: const Size.fromRadius(25.0),
-                      primary: Theme.of(context).backgroundColor,
-                      onPrimary: Theme.of(context).dividerColor,
+                  Container(
+                    margin: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: Navigator.canPop(context)
+                          ? () {
+                              Navigator.pop(context);
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(4.0),
+                        minimumSize: const Size(50, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        fixedSize: const Size(50.0, 50.0),
+                        primary: Theme.of(context).backgroundColor,
+                        onPrimary: Theme.of(context).dividerColor,
+                      ),
+                      child: const Icon(CustomIcons.back),
                     ),
-                    child: const Icon(CustomIcons.back),
                   ),
                   if ((auth.user?.id ?? '') == user)
                     Container(
-                      margin: const EdgeInsets.all(4.0),
+                      margin: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
                           EditPostButton(postId),
+                          const SizedBox(width: 8.0),
                           DeletePostButton(postId),
                         ],
                       ),
                     )
                   else
                     Container(
-                      margin: const EdgeInsets.all(4.0),
+                      margin: const EdgeInsets.all(8.0),
                       child: FavoriteButton(
                         postId: postId,
                       ),

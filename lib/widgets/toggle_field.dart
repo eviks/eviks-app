@@ -91,8 +91,8 @@ class _ToggleFieldState extends State<ToggleField> {
                   (element) => SizedBox(
                     width: SizeConfig.safeBlockHorizontal *
                         (widget.direction == Axis.horizontal ? 25.0 : 100.0),
-                    height: SizeConfig.safeBlockVertical *
-                        (widget.direction == Axis.horizontal ? 16.0 : 8.0),
+                    height: SizeConfig.safeBlockHorizontal *
+                        (widget.direction == Axis.horizontal ? 25.0 : 8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

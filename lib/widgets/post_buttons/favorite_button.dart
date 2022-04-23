@@ -37,8 +37,12 @@ class FavoriteButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: _toggleFavoriteStatus,
       style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        fixedSize: const Size.fromRadius(25.0),
+        padding: const EdgeInsets.all(4.0),
+        minimumSize: const Size(50, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        fixedSize: const Size(50.0, 50.0),
         elevation: elevation,
         primary: _isFavorite
             ? Theme.of(context).primaryColor
@@ -47,7 +51,9 @@ class FavoriteButton extends StatelessWidget {
             ? Theme.of(context).backgroundColor
             : Theme.of(context).dividerColor,
       ),
-      child: const Icon(CustomIcons.heart),
+      child: const Icon(
+        CustomIcons.heart,
+      ),
     );
   }
 }

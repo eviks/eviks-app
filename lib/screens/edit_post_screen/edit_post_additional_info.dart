@@ -143,7 +143,6 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.additionalInfo,
-          icon: CustomIcons.plus,
         ),
         leading: IconButton(
           onPressed: () {

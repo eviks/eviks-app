@@ -220,7 +220,6 @@ class _EditPostImagesState extends State<EditPostImages> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.images,
-          icon: CustomIcons.camera,
         ),
         leading: IconButton(
           onPressed: () {

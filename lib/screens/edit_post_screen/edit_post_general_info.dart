@@ -88,7 +88,6 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
       appBar: AppBar(
         title: StepTitle(
           title: AppLocalizations.of(context)!.generalInfo,
-          icon: CustomIcons.information,
         ),
         leading: IconButton(
           onPressed: () {

@@ -51,7 +51,7 @@ class PostItem extends StatelessWidget {
                   ? const ColorFilter.mode(Colors.transparent, BlendMode.color)
                   : const ColorFilter.mode(Colors.white30, BlendMode.modulate),
               child: Stack(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.topRight,
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
@@ -64,18 +64,19 @@ class PostItem extends StatelessWidget {
                     builder: (context, auth, child) {
                       if ((auth.user?.id ?? '') == post.user) {
                         return Container(
-                          margin: const EdgeInsets.all(4.0),
+                          margin: const EdgeInsets.only(top: 16.0, right: 8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               EditPostButton(post.id),
+                              const SizedBox(width: 8.0),
                               DeletePostButton(post.id),
                             ],
                           ),
                         );
                       }
                       return Container(
-                        margin: const EdgeInsets.all(4.0),
+                        margin: const EdgeInsets.only(top: 16.0, right: 8.0),
                         child: FavoriteButton(
                           postId: post.id,
                         ),

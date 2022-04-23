@@ -9,7 +9,6 @@ import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
-import '../widgets/styled_app_bar.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -99,8 +98,7 @@ class _PostScreenState extends State<PostScreen> {
     } else {
       final posts = Provider.of<Posts>(context).posts;
       return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: StyledAppBar(
+        appBar: AppBar(
           actions: [
             TextButton(
               onPressed: () =>
