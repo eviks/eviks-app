@@ -12,7 +12,6 @@ import '../constants.dart';
 import '../models/post.dart';
 import '../providers/auth.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
-import '../widgets/sized_config.dart';
 
 class PostItem extends StatelessWidget {
   final Post post;
@@ -24,15 +23,11 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerHeight =
-        MediaQuery.of(context).orientation == Orientation.portrait
-            ? 35.0
-            : 50.0;
+    const headerHeight = 225.0;
 
     final dateFormatter = DateFormat(
         'dd MMMM yyyy HH:mm', Localizations.localeOf(context).languageCode);
 
-    SizeConfig().init(context);
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
@@ -57,7 +52,7 @@ class PostItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0),
                     child: Carousel(
                       images: post.images,
-                      height: SizeConfig.safeBlockVertical * headerHeight,
+                      height: headerHeight,
                     ),
                   ),
                   Consumer<Auth>(

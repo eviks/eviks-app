@@ -212,7 +212,8 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                 ),
               ),
           ),
-      bottomNavigationBar: widget.selecMode == SubdistrictSelectMode.multiple
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: widget.selecMode == SubdistrictSelectMode.multiple
           ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: StyledElevatedButton(

@@ -152,10 +152,12 @@ ThemeData lightThemeData(BuildContext context) {
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
+    brightness: Brightness.dark,
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     }),
+    cardColor: darkColor,
     primaryColor: lightPrimaryColor,
     disabledColor: greyColor,
     backgroundColor: darkColor,

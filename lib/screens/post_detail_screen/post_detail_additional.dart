@@ -58,8 +58,8 @@ class PostDetailAdditional extends StatelessWidget {
         ),
         _AdditionalItem(
           value: post.cableTv,
-          icon: CustomIcons.cabeltv,
-          label: AppLocalizations.of(context)!.cabelTv,
+          icon: CustomIcons.cabletv,
+          label: AppLocalizations.of(context)!.cableTv,
         ),
         _AdditionalItem(
           value: post.phone,

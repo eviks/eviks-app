@@ -128,7 +128,7 @@ class Post {
   final double? ceilingHeight;
   final bool? elevator;
   final bool? parkingLot;
-  final String description;
+  final String? description;
   final bool? balcony;
   final bool? furniture;
   final bool? kitchenFurniture;
@@ -336,12 +336,16 @@ class Post {
           'name': city.name,
           'nameRu': city.nameRu,
           'nameEn': city.nameEn,
+          'x': city.x,
+          'y': city.y,
         },
         'district': {
           'id': district.id,
           'name': district.name,
           'nameRu': district.nameRu,
           'nameEn': district.nameEn,
+          'x': district.x,
+          'y': district.y,
         },
         'subdistrict': subdistrict != null
             ? {
@@ -349,6 +353,8 @@ class Post {
                 'name': subdistrict?.name,
                 'nameRu': subdistrict?.nameRu,
                 'nameEn': subdistrict?.nameEn,
+                'x': subdistrict?.x,
+                'y': subdistrict?.y,
               }
             : null,
         'address': address,

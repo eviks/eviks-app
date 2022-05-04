@@ -83,6 +83,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   }
 
   void _prevStep() {
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

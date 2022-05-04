@@ -104,6 +104,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   }
 
   void _prevStep() {
+     _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

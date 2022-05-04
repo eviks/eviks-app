@@ -128,6 +128,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
   }
 
   void _prevStep() {
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

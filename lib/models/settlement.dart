@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './metro_station.dart';
 
 class Settlement {
   final String id;
@@ -6,8 +7,10 @@ class Settlement {
   final String nameRu;
   final String nameEn;
   final String routeName;
+  final String type;
   final double? x;
   final double? y;
+  List<MetroStation>? metroStations;
   List<Settlement>? children;
   Settlement({
     required this.id,
@@ -15,8 +18,10 @@ class Settlement {
     required this.nameRu,
     required this.nameEn,
     required this.routeName,
+    required this.type,
     this.x,
     this.y,
+    this.metroStations,
     this.children,
   });
 
@@ -39,6 +44,7 @@ class Settlement {
           ? json['nameEn'] as String
           : json['name'] as String,
       routeName: json['routeName'] != null ? json['routeName'] as String : '',
+      type: json['type'] != null ? json['type'] as String : '',
       x: json['x'] != null ? json['x'] as double : null,
       y: json['y'] != null ? json['y'] as double : null,
       children: json['children'] != null

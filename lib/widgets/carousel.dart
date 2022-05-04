@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../constants.dart';
 
@@ -61,8 +62,8 @@ class _CarouselState extends State<Carousel> {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return const SkeletonAvatar(
+                      style: SkeletonAvatarStyle(width: double.infinity),
                     );
                   }
                 },

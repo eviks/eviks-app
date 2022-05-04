@@ -24,7 +24,7 @@ class CustomIcons {
   static const IconData back = IconData(0xe801, fontFamily: _kFontFam);
   static const IconData balcony = IconData(0xe802, fontFamily: _kFontFam);
   static const IconData bathhouse = IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData cabeltv = IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData cabletv = IconData(0xe804, fontFamily: _kFontFam);
   static const IconData calendar = IconData(0xe805, fontFamily: _kFontFam);
   static const IconData camera = IconData(0xe806, fontFamily: _kFontFam);
   static const IconData checked = IconData(0xe807, fontFamily: _kFontFam);

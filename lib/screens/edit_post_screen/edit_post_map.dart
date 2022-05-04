@@ -237,6 +237,7 @@ class _EditPostMapState extends State<EditPostMap> {
   }
 
   void _prevStep() {
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

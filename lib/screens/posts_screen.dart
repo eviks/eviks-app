@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 import './filters_screen/filters_screen.dart';
@@ -167,15 +168,26 @@ class _PostScreenState extends State<PostScreen> {
             : Stack(
                 alignment: AlignmentDirectional.topEnd,
                 children: [
-                  ListView.builder(
-                    controller: _scrollController,
-                    itemBuilder: (ctx, index) {
-                      return PostItem(
-                        key: Key(posts[index].id.toString()),
-                        post: posts[index],
-                      );
-                    },
-                    itemCount: posts.length,
+                  AnimationLimiter(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemBuilder: (ctx, index) {
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 375),
+                          child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: PostItem(
+                                key: Key(posts[index].id.toString()),
+                                post: posts[index],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: posts.length,
+                    ),
                   ),
                   if (_isLoading)
                     Positioned(

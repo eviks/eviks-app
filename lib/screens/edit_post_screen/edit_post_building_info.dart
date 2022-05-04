@@ -79,6 +79,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   }
 
   void _prevStep() {
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

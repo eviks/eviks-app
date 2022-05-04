@@ -114,7 +114,7 @@ class _PostDetailContentState extends State<PostDetailContent> {
                     body: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        widget.post.description,
+                        widget.post.description ?? '',
                         style: const TextStyle(fontSize: 16.0),
                       ),
                     ),

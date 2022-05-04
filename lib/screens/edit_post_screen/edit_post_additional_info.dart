@@ -133,6 +133,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   }
 
   void _prevStep() {
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }
@@ -172,16 +173,6 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
                       initialValue: _description,
                       onSaved: (value) {
                         _description = value;
-                      },
-                      validator: (value) {
-                        if (value == null ||
-                            value
-                                    .replaceAll(RegExp(r'\s+\b|\b\s|\s|\b'), '')
-                                    .length <
-                                50) {
-                          return AppLocalizations.of(context)!
-                              .descriptionMinLength;
-                        }
                       },
                     ),
                     Wrap(
@@ -282,8 +273,8 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
                               });
                             }),
                         IconChoiseChip(
-                            icon: CustomIcons.cabeltv,
-                            label: Text(AppLocalizations.of(context)!.cabelTv),
+                            icon: CustomIcons.cabletv,
+                            label: Text(AppLocalizations.of(context)!.cableTv),
                             value: _cableTv ?? false,
                             onSelected: (bool selected) {
                               setState(() {
