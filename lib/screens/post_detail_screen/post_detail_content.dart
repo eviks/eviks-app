@@ -55,6 +55,12 @@ class _PostDetailContentState extends State<PostDetailContent> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    final int _descriptionIndex = _postHasBuildingInfo() ? 2 : 1;
+    final int _additionalItemsIndex = _postHasBuildingInfo() ? 3 : 2;
+    final int _locationIndex =
+        (_postHasBuildingInfo() ? 3 : 2) + (_postHasAdditionalItems() ? 1 : 0);
+
     return SliverList(
       delegate: SliverChildListDelegate([
         Container(
@@ -118,7 +124,7 @@ class _PostDetailContentState extends State<PostDetailContent> {
                         style: const TextStyle(fontSize: 16.0),
                       ),
                     ),
-                    isExpanded: _isOpen[2],
+                    isExpanded: _isOpen[_descriptionIndex],
                   ),
                   // Additional items
                   if (_postHasAdditionalItems())
@@ -134,7 +140,7 @@ class _PostDetailContentState extends State<PostDetailContent> {
                           post: widget.post,
                         ),
                       ),
-                      isExpanded: _isOpen[3],
+                      isExpanded: _isOpen[_additionalItemsIndex],
                     ),
                   // Location
                   ExpansionPanel(
@@ -153,7 +159,7 @@ class _PostDetailContentState extends State<PostDetailContent> {
                         ),
                       ),
                     ),
-                    isExpanded: _isOpen[4],
+                    isExpanded: _isOpen[_locationIndex],
                   ),
                 ],
                 expansionCallback: (index, isOpen) {

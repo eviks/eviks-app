@@ -153,7 +153,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           suffixIcon: CustomIcons.phonecall,
           onPressed: () async {
             if (await Permission.phone.request().isGranted) {
-              launch('tel://${loadedPost.contact}');
+              launch('tel://${loadedPost.phoneNumber}');
             }
           },
         ),

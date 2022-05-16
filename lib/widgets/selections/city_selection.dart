@@ -118,7 +118,7 @@ class _CitySelectionState extends State<CitySelection> {
                           _filteredSettlements = _settlements
                               .where(
                                 (element) => removeAzerbaijaniChars(
-                                        element.getLocaliedName(context))
+                                        element.getLocalizedName(context))
                                     .contains(
                                   RegExp(
                                     removeAzerbaijaniChars(value),
@@ -139,7 +139,7 @@ class _CitySelectionState extends State<CitySelection> {
                           return ListTile(
                             key: Key(_filteredSettlements[index].id),
                             title: Text(_filteredSettlements[index]
-                                .getLocaliedName(context)),
+                                .getLocalizedName(context)),
                             onTap: () {
                               Navigator.of(context)
                                   .pop(_filteredSettlements[index]);

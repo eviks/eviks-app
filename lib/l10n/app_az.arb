@@ -107,11 +107,14 @@
     "selectImageFromGallery": "Qalereyadan seçmək",
     "takeAPhoto": "Şəkil çəkmək",
     "price": "Qiymət",
-    "haggle": "Enirim mümkündür",
+    "pricePerMonth": "Aylıq qiymət",
+    "pricePerDay": "Gündəlik qiymət",
+    "haggle": "Endirim mümkündür",
     "installmentOfPayment": "Hissə-hissə ödəniş mümkündür",
     "prepayment": "Əvvəlcədən ödəniş tələb olunur",
     "municipalServicesIncluded": "Kommunal xidmətlər daxildir",
     "priceTitle": "Qiymət",
+    "username": "Sizi necə təqdim etmək?",
     "phoneNumber": "Telefon nömrəsi",
     "submitPost": "Elanı vermək",
     "contactTitle": "Əlaqə",
@@ -182,5 +185,7 @@
     "deleteProfileContent": "Bütün elanlarınız ləğv olunacaq. Profilinizi bərpa etmək mümkün olmayacaq",
     "deleteProfileCancel": "Fikrimi dəyişdim",
     "deleteProfile": "Ləğv etmək",
-    "deleteProfileButton": "Profilinizi ləğv etmək"
+    "deleteProfileButton": "Profilinizi ləğv etmək",
+    "metro": "Metro",
+    "metroHint": "Yaxınlıqdaki metro stansiyası göstərin"
 }

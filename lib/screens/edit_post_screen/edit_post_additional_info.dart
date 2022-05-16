@@ -56,7 +56,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 4) {
+    if ((postData?.lastStep ?? -1) >= 5) {
       _description = postData?.description;
       _balcony = postData?.balcony;
       _furniture = postData?.furniture;
@@ -126,8 +126,8 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
         garage: _garage,
         pool: _pool,
         bathhouse: _bathhouse,
-        lastStep: 4,
-        step: _goToNextStep ? 5 : 3,
+        lastStep: 5,
+        step: _goToNextStep ? 6 : 4,
       ),
     );
   }

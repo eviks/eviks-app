@@ -47,7 +47,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 2) {
+    if ((postData?.lastStep ?? -1) >= 3) {
       _rooms = postData?.rooms;
       _sqm = postData?.sqm;
       _livingRoomsSqm = postData?.livingRoomsSqm;
@@ -97,14 +97,14 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
         renovation: _renovation,
         redevelopment: _redevelopment,
         documented: _documented,
-        lastStep: 2,
-        step: _goToNextStep ? 3 : 1,
+        lastStep: 3,
+        step: _goToNextStep ? 4 : 2,
       ),
     );
   }
 
   void _prevStep() {
-     _formKey.currentState!.save();
+    _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
   }

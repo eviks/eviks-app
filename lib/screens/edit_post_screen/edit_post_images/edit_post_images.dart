@@ -44,7 +44,7 @@ class _EditPostImagesState extends State<EditPostImages> {
           null;
     }
 
-    if ((postData?.lastStep ?? -1) >= 5) {
+    if ((postData?.lastStep ?? -1) >= 6) {
       _imageDataList = postData?.images
               .map((id) =>
                   ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)))
@@ -203,8 +203,8 @@ class _EditPostImagesState extends State<EditPostImages> {
     Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         images: _imageDataList.map((element) => element.id).toList(),
-        lastStep: 5,
-        step: _goToNextStep ? 6 : 4,
+        lastStep: 6,
+        step: _goToNextStep ? 7 : 5,
       ),
     );
   }

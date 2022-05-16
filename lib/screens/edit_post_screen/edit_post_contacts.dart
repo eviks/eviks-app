@@ -7,7 +7,6 @@ import './step_title.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/post.dart';
-import '../../providers/auth.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
@@ -30,14 +29,16 @@ class _EditPostContactsState extends State<EditPostContacts> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
 
-  String? _contact;
+  String? _phoneNumber;
+  String? _username;
 
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 7) {
-      _contact = postData?.contact;
+    if ((postData?.lastStep ?? -1) >= 8) {
+      _phoneNumber = postData?.phoneNumber;
+      _username = postData?.username;
     }
 
     super.didChangeDependencies();
@@ -62,11 +63,10 @@ class _EditPostContactsState extends State<EditPostContacts> {
   void _updatePost() {
     Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
-        contact: _contact,
-        username:
-            Provider.of<Auth>(context, listen: false).user?.displayName ?? '',
-        lastStep: 7,
-        step: !_confirmPost ? 6 : 7,
+        phoneNumber: _phoneNumber,
+        username: _username,
+        lastStep: 8,
+        step: !_confirmPost ? 7 : 8,
       ),
     );
   }
@@ -86,20 +86,16 @@ class _EditPostContactsState extends State<EditPostContacts> {
       if ((postData?.id ?? 0) == 0) {
         await Provider.of<Posts>(context, listen: false).createPost(
           postData!.copyWith(
-            contact: _contact,
-            username:
-                Provider.of<Auth>(context, listen: false).user?.displayName ??
-                    '',
+            phoneNumber: _phoneNumber,
+            username: _username,
             lastStep: 7,
           ),
         );
       } else {
         await Provider.of<Posts>(context, listen: false).updatePost(
           postData!.copyWith(
-            contact: _contact,
-            username:
-                Provider.of<Auth>(context, listen: false).user?.displayName ??
-                    '',
+            phoneNumber: _phoneNumber,
+            username: _username,
             lastStep: 7,
           ),
         );
@@ -186,9 +182,24 @@ class _EditPostContactsState extends State<EditPostContacts> {
                       height: 16.0,
                     ),
                     StyledInput(
-                      icon: CustomIcons.phone,
+                      icon: CustomIcons.user,
+                      title: AppLocalizations.of(context)!.username,
+                      initialValue: _username,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!
+                              .errorRequiredField;
+                        }
+                      },
+                      onSaved: (value) {
+                        _username = value ?? '';
+                      },
+                    ),
+                    StyledInput(
+                      icon: CustomIcons.phonecall,
                       title: AppLocalizations.of(context)!.phoneNumber,
-                      initialValue: _contact,
+                      initialValue: _phoneNumber,
                       keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -197,7 +208,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
                         }
                       },
                       onSaved: (value) {
-                        _contact = value ?? '';
+                        _phoneNumber = value ?? '';
                       },
                     ),
                     const SizedBox(
@@ -210,12 +221,16 @@ class _EditPostContactsState extends State<EditPostContacts> {
           ),
         ),
       ),
-      bottomNavigationBar: StyledElevatedButton(
-        text: AppLocalizations.of(context)!.submitPost,
-        onPressed: _onPostConfirm,
-        loading: _isLoading,
-        width: SizeConfig.safeBlockHorizontal * 100.0,
-        suffixIcon: CustomIcons.checked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StyledElevatedButton(
+          text: AppLocalizations.of(context)!.submitPost,
+          onPressed: _onPostConfirm,
+          loading: _isLoading,
+          width: SizeConfig.safeBlockHorizontal * 100.0,
+          suffixIcon: CustomIcons.checked,
+        ),
       ),
     );
   }

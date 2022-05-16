@@ -25,7 +25,7 @@ class Settlement {
     this.children,
   });
 
-  String getLocaliedName(BuildContext context) {
+  String getLocalizedName(BuildContext context) {
     final Locale _locale = Localizations.localeOf(context);
     if (_locale == const Locale('az')) return name;
     if (_locale == const Locale('ru')) return nameRu;
@@ -51,6 +51,13 @@ class Settlement {
           ? List<Settlement>.from(
               (json['children'] as List).map(
                 (model) => Settlement.fromJson(model),
+              ),
+            )
+          : [],
+      metroStations: json['metroStations'] != null
+          ? List<MetroStation>.from(
+              (json['metroStations'] as List).map(
+                (model) => MetroStation.fromJson(model),
               ),
             )
           : [],

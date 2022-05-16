@@ -107,11 +107,14 @@
     "selectImageFromGallery": "Выбрать из галереи",
     "takeAPhoto": "Снять фото",
     "price": "Цена",
+    "pricePerMonth": "Цена за месяц",
+    "pricePerDay": "Цена за сутки",
     "haggle": "Возможен торг",
     "installmentOfPayment": "Возможна оплата в несколько этапов",
     "prepayment": "Требуется предоплата",
     "municipalServicesIncluded": "Включены коммунальные услуги",
     "priceTitle": "Цена",
+    "username": "Как вас представить?",
     "phoneNumber": "Номер телефона",
     "submitPost": "Разместить объявление",
     "contactTitle": "Контакты",
@@ -182,5 +185,7 @@
     "deleteProfileContent": "Все ваши объявления также будут удалены. Восстановить профиль будет уже невозможно",
     "deleteProfileCancel": "Я передумал",
     "deleteProfile": "Все равно удалить",
-    "deleteProfileButton": "Удалить профиль"
+    "deleteProfileButton": "Удалить профиль",
+    "metro": "Метро",
+    "metroHint": "Укажите ближайшую станцию метро"
 }

@@ -90,6 +90,8 @@ class Localities with ChangeNotifier {
       if (subdistrictName.isNotEmpty && district != null) {
         subdistrict = district.children
             ?.firstWhere((element) => element.name == subdistrictName);
+      } else if (district?.children?.length == 1) {
+        subdistrict = district?.children![0];
       }
 
       return {
@@ -103,7 +105,7 @@ class Localities with ChangeNotifier {
     }
   }
 
-  Future<List<Address>> geocoder(String text) async {
+  Future<List<Address>> geocoder(String text, List<double> location) async {
     final url = Uri(
         scheme: baseScheme,
         host: baseHost,
@@ -111,8 +113,8 @@ class Localities with ChangeNotifier {
         path: 'api/localities/geocoder',
         queryParameters: {
           'q': text,
-          'lon': 49.8786270618439.toString(),
-          'lat': 40.379108951404.toString()
+          'lon': location[0].toString(),
+          'lat': location[1].toString()
         });
 
     try {

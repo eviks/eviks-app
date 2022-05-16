@@ -23,6 +23,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   var _isLoading = false;
+  var _showPassword = false;
   final Map<String, String> _authData = {
     'displayName': '',
     'email': '',
@@ -119,7 +120,17 @@ class _RegisterFormState extends State<RegisterForm> {
           StyledInput(
             icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.password,
-            obscureText: true,
+            suffixIcon: IconButton(
+              icon: Icon(_showPassword
+                  ? CustomIcons.hidepassword
+                  : CustomIcons.showpassword),
+              onPressed: () {
+                setState(() {
+                  _showPassword = !_showPassword;
+                });
+              },
+            ),
+            obscureText: !_showPassword,
             controller: _passwordController,
             validator: (value) {
               if (value == null || value.isEmpty) {

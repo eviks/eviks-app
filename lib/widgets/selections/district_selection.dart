@@ -128,10 +128,10 @@ class _DistrictSelectionState extends State<DistrictSelection> {
         null;
   }
 
-  void _onSingleSelect(Settlement distric, Settlement? subdistrict) {
+  void _onSingleSelect(Settlement district, Settlement? subdistrict) {
     final Map<String, List<Settlement>> value = {};
 
-    value['districts'] = [distric];
+    value['districts'] = [district];
     if (subdistrict != null) {
       value['subdistricts'] = [subdistrict];
     }

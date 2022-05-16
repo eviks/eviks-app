@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import './edit_post_district.dart';
 import './edit_post_estate_info.dart';
+import './edit_post_metro.dart';
 import './step_title.dart';
 import '../../constants.dart';
 import '../../models/address.dart';
@@ -38,10 +39,10 @@ class _EditPostMapState extends State<EditPostMap> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late MapController _mapController;
-  late StreamSubscription _subscription;
+  MapController? _mapController;
+  StreamSubscription? _subscription;
 
-  List<double>? _location = [49.8786270618439, 40.379108951404];
+  List<double>? _location = [0, 0];
   Settlement? _city;
   Settlement? _district;
   Settlement? _subdistrict;
@@ -67,15 +68,21 @@ class _EditPostMapState extends State<EditPostMap> {
       _address = postData?.address ?? '';
 
       _controller.text = _address ?? '';
+    } else {
+      _location = [postData?.city.x ?? 0, postData?.city.y ?? 0];
     }
 
     _city ??= getCapitalCity();
 
-    _mapController = MapController();
-    _subscription = _mapController.mapEventStream.listen((MapEvent mapEvent) {
+    _mapController ??= MapController();
+
+    _subscription ??=
+        _mapController?.mapEventStream.listen((MapEvent mapEvent) {
       if (mapEvent is MapEventMoveEnd || mapEvent is MapEventDoubleTapZoomEnd) {
-        _getAddressByCoords(
-            [_mapController.center.longitude, _mapController.center.latitude]);
+        _getAddressByCoords([
+          _mapController?.center.longitude ?? 0,
+          _mapController?.center.latitude ?? 0
+        ]);
       }
     });
 
@@ -84,7 +91,7 @@ class _EditPostMapState extends State<EditPostMap> {
 
   @override
   void dispose() {
-    _subscription.cancel();
+    _subscription?.cancel();
     super.dispose();
   }
 
@@ -157,8 +164,8 @@ class _EditPostMapState extends State<EditPostMap> {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
-      final response =
-          await Provider.of<Localities>(context, listen: false).geocoder(value);
+      final response = await Provider.of<Localities>(context, listen: false)
+          .geocoder(value, [_city?.x ?? 0, _city?.y ?? 0]);
 
       setState(() {
         _addresses = response;
@@ -185,7 +192,7 @@ class _EditPostMapState extends State<EditPostMap> {
   void onAddressSelect(List<double> coords) {
     _exitFromTypeMode();
 
-    _mapController.move(LatLng(coords[1], coords[0]), 18);
+    _mapController?.move(LatLng(coords[1], coords[0]), 18);
 
     _getAddressByCoords(coords);
   }
@@ -218,8 +225,12 @@ class _EditPostMapState extends State<EditPostMap> {
 
     _goToNextStep = true;
     _updatePost();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const EditPostEstateInfo()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => (_city?.metroStations?.isNotEmpty ?? false)
+                ? const EditPostMetro()
+                : const EditPostEstateInfo()));
   }
 
   void _updatePost() {
@@ -262,7 +273,7 @@ class _EditPostMapState extends State<EditPostMap> {
             mapController: _mapController,
             options: MapOptions(
               center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
-              zoom: 17,
+              zoom: 14,
               interactiveFlags: InteractiveFlag.pinchZoom |
                   InteractiveFlag.drag |
                   InteractiveFlag.doubleTapZoom,
@@ -318,7 +329,7 @@ class _EditPostMapState extends State<EditPostMap> {
                                     _subdistrict = null;
                                     if (_city?.x != null && _city?.y != null) {
                                       _location = [_city!.x!, _city!.y!];
-                                      _mapController.move(
+                                      _mapController?.move(
                                           LatLng(_city!.y!, _city!.x!), 12);
                                     }
                                   },

@@ -36,7 +36,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 3) {
+    if ((postData?.lastStep ?? -1) >= 4) {
       _yearBuild = postData?.yearBuild;
       _ceilingHeight = postData?.ceilingHeight;
       _elevator = postData?.elevator;
@@ -72,8 +72,8 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
         ceilingHeight: _ceilingHeight,
         elevator: _elevator,
         parkingLot: _parkingLot,
-        lastStep: 3,
-        step: _goToNextStep ? 4 : 2,
+        lastStep: 4,
+        step: _goToNextStep ? 5 : 3,
       ),
     );
   }

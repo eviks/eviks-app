@@ -65,7 +65,7 @@ class Posts with ChangeNotifier {
         rooms: 0,
         images: [],
         description: '',
-        contact: '',
+        phoneNumber: '',
         username: '',
         updatedAt: DateTime.now(),
         user: user!,

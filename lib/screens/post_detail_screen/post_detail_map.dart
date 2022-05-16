@@ -11,7 +11,7 @@ class PostDetailMap extends StatelessWidget {
   const PostDetailMap(this.post);
 
   String _getlocationName(BuildContext context) {
-    return '${post.city.getLocaliedName(context)}, ${post.district.getLocaliedName(context)}${post.subdistrict != null ? ', ${post.subdistrict!.getLocaliedName(context)}' : ''}';
+    return '${post.city.getLocalizedName(context)}, ${post.district.getLocalizedName(context)}${post.subdistrict != null ? ', ${post.subdistrict!.getLocalizedName(context)}' : ''}';
   }
 
   @override

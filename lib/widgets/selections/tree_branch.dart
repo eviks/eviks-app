@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:eviks_mobile/widgets/selections/district_selection.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 import '../../models/settlement.dart';
 import '../../widgets/custom_labeled_checkbox.dart';
+import '../../widgets/selections/district_selection.dart';
 
 class TreeBranch extends StatefulWidget {
   final Settlement district;
@@ -56,10 +56,10 @@ class _TreeBranchState extends State<TreeBranch> {
     }
 
     _parentMatches = (widget.searchString == null) ||
-        _searchStringMatch(widget.district.getLocaliedName(context));
+        _searchStringMatch(widget.district.getLocalizedName(context));
 
     _childrenMatch = widget.district.children?.firstWhereOrNull((subdistrict) =>
-            _searchStringMatch(subdistrict.getLocaliedName(context))) !=
+            _searchStringMatch(subdistrict.getLocalizedName(context))) !=
         null;
 
     super.didChangeDependencies();
@@ -119,7 +119,7 @@ class _TreeBranchState extends State<TreeBranch> {
           visible: _parentMatches || _childrenMatch,
           child: widget.selectMode == SubdistrictSelectMode.multiple
               ? CustomLabeledCheckbox(
-                  label: widget.district.getLocaliedName(context),
+                  label: widget.district.getLocalizedName(context),
                   value: _parentValue,
                   onChanged: (value) {
                     if (value != null) {
@@ -139,7 +139,7 @@ class _TreeBranchState extends State<TreeBranch> {
               : ListTile(
                   key: Key(widget.district.id),
                   title: Text(
-                    widget.district.getLocaliedName(context),
+                    widget.district.getLocalizedName(context),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -157,10 +157,10 @@ class _TreeBranchState extends State<TreeBranch> {
           itemCount: _children.length,
           itemBuilder: (context, index) => Visibility(
             visible:
-                _searchStringMatch(_children[index].getLocaliedName(context)),
+                _searchStringMatch(_children[index].getLocalizedName(context)),
             child: widget.selectMode == SubdistrictSelectMode.multiple
                 ? CustomLabeledCheckbox(
-                    label: _children[index].getLocaliedName(context),
+                    label: _children[index].getLocalizedName(context),
                     value: _childrenValue[index],
                     onChanged: (value) {
                       _manageTristate(index, value!);
@@ -175,7 +175,7 @@ class _TreeBranchState extends State<TreeBranch> {
                         const SizedBox(
                           width: 32.0,
                         ),
-                        Text(_children[index].getLocaliedName(context)),
+                        Text(_children[index].getLocalizedName(context)),
                       ],
                     ),
                     onTap: () {

@@ -18,11 +18,27 @@ class MetroStation {
     required this.y,
   });
 
-  String getLocaliedName(BuildContext context) {
+  String getLocalizedName(BuildContext context) {
     final Locale _locale = Localizations.localeOf(context);
     if (_locale == const Locale('az')) return name;
     if (_locale == const Locale('ru')) return nameRu;
     if (_locale == const Locale('en')) return nameEn;
     return name;
+  }
+
+  factory MetroStation.fromJson(dynamic json) {
+    return MetroStation(
+      id: json['_id'] as String,
+      cityId: json['cityId'] as String,
+      name: json['name'] as String,
+      nameRu: json['nameRu'] != null
+          ? json['nameRu'] as String
+          : json['name'] as String,
+      nameEn: json['nameEn'] != null
+          ? json['nameEn'] as String
+          : json['name'] as String,
+      x: json['x'] != null ? json['x'] as double : 0,
+      y: json['y'] != null ? json['y'] as double : 0,
+    );
   }
 }

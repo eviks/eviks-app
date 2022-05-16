@@ -39,7 +39,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 6) {
+    if ((postData?.lastStep ?? -1) >= 7) {
       _price = postData?.price;
       _haggle = postData?.haggle;
       _installmentOfPayment = postData?.installmentOfPayment;
@@ -49,6 +49,19 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
     _isRent = postData?.dealType != DealType.sale;
     super.didChangeDependencies();
+  }
+
+  String _getPriceTitle() {
+    switch (postData?.dealType) {
+      case DealType.sale:
+        return AppLocalizations.of(context)!.price;
+      case DealType.rent:
+        return AppLocalizations.of(context)!.pricePerMonth;
+      case DealType.rentPerDay:
+        return AppLocalizations.of(context)!.pricePerDay;
+      default:
+        return AppLocalizations.of(context)!.price;
+    }
   }
 
   void _continuePressed() {
@@ -76,8 +89,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
         installmentOfPayment: _installmentOfPayment,
         prepayment: _prepayment,
         municipalServicesIncluded: _municipalServicesIncluded,
-        lastStep: 6,
-        step: _goToNextStep ? 7 : 5,
+        lastStep: 7,
+        step: _goToNextStep ? 8 : 6,
       ),
     );
   }
@@ -118,7 +131,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
                       width: SizeConfig.safeBlockHorizontal * 40.0,
                       child: StyledInput(
                         icon: CustomIcons.money,
-                        title: AppLocalizations.of(context)!.price,
+                        title: _getPriceTitle(),
                         initialValue: _price != 0 ? _price?.toString() : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [

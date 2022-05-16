@@ -1,7 +1,9 @@
 import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import './metro_station.dart';
 import './settlement.dart';
 
 enum UserType {
@@ -114,6 +116,7 @@ class Post {
   final Settlement district;
   final Settlement? subdistrict;
   final String address;
+  final MetroStation? metroStation;
   final int rooms;
   final int sqm;
   final int? livingRoomsSqm;
@@ -155,7 +158,7 @@ class Post {
   final bool? installmentOfPayment;
   final bool? prepayment;
   final bool? municipalServicesIncluded;
-  final String contact;
+  final String phoneNumber;
   final String username;
   final DateTime updatedAt;
   final int step;
@@ -175,6 +178,7 @@ class Post {
     required this.district,
     this.subdistrict,
     required this.address,
+    this.metroStation,
     required this.rooms,
     required this.sqm,
     this.livingRoomsSqm,
@@ -216,7 +220,7 @@ class Post {
     this.installmentOfPayment,
     this.prepayment,
     this.municipalServicesIncluded,
-    required this.contact,
+    required this.phoneNumber,
     required this.username,
     required this.updatedAt,
     this.step = 0,
@@ -251,6 +255,11 @@ class Post {
               json['subdistrict'],
             ),
       address: json['address'] as String,
+      metroStation: json['metroStation'] == null
+          ? null
+          : MetroStation.fromJson(
+              json['metroStation'],
+            ),
       rooms: json['rooms'] as int,
       sqm: json['sqm'] as int,
       livingRoomsSqm:
@@ -314,7 +323,7 @@ class Post {
       municipalServicesIncluded: json['municipalServicesIncluded'] == null
           ? null
           : json['municipalServicesIncluded'] as bool,
-      contact: json['contact'] as String,
+      phoneNumber: json['phoneNumber'] as String,
       username: json['username'] as String,
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       user: json['user'] as String,
@@ -358,6 +367,17 @@ class Post {
               }
             : null,
         'address': address,
+        'metroStation': metroStation != null
+            ? {
+                'id': metroStation?.id,
+                'cityId': metroStation?.cityId,
+                'name': metroStation?.name,
+                'nameRu': metroStation?.nameRu,
+                'nameEn': metroStation?.nameEn,
+                'x': metroStation?.x,
+                'y': metroStation?.y,
+              }
+            : null,
         'rooms': rooms,
         'sqm': sqm,
         'livingRoomsSqm': livingRoomsSqm,
@@ -399,7 +419,7 @@ class Post {
         'installmentOfPayment': installmentOfPayment,
         'prepayment': prepayment,
         'municipalServicesIncluded': municipalServicesIncluded,
-        'contact': contact,
+        'phoneNumber': phoneNumber,
         'username': username,
       };
 
@@ -414,6 +434,7 @@ class Post {
     Settlement? district,
     Settlement? subdistrict,
     String? address,
+    MetroStation? metroStation,
     int? rooms,
     int? sqm,
     int? livingRoomsSqm,
@@ -455,7 +476,7 @@ class Post {
     bool? installmentOfPayment,
     bool? prepayment,
     bool? municipalServicesIncluded,
-    String? contact,
+    String? phoneNumber,
     String? username,
     DateTime? updatedAt,
     int? step,
@@ -475,6 +496,9 @@ class Post {
       district: district ?? this.district,
       subdistrict: subdistrict ?? this.subdistrict,
       address: address ?? this.address,
+      metroStation: (city != null && (city.metroStations?.isEmpty ?? true))
+          ? null
+          : metroStation ?? this.metroStation,
       rooms: rooms ?? this.rooms,
       sqm: sqm ?? this.sqm,
       livingRoomsSqm: livingRoomsSqm ?? this.livingRoomsSqm,
@@ -536,7 +560,7 @@ class Post {
       municipalServicesIncluded: (dealType ?? this.dealType) == DealType.sale
           ? null
           : municipalServicesIncluded ?? this.municipalServicesIncluded,
-      contact: contact ?? this.contact,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       username: username ?? this.username,
       updatedAt: updatedAt ?? this.updatedAt,
       step: step ?? this.step,

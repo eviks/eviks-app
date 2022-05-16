@@ -60,7 +60,7 @@ class DistrictFilter extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Tag(
                           key: Key(district.id),
-                          label: district.getLocaliedName(context),
+                          label: district.getLocalizedName(context),
                           icon: Icons.close,
                           onPressed: () {
                             Provider.of<Posts>(context, listen: false)
@@ -89,7 +89,7 @@ class DistrictFilter extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Tag(
                           key: Key(subdistrict.id),
-                          label: subdistrict.getLocaliedName(context),
+                          label: subdistrict.getLocalizedName(context),
                           icon: Icons.close,
                           onPressed: () {
                             Provider.of<Posts>(context, listen: false)

@@ -23,6 +23,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
+  var _showPassword = false;
   final Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -120,7 +121,17 @@ class _LoginFormState extends State<LoginForm> {
           StyledInput(
             icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.password,
-            obscureText: true,
+            suffixIcon: IconButton(
+              icon: Icon(_showPassword
+                  ? CustomIcons.hidepassword
+                  : CustomIcons.showpassword),
+              onPressed: () {
+                setState(() {
+                  _showPassword = !_showPassword;
+                });
+              },
+            ),
+            obscureText: !_showPassword,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorPassword;

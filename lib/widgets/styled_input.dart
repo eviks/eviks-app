@@ -12,6 +12,7 @@ class StyledInput extends StatefulWidget {
   final Function(String?)? onChanged;
   final Function(bool)? onFocus;
   final Widget? suffix;
+  final Widget? suffixIcon;
   final Widget? prefix;
   final List<TextInputFormatter>? inputFormatters;
   final int? minLines;
@@ -31,6 +32,7 @@ class StyledInput extends StatefulWidget {
     this.onChanged,
     this.onFocus,
     this.suffix,
+    this.suffixIcon,
     this.prefix,
     this.inputFormatters,
     this.minLines,
@@ -101,6 +103,7 @@ class _StyledInputState extends State<StyledInput> {
                             size: 24.0,
                           )
                         : null,
+                    suffixIcon: widget.suffixIcon,
                     filled: _filled,
                     errorMaxLines: 5,
                     hintMaxLines: 5,

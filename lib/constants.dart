@@ -9,16 +9,16 @@ import './models/post.dart';
 import './models/settlement.dart';
 
 // Production
-const baseUrl = 'https://eviks.xyz';
-const baseScheme = 'https';
-const baseHost = 'eviks.xyz';
-const basePort = 443;
+// const baseUrl = 'https://eviks.xyz';
+// const baseScheme = 'https';
+// const baseHost = 'eviks.xyz';
+// const basePort = 443;
 
 // Development
-// const baseUrl = 'http://192.168.1.10:3000';
-// const baseScheme = 'http';
-// const baseHost = '192.168.1.10';
-// const basePort = 3000;
+const baseUrl = 'http://192.168.1.7:3000';
+const baseScheme = 'http';
+const baseHost = '192.168.1.7';
+const basePort = 3000;
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
@@ -84,6 +84,8 @@ Settlement getCapitalCity() {
     nameEn: 'Baku',
     routeName: 'baku',
     type: "2",
+    x: 49.8786270618439,
+    y: 40.379108951404,
     metroStations: [
       MetroStation(
         id: '6259b438ec8e07125f1e2093',
