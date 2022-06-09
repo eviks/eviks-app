@@ -76,6 +76,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         leading: Navigator.canPop(context)

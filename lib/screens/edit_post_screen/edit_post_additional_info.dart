@@ -140,6 +140,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

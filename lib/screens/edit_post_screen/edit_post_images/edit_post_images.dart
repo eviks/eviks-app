@@ -216,6 +216,7 @@ class _EditPostImagesState extends State<EditPostImages> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

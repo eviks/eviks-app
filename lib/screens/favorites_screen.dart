@@ -95,14 +95,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     if (_isInit) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;
-      SizeConfig().init(context);
       return Scaffold(
         appBar: AppBar(
           leading: Navigator.canPop(context)

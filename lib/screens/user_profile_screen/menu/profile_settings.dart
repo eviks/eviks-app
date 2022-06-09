@@ -129,6 +129,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final bool _isGoogleUser =
         (Provider.of<Auth>(context).user?.googleId ?? '') != '';
     return Scaffold(

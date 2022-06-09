@@ -255,6 +255,7 @@ class _EditPostMapState extends State<EditPostMap> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

@@ -88,7 +88,14 @@ class _UserPostsState extends State<UserPosts> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     if (_isInit) {
       return Container(
         color: Theme.of(context).backgroundColor,
@@ -98,7 +105,6 @@ class _UserPostsState extends State<UserPosts> {
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;
-      SizeConfig().init(context);
       return Scaffold(
         appBar: AppBar(
           leading: Navigator.canPop(context)

@@ -85,6 +85,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

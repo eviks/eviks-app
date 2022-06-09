@@ -92,6 +92,7 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     if (_isInit) {
       return const Center(
         child: CircularProgressIndicator(),

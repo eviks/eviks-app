@@ -131,6 +131,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

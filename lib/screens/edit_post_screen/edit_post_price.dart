@@ -103,6 +103,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: StepTitle(

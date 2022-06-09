@@ -21,6 +21,8 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     final _isAuth = Provider.of<Auth>(context, listen: false).isAuth;
 
     Future<void> _logout() async {
