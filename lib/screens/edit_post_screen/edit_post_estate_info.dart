@@ -126,8 +126,8 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
-                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 14.0,
+                8.0, SizeConfig.safeBlockHorizontal * 14.0, 32.0),
             child: Center(
               child: Form(
                 key: _formKey,

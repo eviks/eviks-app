@@ -71,13 +71,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
       body: SafeArea(
         child: SizedBox(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.safeBlockHorizontal * 8.0),
-            child: SingleChildScrollView(
-              child: Center(
-                child: Form(
-                  key: _formKey,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

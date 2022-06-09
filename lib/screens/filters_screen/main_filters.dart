@@ -66,21 +66,25 @@ class MainFilters extends StatelessWidget {
             allowUnselect: false,
           ),
         ),
-        Visibility(
-          visible: _filters.estateType == EstateType.apartment,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ToggleFormField<ApartmentType>(
-              values: ApartmentType.values,
-              initialValue: _filters.apartmentType,
-              getDescription: apartmentTypeDescription,
-              onPressed: (ApartmentType? value) {
-                _updateFilters({'apartmentType': value});
-              },
-              icons: const [
-                CustomIcons.newbuilding,
-                CustomIcons.secondarybuilding,
-              ],
+        AnimatedOpacity(
+          opacity: _filters.estateType == EstateType.apartment ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 500),
+          child: Visibility(
+            visible: _filters.estateType == EstateType.apartment,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ToggleFormField<ApartmentType>(
+                values: ApartmentType.values,
+                initialValue: _filters.apartmentType,
+                getDescription: apartmentTypeDescription,
+                onPressed: (ApartmentType? value) {
+                  _updateFilters({'apartmentType': value});
+                },
+                icons: const [
+                  CustomIcons.newbuilding,
+                  CustomIcons.secondarybuilding,
+                ],
+              ),
             ),
           ),
         ),

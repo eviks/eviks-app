@@ -515,8 +515,12 @@ class Post {
       renovation: renovation ?? this.renovation,
       yearBuild: yearBuild ?? this.yearBuild,
       ceilingHeight: ceilingHeight ?? this.ceilingHeight,
-      elevator: elevator ?? this.elevator,
-      parkingLot: parkingLot ?? this.parkingLot,
+      elevator: (estateType ?? this.estateType) == EstateType.house
+          ? null
+          : elevator ?? this.elevator,
+      parkingLot: (estateType ?? this.estateType) == EstateType.house
+          ? null
+          : parkingLot ?? this.parkingLot,
       description: description ?? this.description,
       balcony: balcony ?? this.balcony,
       furniture: furniture ?? this.furniture,

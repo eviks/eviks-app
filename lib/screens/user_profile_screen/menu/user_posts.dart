@@ -162,6 +162,7 @@ class _UserPostsState extends State<UserPosts> {
                 children: [
                   ListView.builder(
                     controller: _scrollController,
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (ctx, index) {
                       return AnimationConfiguration.staggeredList(
                         position: index,

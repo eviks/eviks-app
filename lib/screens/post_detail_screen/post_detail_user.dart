@@ -29,8 +29,8 @@ class PostDetailUser extends StatelessWidget {
       width: SizeConfig.safeBlockHorizontal * 100,
       decoration: BoxDecoration(
         color: isDarkMode
-            ? lighten(Theme.of(context).primaryColor, 0.2)
-            : lighten(Theme.of(context).primaryColor, 0.35),
+            ? softDarkColor
+            : Theme.of(context).primaryColor.withOpacity(0.1),
         borderRadius: const BorderRadius.all(
           Radius.circular(
             8.0,
@@ -47,14 +47,14 @@ class PostDetailUser extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: isDarkMode ? Theme.of(context).backgroundColor : null,
+                color: isDarkMode ? lightGreyColor : null,
               ),
             ),
           ),
           Text(
             '${AppLocalizations.of(context)!.postAuthor}, ${userTypeDescription(post.userType, context).toLowerCase()}',
             style: TextStyle(
-              color: isDarkMode ? Theme.of(context).backgroundColor : null,
+              color: isDarkMode ? lightGreyColor : null,
             ),
           ),
           const SizedBox(
@@ -63,7 +63,7 @@ class PostDetailUser extends StatelessWidget {
           Text(
             dateFormatter.format(post.updatedAt),
             style: TextStyle(
-              color: isDarkMode ? Theme.of(context).backgroundColor : null,
+              color: isDarkMode ? lightGreyColor : null,
             ),
           ),
         ],

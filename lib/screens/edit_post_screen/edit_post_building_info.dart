@@ -103,49 +103,46 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
                 8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
-            child: Center(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 40.0,
-                      child: StyledInput(
-                        icon: CustomIcons.calendar,
-                        title: AppLocalizations.of(context)!.yearBuild,
-                        initialValue:
-                            _yearBuild != 0 ? _yearBuild?.toString() : null,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        onSaved: (value) {
-                          _yearBuild =
-                              value?.isEmpty ?? true ? 0 : int.parse(value!);
-                        },
-                      ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: SizeConfig.safeBlockHorizontal * 40.0,
+                    child: StyledInput(
+                      icon: CustomIcons.calendar,
+                      title: AppLocalizations.of(context)!.yearBuild,
+                      initialValue:
+                          _yearBuild != 0 ? _yearBuild?.toString() : null,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onSaved: (value) {
+                        _yearBuild =
+                            value?.isEmpty ?? true ? 0 : int.parse(value!);
+                      },
                     ),
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 40.0,
-                      child: StyledInput(
-                        icon: CustomIcons.measuring,
-                        title: AppLocalizations.of(context)!.ceilingHeight,
-                        initialValue: _ceilingHeight != 0
-                            ? _ceilingHeight?.toString()
-                            : null,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        onSaved: (value) {
-                          _ceilingHeight =
-                              value?.isEmpty ?? true ? 0 : double.parse(value!);
-                        },
-                      ),
+                  ),
+                  SizedBox(
+                    width: SizeConfig.safeBlockHorizontal * 40.0,
+                    child: StyledInput(
+                      icon: CustomIcons.measuring,
+                      title: AppLocalizations.of(context)!.ceilingHeight,
+                      initialValue: _ceilingHeight != 0
+                          ? _ceilingHeight?.toString()
+                          : null,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onSaved: (value) {
+                        _ceilingHeight =
+                            value?.isEmpty ?? true ? 0 : double.parse(value!);
+                      },
                     ),
-                    SwitchListTile(
+                  ),
+                  Visibility(
+                    visible: postData?.estateType == EstateType.apartment,
+                    child: SwitchListTile(
                         value: _elevator ?? false,
                         secondary: Icon(
                           CustomIcons.elevator,
@@ -157,7 +154,10 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                             _elevator = value;
                           });
                         }),
-                    SwitchListTile(
+                  ),
+                  Visibility(
+                    visible: postData?.estateType == EstateType.apartment,
+                    child: SwitchListTile(
                         value: _parkingLot ?? false,
                         secondary: Icon(
                           CustomIcons.parkinglot,
@@ -169,11 +169,11 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                             _parkingLot = value;
                           });
                         }),
-                    const SizedBox(
-                      height: 32.0,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 32.0,
+                  ),
+                ],
               ),
             ),
           ),

@@ -166,6 +166,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 children: [
                   ListView.builder(
                     controller: _scrollController,
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (ctx, index) {
                       return AnimationConfiguration.staggeredList(
                         position: index,

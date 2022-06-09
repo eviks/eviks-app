@@ -101,13 +101,17 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 ],
               ),
               leading: Navigator.canPop(context)
-                  ? Visibility(
-                      visible: _leadingVisibility,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(CustomIcons.back),
+                  ? AnimatedOpacity(
+                      opacity: _leadingVisibility ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: Visibility(
+                        visible: _leadingVisibility,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(CustomIcons.back),
+                        ),
                       ),
                     )
                   : null,
@@ -118,23 +122,27 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ),
               pinned: true,
               actions: [
-                Visibility(
-                  visible: _leadingVisibility,
-                  child: Container(
-                    child: userId == loadedPost.user
-                        ? Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 12.0, vertical: 4.0),
-                            child: EditPostButton(postId),
-                          )
-                        : Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 12.0, vertical: 4.0),
-                            child: FavoriteButton(
-                              postId: postId,
-                              elevation: 0.0,
+                AnimatedOpacity(
+                  opacity: _leadingVisibility ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Visibility(
+                    visible: _leadingVisibility,
+                    child: Container(
+                      child: userId == loadedPost.user
+                          ? Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4.0),
+                              child: EditPostButton(postId),
+                            )
+                          : Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4.0),
+                              child: FavoriteButton(
+                                postId: postId,
+                                elevation: 0.0,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
                 )
               ],

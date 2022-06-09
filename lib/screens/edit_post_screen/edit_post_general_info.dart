@@ -156,29 +156,34 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                       ],
                     ),
                   ),
-                  Visibility(
-                    visible: _isApartment,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: ToggleFormField<ApartmentType>(
-                        title: AppLocalizations.of(context)!.apartmentTypeTitle,
-                        values: ApartmentType.values,
-                        initialValue: _apartmentType,
-                        getDescription: apartmentTypeDescription,
-                        validator: (value) {
-                          if (_estateType == EstateType.apartment &&
-                              value == null) {
-                            return AppLocalizations.of(context)!
-                                .fieldIsRequired;
-                          }
-                        },
-                        onSaved: (value) {
-                          _apartmentType = value;
-                        },
-                        icons: const [
-                          CustomIcons.newbuilding,
-                          CustomIcons.secondarybuilding,
-                        ],
+                  AnimatedOpacity(
+                    opacity: _isApartment ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 500),
+                    child: Visibility(
+                      visible: _isApartment,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ToggleFormField<ApartmentType>(
+                          title:
+                              AppLocalizations.of(context)!.apartmentTypeTitle,
+                          values: ApartmentType.values,
+                          initialValue: _apartmentType,
+                          getDescription: apartmentTypeDescription,
+                          validator: (value) {
+                            if (_estateType == EstateType.apartment &&
+                                value == null) {
+                              return AppLocalizations.of(context)!
+                                  .fieldIsRequired;
+                            }
+                          },
+                          onSaved: (value) {
+                            _apartmentType = value;
+                          },
+                          icons: const [
+                            CustomIcons.newbuilding,
+                            CustomIcons.secondarybuilding,
+                          ],
+                        ),
                       ),
                     ),
                   ),

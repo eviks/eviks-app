@@ -157,6 +157,10 @@ ThemeData darkThemeData(BuildContext context) {
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     }),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+            side: MaterialStateProperty.all(
+                const BorderSide(color: softDarkColor)))),
     cardColor: darkColor,
     primaryColor: lightPrimaryColor,
     disabledColor: greyColor,
