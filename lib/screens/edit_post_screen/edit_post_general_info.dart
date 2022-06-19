@@ -23,6 +23,7 @@ class EditPostGeneralInfo extends StatefulWidget {
 class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -35,15 +36,18 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 0) {
+        _userType = postData?.userType;
+        _estateType = postData?.estateType;
+        _apartmentType = postData?.apartmentType;
+        _dealType = postData?.dealType;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 0) {
-      _userType = postData?.userType;
-      _estateType = postData?.estateType;
-      _apartmentType = postData?.apartmentType;
-      _dealType = postData?.dealType;
+      _isApartment = _estateType == EstateType.apartment;
+
+      _isInit = false;
     }
-
-    _isApartment = _estateType == EstateType.apartment;
 
     super.didChangeDependencies();
   }

@@ -155,10 +155,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: StyledElevatedButton(
           text: AppLocalizations.of(context)!.call,
-          suffixIcon: CustomIcons.phonecall,
           onPressed: () async {
             if (await Permission.phone.request().isGranted) {
               launch('tel://${loadedPost.phoneNumber}');

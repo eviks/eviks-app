@@ -24,6 +24,7 @@ class EditPostBuildingInfo extends StatefulWidget {
 class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -35,12 +36,15 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 4) {
+        _yearBuild = postData?.yearBuild;
+        _ceilingHeight = postData?.ceilingHeight;
+        _elevator = postData?.elevator;
+        _parkingLot = postData?.parkingLot;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 4) {
-      _yearBuild = postData?.yearBuild;
-      _ceilingHeight = postData?.ceilingHeight;
-      _elevator = postData?.elevator;
-      _parkingLot = postData?.parkingLot;
+      _isInit = false;
     }
 
     super.didChangeDependencies();

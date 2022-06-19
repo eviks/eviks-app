@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eviks_mobile/models/metro_station.dart';
 import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -96,7 +97,9 @@ class Posts with ChangeNotifier {
         case 'subdistricts':
           _filters.subdistricts = value as List<Settlement>?;
           break;
-
+        case 'metroStations':
+          _filters.metroStations = value as List<MetroStation>?;
+          break;
         case 'dealType':
           _filters.dealType = value as DealType;
           break;

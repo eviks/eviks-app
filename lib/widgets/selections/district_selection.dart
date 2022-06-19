@@ -161,7 +161,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
               child: CircularProgressIndicator(),
             ))
           : SafeArea(
-            child: Padding(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
@@ -190,6 +190,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        padding: const EdgeInsets.only(bottom: 80.0),
                         key: ValueKey(_searchString),
                         itemBuilder: (contex, index) => TreeBranch(
                           key: Key(_districts[index].id),
@@ -211,11 +212,11 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                   ],
                 ),
               ),
-          ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: widget.selecMode == SubdistrictSelectMode.multiple
           ? Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: StyledElevatedButton(
                 text: AppLocalizations.of(context)!.select,
                 onPressed: () {

@@ -369,7 +369,7 @@ class Post {
         'address': address,
         'metroStation': metroStation != null
             ? {
-                'id': metroStation?.id,
+                '_id': metroStation?.id,
                 'cityId': metroStation?.cityId,
                 'name': metroStation?.name,
                 'nameRu': metroStation?.nameRu,

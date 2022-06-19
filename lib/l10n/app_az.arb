@@ -3,6 +3,41 @@
     "tabsScreenCreate": "Yeni elan",
     "tabsScreenProfile": "Profil",
     "postsScreenTitle": "Eviks",
+    "postApartmentRoomsTitle": "{rooms}-otaqlı. mənzil.",
+    "@postApartmentRoomsTitle": {
+        "placeholders": {
+                    "rooms": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postHouseRoomsTitle": "{rooms}-otaqlı. ev",
+    "@postHouseRoomsTitle": {
+        "placeholders": {
+                    "rooms": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postFloorTitle": "mərtəbə {floor}/{totalFloors}",
+    "@postFloorTitle": {
+        "placeholders": {
+                    "floor": {
+                        "type": "int"
+                    },
+                    "totalFloors": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postLotSqmTitle": "{lotSqm} sot.",
+    "@postLotSqmTitle": {
+        "placeholders": {
+                    "lotSqm": {
+                        "type": "int"
+                    }
+                }
+      },
     "postDetailDescription": "Təsvir",
     "postDetailAdditional": "Əlavə",
     "postDetailLocation": "Xəritə",
@@ -187,5 +222,7 @@
     "deleteProfile": "Ləğv etmək",
     "deleteProfileButton": "Profilinizi ləğv etmək",
     "metro": "Metro",
-    "metroHint": "Yaxınlıqdaki metro stansiyası göstərin"
+    "metroHint": "Yaxınlıqdaki metro stansiyası göstərin",
+    "selectMetroStation": "Metro stansiyanı seçin",
+    "selectMetroStationHint": "Axtarış"
 }

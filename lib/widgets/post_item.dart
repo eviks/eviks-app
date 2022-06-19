@@ -111,7 +111,7 @@ class PostItem extends StatelessWidget {
                             Text(
                               currencyFormat.format(post.price),
                               style: const TextStyle(
-                                  fontSize: 24.0, fontWeight: FontWeight.bold),
+                                  fontSize: 22.0, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -120,54 +120,69 @@ class PostItem extends StatelessWidget {
                             Text(
                               post.subdistrict?.getLocalizedName(context) ??
                                   post.district.getLocalizedName(context),
-                              style: const TextStyle(fontSize: 24.0),
+                              style: const TextStyle(fontSize: 18.0),
                             ),
                           ],
                         ),
                         Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: <Widget>[
-                              const Icon(
-                                CustomIcons.sqm,
-                              ),
-                              const SizedBox(
-                                width: 8.0,
-                              ),
-                              Text(
-                                  '${post.sqm} ${AppLocalizations.of(context)!.m2}'),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              const Icon(CustomIcons.door),
-                              const SizedBox(
-                                width: 8.0,
-                              ),
-                              Text(
-                                  '${post.rooms} ${AppLocalizations.of(context)!.postRooms}'),
-                              const SizedBox(
-                                width: 8.0,
-                              ),
-                              Icon(post.estateType == EstateType.apartment
-                                  ? CustomIcons.elevator
-                                  : CustomIcons.garden),
-                              const SizedBox(
-                                width: 8.0,
-                              ),
-                              Text(post.estateType == EstateType.apartment
-                                  ? '${post.floor}/${post.totalFloors}'
-                                  : '${post.lotSqm} ${AppLocalizations.of(context)!.postLot}'),
-                            ],
+                          margin: const EdgeInsets.only(top: 8.0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                    '${post.sqm} ${AppLocalizations.of(context)!.m2}'),
+                                VerticalDivider(
+                                  color: Theme.of(context).dividerColor,
+                                ),
+                                Text(post.estateType == EstateType.apartment
+                                    ? AppLocalizations.of(context)!
+                                        .postApartmentRoomsTitle(post.rooms)
+                                    : AppLocalizations.of(context)!
+                                        .postHouseRoomsTitle(post.rooms)),
+                                VerticalDivider(
+                                  color: Theme.of(context).dividerColor,
+                                ),
+                                Text(post.estateType == EstateType.apartment
+                                    ? AppLocalizations.of(context)!
+                                        .postFloorTitle(post.floor ?? 0,
+                                            post.totalFloors ?? 0)
+                                    : AppLocalizations.of(context)!
+                                        .postLotSqmTitle(post.lotSqm ?? 0)),
+                              ],
+                            ),
                           ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              dateFormatter.format(post.updatedAt),
-                              style: TextStyle(
-                                  color: Theme.of(context).disabledColor),
+                        if (post.metroStation != null)
+                          Container(
+                            margin: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                              children: <Widget>[
+                                const Icon(
+                                  CustomIcons.metro,
+                                  size: 18,
+                                ),
+                                const SizedBox(
+                                  width: 16.0,
+                                ),
+                                Text(
+                                  post.metroStation
+                                          ?.getLocalizedName(context) ??
+                                      '',
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                dateFormatter.format(post.updatedAt),
+                                style: TextStyle(
+                                    color: Theme.of(context).disabledColor),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

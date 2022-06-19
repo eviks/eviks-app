@@ -127,6 +127,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           style:
                               TextStyle(color: Theme.of(context).dividerColor),
                         ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
                         StyledInput(
                           icon: CustomIcons.email,
                           title: AppLocalizations.of(context)!.authEmail,

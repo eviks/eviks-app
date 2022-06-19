@@ -7,6 +7,7 @@ import './city_filter.dart';
 import './district_filter.dart';
 import './floor_filters.dart';
 import './main_filters.dart';
+import './metro_filter.dart';
 import './sqm_filters.dart';
 import '../../models/filters.dart';
 import '../../providers/posts.dart';
@@ -50,6 +51,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool _showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -83,12 +85,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     children: [
                       const CityFilter(),
                       const DistrictFilter(),
+                      Consumer<Posts>(
+                          builder: (context, posts, child) =>
+                              posts.filters.city.metroStations?.isNotEmpty ??
+                                      false
+                                  ? const MetroFilter()
+                                  : const SizedBox()),
                       const MainFilters(),
                       const SqmFilters(),
                       const FloorFilters(),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 10.0,
-                      ),
                     ],
                   ),
                 ),
@@ -98,11 +103,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StyledElevatedButton(
-          text: AppLocalizations.of(context)!.showPosts,
-          onPressed: _setFilters,
+      floatingActionButton: Visibility(
+        visible: _showFab,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: StyledElevatedButton(
+            text: AppLocalizations.of(context)!.showPosts,
+            onPressed: _setFilters,
+          ),
         ),
       ),
     );

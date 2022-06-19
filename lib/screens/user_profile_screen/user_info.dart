@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,8 @@ class UserInfo extends StatelessWidget {
             width: SizeConfig.safeBlockVertical * 25.0,
             child: auth.user?.picture != null
                 ? CircleAvatar(
-                    backgroundImage: NetworkImage(auth.user!.picture!),
+                    backgroundImage:
+                        CachedNetworkImageProvider(auth.user!.picture!),
                     backgroundColor: Theme.of(context).backgroundColor,
                   )
                 : CircleAvatar(

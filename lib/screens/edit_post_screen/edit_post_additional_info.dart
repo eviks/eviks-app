@@ -24,6 +24,7 @@ class EditPostAdditionalInfo extends StatefulWidget {
 class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,33 +56,37 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 5) {
+        _description = postData?.description;
+        _balcony = postData?.balcony;
+        _furniture = postData?.furniture;
+        _kitchenFurniture = postData?.kitchenFurniture;
+        _cableTv = postData?.cableTv;
+        _phone = postData?.phone;
+        _internet = postData?.internet;
+        _electricity = postData?.electricity;
+        _gas = postData?.gas;
+        _water = postData?.water;
+        _heating = postData?.heating;
+        _tv = postData?.tv;
+        _conditioner = postData?.conditioner;
+        _washingMachine = postData?.washingMachine;
+        _dishwasher = postData?.dishwasher;
+        _refrigerator = postData?.refrigerator;
+        _kidsAllowed = postData?.kidsAllowed;
+        _petsAllowed = postData?.petsAllowed;
+        _garage = postData?.garage;
+        _pool = postData?.pool;
+        _bathhouse = postData?.bathhouse;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 5) {
-      _description = postData?.description;
-      _balcony = postData?.balcony;
-      _furniture = postData?.furniture;
-      _kitchenFurniture = postData?.kitchenFurniture;
-      _cableTv = postData?.cableTv;
-      _phone = postData?.phone;
-      _internet = postData?.internet;
-      _electricity = postData?.electricity;
-      _gas = postData?.gas;
-      _water = postData?.water;
-      _heating = postData?.heating;
-      _tv = postData?.tv;
-      _conditioner = postData?.conditioner;
-      _washingMachine = postData?.washingMachine;
-      _dishwasher = postData?.dishwasher;
-      _refrigerator = postData?.refrigerator;
-      _kidsAllowed = postData?.kidsAllowed;
-      _petsAllowed = postData?.petsAllowed;
-      _garage = postData?.garage;
-      _pool = postData?.pool;
-      _bathhouse = postData?.bathhouse;
+      _isHouse = postData?.estateType == EstateType.house;
+      _isSale = postData?.dealType == DealType.sale;
+
+      _isInit = false;
     }
 
-    _isHouse = postData?.estateType == EstateType.house;
-    _isSale = postData?.dealType == DealType.sale;
     super.didChangeDependencies();
   }
 

@@ -1,11 +1,13 @@
 import 'package:eviks_mobile/models/post.dart';
 
+import './metro_station.dart';
 import './settlement.dart';
 
 class Filters {
   Settlement city;
   List<Settlement>? districts;
   List<Settlement>? subdistricts;
+  List<MetroStation>? metroStations;
   DealType dealType;
   EstateType estateType;
   ApartmentType? apartmentType;
@@ -31,6 +33,7 @@ class Filters {
     required this.dealType,
     this.districts,
     this.subdistricts,
+    this.metroStations,
     required this.estateType,
     this.apartmentType,
     this.priceMin,
@@ -56,6 +59,7 @@ class Filters {
         'dealType': dealType.toString().replaceAll('DealType.', ''),
         'districtId': districts?.map((e) => e.id).toList().join(','),
         'subdistrictId': subdistricts?.map((e) => e.id).toList().join(','),
+        'metroStationId': metroStations?.map((e) => e.id).toList().join(','),
         'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
             apartmentType?.toString().replaceAll('ApartmentType.', ''),
@@ -87,6 +91,7 @@ class Filters {
       dealType: dealType,
       districts: districts,
       subdistricts: subdistricts,
+      metroStations: metroStations,
       estateType: estateType,
       apartmentType: apartmentType,
       priceMin: priceMin,

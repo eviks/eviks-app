@@ -3,6 +3,41 @@
     "tabsScreenCreate": "Добавить",
     "tabsScreenProfile": "Профиль",
     "postsScreenTitle": "Eviks",
+    "postApartmentRoomsTitle": "{rooms}-комн. кв.",
+    "@postApartmentRoomsTitle": {
+        "placeholders": {
+                    "rooms": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postHouseRoomsTitle": "{rooms}-комн. дом",
+    "@postHouseRoomsTitle": {
+        "placeholders": {
+                    "rooms": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postFloorTitle": "этаж {floor}/{totalFloors}",
+    "@postFloorTitle": {
+        "placeholders": {
+                    "floor": {
+                        "type": "int"
+                    },
+                    "totalFloors": {
+                        "type": "int"
+                    }
+                }
+      },
+    "postLotSqmTitle": "{lotSqm} сот.",
+    "@postLotSqmTitle": {
+        "placeholders": {
+                    "lotSqm": {
+                        "type": "int"
+                    }
+                }
+      },
     "postDetailDescription": "Описание",
     "postDetailAdditional": "Дополнительно",
     "postDetailLocation": "Расположение",
@@ -187,5 +222,7 @@
     "deleteProfile": "Все равно удалить",
     "deleteProfileButton": "Удалить профиль",
     "metro": "Метро",
-    "metroHint": "Укажите ближайшую станцию метро"
+    "metroHint": "Укажите ближайшую станцию метро",
+    "selectMetroStation": "Выберите станцию метро",
+    "selectMetroStationHint": "Поиск"
 }

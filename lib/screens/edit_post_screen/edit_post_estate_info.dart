@@ -25,6 +25,7 @@ class EditPostEstateInfo extends StatefulWidget {
 class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -46,24 +47,28 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 3) {
+        _rooms = postData?.rooms;
+        _sqm = postData?.sqm;
+        _livingRoomsSqm = postData?.livingRoomsSqm;
+        _kitchenSqm = postData?.kitchenSqm;
+        _lotSqm = postData?.lotSqm;
+        _floor = postData?.floor;
+        _totalFloors = postData?.totalFloors;
+        _renovation = postData?.renovation;
+        _redevelopment = postData?.redevelopment;
+        _documented = postData?.documented;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 3) {
-      _rooms = postData?.rooms;
-      _sqm = postData?.sqm;
-      _livingRoomsSqm = postData?.livingRoomsSqm;
-      _kitchenSqm = postData?.kitchenSqm;
-      _lotSqm = postData?.lotSqm;
-      _floor = postData?.floor;
-      _totalFloors = postData?.totalFloors;
-      _renovation = postData?.renovation;
-      _redevelopment = postData?.redevelopment;
-      _documented = postData?.documented;
+      _totalFloorsController.text =
+          _totalFloors != 0 ? _totalFloors?.toString() ?? '' : '';
+
+      _isHouse = postData?.estateType == EstateType.house;
+
+      _isInit = false;
     }
 
-    _totalFloorsController.text =
-        _totalFloors != 0 ? _totalFloors?.toString() ?? '' : '';
-
-    _isHouse = postData?.estateType == EstateType.house;
     super.didChangeDependencies();
   }
 
@@ -107,6 +112,12 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
     _formKey.currentState!.save();
     _updatePost();
     Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    _totalFloorsController.dispose();
+    super.dispose();
   }
 
   @override

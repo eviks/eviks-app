@@ -25,6 +25,7 @@ class EditPostContacts extends StatefulWidget {
 class _EditPostContactsState extends State<EditPostContacts> {
   late Post? postData;
   bool _confirmPost = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
@@ -35,10 +36,13 @@ class _EditPostContactsState extends State<EditPostContacts> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 8) {
+        _phoneNumber = postData?.phoneNumber;
+        _username = postData?.username;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 8) {
-      _phoneNumber = postData?.phoneNumber;
-      _username = postData?.username;
+      _isInit = false;
     }
 
     super.didChangeDependencies();
@@ -131,6 +135,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
   @override
   Widget build(BuildContext context) {
+    final bool _showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -223,14 +228,17 @@ class _EditPostContactsState extends State<EditPostContacts> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StyledElevatedButton(
-          text: AppLocalizations.of(context)!.submitPost,
-          onPressed: _onPostConfirm,
-          loading: _isLoading,
-          width: SizeConfig.safeBlockHorizontal * 100.0,
-          suffixIcon: CustomIcons.checked,
+      floatingActionButton: Visibility(
+        visible: _showFab,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: StyledElevatedButton(
+            text: AppLocalizations.of(context)!.submitPost,
+            onPressed: _onPostConfirm,
+            loading: _isLoading,
+            width: SizeConfig.safeBlockHorizontal * 100.0,
+            suffixIcon: CustomIcons.checked,
+          ),
         ),
       ),
     );

@@ -29,6 +29,7 @@ class EditPostImages extends StatefulWidget {
 class _EditPostImagesState extends State<EditPostImages> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final ImagePicker _picker = ImagePicker();
   List<ImageData> _imageDataList = [];
@@ -37,19 +38,22 @@ class _EditPostImagesState extends State<EditPostImages> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      bool _isTemp(String id) {
+        return postData?.originalImages
+                .firstWhereOrNull((element) => element == id) ==
+            null;
+      }
 
-    bool _isTemp(String id) {
-      return postData?.originalImages
-              .firstWhereOrNull((element) => element == id) ==
-          null;
-    }
+      if ((postData?.lastStep ?? -1) >= 6) {
+        _imageDataList = postData?.images
+                .map((id) =>
+                    ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)))
+                .toList() ??
+            [];
+      }
 
-    if ((postData?.lastStep ?? -1) >= 6) {
-      _imageDataList = postData?.images
-              .map((id) =>
-                  ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)))
-              .toList() ??
-          [];
+      _isInit = false;
     }
 
     super.didChangeDependencies();

@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
@@ -11,7 +10,7 @@ class Carousel extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.height,
-      this.imageSize = '320'})
+      this.imageSize = '640'})
       : super(key: key);
 
   final List<String> images;
@@ -28,10 +27,10 @@ class _CarouselState extends State<Carousel> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      for (var i = 0; i < min(widget.images.length, 3); i++) {
+      for (final imageId in widget.images) {
         precacheImage(
-            NetworkImage(
-                '$baseUrl/uploads/post_images/${widget.images[i]}/image_${widget.imageSize}.png'),
+            CachedNetworkImageProvider(
+                '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.png'),
             context);
       }
     });
@@ -45,7 +44,7 @@ class _CarouselState extends State<Carousel> {
         CarouselSlider.builder(
             options: CarouselOptions(
                 height: widget.height,
-                viewportFraction: 1,
+                viewportFraction: 1.01,
                 onPageChanged: (index, _) {
                   setState(() {
                     _currentIndex = index;
@@ -53,20 +52,15 @@ class _CarouselState extends State<Carousel> {
                 }),
             itemCount: widget.images.length,
             itemBuilder: (ctx, index, _) {
-              return Image.network(
-                '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
+              return CachedNetworkImage(
+                imageUrl:
+                    '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
+                placeholder: (context, url) => const SkeletonAvatar(
+                  style: SkeletonAvatarStyle(width: double.infinity),
+                ),
                 width: double.infinity,
                 fit: BoxFit.cover,
-                loadingBuilder: (BuildContext ctx, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return const SkeletonAvatar(
-                      style: SkeletonAvatarStyle(width: double.infinity),
-                    );
-                  }
-                },
+                fadeInDuration: const Duration(milliseconds: 100),
               );
             }),
         SizedBox(

@@ -32,7 +32,6 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
         Carousel(
           images: images,
           height: height,
-          imageSize: '640',
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(

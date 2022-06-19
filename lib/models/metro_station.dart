@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MetroStation {
-  final String id;
+  final int id;
   final String cityId;
   final String name;
   final String nameRu;
@@ -28,7 +28,7 @@ class MetroStation {
 
   factory MetroStation.fromJson(dynamic json) {
     return MetroStation(
-      id: json['_id'] as String,
+      id: json['_id'] as int,
       cityId: json['cityId'] as String,
       name: json['name'] as String,
       nameRu: json['nameRu'] != null

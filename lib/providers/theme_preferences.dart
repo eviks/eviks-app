@@ -248,13 +248,13 @@ ThemeData darkThemeData(BuildContext context) {
       ),
     ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return lightPrimaryColor;
-        }
-        return greyColor;
-      }),
-    ),
+        fillColor: MaterialStateColor.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return lightPrimaryColor;
+          }
+          return greyColor;
+        }),
+        checkColor: MaterialStateProperty.all(darkColor)),
     switchTheme: SwitchThemeData(
       trackColor: MaterialStateColor.resolveWith(
         (states) {

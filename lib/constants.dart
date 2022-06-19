@@ -88,7 +88,7 @@ Settlement getCapitalCity() {
     y: 40.379108951404,
     metroStations: [
       MetroStation(
-        id: '6259b438ec8e07125f1e2093',
+        id: 1,
         cityId: '10',
         name: '28 May',
         nameRu: '28 Май',
@@ -97,7 +97,7 @@ Settlement getCapitalCity() {
         y: 40.3798526861589,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2094',
+        id: 2,
         cityId: '10',
         name: 'Nəriman Nərimanov',
         nameRu: 'Нариман Нариманов',
@@ -106,7 +106,7 @@ Settlement getCapitalCity() {
         y: 40.4029003060097,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2095',
+        id: 3,
         cityId: '10',
         name: 'Qara Qarayev',
         nameRu: 'Кара Караев',
@@ -115,7 +115,7 @@ Settlement getCapitalCity() {
         y: 40.4175558116373,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2096',
+        id: 4,
         cityId: '10',
         name: 'Neftçilər',
         nameRu: 'Нефтчиляр',
@@ -124,7 +124,7 @@ Settlement getCapitalCity() {
         y: 40.4105062092501,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2097',
+        id: 5,
         cityId: '10',
         name: 'Xalqlar Dostluğu',
         nameRu: 'Халглар достлугу',
@@ -133,7 +133,7 @@ Settlement getCapitalCity() {
         y: 40.3975650404193,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2098',
+        id: 6,
         cityId: '10',
         name: 'Koroğlu',
         nameRu: 'Кероглу',
@@ -142,7 +142,7 @@ Settlement getCapitalCity() {
         y: 40.4209537339068,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e2099',
+        id: 7,
         cityId: '10',
         name: 'Ulduz',
         nameRu: 'Улдуз',
@@ -151,7 +151,7 @@ Settlement getCapitalCity() {
         y: 40.4148275479144,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209a',
+        id: 8,
         cityId: '10',
         name: 'Gənclik',
         nameRu: 'Гянджлик',
@@ -160,7 +160,7 @@ Settlement getCapitalCity() {
         y: 40.4007147774345,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209b',
+        id: 9,
         cityId: '10',
         name: 'Həzi Aslanov',
         nameRu: 'Ази Асланов',
@@ -169,7 +169,7 @@ Settlement getCapitalCity() {
         y: 40.3721166260112,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209c',
+        id: 10,
         cityId: '10',
         name: 'Bakmil',
         nameRu: 'Бакмил',
@@ -178,7 +178,7 @@ Settlement getCapitalCity() {
         y: 40.4189689107337,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209d',
+        id: 11,
         cityId: '10',
         name: 'Əhmədli',
         nameRu: 'Ахмедлы',
@@ -187,7 +187,7 @@ Settlement getCapitalCity() {
         y: 40.3851770968207,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209e',
+        id: 12,
         cityId: '10',
         name: '20 Yanvar',
         nameRu: '20 января',
@@ -196,7 +196,7 @@ Settlement getCapitalCity() {
         y: 40.4043014580299,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e209f',
+        id: 13,
         cityId: '10',
         name: 'İçərişəhər',
         nameRu: 'Ичери Шехер',
@@ -205,7 +205,7 @@ Settlement getCapitalCity() {
         y: 40.3659083369244,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a0',
+        id: 14,
         cityId: '10',
         name: 'İnşaatçılar',
         nameRu: 'Иншаатчылар',
@@ -214,7 +214,7 @@ Settlement getCapitalCity() {
         y: 40.3913386675955,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a1',
+        id: 15,
         cityId: '10',
         name: 'Nizami',
         nameRu: 'Низами Гянджеви',
@@ -223,7 +223,7 @@ Settlement getCapitalCity() {
         y: 40.3794317823335,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a2',
+        id: 16,
         cityId: '10',
         name: 'Memar Əcəmi',
         nameRu: 'Мемар Аджеми',
@@ -232,7 +232,7 @@ Settlement getCapitalCity() {
         y: 40.4117111472699,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a3',
+        id: 17,
         cityId: '10',
         name: 'Sahil',
         nameRu: 'Сахил',
@@ -241,7 +241,7 @@ Settlement getCapitalCity() {
         y: 40.3718918460624,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a4',
+        id: 18,
         cityId: '10',
         name: 'Elmlər Akademiyası',
         nameRu: 'Элмляр Академиясы',
@@ -250,7 +250,7 @@ Settlement getCapitalCity() {
         y: 40.3750918245097,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a5',
+        id: 19,
         cityId: '10',
         name: 'Avtovağzal',
         nameRu: 'Автовокзал',
@@ -259,7 +259,7 @@ Settlement getCapitalCity() {
         y: 40.4215050632847,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a6',
+        id: 20,
         cityId: '10',
         name: 'Nəsimi',
         nameRu: 'Насими',
@@ -268,7 +268,7 @@ Settlement getCapitalCity() {
         y: 40.4243596520195,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a7',
+        id: 21,
         cityId: '10',
         name: 'Azadlıq prospekti',
         nameRu: 'Азадлыг проспекти',
@@ -277,7 +277,7 @@ Settlement getCapitalCity() {
         y: 40.4258461137809,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a8',
+        id: 22,
         cityId: '10',
         name: '8 Noyabr',
         nameRu: '8 ноября',
@@ -286,7 +286,7 @@ Settlement getCapitalCity() {
         y: 40.4027777548833,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20a9',
+        id: 23,
         cityId: '10',
         name: 'Dərnəgül',
         nameRu: 'Дарнагюль',
@@ -295,7 +295,7 @@ Settlement getCapitalCity() {
         y: 40.4250457153759,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20aa',
+        id: 24,
         cityId: '10',
         name: 'Cəfər Cabbarlı',
         nameRu: 'Джафар Джаббарлы',
@@ -304,7 +304,7 @@ Settlement getCapitalCity() {
         y: 40.3795911539942,
       ),
       MetroStation(
-        id: '6259b438ec8e07125f1e20ab',
+        id: 25,
         cityId: '10',
         name: 'Şah İsmayıl Xətai',
         nameRu: 'Шах Исмаил Хатаи',

@@ -280,16 +280,16 @@ class CustomIcons {
     0xe840,
     fontFamily: _kFontFam,
   );
-  static const IconData metro = IconData(
-    0xe841,
-    fontFamily: _kFontFam,
-  );
   static const IconData showpassword = IconData(
     0xe842,
     fontFamily: _kFontFam,
   );
   static const IconData hidepassword = IconData(
     0xe843,
+    fontFamily: _kFontFam,
+  );
+  static const IconData metro = IconData(
+    0xe844,
     fontFamily: _kFontFam,
   );
 }

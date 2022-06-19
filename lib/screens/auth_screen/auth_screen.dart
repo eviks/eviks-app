@@ -98,6 +98,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 Image.asset(
                                   "assets/img/illustrations/auth.png",
                                 ),
+                                const SizedBox(
+                                  width: 16.0,
+                                )
                               ],
                             ),
                           ),

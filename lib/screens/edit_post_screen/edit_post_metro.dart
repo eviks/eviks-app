@@ -25,6 +25,7 @@ class _EditPostMetroState extends State<EditPostMetro> {
   late Post? postData;
   List<MetroStation> _metroStations = [];
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -33,17 +34,20 @@ class _EditPostMetroState extends State<EditPostMetro> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      _metroStations = postData?.city.metroStations ?? [];
+      _metroStations.sort((a, b) {
+        return a
+            .getLocalizedName(context)
+            .toLowerCase()
+            .compareTo(b.getLocalizedName(context).toLowerCase());
+      });
 
-    _metroStations = postData?.city.metroStations ?? [];
-    _metroStations.sort((a, b) {
-      return a
-          .getLocalizedName(context)
-          .toLowerCase()
-          .compareTo(b.getLocalizedName(context).toLowerCase());
-    });
+      if ((postData?.lastStep ?? -1) >= 2) {
+        _metroStation = postData?.metroStation;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 2) {
-      _metroStation = postData?.metroStation;
+      _isInit = false;
     }
 
     super.didChangeDependencies();
@@ -130,7 +134,10 @@ class _EditPostMetroState extends State<EditPostMetro> {
                     DropdownButtonFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        prefixIcon: Icon(CustomIcons.metro),
+                        prefixIcon: Icon(
+                          CustomIcons.metro,
+                          size: 18,
+                        ),
                       ),
                       items: _metroStations
                           .map((station) => DropdownMenuItem(

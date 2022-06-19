@@ -24,6 +24,7 @@ class EditPostPrice extends StatefulWidget {
 class _EditPostPriceState extends State<EditPostPrice> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,16 +39,20 @@ class _EditPostPriceState extends State<EditPostPrice> {
   @override
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 7) {
+        _price = postData?.price;
+        _haggle = postData?.haggle;
+        _installmentOfPayment = postData?.installmentOfPayment;
+        _prepayment = postData?.prepayment;
+        _municipalServicesIncluded = postData?.municipalServicesIncluded;
+      }
 
-    if ((postData?.lastStep ?? -1) >= 7) {
-      _price = postData?.price;
-      _haggle = postData?.haggle;
-      _installmentOfPayment = postData?.installmentOfPayment;
-      _prepayment = postData?.prepayment;
-      _municipalServicesIncluded = postData?.municipalServicesIncluded;
+      _isRent = postData?.dealType != DealType.sale;
+
+      _isInit = false;
     }
 
-    _isRent = postData?.dealType != DealType.sale;
     super.didChangeDependencies();
   }
 

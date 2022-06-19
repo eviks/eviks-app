@@ -20,6 +20,7 @@ class CityFilter extends StatelessWidget {
         'city': city,
         'districts': null,
         'subdistricts': null,
+        'metroStations': null,
       });
     }
   }

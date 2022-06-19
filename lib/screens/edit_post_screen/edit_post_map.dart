@@ -36,6 +36,7 @@ class EditPostMap extends StatefulWidget {
 class _EditPostMapState extends State<EditPostMap> {
   late Post? postData;
   bool _goToNextStep = false;
+  bool _isInit = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -60,31 +61,36 @@ class _EditPostMapState extends State<EditPostMap> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context, listen: true).postData;
 
-    if ((postData?.lastStep ?? -1) >= 1) {
-      _location = postData?.location;
-      _city = postData?.city;
-      _district = postData?.district;
-      _subdistrict = postData?.subdistrict;
-      _address = postData?.address ?? '';
+    if (_isInit) {
+      if ((postData?.lastStep ?? -1) >= 1) {
+        _location = postData?.location;
+        _city = postData?.city;
+        _district = postData?.district;
+        _subdistrict = postData?.subdistrict;
+        _address = postData?.address ?? '';
 
-      _controller.text = _address ?? '';
-    } else {
-      _location = [postData?.city.x ?? 0, postData?.city.y ?? 0];
-    }
-
-    _city ??= getCapitalCity();
-
-    _mapController ??= MapController();
-
-    _subscription ??=
-        _mapController?.mapEventStream.listen((MapEvent mapEvent) {
-      if (mapEvent is MapEventMoveEnd || mapEvent is MapEventDoubleTapZoomEnd) {
-        _getAddressByCoords([
-          _mapController?.center.longitude ?? 0,
-          _mapController?.center.latitude ?? 0
-        ]);
+        _controller.text = _address ?? '';
+      } else {
+        _location = [postData?.city.x ?? 0, postData?.city.y ?? 0];
       }
-    });
+
+      _city ??= getCapitalCity();
+
+      _mapController ??= MapController();
+
+      _subscription ??=
+          _mapController?.mapEventStream.listen((MapEvent mapEvent) {
+        if (mapEvent is MapEventMoveEnd ||
+            mapEvent is MapEventDoubleTapZoomEnd) {
+          _getAddressByCoords([
+            _mapController?.center.longitude ?? 0,
+            _mapController?.center.latitude ?? 0
+          ]);
+        }
+      });
+
+      _isInit = false;
+    }
 
     super.didChangeDependencies();
   }
