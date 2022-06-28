@@ -410,4 +410,34 @@ class Posts with ChangeNotifier {
   Post findById(int id) {
     return _posts.firstWhere((element) => element.id == id);
   }
+
+  Future<String> fetchPostPhoneNumber(int id) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/phone_number/$id',
+    );
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n');
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final dynamic data = json.decode(response.body);
+      return data['phoneNumber'] as String;
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

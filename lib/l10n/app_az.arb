@@ -196,7 +196,7 @@
     "postAuthor": "Elanın müəllifi",
     "postDetailGeneral": "Ümumi məlumat",
     "apartmentType": "Mənzilin növü",
-    "postDetailBuilding": "Bina haqqında məlumat",
+    "postDetailBuilding": "Bina haqqında",
     "saleType": "Satış",
     "rentType": "Kirayə",
     "rentPerDayType": "Günlük kirayə",
@@ -219,10 +219,11 @@
     "deleteProfileTitle": "Profilinizi ləğv etmək?",
     "deleteProfileContent": "Bütün elanlarınız ləğv olunacaq. Profilinizi bərpa etmək mümkün olmayacaq",
     "deleteProfileCancel": "Fikrimi dəyişdim",
-    "deleteProfile": "Ləğv etmək",
+    "deleteProfileAnyway": "Ləğv etmək",
     "deleteProfileButton": "Profilinizi ləğv etmək",
     "metro": "Metro",
     "metroHint": "Yaxınlıqdaki metro stansiyası göstərin",
     "selectMetroStation": "Metro stansiyanı seçin",
-    "selectMetroStationHint": "Axtarış"
+    "selectMetroStationHint": "Axtarış",
+    "totalFloorsInHouse": "Mərtəbələrin sayı"
 }

@@ -116,7 +116,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   TabsScreen.routeName, (route) => false);
             },
             child: Text(
-              AppLocalizations.of(context)!.deleteProfile,
+              AppLocalizations.of(context)!.deleteProfileContent,
               style: TextStyle(
                 color: Theme.of(context).dividerColor,
               ),

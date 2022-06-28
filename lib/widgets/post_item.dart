@@ -2,15 +2,20 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './carousel.dart';
+import './styled_elevated_button.dart';
 import './post_buttons/delete_post_button.dart';
 import './post_buttons/edit_post_button.dart';
 import './post_buttons/favorite_button.dart';
 import '../constants.dart';
+import '../models/failure.dart';
 import '../models/post.dart';
 import '../providers/auth.dart';
+import '../providers/posts.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
 
 class PostItem extends StatelessWidget {
@@ -23,10 +28,37 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const headerHeight = 225.0;
+    const headerHeight = 250.0;
 
     final dateFormatter = DateFormat(
         'dd MMMM yyyy HH:mm', Localizations.localeOf(context).languageCode);
+
+    Future<void> _callPhoneNumber() async {
+      final postId = post.id;
+      String phoneNumber = '';
+      String _errorMessage = '';
+      try {
+        phoneNumber = await Provider.of<Posts>(context, listen: false)
+            .fetchPostPhoneNumber(postId);
+      } on Failure catch (error) {
+        if (error.statusCode >= 500) {
+          _errorMessage = AppLocalizations.of(context)!.serverError;
+        } else {
+          _errorMessage = error.toString();
+        }
+      } catch (error) {
+        _errorMessage = AppLocalizations.of(context)!.unknownError;
+      }
+
+      if (_errorMessage.isNotEmpty) {
+        showSnackBar(context, _errorMessage);
+        return;
+      }
+
+      if (await Permission.phone.request().isGranted) {
+        launch('tel://$phoneNumber');
+      }
+    }
 
     return GestureDetector(
       onTap: () {
@@ -183,6 +215,10 @@ class PostItem extends StatelessWidget {
                               ),
                             ],
                           ),
+                        ),
+                        StyledElevatedButton(
+                          text: AppLocalizations.of(context)!.call,
+                          onPressed: _callPhoneNumber,
                         ),
                       ],
                     ),

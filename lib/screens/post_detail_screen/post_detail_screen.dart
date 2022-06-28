@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_content.dart';
 import './post_detail_header.dart';
+import '../../../models/failure.dart';
 import '../../constants.dart';
 import '../../providers/auth.dart';
 import '../../providers/posts.dart';
@@ -58,6 +59,33 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     });
 
     super.didChangeDependencies();
+  }
+
+  Future<void> _callPhoneNumber() async {
+    final postId = ModalRoute.of(context)!.settings.arguments! as int;
+    String phoneNumber = '';
+    String _errorMessage = '';
+    try {
+      phoneNumber = await Provider.of<Posts>(context, listen: false)
+          .fetchPostPhoneNumber(postId);
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = error.toString();
+      }
+    } catch (error) {
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
+    }
+
+    if (_errorMessage.isNotEmpty) {
+      showSnackBar(context, _errorMessage);
+      return;
+    }
+
+    if (await Permission.phone.request().isGranted) {
+      launch('tel://$phoneNumber');
+    }
   }
 
   @override
@@ -158,11 +186,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         padding: const EdgeInsets.all(16.0),
         child: StyledElevatedButton(
           text: AppLocalizations.of(context)!.call,
-          onPressed: () async {
-            if (await Permission.phone.request().isGranted) {
-              launch('tel://${loadedPost.phoneNumber}');
-            }
-          },
+          onPressed: _callPhoneNumber,
         ),
       ),
     );

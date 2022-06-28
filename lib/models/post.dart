@@ -158,7 +158,7 @@ class Post {
   final bool? installmentOfPayment;
   final bool? prepayment;
   final bool? municipalServicesIncluded;
-  final String phoneNumber;
+  final String? phoneNumber;
   final String username;
   final DateTime updatedAt;
   final int step;
@@ -323,7 +323,8 @@ class Post {
       municipalServicesIncluded: json['municipalServicesIncluded'] == null
           ? null
           : json['municipalServicesIncluded'] as bool,
-      phoneNumber: json['phoneNumber'] as String,
+      phoneNumber:
+          json['phoneNumber'] == null ? null : json['phoneNumber'] as String,
       username: json['username'] as String,
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       user: json['user'] as String,

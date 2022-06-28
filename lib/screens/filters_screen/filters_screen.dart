@@ -51,7 +51,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool _showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -73,44 +72,38 @@ class _FiltersScreenState extends State<FiltersScreen> {
             : null,
       ),
       body: SafeArea(
-        child: SizedBox(
-          child: SingleChildScrollView(
-            child: Center(
-              child: Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const CityFilter(),
-                      const DistrictFilter(),
-                      Consumer<Posts>(
-                          builder: (context, posts, child) =>
-                              posts.filters.city.metroStations?.isNotEmpty ??
-                                      false
-                                  ? const MetroFilter()
-                                  : const SizedBox()),
-                      const MainFilters(),
-                      const SqmFilters(),
-                      const FloorFilters(),
-                    ],
-                  ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CityFilter(),
+                    const DistrictFilter(),
+                    Consumer<Posts>(
+                        builder: (context, posts, child) =>
+                            posts.filters.city.metroStations?.isNotEmpty ??
+                                    false
+                                ? const MetroFilter()
+                                : const SizedBox()),
+                    const MainFilters(),
+                    const SqmFilters(),
+                    const FloorFilters(),
+                  ],
                 ),
               ),
             ),
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Visibility(
-        visible: _showFab,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: StyledElevatedButton(
-            text: AppLocalizations.of(context)!.showPosts,
-            onPressed: _setFilters,
-          ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: StyledElevatedButton(
+          text: AppLocalizations.of(context)!.showPosts,
+          onPressed: _setFilters,
         ),
       ),
     );

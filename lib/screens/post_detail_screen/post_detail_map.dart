@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,6 +30,32 @@ class PostDetailMap extends StatelessWidget {
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 18.0),
               ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              if (post.metroStation != null)
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          CustomIcons.metro,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 16.0,
+                        ),
+                        Text(
+                          post.metroStation?.getLocalizedName(context) ?? '',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                  ],
+                ),
               Text(post.address),
             ],
           ),
@@ -39,7 +66,7 @@ class PostDetailMap extends StatelessWidget {
             child: FlutterMap(
               options: MapOptions(
                 center: LatLng(post.location[1], post.location[0]),
-                zoom: 14,
+                zoom: 16,
                 interactiveFlags: InteractiveFlag.pinchZoom |
                     InteractiveFlag.drag |
                     InteractiveFlag.doubleTapZoom,

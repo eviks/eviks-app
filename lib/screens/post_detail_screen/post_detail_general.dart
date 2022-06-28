@@ -59,7 +59,7 @@ class PostDetailGeneral extends StatelessWidget {
             post.totalFloors != 0)
           _GeneralInfoItem(
             value: post.totalFloors.toString(),
-            label: AppLocalizations.of(context)!.totalFloors,
+            label: AppLocalizations.of(context)!.totalFloorsInHouse,
           ),
         if (post.estateType == EstateType.apartment &&
             post.totalFloors != null &&

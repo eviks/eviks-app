@@ -316,7 +316,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         width: SizeConfig.safeBlockHorizontal * 40.0,
                         child: StyledInput(
                           icon: CustomIcons.elevator,
-                          title: AppLocalizations.of(context)!.totalFloors,
+                          title: AppLocalizations.of(context)!.totalFloorsInHouse,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly

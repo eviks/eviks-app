@@ -196,7 +196,7 @@
     "postAuthor": "Автор объявления",
     "postDetailGeneral": "Общие сведения",
     "apartmentType": "Тип квартиры",
-    "postDetailBuilding": "Сведения о здании",
+    "postDetailBuilding": "О здании",
     "saleType": "Продажа",
     "rentType": "Аренда",
     "rentPerDayType": "Посуточная аренда",
@@ -219,10 +219,11 @@
     "deleteProfileTitle": "Ой, неужели вы нас покидаете?",
     "deleteProfileContent": "Все ваши объявления также будут удалены. Восстановить профиль будет уже невозможно",
     "deleteProfileCancel": "Я передумал",
-    "deleteProfile": "Все равно удалить",
+    "deleteProfileAnyway": "Все равно удалить",
     "deleteProfileButton": "Удалить профиль",
     "metro": "Метро",
     "metroHint": "Укажите ближайшую станцию метро",
     "selectMetroStation": "Выберите станцию метро",
-    "selectMetroStationHint": "Поиск"
+    "selectMetroStationHint": "Поиск",
+    "totalFloorsInHouse": "Этажей в доме"
 }
