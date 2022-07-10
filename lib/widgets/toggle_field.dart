@@ -77,13 +77,17 @@ class _ToggleFieldState extends State<ToggleField> {
                 }
               });
               if (widget.onPressed != null) {
-                widget.onPressed!((_unselected && widget.allowUnselect)
-                    ? null
-                    : widget.values[newIndex]);
+                widget.onPressed!(
+                  (_unselected && widget.allowUnselect)
+                      ? null
+                      : widget.values[newIndex],
+                );
               }
-              widget.state?.didChange((_unselected && widget.allowUnselect)
-                  ? null
-                  : widget.values[newIndex]);
+              widget.state?.didChange(
+                (_unselected && widget.allowUnselect)
+                    ? null
+                    : widget.values[newIndex],
+              );
             },
             children: widget.values
                 .asMap()
@@ -142,21 +146,22 @@ class ToggleFormField<EnumType> extends FormField<EnumType> {
     List<IconData>? icons,
     bool allowUnselect = true,
   }) : super(
-            key: key,
-            onSaved: onSaved,
-            validator: validator,
-            initialValue: initialValue,
-            builder: (FormFieldState<EnumType> state) {
-              return ToggleField<EnumType>(
-                state: state,
-                title: title,
-                values: values,
-                getDescription: getDescription,
-                onPressed: onPressed,
-                direction: direction,
-                initialValue: initialValue,
-                icons: icons,
-                allowUnselect: allowUnselect,
-              );
-            });
+          key: key,
+          onSaved: onSaved,
+          validator: validator,
+          initialValue: initialValue,
+          builder: (FormFieldState<EnumType> state) {
+            return ToggleField<EnumType>(
+              state: state,
+              title: title,
+              values: values,
+              getDescription: getDescription,
+              onPressed: onPressed,
+              direction: direction,
+              initialValue: initialValue,
+              icons: icons,
+              allowUnselect: allowUnselect,
+            );
+          },
+        );
 }

@@ -82,8 +82,10 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
     _goToNextStep = true;
     _updatePost();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const EditPostContacts()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditPostContacts()),
+    );
   }
 
   void _updatePost() {
@@ -124,8 +126,12 @@ class _EditPostPriceState extends State<EditPostPrice> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
-                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.safeBlockHorizontal * 15.0,
+              8.0,
+              SizeConfig.safeBlockHorizontal * 15.0,
+              32.0,
+            ),
             child: Center(
               child: Form(
                 key: _formKey,
@@ -156,47 +162,54 @@ class _EditPostPriceState extends State<EditPostPrice> {
                       ),
                     ),
                     SwitchListTile(
-                        value: _haggle ?? false,
-                        title: Text(AppLocalizations.of(context)!.haggle),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _haggle = value;
-                          });
-                        }),
+                      value: _haggle ?? false,
+                      title: Text(AppLocalizations.of(context)!.haggle),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _haggle = value;
+                        });
+                      },
+                    ),
                     Visibility(
                       visible: !_isRent,
                       child: SwitchListTile(
-                          value: _installmentOfPayment ?? false,
-                          title: Text(AppLocalizations.of(context)!
-                              .installmentOfPayment),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _installmentOfPayment = value;
-                            });
-                          }),
+                        value: _installmentOfPayment ?? false,
+                        title: Text(
+                          AppLocalizations.of(context)!.installmentOfPayment,
+                        ),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _installmentOfPayment = value;
+                          });
+                        },
+                      ),
                     ),
                     Visibility(
                       visible: _isRent,
                       child: SwitchListTile(
-                          value: _prepayment ?? false,
-                          title: Text(AppLocalizations.of(context)!.prepayment),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _prepayment = value;
-                            });
-                          }),
+                        value: _prepayment ?? false,
+                        title: Text(AppLocalizations.of(context)!.prepayment),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _prepayment = value;
+                          });
+                        },
+                      ),
                     ),
                     Visibility(
                       visible: _isRent,
                       child: SwitchListTile(
-                          value: _municipalServicesIncluded ?? false,
-                          title: Text(AppLocalizations.of(context)!
-                              .municipalServicesIncluded),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _municipalServicesIncluded = value;
-                            });
-                          }),
+                        value: _municipalServicesIncluded ?? false,
+                        title: Text(
+                          AppLocalizations.of(context)!
+                              .municipalServicesIncluded,
+                        ),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _municipalServicesIncluded = value;
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 32.0,

@@ -6,12 +6,12 @@ import 'package:skeletons/skeletons.dart';
 import '../constants.dart';
 
 class Carousel extends StatefulWidget {
-  const Carousel(
-      {Key? key,
-      required this.images,
-      required this.height,
-      this.imageSize = '640'})
-      : super(key: key);
+  const Carousel({
+    Key? key,
+    required this.images,
+    required this.height,
+    this.imageSize = '640',
+  }) : super(key: key);
 
   final List<String> images;
   final double height;
@@ -29,9 +29,11 @@ class _CarouselState extends State<Carousel> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       for (final imageId in widget.images) {
         precacheImage(
-            CachedNetworkImageProvider(
-                '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.png'),
-            context);
+          CachedNetworkImageProvider(
+            '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.png',
+          ),
+          context,
+        );
       }
     });
     super.initState();
@@ -42,27 +44,29 @@ class _CarouselState extends State<Carousel> {
     return Stack(
       children: [
         CarouselSlider.builder(
-            options: CarouselOptions(
-                height: widget.height,
-                viewportFraction: 1.01,
-                onPageChanged: (index, _) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                }),
-            itemCount: widget.images.length,
-            itemBuilder: (ctx, index, _) {
-              return CachedNetworkImage(
-                imageUrl:
-                    '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
-                placeholder: (context, url) => const SkeletonAvatar(
-                  style: SkeletonAvatarStyle(width: double.infinity),
-                ),
-                width: double.infinity,
-                fit: BoxFit.cover,
-                fadeInDuration: const Duration(milliseconds: 100),
-              );
-            }),
+          options: CarouselOptions(
+            height: widget.height,
+            viewportFraction: 1,
+            onPageChanged: (index, _) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+          ),
+          itemCount: widget.images.length,
+          itemBuilder: (ctx, index, _) {
+            return CachedNetworkImage(
+              imageUrl:
+                  '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
+              placeholder: (context, url) => const SkeletonAvatar(
+                style: SkeletonAvatarStyle(width: double.infinity),
+              ),
+              width: double.infinity,
+              fit: BoxFit.cover,
+              fadeInDuration: const Duration(milliseconds: 100),
+            );
+          },
+        ),
         SizedBox(
           height: widget.height,
           child: Row(

@@ -10,8 +10,11 @@ class UserProfileMenu extends StatelessWidget {
   final IconData icon;
   final void Function()? onPressed;
 
-  const UserProfileMenu(
-      {required this.title, required this.icon, this.onPressed});
+  const UserProfileMenu({
+    required this.title,
+    required this.icon,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +27,19 @@ class UserProfileMenu extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: BorderSide(
-                  width: isDarkMode ? 0 : 1,
-                  color: isDarkMode ? Colors.transparent : lightGreyColor,
-                )),
+              borderRadius: BorderRadius.circular(30.0),
+              side: BorderSide(
+                width: isDarkMode ? 0 : 1,
+                color: isDarkMode ? Colors.transparent : lightGreyColor,
+              ),
+            ),
           ),
           backgroundColor: MaterialStateProperty.all(
             isDarkMode ? softDarkColor : lightColor,
           ),
           padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(vertical: 2.0, horizontal: 18.0)),
+            const EdgeInsets.symmetric(vertical: 2.0, horizontal: 18.0),
+          ),
         ),
         onPressed: onPressed,
         child: Row(
@@ -44,7 +49,9 @@ class UserProfileMenu extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 16.0),
+                    horizontal: 8.0,
+                    vertical: 16.0,
+                  ),
                   child: Icon(icon),
                 ),
                 Text(

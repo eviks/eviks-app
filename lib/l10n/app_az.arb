@@ -39,7 +39,7 @@
                 }
       },
     "postDetailDescription": "Təsvir",
-    "postDetailAdditional": "Əlavə",
+    "postDetailAdditional": "Şərait",
     "postDetailLocation": "Xəritə",
     "postRooms": "Otaq",
     "postSqm": "Ümumi sahəsi",
@@ -225,5 +225,22 @@
     "metroHint": "Yaxınlıqdaki metro stansiyası göstərin",
     "selectMetroStation": "Metro stansiyanı seçin",
     "selectMetroStationHint": "Axtarış",
-    "totalFloorsInHouse": "Mərtəbələrin sayı"
+    "totalFloorsInHouse": "Mərtəbələrin sayı",
+    "roomsShort": "Otaq",
+    "sqmShort": "Ümumi",
+     "livingRoomsSqmShort": "Yaşayış",
+     "kitchenSqmShort": "Mətbəx",
+     "lotSqmShort": "Torpaq",
+     "totalFloorsShort": "Mərtəbələr",
+     "trueValue": "Var",
+     "falseValue": "Yox",
+     "document": "Kupça",
+     "priceForM2": "{price} / m²",
+    "@priceForM2": {
+        "placeholders": {
+                    "price": {
+                        "type": "String"
+                    }
+                }
+      }
 }

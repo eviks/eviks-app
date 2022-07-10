@@ -34,10 +34,12 @@ class ThemePreferences with ChangeNotifier {
 
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
-    pageTransitionsTheme: const PageTransitionsTheme(builders: {
-      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-    }),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
     primaryColor: primaryColor,
     androidOverscrollIndicator: AndroidOverscrollIndicator.glow,
     disabledColor: greyColor,
@@ -153,14 +155,24 @@ ThemeData lightThemeData(BuildContext context) {
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
     brightness: Brightness.dark,
-    pageTransitionsTheme: const PageTransitionsTheme(builders: {
-      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-    }),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
-            side: MaterialStateProperty.all(
-                const BorderSide(color: softDarkColor)))),
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(
+          const BorderSide(color: softDarkColor),
+        ),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(darkColor),
+      ),
+    ),
     cardColor: darkColor,
     primaryColor: lightPrimaryColor,
     disabledColor: greyColor,
@@ -248,13 +260,14 @@ ThemeData darkThemeData(BuildContext context) {
       ),
     ),
     checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateColor.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return lightPrimaryColor;
-          }
-          return greyColor;
-        }),
-        checkColor: MaterialStateProperty.all(darkColor)),
+      fillColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return lightPrimaryColor;
+        }
+        return greyColor;
+      }),
+      checkColor: MaterialStateProperty.all(darkColor),
+    ),
     switchTheme: SwitchThemeData(
       trackColor: MaterialStateColor.resolveWith(
         (states) {

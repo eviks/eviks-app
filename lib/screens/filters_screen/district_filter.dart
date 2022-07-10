@@ -8,21 +8,28 @@ import '../../providers/posts.dart';
 import '../../widgets/selections/district_selection.dart';
 import '../../widgets/tag.dart';
 
-class DistrictFilter extends StatelessWidget {
+class DistrictFilter extends StatefulWidget {
   const DistrictFilter({Key? key}) : super(key: key);
 
+  @override
+  State<DistrictFilter> createState() => _DistrictFilterState();
+}
+
+class _DistrictFilterState extends State<DistrictFilter> {
   Future<void> _selectDistrict(BuildContext context) async {
     final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
     final result = await Navigator.push<Map<String, List<Settlement>>?>(
       context,
       MaterialPageRoute(
-          builder: (context) => DistrictSelection(
-                city: _filters.city,
-                selectedDistricts: _filters.districts ?? [],
-                selectedSubdistricts: _filters.subdistricts ?? [],
-              )),
+        builder: (context) => DistrictSelection(
+          city: _filters.city,
+          selectedDistricts: _filters.districts ?? [],
+          selectedSubdistricts: _filters.subdistricts ?? [],
+        ),
+      ),
     );
     if (result != null) {
+      if (!mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'districts': result['districts'],
         'subdistricts': result['subdistricts'],

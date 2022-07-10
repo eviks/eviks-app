@@ -6,13 +6,13 @@ class IconChoiseChip extends StatelessWidget {
   final bool value;
   final Function(bool)? onSelected;
 
-  const IconChoiseChip(
-      {required this.icon,
-      required this.label,
-      required this.value,
-      required this.onSelected,
-      Key? key})
-      : super(key: key);
+  const IconChoiseChip({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.onSelected,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

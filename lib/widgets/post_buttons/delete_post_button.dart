@@ -7,13 +7,18 @@ import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/posts.dart';
 
-class DeletePostButton extends StatelessWidget {
+class DeletePostButton extends StatefulWidget {
   final int postId;
 
   const DeletePostButton(
     this.postId,
   );
 
+  @override
+  State<DeletePostButton> createState() => _DeletePostButtonState();
+}
+
+class _DeletePostButtonState extends State<DeletePostButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -39,7 +44,7 @@ class DeletePostButton extends StatelessWidget {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 try {
                   await Provider.of<Posts>(context, listen: false)
-                      .deactivatePost(postId);
+                      .deletePost(widget.postId);
                 } on Failure catch (error) {
                   if (error.statusCode >= 500) {
                     _errorMessage = AppLocalizations.of(context)!.serverError;
@@ -49,6 +54,8 @@ class DeletePostButton extends StatelessWidget {
                 } catch (error) {
                   _errorMessage = AppLocalizations.of(context)!.unknownError;
                 }
+
+                if (!mounted) return;
 
                 if (_errorMessage.isNotEmpty) {
                   showSnackBar(context, _errorMessage);

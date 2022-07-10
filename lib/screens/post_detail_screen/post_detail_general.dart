@@ -1,4 +1,3 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -70,23 +69,24 @@ class PostDetailGeneral extends StatelessWidget {
             value: '${post.floor} / ${post.totalFloors}',
             label: AppLocalizations.of(context)!.floor,
           ),
-        _GeneralInfoIcon(
-          icon: CustomIcons.document,
-          label: AppLocalizations.of(context)!.documented,
-          value: post.documented,
-        ),
-        _GeneralInfoIcon(
-          icon: CustomIcons.paintroller,
-          label: renovationDescription(
+        _GeneralInfoItem(
+          value: renovationDescription(
             post.renovation,
             context,
           ),
-          value: true,
+          label: AppLocalizations.of(context)!.renovation,
         ),
-        _GeneralInfoIcon(
-          icon: CustomIcons.hammer,
+        _GeneralInfoItem(
+          value: (post.documented ?? false)
+              ? AppLocalizations.of(context)!.trueValue
+              : AppLocalizations.of(context)!.falseValue,
+          label: AppLocalizations.of(context)!.document,
+        ),
+        _GeneralInfoItem(
+          value: (post.redevelopment ?? false)
+              ? AppLocalizations.of(context)!.trueValue
+              : AppLocalizations.of(context)!.falseValue,
           label: AppLocalizations.of(context)!.redevelopment,
-          value: post.redevelopment,
         ),
       ],
     );
@@ -111,7 +111,9 @@ class _GeneralInfoItem extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-                fontSize: 16.0, color: Theme.of(context).dividerColor),
+              fontSize: 16.0,
+              color: Theme.of(context).dividerColor,
+            ),
           ),
           Text(
             value,
@@ -122,37 +124,5 @@ class _GeneralInfoItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _GeneralInfoIcon extends StatelessWidget {
-  final bool? value;
-  final IconData icon;
-  final String label;
-  const _GeneralInfoIcon({
-    this.value,
-    required this.icon,
-    required this.label,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return value ?? false
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  size: 32.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(label),
-                ),
-              ],
-            ),
-          )
-        : const SizedBox.shrink();
   }
 }

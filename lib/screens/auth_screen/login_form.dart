@@ -63,6 +63,8 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
       return;
@@ -86,6 +88,8 @@ class _LoginFormState extends State<LoginForm> {
     } catch (error) {
       _errorMessage = AppLocalizations.of(context)!.unknownError;
     }
+
+    if (!mounted) return;
 
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
@@ -122,9 +126,11 @@ class _LoginFormState extends State<LoginForm> {
             icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.password,
             suffixIcon: IconButton(
-              icon: Icon(_showPassword
-                  ? CustomIcons.hidepassword
-                  : CustomIcons.showpassword),
+              icon: Icon(
+                _showPassword
+                    ? CustomIcons.hidepassword
+                    : CustomIcons.showpassword,
+              ),
               onPressed: () {
                 setState(() {
                   _showPassword = !_showPassword;
@@ -188,7 +194,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             height: 60.0,
             width: double.infinity,
-            child: ElevatedButton.icon(
+            child: OutlinedButton.icon(
               icon: Image.asset(
                 "assets/img/svg/google.png",
                 height: 24.0,
@@ -198,8 +204,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
               onPressed: _loginWithGoogle,
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).backgroundColor,
-                  onPrimary: Theme.of(context).textTheme.bodyText1?.color),
+                primary: Theme.of(context).backgroundColor,
+                onPrimary: Theme.of(context).textTheme.bodyText1?.color,
+              ),
             ),
           ),
         ],

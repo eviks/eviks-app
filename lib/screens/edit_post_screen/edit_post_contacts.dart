@@ -118,6 +118,8 @@ class _EditPostContactsState extends State<EditPostContacts> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
       return;
@@ -152,8 +154,12 @@ class _EditPostContactsState extends State<EditPostContacts> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
-                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.safeBlockHorizontal * 15.0,
+              8.0,
+              SizeConfig.safeBlockHorizontal * 15.0,
+              32.0,
+            ),
             child: Center(
               child: Form(
                 key: _formKey,

@@ -106,7 +106,6 @@ String renovationDescription(Renovation renovation, BuildContext ctx) {
 
 class Post {
   final int id;
-  final bool active;
   final UserType userType;
   final EstateType estateType;
   final ApartmentType? apartmentType;
@@ -168,7 +167,6 @@ class Post {
 
   Post({
     required this.id,
-    required this.active,
     required this.userType,
     required this.estateType,
     this.apartmentType,
@@ -232,18 +230,25 @@ class Post {
   factory Post.fromJson(dynamic json) {
     return Post(
       id: json['_id'] as int,
-      active: json['active'] as bool,
-      userType: UserType.values.firstWhere((element) =>
-          element.toString() == 'UserType.${json['userType'] as String}'),
-      estateType: EstateType.values.firstWhere((element) =>
-          element.toString() == 'EstateType.${json['estateType'] as String}'),
+      userType: UserType.values.firstWhere(
+        (element) =>
+            element.toString() == 'UserType.${json['userType'] as String}',
+      ),
+      estateType: EstateType.values.firstWhere(
+        (element) =>
+            element.toString() == 'EstateType.${json['estateType'] as String}',
+      ),
       apartmentType: json['apartmentType'] == null
           ? null
-          : ApartmentType.values.firstWhere((element) =>
-              element.toString() ==
-              'ApartmentType.${json['apartmentType'] as String}'),
-      dealType: DealType.values.firstWhere((element) =>
-          element.toString() == 'DealType.${json['dealType'] as String}'),
+          : ApartmentType.values.firstWhere(
+              (element) =>
+                  element.toString() ==
+                  'ApartmentType.${json['apartmentType'] as String}',
+            ),
+      dealType: DealType.values.firstWhere(
+        (element) =>
+            element.toString() == 'DealType.${json['dealType'] as String}',
+      ),
       location: (json['location'] as List<dynamic>).cast<double>(),
       city: Settlement.fromJson(json['city']),
       district: Settlement.fromJson(
@@ -272,8 +277,10 @@ class Post {
           json['redevelopment'] == null ? null : json['redevelopment'] as bool,
       documented:
           json['documented'] == null ? null : json['documented'] as bool,
-      renovation: Renovation.values.firstWhere((element) =>
-          element.toString() == 'Renovation.${json['renovation'] as String}'),
+      renovation: Renovation.values.firstWhere(
+        (element) =>
+            element.toString() == 'Renovation.${json['renovation'] as String}',
+      ),
       yearBuild: json['yearBuild'] == null ? null : json['yearBuild'] as int,
       ceilingHeight: json['ceilingHeight'] == null
           ? null
@@ -334,7 +341,6 @@ class Post {
   }
 
   Map<String, dynamic> toJson() => {
-        'active': active,
         'userType': userType.toString().replaceAll('UserType.', ''),
         'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
@@ -425,7 +431,6 @@ class Post {
       };
 
   Post copyWith({
-    bool? active,
     UserType? userType,
     EstateType? estateType,
     ApartmentType? apartmentType,
@@ -485,7 +490,6 @@ class Post {
   }) {
     return Post(
       id: id,
-      active: active ?? this.active,
       userType: userType ?? this.userType,
       estateType: estateType ?? this.estateType,
       apartmentType: (estateType ?? this.estateType) == EstateType.house

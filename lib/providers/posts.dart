@@ -52,7 +52,6 @@ class Posts with ChangeNotifier {
       final _capital = getCapitalCity();
       _postData = Post(
         id: 0,
-        active: true,
         userType: UserType.owner,
         estateType: EstateType.house,
         dealType: DealType.sale,
@@ -170,11 +169,11 @@ class Posts with ChangeNotifier {
     );
   }
 
-  Future<void> fetchAndSetPosts(
-      {Map<String, dynamic>? queryParameters,
-      int page = 1,
-      bool updatePosts = false,
-      bool? active}) async {
+  Future<void> fetchAndSetPosts({
+    Map<String, dynamic>? queryParameters,
+    int page = 1,
+    bool updatePosts = false,
+  }) async {
     Map<String, dynamic> _parameters;
 
     if (queryParameters == null) {
@@ -186,14 +185,13 @@ class Posts with ChangeNotifier {
     _parameters['page'] = page.toString();
     _parameters['limit'] = '20';
 
-    if (active != null) _parameters['active'] = active.toString();
-
     final url = Uri(
-        scheme: baseScheme,
-        host: baseHost,
-        port: basePort,
-        path: 'api/posts',
-        queryParameters: _parameters);
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts',
+      queryParameters: _parameters,
+    );
 
     try {
       final response = await http.get(url);
@@ -205,8 +203,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -235,12 +234,14 @@ class Posts with ChangeNotifier {
   Future<void> createPost(Post post) async {
     try {
       final url = Uri.parse('$baseUrl/api/posts');
-      final response = await http.post(url,
-          body: json.encode(post.toJson()),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'JWT $token'
-          });
+      final response = await http.post(
+        url,
+        body: json.encode(post.toJson()),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token'
+        },
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -249,8 +250,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
@@ -262,12 +264,14 @@ class Posts with ChangeNotifier {
   Future<void> updatePost(Post post) async {
     try {
       final url = Uri.parse('$baseUrl/api/posts/${post.id}');
-      final response = await http.put(url,
-          body: json.encode(post.toJson()),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'JWT $token'
-          });
+      final response = await http.put(
+        url,
+        body: json.encode(post.toJson()),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token'
+        },
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -276,8 +280,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
@@ -286,9 +291,9 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> deactivatePost(int postId) async {
+  Future<void> deletePost(int postId) async {
     try {
-      final url = Uri.parse('$baseUrl/api/posts/deactivate/$postId');
+      final url = Uri.parse('$baseUrl/api/posts/delete/$postId');
       final response =
           await http.put(url, headers: {'Authorization': 'JWT $token'});
 
@@ -299,8 +304,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
@@ -328,8 +334,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -353,10 +360,12 @@ class Posts with ChangeNotifier {
       request.headers['Authorization'] = 'JWT $token';
       request.headers['Content-Type'] = 'multipart/form-data';
       request.fields['id'] = id;
-      request.files.add(http.MultipartFile.fromBytes(
-        'image',
-        await file.readAsBytes(),
-      ));
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          await file.readAsBytes(),
+        ),
+      );
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -368,8 +377,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -398,8 +408,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
     } catch (error) {
@@ -429,8 +440,9 @@ class Posts with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 

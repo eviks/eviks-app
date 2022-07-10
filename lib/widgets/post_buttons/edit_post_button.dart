@@ -16,7 +16,7 @@ class EditPostButton extends StatelessWidget {
       onPressed: () => Navigator.of(context)
           .pushNamed(EditPostScreen.routeName, arguments: postId),
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(0.0),
+        padding: EdgeInsets.zero,
         minimumSize: const Size(50, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),

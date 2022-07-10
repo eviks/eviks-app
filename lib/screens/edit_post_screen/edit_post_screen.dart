@@ -40,6 +40,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
           city = cityResult[0];
 
           // Get district
+          if (!mounted) return;
           final districtResult =
               await Provider.of<Localities>(context, listen: false)
                   .getLocalities({'id': loadedPost.district.id});
@@ -51,6 +52,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
         }
       }
 
+      if (!mounted) return;
       Provider.of<Posts>(context, listen: false).initNewPost(loadedPost);
 
       setState(() {

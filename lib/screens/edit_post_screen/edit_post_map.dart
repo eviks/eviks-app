@@ -106,8 +106,10 @@ class _EditPostMapState extends State<EditPostMap> {
     if (_searchOnStoppedTyping != null) {
       setState(() => _searchOnStoppedTyping!.cancel());
     }
-    setState(() => _searchOnStoppedTyping =
-        Timer(duration, () => _searchForAddress(value as String)));
+    setState(
+      () => _searchOnStoppedTyping =
+          Timer(duration, () => _searchForAddress(value as String)),
+    );
   }
 
   void _exitFromTypeMode() {
@@ -187,6 +189,7 @@ class _EditPostMapState extends State<EditPostMap> {
     }
 
     if (_errorMessage.isNotEmpty) {
+      if (!mounted) return;
       showSnackBar(context, _errorMessage);
     }
 
@@ -232,11 +235,13 @@ class _EditPostMapState extends State<EditPostMap> {
     _goToNextStep = true;
     _updatePost();
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => (_city?.metroStations?.isNotEmpty ?? false)
-                ? const EditPostMetro()
-                : const EditPostEstateInfo()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => (_city?.metroStations?.isNotEmpty ?? false)
+            ? const EditPostMetro()
+            : const EditPostEstateInfo(),
+      ),
+    );
   }
 
   void _updatePost() {
@@ -281,6 +286,7 @@ class _EditPostMapState extends State<EditPostMap> {
             options: MapOptions(
               center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
               zoom: 14,
+              maxZoom: 18,
               interactiveFlags: InteractiveFlag.pinchZoom |
                   InteractiveFlag.drag |
                   InteractiveFlag.doubleTapZoom,
@@ -315,95 +321,105 @@ class _EditPostMapState extends State<EditPostMap> {
                             ),
                             bottomLeft: Radius.circular(
                               50.0,
-                            )),
+                            ),
+                          ),
                   ),
-                  child: Column(children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 32.0, vertical: 8.0),
-                      child: Column(
-                        children: [
-                          if (!_typeMode)
-                            EditPostDistrict(
-                              city: _city ?? getCapitalCity(),
-                              district: _district,
-                              subdistrict: _subdistrict,
-                              updateCity: (Settlement value) {
-                                setState(
-                                  () {
-                                    _city = value;
-                                    _district = null;
-                                    _subdistrict = null;
-                                    if (_city?.x != null && _city?.y != null) {
-                                      _location = [_city!.x!, _city!.y!];
-                                      _mapController?.move(
-                                          LatLng(_city!.y!, _city!.x!), 12);
-                                    }
-                                  },
-                                );
-                              },
-                              updateDistrict: (Settlement districtValue,
-                                  Settlement? subdistrictValue) {
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 32.0,
+                          vertical: 8.0,
+                        ),
+                        child: Column(
+                          children: [
+                            if (!_typeMode)
+                              EditPostDistrict(
+                                city: _city ?? getCapitalCity(),
+                                district: _district,
+                                subdistrict: _subdistrict,
+                                updateCity: (Settlement value) {
+                                  setState(
+                                    () {
+                                      _city = value;
+                                      _district = null;
+                                      _subdistrict = null;
+                                      if (_city?.x != null &&
+                                          _city?.y != null) {
+                                        _location = [_city!.x!, _city!.y!];
+                                        _mapController?.move(
+                                          LatLng(_city!.y!, _city!.x!),
+                                          12,
+                                        );
+                                      }
+                                    },
+                                  );
+                                },
+                                updateDistrict: (
+                                  Settlement districtValue,
+                                  Settlement? subdistrictValue,
+                                ) {
+                                  setState(() {
+                                    _district = districtValue;
+                                    _subdistrict = subdistrictValue;
+                                  });
+                                },
+                              ),
+                            StyledInput(
+                              icon: CustomIcons.marker,
+                              onFocus: (value) {
                                 setState(() {
-                                  _district = districtValue;
-                                  _subdistrict = subdistrictValue;
+                                  _typeMode = value;
                                 });
                               },
-                            ),
-                          StyledInput(
-                            icon: CustomIcons.marker,
-                            onFocus: (value) {
-                              setState(() {
-                                _typeMode = value;
-                              });
-                            },
-                            onChanged: _onInputChange,
-                            keyboardType: TextInputType.text,
-                            controller: _controller,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(context)!
-                                    .errorAddress;
-                              } else if ((_location?[0] ?? 0) == 0 ||
-                                  (_location?[1] ?? 0) == 0 ||
-                                  _city == null ||
-                                  _district == null) {
-                                return AppLocalizations.of(context)!
-                                    .wrongAddress;
-                              }
-                            },
-                            onSaved: (value) {
-                              _address = value ?? '';
-                            },
-                            suffix: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  _controller.text = '';
-                                },
-                                child: Icon(
-                                  CustomIcons.close,
-                                  size: 14.0,
-                                  color: Theme.of(context).dividerColor,
+                              onChanged: _onInputChange,
+                              keyboardType: TextInputType.text,
+                              controller: _controller,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLocalizations.of(context)!
+                                      .errorAddress;
+                                } else if ((_location?[0] ?? 0) == 0 ||
+                                    (_location?[1] ?? 0) == 0 ||
+                                    _city == null ||
+                                    _district == null) {
+                                  return AppLocalizations.of(context)!
+                                      .wrongAddress;
+                                }
+                              },
+                              onSaved: (value) {
+                                _address = value ?? '';
+                              },
+                              suffix: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    _controller.text = '';
+                                  },
+                                  child: Icon(
+                                    CustomIcons.close,
+                                    size: 14.0,
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                 ),
                               ),
+                              prefix: _typeMode
+                                  ? IconButton(
+                                      onPressed: _exitFromTypeMode,
+                                      icon: Icon(
+                                        CustomIcons.back,
+                                        color: Theme.of(context).dividerColor,
+                                      ),
+                                    )
+                                  : null,
                             ),
-                            prefix: _typeMode
-                                ? IconButton(
-                                    onPressed: _exitFromTypeMode,
-                                    icon: Icon(
-                                      CustomIcons.back,
-                                      color: Theme.of(context).dividerColor,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ),
               if (_typeMode)

@@ -3,11 +3,12 @@ class Address {
   final String address;
   double longitude;
   double latitude;
-  Address(
-      {required this.name,
-      required this.address,
-      required this.longitude,
-      required this.latitude});
+  Address({
+    required this.name,
+    required this.address,
+    required this.longitude,
+    required this.latitude,
+  });
 
   factory Address.fromJson(dynamic json) {
     return Address(

@@ -11,36 +11,39 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Consumer<Auth>(builder: (context, auth, child) {
-      return Column(
-        children: [
-          SizedBox(
-            height: SizeConfig.safeBlockHorizontal * 25.0,
-            width: SizeConfig.safeBlockVertical * 25.0,
-            child: auth.user?.picture != null
-                ? CircleAvatar(
-                    backgroundImage:
-                        CachedNetworkImageProvider(auth.user!.picture!),
-                    backgroundColor: Theme.of(context).backgroundColor,
-                  )
-                : CircleAvatar(
-                    backgroundImage:
-                        const AssetImage('assets/img/illustrations/avatar.png'),
-                    backgroundColor: Theme.of(context).backgroundColor,
-                  ),
-          ),
-          const SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            auth.user?.displayName ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
+    return Consumer<Auth>(
+      builder: (context, auth, child) {
+        return Column(
+          children: [
+            SizedBox(
+              height: SizeConfig.safeBlockHorizontal * 25.0,
+              width: SizeConfig.safeBlockVertical * 25.0,
+              child: auth.user?.picture != null
+                  ? CircleAvatar(
+                      backgroundImage:
+                          CachedNetworkImageProvider(auth.user!.picture!),
+                      backgroundColor: Theme.of(context).backgroundColor,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: const AssetImage(
+                        'assets/img/illustrations/avatar.png',
+                      ),
+                      backgroundColor: Theme.of(context).backgroundColor,
+                    ),
             ),
-          ),
-        ],
-      );
-    });
+            const SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              auth.user?.displayName ?? '',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

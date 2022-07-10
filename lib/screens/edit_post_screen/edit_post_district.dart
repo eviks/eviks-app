@@ -12,14 +12,14 @@ class EditPostDistrict extends StatelessWidget {
   final Function(Settlement) updateCity;
   final Function(Settlement, Settlement?) updateDistrict;
 
-  const EditPostDistrict(
-      {required this.city,
-      this.district,
-      this.subdistrict,
-      required this.updateCity,
-      required this.updateDistrict,
-      Key? key})
-      : super(key: key);
+  const EditPostDistrict({
+    required this.city,
+    this.district,
+    this.subdistrict,
+    required this.updateCity,
+    required this.updateDistrict,
+    Key? key,
+  }) : super(key: key);
 
   Future<void> _selectCity(BuildContext context) async {
     final selectedCity = await Navigator.push<Settlement?>(
@@ -36,12 +36,13 @@ class EditPostDistrict extends StatelessWidget {
     final result = await Navigator.push<Map<String, List<Settlement>>?>(
       context,
       MaterialPageRoute(
-          builder: (context) => DistrictSelection(
-                city: city,
-                selectedDistricts: const [],
-                selectedSubdistricts: const [],
-                selecMode: SubdistrictSelectMode.single,
-              )),
+        builder: (context) => DistrictSelection(
+          city: city,
+          selectedDistricts: const [],
+          selectedSubdistricts: const [],
+          selecMode: SubdistrictSelectMode.single,
+        ),
+      ),
     );
 
     if (result != null) {
@@ -91,9 +92,12 @@ class SettlementSelect extends StatelessWidget {
   final String text;
   final void Function() onTap;
 
-  const SettlementSelect(
-      {required this.label, required this.text, required this.onTap, Key? key})
-      : super(key: key);
+  const SettlementSelect({
+    required this.label,
+    required this.text,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

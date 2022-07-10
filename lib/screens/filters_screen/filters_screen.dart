@@ -84,11 +84,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     const CityFilter(),
                     const DistrictFilter(),
                     Consumer<Posts>(
-                        builder: (context, posts, child) =>
-                            posts.filters.city.metroStations?.isNotEmpty ??
-                                    false
-                                ? const MetroFilter()
-                                : const SizedBox()),
+                      builder: (context, posts, child) =>
+                          posts.filters.city.metroStations?.isNotEmpty ?? false
+                              ? const MetroFilter()
+                              : const SizedBox(),
+                    ),
                     const MainFilters(),
                     const SqmFilters(),
                     const FloorFilters(),

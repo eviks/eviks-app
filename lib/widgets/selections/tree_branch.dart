@@ -49,8 +49,10 @@ class _TreeBranchState extends State<TreeBranch> {
       _childrenValue = List.generate(_children.length, (index) => true);
     } else {
       _childrenValue = _children
-          .map((Settlement subdistrict) =>
-              _settlementIsSelected(widget.selectedSubdistricts, subdistrict))
+          .map(
+            (Settlement subdistrict) =>
+                _settlementIsSelected(widget.selectedSubdistricts, subdistrict),
+          )
           .toList();
       _parentValue = _childrenValue.contains(true) ? null : false;
     }
@@ -58,8 +60,10 @@ class _TreeBranchState extends State<TreeBranch> {
     _parentMatches = (widget.searchString == null) ||
         _searchStringMatch(widget.district.getLocalizedName(context));
 
-    _childrenMatch = widget.district.children?.firstWhereOrNull((subdistrict) =>
-            _searchStringMatch(subdistrict.getLocalizedName(context))) !=
+    _childrenMatch = widget.district.children?.firstWhereOrNull(
+          (subdistrict) =>
+              _searchStringMatch(subdistrict.getLocalizedName(context)),
+        ) !=
         null;
 
     super.didChangeDependencies();
@@ -128,7 +132,10 @@ class _TreeBranchState extends State<TreeBranch> {
                       _checkAll(true);
                     }
                     widget.updateSelectedSettlements(
-                        widget.district, _parentValue, _childrenValue);
+                      widget.district,
+                      _parentValue,
+                      _childrenValue,
+                    );
                   },
                   checkboxType: CheckboxType.parent,
                   labelStyle: Theme.of(context)
@@ -165,7 +172,10 @@ class _TreeBranchState extends State<TreeBranch> {
                     onChanged: (value) {
                       _manageTristate(index, value!);
                       widget.updateSelectedSettlements(
-                          widget.district, _parentValue, _childrenValue);
+                        widget.district,
+                        _parentValue,
+                        _childrenValue,
+                      );
                     },
                   )
                 : ListTile(
@@ -181,7 +191,9 @@ class _TreeBranchState extends State<TreeBranch> {
                     onTap: () {
                       if (widget.onSingleSelect != null) {
                         widget.onSingleSelect!(
-                            widget.district, _children[index]);
+                          widget.district,
+                          _children[index],
+                        );
                       }
                     },
                   ),

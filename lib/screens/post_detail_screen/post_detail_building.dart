@@ -1,4 +1,3 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,19 +24,16 @@ class PostDetailBuilding extends StatelessWidget {
             value: post.ceilingHeight.toString(),
             label: AppLocalizations.of(context)!.ceilingHeight,
           ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        _BuildingInfoIcon(
-          icon: CustomIcons.elevator,
-          label: AppLocalizations.of(context)!.elevator,
-          value: post.elevator,
-        ),
-        _BuildingInfoIcon(
-          icon: CustomIcons.parkinglot,
-          label: AppLocalizations.of(context)!.parkingLot,
-          value: post.parkingLot,
-        ),
+        if (post.elevator ?? false)
+          _BuildingInfoItem(
+            value: AppLocalizations.of(context)!.trueValue,
+            label: AppLocalizations.of(context)!.elevator,
+          ),
+        if (post.parkingLot ?? false)
+          _BuildingInfoItem(
+            value: AppLocalizations.of(context)!.trueValue,
+            label: AppLocalizations.of(context)!.parkingLot,
+          ),
       ],
     );
   }
@@ -61,7 +57,9 @@ class _BuildingInfoItem extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-                fontSize: 16.0, color: Theme.of(context).dividerColor),
+              fontSize: 16.0,
+              color: Theme.of(context).dividerColor,
+            ),
           ),
           Text(
             value,
@@ -72,37 +70,5 @@ class _BuildingInfoItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _BuildingInfoIcon extends StatelessWidget {
-  final bool? value;
-  final IconData icon;
-  final String label;
-  const _BuildingInfoIcon({
-    this.value,
-    required this.icon,
-    required this.label,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return value ?? false
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  size: 32.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(label),
-                ),
-              ],
-            ),
-          )
-        : const SizedBox.shrink();
   }
 }

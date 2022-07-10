@@ -48,6 +48,7 @@ class _UserPostsState extends State<UserPosts> {
         }
 
         if (_errorMessage.isNotEmpty) {
+          if (!mounted) return;
           showSnackBar(context, _errorMessage);
         }
       }
@@ -153,7 +154,8 @@ class _UserPostsState extends State<UserPosts> {
                                   AppLocalizations.of(context)!.myPostsHint,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Theme.of(context).dividerColor),
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                 ),
                               ],
                             ),

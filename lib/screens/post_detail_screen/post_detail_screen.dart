@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import './post_detail_content.dart';
 import './post_detail_header.dart';
 import '../../../models/failure.dart';
+import '../../../models/post.dart';
 import '../../constants.dart';
 import '../../providers/auth.dart';
 import '../../providers/posts.dart';
@@ -79,12 +80,66 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     }
 
     if (_errorMessage.isNotEmpty) {
+      if (!mounted) return;
       showSnackBar(context, _errorMessage);
       return;
     }
 
     if (await Permission.phone.request().isGranted) {
       launch('tel://$phoneNumber');
+    }
+  }
+
+  Widget getAppBarTitle(Post loadedPost) {
+    if (!_leadingVisibility) {
+      return Row(
+        children: [
+          Flexible(
+            child: Text(
+              currencyFormat.format(loadedPost.price),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28.0,
+                color: Theme.of(context).textTheme.bodyText1?.color,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 16.0,
+          ),
+          Text(
+            AppLocalizations.of(context)!.priceForM2(
+              currencyFormat.format(loadedPost.price / loadedPost.sqm),
+            ),
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Theme.of(context).textTheme.bodyText1?.color,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+            currencyFormat.format(loadedPost.price),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22.0,
+              color: Theme.of(context).textTheme.bodyText1?.color,
+            ),
+          ),
+          Text(
+            AppLocalizations.of(context)!.priceForM2(
+              currencyFormat.format(loadedPost.price / loadedPost.sqm),
+            ),
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Theme.of(context).textTheme.bodyText1?.color,
+            ),
+          ),
+        ],
+      );
     }
   }
 
@@ -135,6 +190,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       child: Visibility(
                         visible: _leadingVisibility,
                         child: IconButton(
+                          color: Theme.of(context).textTheme.bodyText1?.color,
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -143,10 +199,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       ),
                     )
                   : null,
-              title: Text(
-                currencyFormat.format(loadedPost.price),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 28.0),
+              title: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: getAppBarTitle(loadedPost),
               ),
               pinned: true,
               actions: [
@@ -159,12 +214,16 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       child: userId == loadedPost.user
                           ? Container(
                               margin: const EdgeInsets.symmetric(
-                                  horizontal: 12.0, vertical: 4.0),
+                                horizontal: 12.0,
+                                vertical: 4.0,
+                              ),
                               child: EditPostButton(postId),
                             )
                           : Container(
                               margin: const EdgeInsets.symmetric(
-                                  horizontal: 12.0, vertical: 4.0),
+                                horizontal: 12.0,
+                                vertical: 4.0,
+                              ),
                               child: FavoriteButton(
                                 postId: postId,
                                 elevation: 0.0,

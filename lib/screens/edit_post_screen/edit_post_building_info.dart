@@ -64,9 +64,11 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
     _goToNextStep = true;
     _updatePost();
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const EditPostAdditionalInfo()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EditPostAdditionalInfo(),
+      ),
+    );
   }
 
   void _updatePost() {
@@ -106,8 +108,12 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
-                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.safeBlockHorizontal * 15.0,
+              8.0,
+              SizeConfig.safeBlockHorizontal * 15.0,
+              32.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -148,32 +154,34 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
                   Visibility(
                     visible: postData?.estateType == EstateType.apartment,
                     child: SwitchListTile(
-                        value: _elevator ?? false,
-                        secondary: Icon(
-                          CustomIcons.elevator,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        title: Text(AppLocalizations.of(context)!.elevator),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _elevator = value;
-                          });
-                        }),
+                      value: _elevator ?? false,
+                      secondary: Icon(
+                        CustomIcons.elevator,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      title: Text(AppLocalizations.of(context)!.elevator),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _elevator = value;
+                        });
+                      },
+                    ),
                   ),
                   Visibility(
                     visible: postData?.estateType == EstateType.apartment,
                     child: SwitchListTile(
-                        value: _parkingLot ?? false,
-                        secondary: Icon(
-                          CustomIcons.parkinglot,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        title: Text(AppLocalizations.of(context)!.parkingLot),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _parkingLot = value;
-                          });
-                        }),
+                      value: _parkingLot ?? false,
+                      secondary: Icon(
+                        CustomIcons.parkinglot,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      title: Text(AppLocalizations.of(context)!.parkingLot),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _parkingLot = value;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 32.0,

@@ -16,9 +16,14 @@ import '../../screens/tabs_screen.dart';
 import '../../widgets/sized_config.dart';
 import '../auth_screen/auth_screen.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -39,6 +44,8 @@ class UserProfileScreen extends StatelessWidget {
       } catch (error) {
         _errorMessage = AppLocalizations.of(context)!.unknownError;
       }
+
+      if (!mounted) return;
 
       if (_errorMessage.isNotEmpty) {
         showSnackBar(context, _errorMessage);

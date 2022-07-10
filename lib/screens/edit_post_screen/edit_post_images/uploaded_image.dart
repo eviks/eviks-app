@@ -14,12 +14,12 @@ class UploadedImage extends StatefulWidget {
   final Function(String) setUploadStatus;
   final Function(String) deleteImage;
 
-  const UploadedImage(
-      {required this.imageData,
-      required this.setUploadStatus,
-      required this.deleteImage,
-      Key? key})
-      : super(key: key);
+  const UploadedImage({
+    required this.imageData,
+    required this.setUploadStatus,
+    required this.deleteImage,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _UploadedImageState createState() => _UploadedImageState();
@@ -47,6 +47,7 @@ class _UploadedImageState extends State<UploadedImage> {
 
     if (_errorMessage.isNotEmpty) {
       widget.deleteImage(widget.imageData.id);
+      if (!mounted) return;
       showSnackBar(context, _errorMessage);
       return;
     }

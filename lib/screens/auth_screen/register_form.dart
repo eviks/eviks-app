@@ -67,6 +67,8 @@ class _RegisterFormState extends State<RegisterForm> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
       return;
@@ -121,9 +123,11 @@ class _RegisterFormState extends State<RegisterForm> {
             icon: CustomIcons.password,
             title: AppLocalizations.of(context)!.password,
             suffixIcon: IconButton(
-              icon: Icon(_showPassword
-                  ? CustomIcons.hidepassword
-                  : CustomIcons.showpassword),
+              icon: Icon(
+                _showPassword
+                    ? CustomIcons.hidepassword
+                    : CustomIcons.showpassword,
+              ),
               onPressed: () {
                 setState(() {
                   _showPassword = !_showPassword;

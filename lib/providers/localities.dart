@@ -11,7 +11,8 @@ import '../models/settlement.dart';
 
 class Localities with ChangeNotifier {
   Future<Map<String, dynamic>> getAddressByCoords(
-      Map<String, dynamic> body) async {
+    Map<String, dynamic> body,
+  ) async {
     final url = Uri(
       scheme: baseScheme,
       host: baseHost,
@@ -35,8 +36,9 @@ class Localities with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -107,15 +109,16 @@ class Localities with ChangeNotifier {
 
   Future<List<Address>> geocoder(String text, List<double> location) async {
     final url = Uri(
-        scheme: baseScheme,
-        host: baseHost,
-        port: basePort,
-        path: 'api/localities/geocoder',
-        queryParameters: {
-          'q': text,
-          'lon': location[0].toString(),
-          'lat': location[1].toString()
-        });
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/localities/geocoder',
+      queryParameters: {
+        'q': text,
+        'lon': location[0].toString(),
+        'lat': location[1].toString()
+      },
+    );
 
     try {
       final response = await http.get(url);
@@ -127,8 +130,9 @@ class Localities with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -146,13 +150,15 @@ class Localities with ChangeNotifier {
   }
 
   Future<List<Settlement>> getLocalities(
-      Map<String, String> queryParameters) async {
+    Map<String, String> queryParameters,
+  ) async {
     final url = Uri(
-        scheme: baseScheme,
-        host: baseHost,
-        port: basePort,
-        path: 'api/localities',
-        queryParameters: queryParameters);
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/localities',
+      queryParameters: queryParameters,
+    );
 
     try {
       final response = await http.get(url);
@@ -164,8 +170,9 @@ class Localities with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 

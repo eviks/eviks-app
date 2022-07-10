@@ -28,7 +28,9 @@ class PostDetailMap extends StatelessWidget {
               Text(
                 _getlocationName(context),
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 18.0),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
               ),
               const SizedBox(
                 height: 8.0,
@@ -67,22 +69,28 @@ class PostDetailMap extends StatelessWidget {
               options: MapOptions(
                 center: LatLng(post.location[1], post.location[0]),
                 zoom: 16,
+                maxZoom: 18,
                 interactiveFlags: InteractiveFlag.pinchZoom |
                     InteractiveFlag.drag |
                     InteractiveFlag.doubleTapZoom,
               ),
               layers: [
                 TileLayerOptions(
-                    urlTemplate:
-                        'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg'),
-                MarkerLayerOptions(markers: [
-                  Marker(
-                    point: LatLng(post.location[1], post.location[0]),
-                    builder: (ctx) => SvgPicture.asset(
-                      "assets/img/svg/location.svg",
-                    ),
-                  )
-                ]),
+                  urlTemplate:
+                      'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+                ),
+                MarkerLayerOptions(
+                  markers: [
+                    Marker(
+                      height: 60,
+                      width: 60,
+                      point: LatLng(post.location[1], post.location[0]),
+                      builder: (ctx) => SvgPicture.asset(
+                        "assets/img/svg/location.svg",
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

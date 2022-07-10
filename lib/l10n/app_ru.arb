@@ -39,7 +39,7 @@
                 }
       },
     "postDetailDescription": "Описание",
-    "postDetailAdditional": "Дополнительно",
+    "postDetailAdditional": "Удобства",
     "postDetailLocation": "Расположение",
     "postRooms": "Комн.",
     "postSqm": "Общая площадь",
@@ -225,5 +225,22 @@
     "metroHint": "Укажите ближайшую станцию метро",
     "selectMetroStation": "Выберите станцию метро",
     "selectMetroStationHint": "Поиск",
-    "totalFloorsInHouse": "Этажей в доме"
+    "totalFloorsInHouse": "Этажей в доме",
+    "roomsShort": "Комнат",
+    "sqmShort": "Общая",
+    "livingRoomsSqmShort": "Жилая",
+    "kitchenSqmShort": "Кухня",
+    "lotSqmShort": "Участок",
+    "totalFloorsShort": "Этажей",
+    "trueValue": "Есть",
+    "falseValue": "Нет",
+    "document": "Купчая",
+    "priceForM2": "{price} за м²",
+    "@priceForM2": {
+        "placeholders": {
+                    "price": {
+                        "type": "String"
+                    }
+                }
+      }
 }

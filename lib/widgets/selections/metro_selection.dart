@@ -12,11 +12,11 @@ class MetroSelection extends StatefulWidget {
   final List<MetroStation> metroStations;
   final List<MetroStation> selectedMetroStations;
 
-  const MetroSelection(
-      {required this.metroStations,
-      required this.selectedMetroStations,
-      Key? key})
-      : super(key: key);
+  const MetroSelection({
+    required this.metroStations,
+    required this.selectedMetroStations,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MetroSelectionState createState() => _MetroSelectionState();
@@ -83,8 +83,8 @@ class _MetroSelectionState extends State<MetroSelection> {
                     _filteredMetroStations = widget.metroStations
                         .where(
                           (element) => removeAzerbaijaniChars(
-                                  element.getLocalizedName(context))
-                              .contains(
+                            element.getLocalizedName(context),
+                          ).contains(
                             RegExp(
                               removeAzerbaijaniChars(value),
                               caseSensitive: false,
@@ -107,9 +107,9 @@ class _MetroSelectionState extends State<MetroSelection> {
                       label: _filteredMetroStations[index]
                           .getLocalizedName(context),
                       value: _selectedMetroStations.firstWhereOrNull(
-                              (element) =>
-                                  element.id ==
-                                  _filteredMetroStations[index].id) !=
+                            (element) =>
+                                element.id == _filteredMetroStations[index].id,
+                          ) !=
                           null,
                       onChanged: (value) {
                         setState(() {
@@ -117,8 +117,11 @@ class _MetroSelectionState extends State<MetroSelection> {
                             _selectedMetroStations
                                 .add(_filteredMetroStations[index]);
                           } else {
-                            _selectedMetroStations.removeWhere((element) =>
-                                element.id == _filteredMetroStations[index].id);
+                            _selectedMetroStations.removeWhere(
+                              (element) =>
+                                  element.id ==
+                                  _filteredMetroStations[index].id,
+                            );
                           }
                         });
                       },

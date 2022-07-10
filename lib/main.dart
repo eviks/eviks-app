@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,10 +32,15 @@ Future main() async {
       : SystemUiOverlayStyle.light;
   SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
 
-  runApp(MyApp(
-    themeMode: themeMode,
-    locale: locale,
-  ));
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  runApp(
+    MyApp(
+      themeMode: themeMode,
+      locale: locale,
+    ),
+  );
 }
 
 Future<ThemeMode> getThemePreferences() async {
@@ -43,7 +49,8 @@ Future<ThemeMode> getThemePreferences() async {
     final savedThemeMode = prefs.getString('themeMode') ?? 'system';
 
     return ThemeMode.values.firstWhere(
-        (element) => element.toString() == 'ThemeMode.$savedThemeMode');
+      (element) => element.toString() == 'ThemeMode.$savedThemeMode',
+    );
   } catch (error) {
     return ThemeMode.system;
   }
@@ -72,6 +79,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget getHomePage() {
+      FlutterNativeSplash.remove();
+      return TabsScreen();
+    }
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
@@ -109,7 +121,7 @@ class MyApp extends StatelessWidget {
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           home: auth.isAuth
-              ? TabsScreen()
+              ? getHomePage()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (ctx, authResultSnapshot) =>
@@ -142,7 +154,7 @@ class MyApp extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : TabsScreen(),
+                          : getHomePage(),
                 ),
           routes: {
             TabsScreen.routeName: (ctx) => TabsScreen(),

@@ -64,17 +64,21 @@ class _TabsScreenState extends State<TabsScreen> {
             Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         items: [
           BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.search),
-              label: AppLocalizations.of(context)!.tabsScreenSearch),
+            icon: const Icon(CustomIcons.search),
+            label: AppLocalizations.of(context)!.tabsScreenSearch,
+          ),
           BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.heart),
-              label: AppLocalizations.of(context)!.favorites),
+            icon: const Icon(CustomIcons.heart),
+            label: AppLocalizations.of(context)!.favorites,
+          ),
           BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.plus),
-              label: AppLocalizations.of(context)!.tabsScreenCreate),
+            icon: const Icon(CustomIcons.plus),
+            label: AppLocalizations.of(context)!.tabsScreenCreate,
+          ),
           BottomNavigationBarItem(
-              icon: const Icon(CustomIcons.settings),
-              label: AppLocalizations.of(context)!.tabsScreenProfile),
+            icon: const Icon(CustomIcons.settings),
+            label: AppLocalizations.of(context)!.tabsScreenProfile,
+          ),
         ],
       ),
     );

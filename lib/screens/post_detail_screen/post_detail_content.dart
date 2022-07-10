@@ -50,76 +50,84 @@ class PostDetailContent extends StatelessWidget {
     return SliverList(
       delegate: SliverChildListDelegate([
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          margin: const EdgeInsets.symmetric(
+            horizontal: 15.0,
+          ),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 375),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  horizontalOffset: 50.0,
-                  child: FadeInAnimation(
-                    child: widget,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 375),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                horizontalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: widget,
+                ),
+              ),
+              children: [
+                PostDetailMainInfo(
+                  post: post,
+                ),
+                PostDetailUser(
+                  post: post,
+                ),
+                if (post.description?.isNotEmpty ?? false)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ContentTitle(
+                        AppLocalizations.of(context)!.postDetailDescription,
+                      ),
+                      Text(
+                        post.description ?? '',
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+                _ContentTitle(
+                  AppLocalizations.of(context)!.postDetailGeneral,
+                ),
+                PostDetailGeneral(
+                  post: post,
+                ),
+                if (_postHasAdditionalItems())
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ContentTitle(
+                        AppLocalizations.of(context)!.postDetailAdditional,
+                      ),
+                      PostDetailAdditional(
+                        post: post,
+                      ),
+                    ],
+                  ),
+                if (_postHasBuildingInfo())
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ContentTitle(
+                        AppLocalizations.of(context)!.postDetailBuilding,
+                      ),
+                      PostDetailBuilding(
+                        post: post,
+                      ),
+                    ],
+                  ),
+                _ContentTitle(
+                  AppLocalizations.of(context)!.postDetailLocation,
+                ),
+                SizedBox(
+                  height: 300.0,
+                  child: PostDetailMap(
+                    post,
                   ),
                 ),
-                children: [
-                  PostDetailMainInfo(
-                    post: post,
-                  ),
-                  PostDetailUser(
-                    post: post,
-                  ),
-                  _ContentTitle(
-                    AppLocalizations.of(context)!.postDetailGeneral,
-                  ),
-                  PostDetailGeneral(
-                    post: post,
-                  ),
-                  if (_postHasBuildingInfo())
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _ContentTitle(
-                          AppLocalizations.of(context)!.postDetailBuilding,
-                        ),
-                        PostDetailBuilding(
-                          post: post,
-                        ),
-                      ],
-                    ),
-                  _ContentTitle(
-                    AppLocalizations.of(context)!.postDetailDescription,
-                  ),
-                  if (post.description?.isNotEmpty ?? false)
-                    Text(
-                      post.description ?? '',
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  if (_postHasAdditionalItems())
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _ContentTitle(
-                          AppLocalizations.of(context)!.postDetailAdditional,
-                        ),
-                        PostDetailAdditional(
-                          post: post,
-                        ),
-                      ],
-                    ),
-                  _ContentTitle(
-                    AppLocalizations.of(context)!.postDetailLocation,
-                  ),
-                  SizedBox(
-                    height: 300.0,
-                    child: PostDetailMap(
-                      post,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  )
-                ],
-              )),
+                const SizedBox(
+                  height: 80,
+                )
+              ],
+            ),
+          ),
         ),
       ]),
     );

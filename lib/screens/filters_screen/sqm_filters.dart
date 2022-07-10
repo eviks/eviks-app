@@ -46,11 +46,13 @@ class SqmFilters extends StatelessWidget {
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
             _updateFilters(
-                {'sqmMin': value?.isEmpty ?? true ? null : int.parse(value!)});
+              {'sqmMin': value?.isEmpty ?? true ? null : int.parse(value!)},
+            );
           },
           onChangedTo: (value) {
             _updateFilters(
-                {'sqmMax': value?.isEmpty ?? true ? null : int.parse(value!)});
+              {'sqmMax': value?.isEmpty ?? true ? null : int.parse(value!)},
+            );
           },
         ),
         RangeField(

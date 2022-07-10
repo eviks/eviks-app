@@ -30,7 +30,6 @@ class _PostScreenState extends State<PostScreen> {
 
       try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-          active: true,
           page: _page,
           updatePosts: updatePosts,
         );
@@ -46,6 +45,7 @@ class _PostScreenState extends State<PostScreen> {
       }
 
       if (_errorMessage.isNotEmpty) {
+        if (!mounted) return;
         showSnackBar(context, _errorMessage);
       }
     }
@@ -155,7 +155,8 @@ class _PostScreenState extends State<PostScreen> {
                                   AppLocalizations.of(context)!.noResultHint,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Theme.of(context).dividerColor),
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                 ),
                               ],
                             ),

@@ -8,21 +8,28 @@ import '../../providers/posts.dart';
 import '../../widgets/selections/metro_selection.dart';
 import '../../widgets/tag.dart';
 
-class MetroFilter extends StatelessWidget {
+class MetroFilter extends StatefulWidget {
   const MetroFilter({Key? key}) : super(key: key);
 
+  @override
+  State<MetroFilter> createState() => _MetroFilterState();
+}
+
+class _MetroFilterState extends State<MetroFilter> {
   Future<void> _selectMetro(BuildContext context) async {
     final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
     final metroStations = await Navigator.push<List<MetroStation>?>(
       context,
       MaterialPageRoute(
-          builder: (context) => MetroSelection(
-                metroStations: _filters.city.metroStations ?? [],
-                selectedMetroStations: _filters.metroStations ?? [],
-              )),
+        builder: (context) => MetroSelection(
+          metroStations: _filters.city.metroStations ?? [],
+          selectedMetroStations: _filters.metroStations ?? [],
+        ),
+      ),
     );
 
     if (metroStations != null) {
+      if (!mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'metroStations': metroStations,
       });

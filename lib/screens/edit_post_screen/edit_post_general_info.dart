@@ -66,7 +66,9 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
     _goToNextStep = true;
     _updatePost();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const EditPostMap()));
+      context,
+      MaterialPageRoute(builder: (context) => const EditPostMap()),
+    );
   }
 
   void _updatePost() {

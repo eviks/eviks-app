@@ -47,8 +47,10 @@ class _EditPostImagesState extends State<EditPostImages> {
 
       if ((postData?.lastStep ?? -1) >= 6) {
         _imageDataList = postData?.images
-                .map((id) =>
-                    ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)))
+                .map(
+                  (id) =>
+                      ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)),
+                )
                 .toList() ??
             [];
       }
@@ -64,6 +66,8 @@ class _EditPostImagesState extends State<EditPostImages> {
     if (pickedFileList != null) {
       final List<ImageData> _newFiles = [];
       for (final file in pickedFileList) {
+        if (!mounted) return;
+
         var id = '';
 
         String _errorMessage = '';
@@ -80,6 +84,8 @@ class _EditPostImagesState extends State<EditPostImages> {
         } catch (error) {
           _errorMessage = AppLocalizations.of(context)!.unknownError;
         }
+
+        if (!mounted) return;
 
         if (_errorMessage.isNotEmpty) {
           showSnackBar(context, _errorMessage);
@@ -106,6 +112,8 @@ class _EditPostImagesState extends State<EditPostImages> {
   Future<void> _takeAPhoto() async {
     final file = await _picker.pickImage(source: ImageSource.camera);
     if (file != null) {
+      if (!mounted) return;
+
       var id = '';
 
       String _errorMessage = '';
@@ -122,6 +130,8 @@ class _EditPostImagesState extends State<EditPostImages> {
       } catch (error) {
         _errorMessage = AppLocalizations.of(context)!.unknownError;
       }
+
+      if (!mounted) return;
 
       if (_errorMessage.isNotEmpty) {
         showSnackBar(context, _errorMessage);
@@ -143,13 +153,15 @@ class _EditPostImagesState extends State<EditPostImages> {
   void setUploadStatus(String id) {
     setState(() {
       _imageDataList = _imageDataList
-          .map((element) => element.id == id
-              ? ImageData(
-                  file: element.file,
-                  id: element.id,
-                  isUploaded: true,
-                )
-              : element)
+          .map(
+            (element) => element.id == id
+                ? ImageData(
+                    file: element.file,
+                    id: element.id,
+                    isUploaded: true,
+                  )
+                : element,
+          )
           .toList();
     });
   }
@@ -170,6 +182,8 @@ class _EditPostImagesState extends State<EditPostImages> {
         _errorMessage = AppLocalizations.of(context)!.unknownError;
       }
     }
+
+    if (!mounted) return;
 
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
@@ -199,8 +213,10 @@ class _EditPostImagesState extends State<EditPostImages> {
 
     _goToNextStep = true;
     _updatePost();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const EditPostPrice()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditPostPrice()),
+    );
   }
 
   void _updatePost() {
@@ -234,8 +250,12 @@ class _EditPostImagesState extends State<EditPostImages> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 8.0, 8.0,
-            SizeConfig.safeBlockHorizontal * 8.0, 32.0),
+        padding: EdgeInsets.fromLTRB(
+          SizeConfig.safeBlockHorizontal * 8.0,
+          8.0,
+          SizeConfig.safeBlockHorizontal * 8.0,
+          32.0,
+        ),
         child: Center(
           child: Column(
             children: [
@@ -253,110 +273,115 @@ class _EditPostImagesState extends State<EditPostImages> {
                 ),
               Expanded(
                 child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemCount: _imageDataList.length + 1,
-                    itemBuilder: (BuildContext ctx, index) {
-                      if (index == _imageDataList.length) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: OutlinedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(16.0),
-                                          topRight: Radius.circular(16.0)),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return SizedBox(
-                                        height:
-                                            SizeConfig.safeBlockVertical * 40.0,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            TextButton.icon(
-                                              onPressed: () async {
-                                                if (await Permission.storage
-                                                    .request()
-                                                    .isGranted) {
-                                                  _selectImageFromGallery();
-                                                  Navigator.pop(context);
-                                                }
-                                              },
-                                              icon:
-                                                  const Icon(CustomIcons.image),
-                                              label: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .selectImageFromGallery),
-                                            ),
-                                            TextButton.icon(
-                                              onPressed: () async {
-                                                final Map<Permission,
-                                                        PermissionStatus>
-                                                    statuses = await [
-                                                  Permission.camera,
-                                                  Permission.storage
-                                                ].request();
-                                                bool _areGranted = true;
-                                                statuses.forEach(
-                                                  (key, value) {
-                                                    if (_areGranted &&
-                                                        value !=
-                                                            PermissionStatus
-                                                                .granted) {
-                                                      _areGranted = false;
-                                                    }
-                                                  },
-                                                );
-                                                if (_areGranted) {
-                                                  _takeAPhoto();
-                                                  Navigator.pop(context);
-                                                }
-                                              },
-                                              icon: const Icon(
-                                                  CustomIcons.camera),
-                                              label: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .takeAPhoto),
-                                            ),
-                                          ],
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: _imageDataList.length + 1,
+                  itemBuilder: (BuildContext ctx, index) {
+                    if (index == _imageDataList.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16.0),
+                                  topRight: Radius.circular(16.0),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: SizeConfig.safeBlockVertical * 40.0,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton.icon(
+                                        onPressed: () async {
+                                          if (await Permission.storage
+                                              .request()
+                                              .isGranted) {
+                                            _selectImageFromGallery();
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        icon: const Icon(CustomIcons.image),
+                                        label: Text(
+                                          AppLocalizations.of(context)!
+                                              .selectImageFromGallery,
                                         ),
-                                      );
-                                    });
+                                      ),
+                                      TextButton.icon(
+                                        onPressed: () async {
+                                          final Map<Permission,
+                                                  PermissionStatus> statuses =
+                                              await [
+                                            Permission.camera,
+                                            Permission.storage
+                                          ].request();
+                                          bool _areGranted = true;
+                                          statuses.forEach(
+                                            (key, value) {
+                                              if (_areGranted &&
+                                                  value !=
+                                                      PermissionStatus
+                                                          .granted) {
+                                                _areGranted = false;
+                                              }
+                                            },
+                                          );
+                                          if (!mounted) return;
+                                          if (_areGranted) {
+                                            _takeAPhoto();
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          CustomIcons.camera,
+                                        ),
+                                        label: Text(
+                                          AppLocalizations.of(context)!
+                                              .takeAPhoto,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    CustomIcons.image,
-                                    size: 48.0,
-                                  ),
-                                  const SizedBox(
-                                    height: 4.0,
-                                  ),
-                                  Text(AppLocalizations.of(context)!.addImage),
-                                ],
-                              )),
-                        );
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: UploadedImage(
-                              key: Key(_imageDataList[index].id),
-                              imageData: _imageDataList[index],
-                              setUploadStatus: setUploadStatus,
-                              deleteImage: deleteImage,
-                            ),
+                            );
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                CustomIcons.image,
+                                size: 48.0,
+                              ),
+                              const SizedBox(
+                                height: 4.0,
+                              ),
+                              Text(AppLocalizations.of(context)!.addImage),
+                            ],
                           ),
-                        );
-                      }
-                    }),
+                        ),
+                      );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: UploadedImage(
+                            key: Key(_imageDataList[index].id),
+                            imageData: _imageDataList[index],
+                            setUploadStatus: setUploadStatus,
+                            deleteImage: deleteImage,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
               const SizedBox(
                 height: 32.0,

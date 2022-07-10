@@ -50,6 +50,7 @@ class _CitySelectionState extends State<CitySelection> {
       }
 
       if (_errorMessage.isNotEmpty) {
+        if (!mounted) return;
         showSnackBar(context, _errorMessage);
       }
 
@@ -118,8 +119,8 @@ class _CitySelectionState extends State<CitySelection> {
                           _filteredSettlements = _settlements
                               .where(
                                 (element) => removeAzerbaijaniChars(
-                                        element.getLocalizedName(context))
-                                    .contains(
+                                  element.getLocalizedName(context),
+                                ).contains(
                                   RegExp(
                                     removeAzerbaijaniChars(value),
                                     caseSensitive: false,
@@ -138,8 +139,10 @@ class _CitySelectionState extends State<CitySelection> {
                         itemBuilder: (ctx, index) {
                           return ListTile(
                             key: Key(_filteredSettlements[index].id),
-                            title: Text(_filteredSettlements[index]
-                                .getLocalizedName(context)),
+                            title: Text(
+                              _filteredSettlements[index]
+                                  .getLocalizedName(context),
+                            ),
                             onTap: () {
                               Navigator.of(context)
                                   .pop(_filteredSettlements[index]);

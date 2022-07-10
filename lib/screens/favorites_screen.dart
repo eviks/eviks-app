@@ -48,6 +48,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         }
 
         if (_errorMessage.isNotEmpty) {
+          if (!mounted) return;
           showSnackBar(context, _errorMessage);
         }
       }
@@ -77,7 +78,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       final favorites = Provider.of<Auth>(context, listen: false).favorites;
       favorites.forEach((key, value) {
         if (value == true) {
-          ids.add(key.toString());
+          ids.add(key);
         }
       });
 
@@ -157,7 +158,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   AppLocalizations.of(context)!.favoritesHint,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Theme.of(context).dividerColor),
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                 ),
                               ],
                             ),

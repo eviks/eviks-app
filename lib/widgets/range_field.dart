@@ -22,25 +22,25 @@ class RangeField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormattersFrom;
   final List<TextInputFormatter>? inputFormattersTo;
 
-  const RangeField(
-      {this.icon,
-      this.title,
-      this.initialValueFrom,
-      this.initialValueTo,
-      this.keyboardTypeFrom,
-      this.keyboardTypeTo,
-      this.controllerFrom,
-      this.controllerTo,
-      this.validatorFrom,
-      this.validatorTo,
-      this.onSavedFrom,
-      this.onSavedTo,
-      this.onChangedFrom,
-      this.onChangedTo,
-      this.inputFormattersFrom,
-      this.inputFormattersTo,
-      Key? key})
-      : super(key: key);
+  const RangeField({
+    this.icon,
+    this.title,
+    this.initialValueFrom,
+    this.initialValueTo,
+    this.keyboardTypeFrom,
+    this.keyboardTypeTo,
+    this.controllerFrom,
+    this.controllerTo,
+    this.validatorFrom,
+    this.validatorTo,
+    this.onSavedFrom,
+    this.onSavedTo,
+    this.onChangedFrom,
+    this.onChangedTo,
+    this.inputFormattersFrom,
+    this.inputFormattersTo,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

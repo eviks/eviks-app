@@ -40,12 +40,14 @@ class Auth with ChangeNotifier {
   Future<void> login(String email, String password) async {
     try {
       final url = Uri.parse('$baseUrl/api/auth');
-      final response = await http.post(url,
-          body: json.encode({
-            'email': email,
-            'password': password,
-          }),
-          headers: {'Content-Type': 'application/json'});
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'email': email,
+          'password': password,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -54,8 +56,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       final data = (json.decode(response.body) as Map<String, dynamic>)
@@ -74,14 +77,16 @@ class Auth with ChangeNotifier {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         final url = Uri.parse('$baseUrl/api/auth/login_with_google');
-        final response = await http.post(url,
-            body: json.encode({
-              'displayName': googleUser.displayName,
-              'email': googleUser.email,
-              'googleId': googleUser.id,
-              'picture': googleUser.photoUrl,
-            }),
-            headers: {'Content-Type': 'application/json'});
+        final response = await http.post(
+          url,
+          body: json.encode({
+            'displayName': googleUser.displayName,
+            'email': googleUser.email,
+            'googleId': googleUser.id,
+            'picture': googleUser.photoUrl,
+          }),
+          headers: {'Content-Type': 'application/json'},
+        );
 
         if (response.statusCode >= 500) {
           throw Failure('Server error', response.statusCode);
@@ -90,8 +95,9 @@ class Auth with ChangeNotifier {
 
           final buffer = StringBuffer();
           buffer.writeAll(
-              data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-              '\n');
+            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+            '\n',
+          );
           throw Failure(buffer.toString(), response.statusCode);
         }
 
@@ -108,16 +114,21 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> register(
-      String displayName, String email, String password) async {
+    String displayName,
+    String email,
+    String password,
+  ) async {
     try {
       final url = Uri.parse('$baseUrl/api/users');
-      final response = await http.post(url,
-          body: json.encode({
-            'displayName': displayName,
-            'email': email,
-            'password': password,
-          }),
-          headers: {'Content-Type': 'application/json'});
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'displayName': displayName,
+          'email': email,
+          'password': password,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -126,8 +137,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
@@ -158,8 +170,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       final data = (json.decode(response.body) as Map<String, dynamic>)
@@ -176,11 +189,13 @@ class Auth with ChangeNotifier {
   Future<void> createResetPasswordToken(String email) async {
     try {
       final url = Uri.parse('$baseUrl/api/auth/create_reset_password_token');
-      final response = await http.post(url,
-          body: json.encode({
-            'email': email,
-          }),
-          headers: {'Content-Type': 'application/json'});
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'email': email,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -189,8 +204,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
       notifyListeners();
@@ -200,7 +216,9 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> verifyResetPasswordToken(
-      String email, String resetPasswordToken) async {
+    String email,
+    String resetPasswordToken,
+  ) async {
     try {
       final url = Uri.parse('$baseUrl/api/auth/check_reset_password_token');
       final response = await http.post(
@@ -222,8 +240,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -234,7 +253,10 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> resetPassword(
-      String email, String resetPasswordToken, String password) async {
+    String email,
+    String resetPasswordToken,
+    String password,
+  ) async {
     try {
       final url = Uri.parse('$baseUrl/api/auth/reset_password');
       final response = await http.post(
@@ -257,8 +279,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -285,8 +308,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 
@@ -305,7 +329,10 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> updateProfile(
-      String displayName, String password, String newPassword) async {
+    String displayName,
+    String password,
+    String newPassword,
+  ) async {
     final url = Uri.parse('$baseUrl/api/users');
     final response = await http.put(
       url,
@@ -327,8 +354,9 @@ class Auth with ChangeNotifier {
 
       final buffer = StringBuffer();
       buffer.writeAll(
-          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-          '\n');
+        data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+        '\n',
+      );
       throw Failure(buffer.toString(), response.statusCode);
     }
     final dynamic data = json.decode(response.body);
@@ -343,9 +371,12 @@ class Auth with ChangeNotifier {
       return;
     }
     final url = Uri.parse('$baseUrl/api/users/add_to_favorites/$postId');
-    final response = await http.put(url, headers: {
-      'Authorization': 'JWT $token',
-    });
+    final response = await http.put(
+      url,
+      headers: {
+        'Authorization': 'JWT $token',
+      },
+    );
 
     if (response.statusCode >= 500) {
       throw Failure('Server error', response.statusCode);
@@ -354,8 +385,9 @@ class Auth with ChangeNotifier {
 
       final buffer = StringBuffer();
       buffer.writeAll(
-          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-          '\n');
+        data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+        '\n',
+      );
       throw Failure(buffer.toString(), response.statusCode);
     }
     final dynamic data = json.decode(response.body);
@@ -369,9 +401,12 @@ class Auth with ChangeNotifier {
       return;
     }
     final url = Uri.parse('$baseUrl/api/users/remove_from_favorites/$postId');
-    final response = await http.put(url, headers: {
-      'Authorization': 'JWT $token',
-    });
+    final response = await http.put(
+      url,
+      headers: {
+        'Authorization': 'JWT $token',
+      },
+    );
 
     if (response.statusCode >= 500) {
       throw Failure('Server error', response.statusCode);
@@ -380,8 +415,9 @@ class Auth with ChangeNotifier {
 
       final buffer = StringBuffer();
       buffer.writeAll(
-          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-          '\n');
+        data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+        '\n',
+      );
       throw Failure(buffer.toString(), response.statusCode);
     }
     final dynamic data = json.decode(response.body);
@@ -407,8 +443,9 @@ class Auth with ChangeNotifier {
 
         final buffer = StringBuffer();
         buffer.writeAll(
-            data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
-            '\n');
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
         throw Failure(buffer.toString(), response.statusCode);
       }
 

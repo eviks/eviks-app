@@ -59,6 +59,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
       return;

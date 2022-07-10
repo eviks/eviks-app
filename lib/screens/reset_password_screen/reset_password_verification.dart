@@ -53,6 +53,8 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
       return;

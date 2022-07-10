@@ -21,7 +21,11 @@ class Background extends CustomPainter {
     final Path ovalPath = Path();
     ovalPath.moveTo(0, height * 0.1);
     ovalPath.quadraticBezierTo(
-        width * 0.4, height * 0.1, width * 0.5, height * 0.45);
+      width * 0.4,
+      height * 0.1,
+      width * 0.5,
+      height * 0.45,
+    );
 
     ovalPath.quadraticBezierTo(width * 0.6, height * 0.8, 0, height * 0.95);
 

@@ -68,10 +68,11 @@ class _ThemeModeSettingsState extends State<ThemeModeSettings> {
             onChanged: _onChanged,
           ),
           RadioListTile<ThemeMode>(
-              title: Text(AppLocalizations.of(context)!.systemTheme),
-              value: ThemeMode.system,
-              groupValue: _themeMode,
-              onChanged: _onChanged),
+            title: Text(AppLocalizations.of(context)!.systemTheme),
+            value: ThemeMode.system,
+            groupValue: _themeMode,
+            onChanged: _onChanged,
+          ),
         ],
       ),
     );

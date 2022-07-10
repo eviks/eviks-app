@@ -6,9 +6,14 @@ import 'package:provider/provider.dart';
 import '../../providers/posts.dart';
 import '../../widgets/selections/city_selection.dart';
 
-class CityFilter extends StatelessWidget {
+class CityFilter extends StatefulWidget {
   const CityFilter({Key? key}) : super(key: key);
 
+  @override
+  State<CityFilter> createState() => _CityFilterState();
+}
+
+class _CityFilterState extends State<CityFilter> {
   Future<void> _selectCity(BuildContext context) async {
     final city = await Navigator.push<Settlement?>(
       context,
@@ -16,6 +21,7 @@ class CityFilter extends StatelessWidget {
     );
 
     if (city != null) {
+      if (!mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'city': city,
         'districts': null,

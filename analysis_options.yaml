@@ -1,1 +1,8 @@
 include: package:lint/analysis_options.yaml
+
+linter:
+  rules:
+    avoid_dynamic_calls: false
+    always_use_package_imports: false
+    depend_on_referenced_packages: false
+    prefer_null_aware_method_calls: false

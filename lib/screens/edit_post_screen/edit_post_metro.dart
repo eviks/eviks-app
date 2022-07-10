@@ -72,8 +72,10 @@ class _EditPostMetroState extends State<EditPostMetro> {
 
     _goToNextStep = true;
     _updatePost();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const EditPostEstateInfo()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditPostEstateInfo()),
+    );
   }
 
   void _updatePost() {
@@ -110,8 +112,12 @@ class _EditPostMetroState extends State<EditPostMetro> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 15.0,
-                8.0, SizeConfig.safeBlockHorizontal * 15.0, 32.0),
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.safeBlockHorizontal * 15.0,
+              8.0,
+              SizeConfig.safeBlockHorizontal * 15.0,
+              32.0,
+            ),
             child: Center(
               child: Form(
                 key: _formKey,
@@ -140,15 +146,18 @@ class _EditPostMetroState extends State<EditPostMetro> {
                         ),
                       ),
                       items: _metroStations
-                          .map((station) => DropdownMenuItem(
-                                value: station,
-                                child: Text(
-                                  station.getLocalizedName(context),
-                                ),
-                              ))
+                          .map(
+                            (station) => DropdownMenuItem(
+                              value: station,
+                              child: Text(
+                                station.getLocalizedName(context),
+                              ),
+                            ),
+                          )
                           .toList(),
                       value: _metroStations.firstWhereOrNull(
-                          (element) => element.id == _metroStation?.id),
+                        (element) => element.id == _metroStation?.id,
+                      ),
                       onChanged: _dropdownCallback,
                       validator: (value) {
                         if (value == null) {

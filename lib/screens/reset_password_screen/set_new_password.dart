@@ -64,6 +64,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
     } else {
@@ -95,7 +97,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.safeBlockHorizontal * 8.0),
+            horizontal: SizeConfig.safeBlockHorizontal * 8.0,
+          ),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,

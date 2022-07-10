@@ -85,8 +85,10 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
 
     _goToNextStep = true;
     _updatePost();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const EditPostBuildingInfo()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditPostBuildingInfo()),
+    );
   }
 
   void _updatePost() {
@@ -138,8 +140,12 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(SizeConfig.safeBlockHorizontal * 14.0,
-                8.0, SizeConfig.safeBlockHorizontal * 14.0, 32.0),
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.safeBlockHorizontal * 14.0,
+              8.0,
+              SizeConfig.safeBlockHorizontal * 14.0,
+              32.0,
+            ),
             child: Center(
               child: Form(
                 key: _formKey,
@@ -264,7 +270,8 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                                 } else if (_totalFloorsController
                                         .value.text.isNotEmpty &&
                                     int.parse(
-                                            _totalFloorsController.value.text) <
+                                          _totalFloorsController.value.text,
+                                        ) <
                                         int.parse(value)) {
                                   return AppLocalizations.of(context)!
                                       .errorFloor;
@@ -316,7 +323,8 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         width: SizeConfig.safeBlockHorizontal * 40.0,
                         child: StyledInput(
                           icon: CustomIcons.elevator,
-                          title: AppLocalizations.of(context)!.totalFloorsInHouse,
+                          title:
+                              AppLocalizations.of(context)!.totalFloorsInHouse,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -333,30 +341,31 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                       height: 16.0,
                     ),
                     SwitchListTile(
-                        value: _documented ?? false,
-                        secondary: Icon(
-                          CustomIcons.document,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        title: Text(AppLocalizations.of(context)!.documented),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _documented = value;
-                          });
-                        }),
+                      value: _documented ?? false,
+                      secondary: Icon(
+                        CustomIcons.document,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      title: Text(AppLocalizations.of(context)!.documented),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _documented = value;
+                        });
+                      },
+                    ),
                     SwitchListTile(
-                        value: _redevelopment ?? false,
-                        secondary: Icon(
-                          CustomIcons.hammer,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        title:
-                            Text(AppLocalizations.of(context)!.redevelopment),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _redevelopment = value;
-                          });
-                        }),
+                      value: _redevelopment ?? false,
+                      secondary: Icon(
+                        CustomIcons.hammer,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      title: Text(AppLocalizations.of(context)!.redevelopment),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _redevelopment = value;
+                        });
+                      },
+                    ),
                     ToggleFormField<Renovation>(
                       title: AppLocalizations.of(context)!.renovation,
                       values: Renovation.values,

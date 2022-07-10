@@ -19,21 +19,42 @@ class PostDetailMainInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _MainInfo(
-              value: post.rooms.toString(),
-              hint: AppLocalizations.of(context)!.postRooms),
+            value: post.rooms.toString(),
+            hint: AppLocalizations.of(context)!.roomsShort,
+          ),
           _MainInfo(
+            value: '${post.sqm.toString()} ${AppLocalizations.of(context)!.m2}',
+            hint: AppLocalizations.of(context)!.sqmShort,
+          ),
+          if ((post.livingRoomsSqm ?? 0) > 0)
+            _MainInfo(
               value:
-                  '${post.sqm.toString()} ${AppLocalizations.of(context)!.m2}',
-              hint: AppLocalizations.of(context)!.postSqm),
+                  '${post.livingRoomsSqm.toString()} ${AppLocalizations.of(context)!.m2}',
+              hint: AppLocalizations.of(context)!.livingRoomsSqmShort,
+            ),
+          if ((post.kitchenSqm ?? 0) > 0)
+            _MainInfo(
+              value:
+                  '${post.kitchenSqm.toString()} ${AppLocalizations.of(context)!.m2}',
+              hint: AppLocalizations.of(context)!.kitchenSqmShort,
+            ),
           if (post.estateType == EstateType.apartment)
             _MainInfo(
-                value:
-                    '${post.floor.toString()} / ${post.totalFloors.toString()}',
-                hint: AppLocalizations.of(context)!.floor),
+              value:
+                  '${post.floor.toString()} / ${post.totalFloors.toString()}',
+              hint: AppLocalizations.of(context)!.floor,
+            ),
           if (post.estateType == EstateType.house)
             _MainInfo(
-                value: '${post.lotSqm.toString()} ',
-                hint: AppLocalizations.of(context)!.lotSqm),
+              value: '${post.lotSqm.toString()} ',
+              hint: AppLocalizations.of(context)!.lotSqmShort,
+            ),
+          if (post.estateType == EstateType.house &&
+              (post.totalFloors ?? 0) > 1)
+            _MainInfo(
+              value: '${post.lotSqm.toString()} ',
+              hint: AppLocalizations.of(context)!.totalFloorsShort,
+            ),
         ],
       ),
     );
@@ -58,7 +79,7 @@ class _MainInfo extends StatelessWidget {
         children: [
           Text(
             value,
-            style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           Text(hint),
         ],

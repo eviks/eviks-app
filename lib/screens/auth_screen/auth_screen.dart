@@ -44,6 +44,23 @@ class _AuthScreenState extends State<AuthScreen> {
                     height: SizeConfig.safeBlockVertical * 25.0,
                     child: Stack(
                       children: [
+                        Visibility(
+                          visible: MediaQuery.of(context).orientation ==
+                              Orientation.portrait,
+                          child: IgnorePointer(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Image.asset(
+                                  "assets/img/illustrations/auth.png",
+                                ),
+                                const SizedBox(
+                                  width: 16.0,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -88,23 +105,6 @@ class _AuthScreenState extends State<AuthScreen> {
                             ],
                           ),
                         ),
-                        Visibility(
-                          visible: MediaQuery.of(context).orientation ==
-                              Orientation.portrait,
-                          child: IgnorePointer(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  "assets/img/illustrations/auth.png",
-                                ),
-                                const SizedBox(
-                                  width: 16.0,
-                                )
-                              ],
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -118,12 +118,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(
-                            50.0,
-                          ),
-                          topRight: Radius.circular(
-                            50.0,
-                          )),
+                        topLeft: Radius.circular(
+                          50.0,
+                        ),
+                        topRight: Radius.circular(
+                          50.0,
+                        ),
+                      ),
                     ),
                     child: Column(
                       children: [

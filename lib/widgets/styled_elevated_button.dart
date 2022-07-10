@@ -7,16 +7,18 @@ class StyledElevatedButton extends StatelessWidget {
   final double? width;
   final bool secondary;
   final IconData? suffixIcon;
+  final double height;
 
-  const StyledElevatedButton(
-      {required this.text,
-      this.onPressed,
-      this.loading = false,
-      this.width,
-      this.secondary = false,
-      this.suffixIcon,
-      Key? key})
-      : super(key: key);
+  const StyledElevatedButton({
+    required this.text,
+    this.onPressed,
+    this.loading = false,
+    this.width,
+    this.secondary = false,
+    this.suffixIcon,
+    this.height = 60.0,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class StyledElevatedButton extends StatelessWidget {
         top: 8.0,
       ),
       width: width,
-      height: 60.0,
+      height: height,
       color: Colors.transparent,
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
@@ -48,6 +50,7 @@ class StyledElevatedButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
+          elevation: MaterialStateProperty.all<double>(0.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +75,7 @@ class StyledElevatedButton extends StatelessWidget {
                       color: !secondary
                           ? Theme.of(context).backgroundColor
                           : Theme.of(context).primaryColor,
-                      fontSize: 20.0,
+                      fontSize: 16.0,
                       fontWeight: !secondary ? FontWeight.bold : null,
                     ),
                   ),

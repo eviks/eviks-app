@@ -57,6 +57,9 @@ class _DistrictSelectionState extends State<DistrictSelection> {
           .getLocalities({
         'id': widget.city.children?.map((e) => e.id).toList().join(',') ?? ''
       });
+
+      if (!mounted) return;
+
       try {
         setState(() {
           _districts = result;
@@ -97,7 +100,10 @@ class _DistrictSelectionState extends State<DistrictSelection> {
   }
 
   void _updateSelectedSettlements(
-      Settlement district, bool? parentValue, List<bool> childrenValue) {
+    Settlement district,
+    bool? parentValue,
+    List<bool> childrenValue,
+  ) {
     setState(() {
       if (parentValue == true) {
         _selectedDistricts.add(district);
@@ -110,13 +116,18 @@ class _DistrictSelectionState extends State<DistrictSelection> {
         for (int index = 0; index < (district.children?.length ?? 0); index++) {
           if (childrenValue[index] &&
               !_settlementIsSelected(
-                  _selectedSubdistricts, district.children![index])) {
+                _selectedSubdistricts,
+                district.children![index],
+              )) {
             _selectedSubdistricts.add(district.children![index]);
           } else if (!childrenValue[index] &&
               _settlementIsSelected(
-                  _selectedSubdistricts, district.children![index])) {
+                _selectedSubdistricts,
+                district.children![index],
+              )) {
             _selectedSubdistricts.removeWhere(
-                (element) => element.id == district.children![index].id);
+              (element) => element.id == district.children![index].id,
+            );
           }
         }
       }

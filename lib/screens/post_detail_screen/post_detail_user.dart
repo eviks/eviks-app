@@ -22,7 +22,9 @@ class PostDetailUser extends StatelessWidget {
         Provider.of<ThemePreferences>(context, listen: false).themeMode ==
             ThemeMode.dark;
     final dateFormatter = DateFormat(
-        'dd MMMM yyyy HH:mm', Localizations.localeOf(context).languageCode);
+      'dd MMMM yyyy HH:mm',
+      Localizations.localeOf(context).languageCode,
+    );
     return Container(
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.only(top: 15.0),

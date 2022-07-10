@@ -68,6 +68,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       _isLoading = false;
     });
 
+    if (!mounted) return;
+
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
     } else {
@@ -108,15 +110,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 _errorMessage = AppLocalizations.of(context)!.unknownError;
               }
 
+              if (!mounted) return;
+
               if (_errorMessage.isNotEmpty) {
                 showSnackBar(context, _errorMessage);
               }
 
               Navigator.of(context).pushNamedAndRemoveUntil(
-                  TabsScreen.routeName, (route) => false);
+                TabsScreen.routeName,
+                (route) => false,
+              );
             },
             child: Text(
-              AppLocalizations.of(context)!.deleteProfileContent,
+              AppLocalizations.of(context)!.deleteProfileAnyway,
               style: TextStyle(
                 color: Theme.of(context).dividerColor,
               ),
@@ -150,7 +156,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.safeBlockHorizontal * 8.0),
+            horizontal: SizeConfig.safeBlockHorizontal * 8.0,
+          ),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
