@@ -242,5 +242,8 @@
                         "type": "String"
                     }
                 }
-      }
+      },
+    "filteresBuy": "Купить",
+    "filteresRent": "Снять",
+    "filteresRentPerDay": "Снять посуточно"
 }

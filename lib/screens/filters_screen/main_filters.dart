@@ -28,7 +28,7 @@ class MainFilters extends StatelessWidget {
           child: ToggleFormField<DealType>(
             values: DealType.values,
             initialValue: _filters.dealType,
-            getDescription: dealTypeDescription,
+            getDescription: dealTypeFiltersDescription,
             onPressed: (DealType value) {
               _updateFilters({'dealType': value});
             },
