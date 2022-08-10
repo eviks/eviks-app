@@ -293,9 +293,9 @@ class Posts with ChangeNotifier {
 
   Future<void> deletePost(int postId) async {
     try {
-      final url = Uri.parse('$baseUrl/api/posts/delete/$postId');
+      final url = Uri.parse('$baseUrl/api/posts/$postId');
       final response =
-          await http.put(url, headers: {'Authorization': 'JWT $token'});
+          await http.delete(url, headers: {'Authorization': 'JWT $token'});
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);

@@ -68,7 +68,7 @@ class _UploadedImageState extends State<UploadedImage> {
             fit: StackFit.expand,
             children: [
               Image.network(
-                '$baseUrl/uploads/${widget.imageData.isTemp ? 'temp/' : ''}post_images/${widget.imageData.id}/image_320.png',
+                '$baseUrl/uploads/${widget.imageData.isTemp ? 'temp/' : ''}post_images/${widget.imageData.id}/image_320.webp',
                 fit: BoxFit.fill,
               ),
               Positioned(

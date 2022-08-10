@@ -224,7 +224,6 @@ class Auth with ChangeNotifier {
       final response = await http.post(
         url,
         headers: {
-          'Authorization': 'JWT $token',
           'Content-Type': 'application/json',
         },
         body: json.encode({
@@ -262,7 +261,6 @@ class Auth with ChangeNotifier {
       final response = await http.post(
         url,
         headers: {
-          'Authorization': 'JWT $token',
           'Content-Type': 'application/json',
         },
         body: json.encode({

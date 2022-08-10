@@ -30,7 +30,7 @@ class _CarouselState extends State<Carousel> {
       for (final imageId in widget.images) {
         precacheImage(
           CachedNetworkImageProvider(
-            '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.png',
+            '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.webp',
           ),
           context,
         );
@@ -57,7 +57,7 @@ class _CarouselState extends State<Carousel> {
           itemBuilder: (ctx, index, _) {
             return CachedNetworkImage(
               imageUrl:
-                  '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.png',
+                  '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
               placeholder: (context, url) => const SkeletonAvatar(
                 style: SkeletonAvatarStyle(width: double.infinity),
               ),

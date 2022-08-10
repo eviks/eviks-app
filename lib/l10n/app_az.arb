@@ -3,7 +3,7 @@
     "tabsScreenCreate": "Yeni elan",
     "tabsScreenProfile": "Profil",
     "postsScreenTitle": "Eviks",
-    "postApartmentRoomsTitle": "{rooms}-otaqlı. mənzil.",
+    "postApartmentRoomsTitle": "{rooms}-otaqlı mənzil",
     "@postApartmentRoomsTitle": {
         "placeholders": {
                     "rooms": {
@@ -11,7 +11,7 @@
                     }
                 }
       },
-    "postHouseRoomsTitle": "{rooms}-otaqlı. ev",
+    "postHouseRoomsTitle": "{rooms}-otaqlı ev",
     "@postHouseRoomsTitle": {
         "placeholders": {
                     "rooms": {
