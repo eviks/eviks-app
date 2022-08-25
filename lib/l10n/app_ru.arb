@@ -183,7 +183,7 @@
     "azeriLanguage": "Азербайджанский язык",
     "russianLanguage": "Русский язык",
     "districtNotSelected": "Район не указан",
-    "subdistrictNotSelected": "Поселеок не указан",
+    "subdistrictNotSelected": "Поселок не указан",
     "cityError": "Пожалуйста, укажите город",
     "districtError": "Пожалуйста, укажите район",
     "subdistrictError": "Пожалуйста, укажите поселок",
