@@ -20,10 +20,12 @@ import '../screens/post_detail_screen/post_detail_screen.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;
+  final bool unreviewed;
 
   const PostItem({
     Key? key,
     required this.post,
+    this.unreviewed = false,
   }) : super(key: key);
 
   @override
@@ -89,6 +91,7 @@ class _PostItemState extends State<PostItem> {
                   child: Carousel(
                     images: widget.post.images,
                     height: headerHeight,
+                    temp: widget.unreviewed,
                   ),
                 ),
                 Consumer<Auth>(

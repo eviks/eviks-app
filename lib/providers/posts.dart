@@ -173,6 +173,7 @@ class Posts with ChangeNotifier {
     Map<String, dynamic>? queryParameters,
     int page = 1,
     bool updatePosts = false,
+    bool unreviewed = false,
   }) async {
     Map<String, dynamic> _parameters;
 
@@ -189,12 +190,15 @@ class Posts with ChangeNotifier {
       scheme: baseScheme,
       host: baseHost,
       port: basePort,
-      path: 'api/posts',
+      path: 'api/posts${unreviewed ? '/unreviewed_posts' : ''}',
       queryParameters: _parameters,
     );
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);

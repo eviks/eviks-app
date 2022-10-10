@@ -245,5 +245,7 @@
       },
     "filteresBuy": "Купить",
     "filteresRent": "Снять",
-    "filteresRentPerDay": "Снять посуточно"
+    "filteresRentPerDay": "Снять посуточно",
+    "activePosts": "Активные объявления",
+    "postsOnModeration": "Неподтвержденные объявления"
 }

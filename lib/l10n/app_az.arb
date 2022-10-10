@@ -228,14 +228,14 @@
     "totalFloorsInHouse": "Mərtəbələrin sayı",
     "roomsShort": "Otaq",
     "sqmShort": "Ümumi",
-     "livingRoomsSqmShort": "Yaşayış",
-     "kitchenSqmShort": "Mətbəx",
-     "lotSqmShort": "Torpaq",
-     "totalFloorsShort": "Mərtəbələr",
-     "trueValue": "Var",
-     "falseValue": "Yox",
-     "document": "Kupça",
-     "priceForM2": "{price} / m²",
+    "livingRoomsSqmShort": "Yaşayış",
+    "kitchenSqmShort": "Mətbəx",
+    "lotSqmShort": "Torpaq",
+    "totalFloorsShort": "Mərtəbələr",
+    "trueValue": "Var",
+    "falseValue": "Yox",
+    "document": "Kupça",
+    "priceForM2": "{price} / m²",
     "@priceForM2": {
         "placeholders": {
                     "price": {
@@ -245,5 +245,7 @@
       },
     "filteresBuy": "Almaq",
     "filteresRent": "Kirayə",
-    "filteresRentPerDay": "Gündəlik kirayə"
+    "filteresRentPerDay": "Gündəlik kirayə",
+    "activePosts": "Aktiv elanlar",
+    "postsOnModeration": "Təsdiqlənməmiş elanlar"
 }
