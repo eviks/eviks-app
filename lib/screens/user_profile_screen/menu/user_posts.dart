@@ -1,4 +1,5 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,6 +18,7 @@ class _UserPostsState extends State<UserPosts> {
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
+            isScrollable: true,
             tabs: <Widget>[
               Tab(text: AppLocalizations.of(context)!.activePosts),
               Tab(text: AppLocalizations.of(context)!.postsOnModeration),
@@ -38,10 +40,10 @@ class _UserPostsState extends State<UserPosts> {
         body: const TabBarView(
           children: [
             UserPostsTabBarView(
-              unreviewed: false,
+              postType: PostType.confirmed,
             ),
             UserPostsTabBarView(
-              unreviewed: true,
+              postType: PostType.unreviewed,
             )
           ],
         ),

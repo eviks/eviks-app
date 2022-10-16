@@ -7,12 +7,12 @@ import '../../screens/edit_post_screen/edit_post_screen.dart';
 class EditPostButton extends StatelessWidget {
   final int postId;
   final ReviewStatus? reviewStatus;
-  final bool unreviewed;
+  final PostType postType;
 
   const EditPostButton({
     required this.postId,
     required this.reviewStatus,
-    required this.unreviewed,
+    required this.postType,
   });
 
   @override

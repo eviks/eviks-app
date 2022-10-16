@@ -21,12 +21,12 @@ import '../screens/post_detail_screen/post_detail_screen.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;
-  final bool unreviewed;
+  final PostType postType;
 
   const PostItem({
     Key? key,
     required this.post,
-    this.unreviewed = false,
+    this.postType = PostType.confirmed,
   }) : super(key: key);
 
   @override
@@ -84,7 +84,8 @@ class _PostItemState extends State<PostItem> {
         ),
         child: Column(
           children: <Widget>[
-            if (widget.post.unreviewed && widget.post.reviewStatus != null)
+            if (widget.post.postType == PostType.unreviewed &&
+                widget.post.reviewStatus != null)
               Row(
                 children: [
                   PostReviewStatus(
@@ -100,7 +101,7 @@ class _PostItemState extends State<PostItem> {
                   child: Carousel(
                     images: widget.post.images,
                     height: headerHeight,
-                    temp: widget.unreviewed,
+                    temp: widget.postType == PostType.unreviewed,
                   ),
                 ),
                 Consumer<Auth>(
@@ -114,13 +115,13 @@ class _PostItemState extends State<PostItem> {
                             EditPostButton(
                               postId: widget.post.id,
                               reviewStatus: widget.post.reviewStatus,
-                              unreviewed: widget.post.unreviewed,
+                              postType: widget.post.postType,
                             ),
                             const SizedBox(width: 8.0),
                             DeletePostButton(
                               postId: widget.post.id,
                               reviewStatus: widget.post.reviewStatus,
-                              unreviewed: widget.post.unreviewed,
+                              postType: widget.post.postType,
                             ),
                           ],
                         ),

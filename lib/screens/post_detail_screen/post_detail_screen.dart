@@ -173,7 +173,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 height: SizeConfig.safeBlockVertical * headerHeight,
                 buttonsVisibility: !_leadingVisibility,
                 reviewStatus: loadedPost.reviewStatus,
-                unreviewed: loadedPost.unreviewed,
+                postType: loadedPost.postType,
               ),
             ),
             SliverAppBar(
@@ -222,7 +222,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               child: EditPostButton(
                                 postId: postId,
                                 reviewStatus: loadedPost.reviewStatus,
-                                unreviewed: loadedPost.unreviewed,
+                                postType: loadedPost.postType,
                               ),
                             )
                           : Container(

@@ -16,7 +16,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final double height;
   final bool buttonsVisibility;
   final ReviewStatus? reviewStatus;
-  final bool unreviewed;
+  final PostType postType;
 
   PostDetailHeader({
     required this.user,
@@ -25,7 +25,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.height,
     required this.buttonsVisibility,
     required this.reviewStatus,
-    required this.unreviewed,
+    required this.postType,
   });
 
   @override
@@ -40,7 +40,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
         Carousel(
           images: images,
           height: height,
-          temp: unreviewed,
+          temp: postType == PostType.unreviewed,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
@@ -82,13 +82,13 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                             EditPostButton(
                               postId: postId,
                               reviewStatus: reviewStatus,
-                              unreviewed: unreviewed,
+                              postType: postType,
                             ),
                             const SizedBox(width: 8.0),
                             DeletePostButton(
                               postId: postId,
                               reviewStatus: reviewStatus,
-                              unreviewed: unreviewed,
+                              postType: postType,
                             ),
                           ],
                         ),

@@ -34,6 +34,8 @@ enum Renovation {
 
 enum ReviewStatus { onreview, confirmed, rejected }
 
+enum PostType { confirmed, unreviewed, archived }
+
 String userTypeDescription(UserType userType, BuildContext ctx) {
   switch (userType) {
     case UserType.owner:
@@ -190,7 +192,7 @@ class Post {
   final int? lastStep;
   final String user;
   final List<String> originalImages;
-  final bool unreviewed;
+  final PostType postType;
   final ReviewStatus? reviewStatus;
 
   Post({
@@ -253,11 +255,11 @@ class Post {
     this.lastStep,
     required this.user,
     required this.originalImages,
-    this.unreviewed = false,
+    this.postType = PostType.confirmed,
     this.reviewStatus,
   });
 
-  factory Post.fromJson({required dynamic json, required bool unreviewed}) {
+  factory Post.fromJson({required dynamic json, required PostType postType}) {
     return Post(
       id: json['_id'] as int,
       userType: UserType.values.firstWhere(
@@ -367,7 +369,7 @@ class Post {
       user: json['user'] as String,
       lastStep: 7,
       originalImages: (json['images'] as List<dynamic>).cast<String>(),
-      unreviewed: unreviewed,
+      postType: postType,
       reviewStatus: json['reviewStatus'] == null
           ? null
           : ReviewStatus.values.firstWhere(

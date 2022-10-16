@@ -11,12 +11,12 @@ import '../../providers/posts.dart';
 class DeletePostButton extends StatefulWidget {
   final int postId;
   final ReviewStatus? reviewStatus;
-  final bool unreviewed;
+  final PostType postType;
 
   const DeletePostButton({
     required this.postId,
     required this.reviewStatus,
-    required this.unreviewed,
+    required this.postType,
   });
 
   @override
@@ -53,7 +53,7 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                           await Provider.of<Posts>(context, listen: false)
                               .deletePost(
                             postId: widget.postId,
-                            unreviewed: widget.unreviewed,
+                            postType: widget.postType,
                           );
                         } on Failure catch (error) {
                           if (error.statusCode >= 500) {

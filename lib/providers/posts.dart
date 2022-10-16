@@ -173,7 +173,7 @@ class Posts with ChangeNotifier {
     Map<String, dynamic>? queryParameters,
     int page = 1,
     bool updatePosts = false,
-    bool unreviewed = false,
+    PostType postType = PostType.confirmed,
   }) async {
     Map<String, dynamic> _parameters;
 
@@ -190,7 +190,8 @@ class Posts with ChangeNotifier {
       scheme: baseScheme,
       host: baseHost,
       port: basePort,
-      path: 'api/posts${unreviewed ? '/unreviewed_posts' : ''}',
+      path:
+          'api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}',
       queryParameters: _parameters,
     );
 
@@ -216,7 +217,7 @@ class Posts with ChangeNotifier {
       final dynamic data = json.decode(response.body);
       final List<Post> loadedPosts = [];
       data['result'].forEach((element) {
-        loadedPosts.add(Post.fromJson(json: element, unreviewed: unreviewed));
+        loadedPosts.add(Post.fromJson(json: element, postType: postType));
       });
 
       if (updatePosts) {
@@ -297,11 +298,11 @@ class Posts with ChangeNotifier {
 
   Future<void> deletePost({
     required int postId,
-    required bool unreviewed,
+    required PostType postType,
   }) async {
     try {
       final url = Uri.parse(
-        '$baseUrl/api/posts${unreviewed ? '/unreviewed_posts' : ''}/$postId',
+        '$baseUrl/api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}/$postId',
       );
       final response =
           await http.delete(url, headers: {'Authorization': 'JWT $token'});

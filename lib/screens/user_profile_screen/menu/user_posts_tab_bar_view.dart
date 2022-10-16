@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -11,11 +12,11 @@ import '../../../widgets/post_item.dart';
 import '../../../widgets/sized_config.dart';
 
 class UserPostsTabBarView extends StatefulWidget {
-  final bool unreviewed;
+  final PostType postType;
 
   const UserPostsTabBarView({
     Key? key,
-    required this.unreviewed,
+    required this.postType,
   }) : super(key: key);
 
   @override
@@ -42,7 +43,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
             queryParameters: _queryParameters,
             page: _page,
             updatePosts: updatePosts,
-            unreviewed: widget.unreviewed,
+            postType: widget.postType,
           );
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
@@ -173,7 +174,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                           child: PostItem(
                             key: Key(posts[index].id.toString()),
                             post: posts[index],
-                            unreviewed: widget.unreviewed,
+                            postType: widget.postType,
                           ),
                         ),
                       ),
