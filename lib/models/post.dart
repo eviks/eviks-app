@@ -32,6 +32,8 @@ enum Renovation {
   noRenovation,
 }
 
+enum ReviewStatus { onreview, confirmed, rejected }
+
 String userTypeDescription(UserType userType, BuildContext ctx) {
   switch (userType) {
     case UserType.owner:
@@ -117,6 +119,17 @@ String renovationDescription(Renovation renovation, BuildContext ctx) {
   }
 }
 
+String reviewStatusTitle(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.onreview:
+      return AppLocalizations.of(ctx)!.onreviewTitle;
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedTitle;
+    default:
+      return '';
+  }
+}
+
 class Post {
   final int id;
   final UserType userType;
@@ -177,6 +190,8 @@ class Post {
   final int? lastStep;
   final String user;
   final List<String> originalImages;
+  final bool unreviewed;
+  final ReviewStatus? reviewStatus;
 
   Post({
     required this.id,
@@ -238,9 +253,11 @@ class Post {
     this.lastStep,
     required this.user,
     required this.originalImages,
+    this.unreviewed = false,
+    this.reviewStatus,
   });
 
-  factory Post.fromJson(dynamic json) {
+  factory Post.fromJson({required dynamic json, required bool unreviewed}) {
     return Post(
       id: json['_id'] as int,
       userType: UserType.values.firstWhere(
@@ -350,6 +367,14 @@ class Post {
       user: json['user'] as String,
       lastStep: 7,
       originalImages: (json['images'] as List<dynamic>).cast<String>(),
+      unreviewed: unreviewed,
+      reviewStatus: json['reviewStatus'] == null
+          ? null
+          : ReviewStatus.values.firstWhere(
+              (element) =>
+                  element.toString() ==
+                  'ReviewStatus.${json['reviewStatus'] as String}',
+            ),
     );
   }
 

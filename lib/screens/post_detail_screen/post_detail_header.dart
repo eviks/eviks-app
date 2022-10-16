@@ -1,4 +1,5 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final List<String> images;
   final double height;
   final bool buttonsVisibility;
+  final ReviewStatus? reviewStatus;
+  final bool unreviewed;
 
   PostDetailHeader({
     required this.user,
@@ -21,6 +24,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.images,
     required this.height,
     required this.buttonsVisibility,
+    required this.reviewStatus,
+    required this.unreviewed,
   });
 
   @override
@@ -35,6 +40,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
         Carousel(
           images: images,
           height: height,
+          temp: unreviewed,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
@@ -73,9 +79,17 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                         margin: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            EditPostButton(postId),
+                            EditPostButton(
+                              postId: postId,
+                              reviewStatus: reviewStatus,
+                              unreviewed: unreviewed,
+                            ),
                             const SizedBox(width: 8.0),
-                            DeletePostButton(postId),
+                            DeletePostButton(
+                              postId: postId,
+                              reviewStatus: reviewStatus,
+                              unreviewed: unreviewed,
+                            ),
                           ],
                         ),
                       )

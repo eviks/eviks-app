@@ -216,7 +216,7 @@ class Posts with ChangeNotifier {
       final dynamic data = json.decode(response.body);
       final List<Post> loadedPosts = [];
       data['result'].forEach((element) {
-        loadedPosts.add(Post.fromJson(element));
+        loadedPosts.add(Post.fromJson(json: element, unreviewed: unreviewed));
       });
 
       if (updatePosts) {
@@ -295,9 +295,14 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> deletePost(int postId) async {
+  Future<void> deletePost({
+    required int postId,
+    required bool unreviewed,
+  }) async {
     try {
-      final url = Uri.parse('$baseUrl/api/posts/$postId');
+      final url = Uri.parse(
+        '$baseUrl/api/posts${unreviewed ? '/unreviewed_posts' : ''}/$postId',
+      );
       final response =
           await http.delete(url, headers: {'Authorization': 'JWT $token'});
 

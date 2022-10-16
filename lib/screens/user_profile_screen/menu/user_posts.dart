@@ -16,10 +16,12 @@ class _UserPostsState extends State<UserPosts> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          bottom: TabBar(tabs: <Widget>[
-            Tab(text: AppLocalizations.of(context)!.activePosts),
-            Tab(text: AppLocalizations.of(context)!.postsOnModeration),
-          ]),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(text: AppLocalizations.of(context)!.activePosts),
+              Tab(text: AppLocalizations.of(context)!.postsOnModeration),
+            ],
+          ),
           leading: Navigator.canPop(context)
               ? IconButton(
                   onPressed: () {

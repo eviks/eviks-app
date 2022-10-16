@@ -1,20 +1,27 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/edit_post_screen/edit_post_screen.dart';
 
 class EditPostButton extends StatelessWidget {
   final int postId;
+  final ReviewStatus? reviewStatus;
+  final bool unreviewed;
 
-  const EditPostButton(
-    this.postId,
-  );
+  const EditPostButton({
+    required this.postId,
+    required this.reviewStatus,
+    required this.unreviewed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => Navigator.of(context)
-          .pushNamed(EditPostScreen.routeName, arguments: postId),
+      onPressed: reviewStatus == ReviewStatus.onreview
+          ? null
+          : () => Navigator.of(context)
+              .pushNamed(EditPostScreen.routeName, arguments: postId),
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.zero,
         minimumSize: const Size(50, 50),

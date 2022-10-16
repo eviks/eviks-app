@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import './post_review_status.dart';
 import './carousel.dart';
 import './post_buttons/delete_post_button.dart';
 import './post_buttons/edit_post_button.dart';
@@ -83,6 +84,14 @@ class _PostItemState extends State<PostItem> {
         ),
         child: Column(
           children: <Widget>[
+            if (widget.post.unreviewed && widget.post.reviewStatus != null)
+              Row(
+                children: [
+                  PostReviewStatus(
+                    reviewStatus: widget.post.reviewStatus!,
+                  ),
+                ],
+              ),
             Stack(
               alignment: Alignment.topRight,
               children: <Widget>[
@@ -102,9 +111,17 @@ class _PostItemState extends State<PostItem> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            EditPostButton(widget.post.id),
+                            EditPostButton(
+                              postId: widget.post.id,
+                              reviewStatus: widget.post.reviewStatus,
+                              unreviewed: widget.post.unreviewed,
+                            ),
                             const SizedBox(width: 8.0),
-                            DeletePostButton(widget.post.id),
+                            DeletePostButton(
+                              postId: widget.post.id,
+                              reviewStatus: widget.post.reviewStatus,
+                              unreviewed: widget.post.unreviewed,
+                            ),
                           ],
                         ),
                       );

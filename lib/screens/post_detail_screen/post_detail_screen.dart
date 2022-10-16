@@ -172,6 +172,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 images: loadedPost.images,
                 height: SizeConfig.safeBlockVertical * headerHeight,
                 buttonsVisibility: !_leadingVisibility,
+                reviewStatus: loadedPost.reviewStatus,
+                unreviewed: loadedPost.unreviewed,
               ),
             ),
             SliverAppBar(
@@ -217,7 +219,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                 horizontal: 12.0,
                                 vertical: 4.0,
                               ),
-                              child: EditPostButton(postId),
+                              child: EditPostButton(
+                                postId: postId,
+                                reviewStatus: loadedPost.reviewStatus,
+                                unreviewed: loadedPost.unreviewed,
+                              ),
                             )
                           : Container(
                               margin: const EdgeInsets.symmetric(

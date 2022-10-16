@@ -11,7 +11,7 @@ class Carousel extends StatefulWidget {
     required this.images,
     required this.height,
     this.imageSize = '640',
-    this.temp = false,
+    required this.temp,
   }) : super(key: key);
 
   final List<String> images;
