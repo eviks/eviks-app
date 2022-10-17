@@ -113,7 +113,10 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
         ),
       );
     } else {
-      final posts = Provider.of<Posts>(context).posts;
+      final posts = Provider.of<Posts>(context)
+          .posts
+          .where((element) => element.postType == widget.postType)
+          .toList();
       return posts.isEmpty
           ? SingleChildScrollView(
               child: SafeArea(

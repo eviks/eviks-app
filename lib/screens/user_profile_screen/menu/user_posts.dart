@@ -38,6 +38,7 @@ class _UserPostsState extends State<UserPosts> {
           ),
         ),
         body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             UserPostsTabBarView(
               postType: PostType.confirmed,

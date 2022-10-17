@@ -70,6 +70,7 @@ class Posts with ChangeNotifier {
         updatedAt: DateTime.now(),
         user: user!,
         originalImages: [],
+        reviewHistory: [],
       );
     }
   }

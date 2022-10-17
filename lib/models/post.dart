@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:eviks_mobile/models/review_history.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -132,6 +133,26 @@ String reviewStatusTitle(ReviewStatus reviewStatus, BuildContext ctx) {
   }
 }
 
+String reviewStatusHint(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.onreview:
+      return AppLocalizations.of(ctx)!.onreviewHint;
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedHint;
+    default:
+      return '';
+  }
+}
+
+String reviewStatusHintEnding(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedHintEnding;
+    default:
+      return '';
+  }
+}
+
 class Post {
   final int id;
   final UserType userType;
@@ -194,6 +215,7 @@ class Post {
   final List<String> originalImages;
   final PostType postType;
   final ReviewStatus? reviewStatus;
+  final List<ReviewHistory> reviewHistory;
 
   Post({
     required this.id,
@@ -257,6 +279,7 @@ class Post {
     required this.originalImages,
     this.postType = PostType.confirmed,
     this.reviewStatus,
+    required this.reviewHistory,
   });
 
   factory Post.fromJson({required dynamic json, required PostType postType}) {
@@ -377,6 +400,14 @@ class Post {
                   element.toString() ==
                   'ReviewStatus.${json['reviewStatus'] as String}',
             ),
+      reviewHistory: json['reviewHistory'] == null
+          ? []
+          : (json['reviewHistory'].map((element) {
+              return ReviewHistory.fromJson(
+                element,
+              );
+            }).toList() as List<dynamic>)
+              .cast<ReviewHistory>(),
     );
   }
 
@@ -617,6 +648,7 @@ class Post {
           lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),
       user: user,
       originalImages: originalImages,
+      reviewHistory: [],
     );
   }
 }

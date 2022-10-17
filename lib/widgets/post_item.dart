@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import './post_review_status.dart';
+import 'post_item_review_status.dart';
 import './carousel.dart';
 import './post_buttons/delete_post_button.dart';
 import './post_buttons/edit_post_button.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import './post_detail_review_status.dart';
 import './post_detail_additional.dart';
 import './post_detail_building.dart';
 import './post_detail_general.dart';
@@ -67,6 +68,11 @@ class PostDetailContent extends StatelessWidget {
                 PostDetailMainInfo(
                   post: post,
                 ),
+                if (post.reviewStatus != null)
+                  PostDetailReviewStatus(
+                    reviewStatus: post.reviewStatus!,
+                    reviewHistory: post.reviewHistory,
+                  ),
                 PostDetailUser(
                   post: post,
                 ),
