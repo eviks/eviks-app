@@ -1,5 +1,6 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/providers/theme_preferences.dart';
+import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -163,6 +164,7 @@ class MyApp extends StatelessWidget {
             EditPostScreen.routeName: (ctx) => const EditPostScreen(),
             FiltersScreen.routeName: (ctx) => const FiltersScreen(),
             ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
+            PostReviewScreen.routeName: (ctx) => const PostReviewScreen(),
           },
         ),
       ),

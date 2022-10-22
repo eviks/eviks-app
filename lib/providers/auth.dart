@@ -25,6 +25,10 @@ class Auth with ChangeNotifier {
     return token != '';
   }
 
+  UserRole get userRole {
+    return _user?.role ?? UserRole.user;
+  }
+
   String get token {
     return _token;
   }

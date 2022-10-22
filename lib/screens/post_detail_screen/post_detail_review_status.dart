@@ -6,9 +6,11 @@ class PostDetailReviewStatus extends StatelessWidget {
   final ReviewStatus reviewStatus;
   final List<ReviewHistory> reviewHistory;
 
-  const PostDetailReviewStatus(
-      {required this.reviewStatus, required this.reviewHistory, Key? key})
-      : super(key: key);
+  const PostDetailReviewStatus({
+    required this.reviewStatus,
+    required this.reviewHistory,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

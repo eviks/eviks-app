@@ -292,4 +292,8 @@ class CustomIcons {
     0xe844,
     fontFamily: _kFontFam,
   );
+  static const IconData shield = IconData(
+    0xe841,
+    fontFamily: _kFontFam,
+  );
 }
