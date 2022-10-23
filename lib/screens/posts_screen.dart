@@ -1,7 +1,4 @@
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/models/user.dart';
-import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
-import 'package:eviks_mobile/widgets/styled_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -10,7 +7,6 @@ import 'package:provider/provider.dart';
 import './filters_screen/filters_screen.dart';
 import '../constants.dart';
 import '../models/failure.dart';
-import '../providers/auth.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
@@ -97,8 +93,6 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _isModerator = Provider.of<Auth>(context, listen: false).userRole ==
-        UserRole.moderator;
     SizeConfig().init(context);
     if (_isInit) {
       return const Center(
@@ -215,21 +209,6 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                 ],
               ),
-        floatingActionButton: _isModerator
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: StyledElevatedButton(
-                  text: AppLocalizations.of(context)!.postReview,
-                  width: SizeConfig.safeBlockHorizontal * 40.0,
-                  suffixIcon: CustomIcons.shield,
-                  secondary: true,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(PostReviewScreen.routeName);
-                  },
-                ),
-              )
-            : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
     }
   }

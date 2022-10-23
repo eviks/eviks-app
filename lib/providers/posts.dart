@@ -67,6 +67,7 @@ class Posts with ChangeNotifier {
         description: '',
         phoneNumber: '',
         username: '',
+        createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         user: user!,
         originalImages: [],
