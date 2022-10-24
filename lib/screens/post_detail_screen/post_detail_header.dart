@@ -1,5 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/post.dart';
+import 'package:eviks_mobile/models/user.dart';
+import 'package:eviks_mobile/providers/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,6 +60,19 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                       child: ElevatedButton(
                         onPressed: Navigator.canPop(context)
                             ? () {
+                                final _userRole =
+                                    Provider.of<Auth>(context, listen: false)
+                                        .userRole;
+
+                                if (_userRole == UserRole.moderator) {
+                                  final postId = ModalRoute.of(context)!
+                                      .settings
+                                      .arguments! as int;
+
+                                  Provider.of<Posts>(context, listen: false)
+                                      .unblockPostFromModeration(postId);
+                                }
+
                                 Navigator.pop(context);
                               }
                             : null,

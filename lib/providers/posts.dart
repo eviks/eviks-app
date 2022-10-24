@@ -464,4 +464,80 @@ class Posts with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<bool> blockPostForModeration(
+    int postId,
+  ) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/block_for_moderation/$postId',
+    );
+
+    var result = false;
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      result = true;
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+
+    return result;
+  }
+
+  Future<void> unblockPostFromModeration(
+    int postId,
+  ) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/unblock_from_moderation/$postId',
+    );
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

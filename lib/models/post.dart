@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:eviks_mobile/models/post_blocking.dart';
 import 'package:eviks_mobile/models/review_history.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -217,6 +218,7 @@ class Post {
   final PostType postType;
   final ReviewStatus? reviewStatus;
   final List<ReviewHistory> reviewHistory;
+  final PostBlocking? blocking;
 
   Post({
     required this.id,
@@ -282,6 +284,7 @@ class Post {
     this.postType = PostType.confirmed,
     this.reviewStatus,
     required this.reviewHistory,
+    this.blocking,
   });
 
   factory Post.fromJson({required dynamic json, required PostType postType}) {
@@ -411,6 +414,11 @@ class Post {
               );
             }).toList() as List<dynamic>)
               .cast<ReviewHistory>(),
+      blocking: json['blocking'] == null
+          ? null
+          : PostBlocking.fromJson(
+              json['blocking'],
+            ),
     );
   }
 

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../widgets/sized_config.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
+import '../../providers/auth.dart';
 import '../../providers/posts.dart';
 
 class PostReviewScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
   Future<void> _fetchPosts(bool updatePosts) async {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    final Map<String, dynamic> _queryParameters = {'reviewStatus': 'onreview'};
     final _pagination = Provider.of<Posts>(context, listen: false).pagination;
 
     if (_pagination.available != null || _pagination.current == 0) {
@@ -39,6 +41,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
           page: _page,
           updatePosts: updatePosts,
           postType: PostType.unreviewed,
+          queryParameters: _queryParameters,
         );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
@@ -119,6 +122,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;
+      final user = Provider.of<Auth>(context).user;
 
       return Scaffold(
         appBar: AppBar(
@@ -145,6 +149,13 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                     controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (ctx, index) {
+                      final _isBlocked = (posts[index]
+                                  .blocking
+                                  ?.blockingExpires
+                                  .isAfter(DateTime.now()) ??
+                              false) &&
+                          posts[index].blocking?.user != user?.id;
+
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         duration: const Duration(milliseconds: 375),
@@ -152,17 +163,30 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                           verticalOffset: 50.0,
                           child: FadeInAnimation(
                             child: ListTile(
+                              enabled: !_isBlocked,
                               trailing: const Icon(CustomIcons.next),
                               title: Text(getPostTitle(posts[index])),
                               subtitle: Text(
                                 dateFormatter.format(posts[index].createdAt),
                               ),
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  PostDetailScreen.routeName,
-                                  arguments: posts[index].id,
-                                );
-                              },
+                              onTap: _isBlocked
+                                  ? null
+                                  : () async {
+                                      await Navigator.pushNamed(
+                                        context,
+                                        PostDetailScreen.routeName,
+                                        arguments: posts[index].id,
+                                      );
+
+                                      if (mounted) {
+                                        Provider.of<Posts>(
+                                          context,
+                                          listen: false,
+                                        ).clearPosts();
+
+                                        await _fetchPosts(false);
+                                      }
+                                    },
                             ),
                           ),
                         ),
