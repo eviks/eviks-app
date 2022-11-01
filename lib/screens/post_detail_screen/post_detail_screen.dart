@@ -2,9 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_content.dart';
 import './post_detail_header.dart';
@@ -17,7 +15,6 @@ import '../../providers/posts.dart';
 import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
 import '../../widgets/sized_config.dart';
-import '../../widgets/styled_elevated_button.dart';
 
 class PostDetailScreen extends StatefulWidget {
   const PostDetailScreen({Key? key}) : super(key: key);
@@ -52,8 +49,30 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
       if (_userRole == UserRole.moderator) {
         final postId = ModalRoute.of(context)!.settings.arguments! as int;
-        final _result = await Provider.of<Posts>(context, listen: false)
-            .blockPostForModeration(postId);
+
+        String _errorMessage = '';
+        bool _result = false;
+
+        try {
+          _result = await Provider.of<Posts>(context, listen: false)
+              .blockPostForModeration(postId);
+        } on Failure catch (error) {
+          if (error.statusCode >= 500) {
+            _errorMessage = AppLocalizations.of(context)!.serverError;
+          } else {
+            _errorMessage = AppLocalizations.of(context)!.networkError;
+          }
+        } catch (error) {
+          _errorMessage = AppLocalizations.of(context)!.unknownError;
+          _errorMessage = error.toString();
+        }
+
+        if (_errorMessage.isNotEmpty) {
+          if (!mounted) return;
+          showSnackBar(context, _errorMessage);
+          return;
+        }
+
         if (!_result) {
           setState(() {
             _isBlocked = true;
@@ -85,34 +104,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     });
 
     super.didChangeDependencies();
-  }
-
-  Future<void> _callPhoneNumber() async {
-    final postId = ModalRoute.of(context)!.settings.arguments! as int;
-    String phoneNumber = '';
-    String _errorMessage = '';
-    try {
-      phoneNumber = await Provider.of<Posts>(context, listen: false)
-          .fetchPostPhoneNumber(postId);
-    } on Failure catch (error) {
-      if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
-      } else {
-        _errorMessage = error.toString();
-      }
-    } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
-    }
-
-    if (_errorMessage.isNotEmpty) {
-      if (!mounted) return;
-      showSnackBar(context, _errorMessage);
-      return;
-    }
-
-    if (await Permission.phone.request().isGranted) {
-      launch('tel://$phoneNumber');
-    }
   }
 
   Widget getAppBarTitle(Post loadedPost) {
@@ -292,16 +283,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: userRole == UserRole.moderator
-            ? PostDetailModerationButtons(
-                postId: postId,
-              )
-            : StyledElevatedButton(
-                text: AppLocalizations.of(context)!.call,
-                onPressed: _callPhoneNumber,
-              ),
-      ),
+          padding: const EdgeInsets.all(16.0),
+          child: userRole == UserRole.moderator
+              ? PostDetailModerationButtons(
+                  postId: postId,
+                )
+              : null),
     );
   }
 }
