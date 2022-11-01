@@ -253,5 +253,9 @@
     "rejectedTitle": "Elan rədd edildi",
     "rejectedHint": "Sizin elanınız aşağıdakı səbəbdən rədd edildi:",
     "rejectedHintEnding": "Siz bu elanı redaktə edə bilərsiniz və bundan sonra o yenidən yoxlanılmaya göndəriləcək. Əks halda o sonuncu yoxlamadan 3 gündən sonra silinəcəkdir",
-    "postReview": "Moderasiya"
+    "postReview": "Moderasiya",
+    "confirm": "Təsdiq eləmək",
+    "reject": "Rədd etmək",
+    "rejectionTitle": "Bu elanın rədd edilməsinin səbəbini göstərin",
+    "rejectionReason": "Rədd edilməsinin səbəbini"
 }

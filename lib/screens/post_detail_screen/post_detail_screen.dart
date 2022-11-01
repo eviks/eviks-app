@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_content.dart';
 import './post_detail_header.dart';
+import './post_detail_moderation_buttons.dart';
 import '../../../models/failure.dart';
 import '../../../models/post.dart';
 import '../../constants.dart';
@@ -183,6 +184,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ? 50.0
             : 70.0;
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
+    final userRole = Provider.of<Auth>(context, listen: false).userRole;
     SizeConfig().init(context);
     return Scaffold(
       body: _isBlocked
@@ -291,10 +293,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: StyledElevatedButton(
-          text: AppLocalizations.of(context)!.call,
-          onPressed: _callPhoneNumber,
-        ),
+        child: userRole == UserRole.moderator
+            ? PostDetailModerationButtons(
+                postId: postId,
+              )
+            : StyledElevatedButton(
+                text: AppLocalizations.of(context)!.call,
+                onPressed: _callPhoneNumber,
+              ),
       ),
     );
   }

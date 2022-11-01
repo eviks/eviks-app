@@ -8,6 +8,7 @@ class StyledElevatedButton extends StatelessWidget {
   final bool secondary;
   final IconData? suffixIcon;
   final double height;
+  final Color? color;
 
   const StyledElevatedButton({
     required this.text,
@@ -17,6 +18,7 @@ class StyledElevatedButton extends StatelessWidget {
     this.secondary = false,
     this.suffixIcon,
     this.height = 60.0,
+    this.color,
     Key? key,
   }) : super(key: key);
 
@@ -34,14 +36,12 @@ class StyledElevatedButton extends StatelessWidget {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
+              if (color == null) {
                 return !secondary
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).backgroundColor;
               } else {
-                return !secondary
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).backgroundColor;
+                return color!;
               }
             },
           ),

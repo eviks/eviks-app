@@ -1,6 +1,8 @@
+import 'package:eviks_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 
 import './post_detail_additional.dart';
 import './post_detail_building.dart';
@@ -10,6 +12,7 @@ import './post_detail_map.dart';
 import './post_detail_review_status.dart';
 import './post_detail_user.dart';
 import '../../models/post.dart';
+import '../../providers/auth.dart';
 
 class PostDetailContent extends StatelessWidget {
   final Post post;
@@ -48,6 +51,7 @@ class PostDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRole = Provider.of<Auth>(context, listen: false).userRole;
     return SliverList(
       delegate: SliverChildListDelegate([
         Container(
@@ -68,7 +72,8 @@ class PostDetailContent extends StatelessWidget {
                 PostDetailMainInfo(
                   post: post,
                 ),
-                if (post.postType == PostType.unreviewed)
+                if (userRole != UserRole.moderator &&
+                    post.postType == PostType.unreviewed)
                   PostDetailReviewStatus(
                     reviewStatus: post.reviewStatus!,
                     reviewHistory: post.reviewHistory,
