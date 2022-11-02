@@ -5,6 +5,7 @@ class StyledInput extends StatefulWidget {
   final IconData? icon;
   final String? title;
   final bool obscureText;
+  final bool autofocus;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -25,6 +26,7 @@ class StyledInput extends StatefulWidget {
     this.icon,
     this.title,
     this.obscureText = false,
+    this.autofocus = false,
     this.keyboardType,
     this.controller,
     this.validator,
@@ -74,6 +76,7 @@ class _StyledInputState extends State<StyledInput> {
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.title != null)
@@ -90,6 +93,7 @@ class _StyledInputState extends State<StyledInput> {
               Expanded(
                 child: TextFormField(
                   focusNode: _focus,
+                  autofocus: widget.autofocus,
                   obscureText: widget.obscureText,
                   keyboardType: widget.keyboardType,
                   controller: widget.controller,

@@ -6,6 +6,7 @@ import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/posts.dart';
 import '../../widgets/styled_elevated_button.dart';
+import '../../widgets/styled_input.dart';
 
 class PostDetailModerationButtons extends StatefulWidget {
   final int postId;
@@ -20,6 +21,20 @@ class PostDetailModerationButtons extends StatefulWidget {
 
 class _PostDetailModerationButtonsState
     extends State<PostDetailModerationButtons> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Future<void> _confirmPost() async {
     String _errorMessage = '';
 
@@ -46,6 +61,59 @@ class _PostDetailModerationButtonsState
     Navigator.of(context).pop();
   }
 
+  Future<bool?> _rejectPost() {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext ctx) => AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)!.rejectionTitle,
+        ),
+        content: StyledInput(
+          controller: _controller,
+          autofocus: true,
+          hintText: AppLocalizations.of(context)!.rejectionReason,
+          keyboardType: TextInputType.multiline,
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              if (_controller.text.isEmpty) {
+                return;
+              }
+
+              String _errorMessage = '';
+
+              try {
+                await Provider.of<Posts>(context, listen: false)
+                    .rejectPost(widget.postId, _controller.text);
+              } on Failure catch (error) {
+                if (error.statusCode >= 500) {
+                  _errorMessage = AppLocalizations.of(context)!.serverError;
+                } else {
+                  _errorMessage = AppLocalizations.of(context)!.networkError;
+                }
+              } catch (error) {
+                _errorMessage = AppLocalizations.of(context)!.unknownError;
+                _errorMessage = error.toString();
+              }
+
+              if (!mounted) return;
+
+              if (_errorMessage.isNotEmpty) {
+                showSnackBar(context, _errorMessage);
+              }
+
+              Navigator.of(context).pop(true);
+            },
+            child: Text(
+              AppLocalizations.of(context)!.reject,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -64,7 +132,13 @@ class _PostDetailModerationButtonsState
           child: StyledElevatedButton(
             text: AppLocalizations.of(context)!.reject,
             color: Colors.red,
-            onPressed: () {},
+            onPressed: () async {
+              final result = await _rejectPost();
+              if (result ?? false) {
+                if (!mounted) return;
+                Navigator.of(context).pop();
+              }
+            },
           ),
         )
       ],
