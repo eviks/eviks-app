@@ -239,11 +239,13 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> createPost(Post post) async {
+    final data = post.toJson();
+    data.removeWhere((key, value) => value == null);
     try {
       final url = Uri.parse('$baseUrl/api/posts');
       final response = await http.post(
         url,
-        body: json.encode(post.toJson()),
+        body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'JWT $token'
@@ -269,11 +271,13 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> updatePost(Post post) async {
+    final data = post.toJson();
+    data.removeWhere((key, value) => value == null);
     try {
       final url = Uri.parse('$baseUrl/api/posts/${post.id}');
       final response = await http.put(
         url,
-        body: json.encode(post.toJson()),
+        body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'JWT $token'

@@ -570,6 +570,7 @@ class Post {
     DateTime? updatedAt,
     int? step,
     int? lastStep,
+    PostType? postType,
   }) {
     return Post(
       id: id,
@@ -660,6 +661,7 @@ class Post {
       lastStep:
           lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),
       user: user,
+      postType: postType ?? this.postType,
       originalImages: originalImages,
       reviewHistory: [],
     );

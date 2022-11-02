@@ -86,8 +86,10 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
     try {
-      if ((postData?.id ?? 0) == 0) {
+      if ((postData?.id ?? 0) == 0 ||
+          postData?.postType != PostType.confirmed) {
         await Provider.of<Posts>(context, listen: false).createPost(
           postData!.copyWith(
             phoneNumber: _phoneNumber,

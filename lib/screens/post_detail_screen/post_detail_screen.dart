@@ -283,12 +283,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: userRole == UserRole.moderator
-              ? PostDetailModerationButtons(
-                  postId: postId,
-                )
-              : null),
+        padding: const EdgeInsets.all(16.0),
+        child: userRole == UserRole.moderator
+            ? PostDetailModerationButtons(
+                postId: postId,
+              )
+            : null,
+      ),
     );
   }
 }
