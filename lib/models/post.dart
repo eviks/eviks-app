@@ -423,6 +423,7 @@ class Post {
   }
 
   Map<String, dynamic> toJson() => {
+        '_id': id,
         'userType': userType.toString().replaceAll('UserType.', ''),
         'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
