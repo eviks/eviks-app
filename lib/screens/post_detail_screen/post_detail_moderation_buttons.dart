@@ -23,6 +23,7 @@ class _PostDetailModerationButtonsState
     extends State<PostDetailModerationButtons> {
   late TextEditingController _controller;
   bool _loading = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -65,83 +66,93 @@ class _PostDetailModerationButtonsState
 
     if (_errorMessage.isNotEmpty) {
       showSnackBar(context, _errorMessage);
+    } else {
+      Navigator.of(context).pop();
     }
-
-    Navigator.of(context).pop();
   }
 
   Future<bool?> _rejectPost() {
     return showDialog<bool>(
-      context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.rejectionTitle,
-        ),
-        content: StyledInput(
-          controller: _controller,
-          autofocus: true,
-          hintText: AppLocalizations.of(context)!.rejectionReason,
-          keyboardType: TextInputType.multiline,
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              if (_controller.text.isEmpty) {
-                return;
-              }
+      context: _scaffoldKey.currentContext!,
+      builder: (BuildContext ctx) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(
+                AppLocalizations.of(context)!.rejectionTitle,
+              ),
+              content: StyledInput(
+                controller: _controller,
+                autofocus: true,
+                hintText: AppLocalizations.of(context)!.rejectionReason,
+                keyboardType: TextInputType.multiline,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () async {
+                    if (_controller.text.isEmpty) {
+                      return;
+                    }
 
-              setState(() {
-                _loading = true;
-              });
+                    setState(() {
+                      _loading = true;
+                    });
 
-              String _errorMessage = '';
+                    String _errorMessage = '';
 
-              try {
-                await Provider.of<Posts>(context, listen: false)
-                    .rejectPost(widget.postId, _controller.text);
-              } on Failure catch (error) {
-                if (error.statusCode >= 500) {
-                  _errorMessage = AppLocalizations.of(context)!.serverError;
-                } else {
-                  _errorMessage = AppLocalizations.of(context)!.networkError;
-                }
-              } catch (error) {
-                _errorMessage = AppLocalizations.of(context)!.unknownError;
-                _errorMessage = error.toString();
-              }
+                    try {
+                      await Provider.of<Posts>(context, listen: false)
+                          .rejectPost(widget.postId, _controller.text);
+                    } on Failure catch (error) {
+                      if (error.statusCode >= 500) {
+                        _errorMessage =
+                            AppLocalizations.of(context)!.serverError;
+                      } else {
+                        _errorMessage =
+                            AppLocalizations.of(context)!.networkError;
+                      }
+                    } catch (error) {
+                      _errorMessage =
+                          AppLocalizations.of(context)!.unknownError;
+                      _errorMessage = error.toString();
+                    }
 
-              setState(() {
-                _loading = false;
-              });
+                    setState(() {
+                      _loading = false;
+                    });
 
-              if (!mounted) return;
+                    if (!mounted) return;
 
-              if (_errorMessage.isNotEmpty) {
-                showSnackBar(context, _errorMessage);
-              }
-
-              Navigator.of(context).pop(true);
-            },
-            child: _loading
-                ? const SizedBox(
-                    height: 24.0,
-                    width: 24.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                    ),
-                  )
-                : Text(
-                    AppLocalizations.of(context)!.reject,
-                  ),
-          ),
-        ],
-      ),
+                    if (_errorMessage.isNotEmpty) {
+                      showSnackBar(context, _errorMessage);
+                    } else {
+                      Navigator.of(context).pop(true);
+                    }
+                  },
+                  child: _loading
+                      ? const SizedBox(
+                          height: 24.0,
+                          width: 24.0,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                          ),
+                        )
+                      : Text(
+                          AppLocalizations.of(context)!.reject,
+                        ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: _scaffoldKey,
       children: [
         Expanded(
           child: StyledElevatedButton(
