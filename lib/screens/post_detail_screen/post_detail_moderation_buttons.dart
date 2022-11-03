@@ -22,6 +22,7 @@ class PostDetailModerationButtons extends StatefulWidget {
 class _PostDetailModerationButtonsState
     extends State<PostDetailModerationButtons> {
   late TextEditingController _controller;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -36,6 +37,10 @@ class _PostDetailModerationButtonsState
   }
 
   Future<void> _confirmPost() async {
+    setState(() {
+      _loading = true;
+    });
+
     String _errorMessage = '';
 
     try {
@@ -51,6 +56,10 @@ class _PostDetailModerationButtonsState
       _errorMessage = AppLocalizations.of(context)!.unknownError;
       _errorMessage = error.toString();
     }
+
+    setState(() {
+      _loading = false;
+    });
 
     if (!mounted) return;
 
@@ -81,6 +90,10 @@ class _PostDetailModerationButtonsState
                 return;
               }
 
+              setState(() {
+                _loading = true;
+              });
+
               String _errorMessage = '';
 
               try {
@@ -97,6 +110,10 @@ class _PostDetailModerationButtonsState
                 _errorMessage = error.toString();
               }
 
+              setState(() {
+                _loading = false;
+              });
+
               if (!mounted) return;
 
               if (_errorMessage.isNotEmpty) {
@@ -105,9 +122,17 @@ class _PostDetailModerationButtonsState
 
               Navigator.of(context).pop(true);
             },
-            child: Text(
-              AppLocalizations.of(context)!.reject,
-            ),
+            child: _loading
+                ? const SizedBox(
+                    height: 24.0,
+                    width: 24.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ),
+                  )
+                : Text(
+                    AppLocalizations.of(context)!.reject,
+                  ),
           ),
         ],
       ),
@@ -122,6 +147,7 @@ class _PostDetailModerationButtonsState
           child: StyledElevatedButton(
             text: AppLocalizations.of(context)!.confirm,
             color: Colors.green,
+            loading: _loading,
             onPressed: _confirmPost,
           ),
         ),
