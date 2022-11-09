@@ -11,11 +11,13 @@ import '../../../providers/posts.dart';
 
 class UploadedImage extends StatefulWidget {
   final ImageData imageData;
+  final bool unreviewed;
   final Function(String) setUploadStatus;
   final Function(String) deleteImage;
 
   const UploadedImage({
     required this.imageData,
+    required this.unreviewed,
     required this.setUploadStatus,
     required this.deleteImage,
     Key? key,
@@ -68,7 +70,7 @@ class _UploadedImageState extends State<UploadedImage> {
             fit: StackFit.expand,
             children: [
               Image.network(
-                '$baseUrl/uploads/${widget.imageData.isTemp ? 'temp/' : ''}post_images/${widget.imageData.id}/image_320.webp',
+                '$baseUrl/uploads/${(widget.imageData.isTemp || widget.unreviewed) ? 'temp/' : ''}post_images/${widget.imageData.id}/image_320.webp',
                 fit: BoxFit.fill,
               ),
               Positioned(

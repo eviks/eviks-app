@@ -9,16 +9,16 @@ import './models/post.dart';
 import './models/settlement.dart';
 
 // Production
-// const baseUrl = 'https://eviks.xyz';
-// const baseScheme = 'https';
-// const baseHost = 'eviks.xyz';
-// const basePort = 443;
+const baseUrl = 'https://eviks.xyz';
+const baseScheme = 'https';
+const baseHost = 'eviks.xyz';
+const basePort = 443;
 
 // Development
-const baseUrl = 'http://192.168.1.13:3000';
-const baseScheme = 'http';
-const baseHost = '192.168.1.13';
-const basePort = 3000;
+// const baseUrl = 'http://192.168.1.13:3000';
+// const baseScheme = 'http';
+// const baseHost = '192.168.1.13';
+// const basePort = 3000;
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
