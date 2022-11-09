@@ -1,9 +1,15 @@
+enum UserRole {
+  user,
+  moderator,
+}
+
 class User {
   final String id;
   final String displayName;
   final String email;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final UserRole role;
   final bool? active;
   final String? activationToken;
   final DateTime? activationTokenExpires;
@@ -19,6 +25,7 @@ class User {
     required this.email,
     required this.createdAt,
     required this.updatedAt,
+    required this.role,
     this.active,
     this.activationToken,
     this.activationTokenExpires,
@@ -36,6 +43,11 @@ class User {
       email: json['email'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      role: UserRole.values.firstWhere(
+        (element) =>
+            element.toString() ==
+            'UserRole.${json['role'] != null ? json['role'] as String : 'user'}',
+      ),
       active: json['active'] as bool?,
       activationToken: json['activationToken'] as String?,
       activationTokenExpires: json['activationTokenExpires'] == null

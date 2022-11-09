@@ -1,4 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/post.dart';
+import 'package:eviks_mobile/models/user.dart';
+import 'package:eviks_mobile/providers/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +17,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final List<String> images;
   final double height;
   final bool buttonsVisibility;
+  final ReviewStatus? reviewStatus;
+  final PostType postType;
 
   PostDetailHeader({
     required this.user,
@@ -21,6 +26,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.images,
     required this.height,
     required this.buttonsVisibility,
+    required this.reviewStatus,
+    required this.postType,
   });
 
   @override
@@ -35,6 +42,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
         Carousel(
           images: images,
           height: height,
+          temp: postType == PostType.unreviewed,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
@@ -52,6 +60,19 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                       child: ElevatedButton(
                         onPressed: Navigator.canPop(context)
                             ? () {
+                                final _userRole =
+                                    Provider.of<Auth>(context, listen: false)
+                                        .userRole;
+
+                                if (_userRole == UserRole.moderator) {
+                                  final postId = ModalRoute.of(context)!
+                                      .settings
+                                      .arguments! as int;
+
+                                  Provider.of<Posts>(context, listen: false)
+                                      .unblockPostFromModeration(postId);
+                                }
+
                                 Navigator.pop(context);
                               }
                             : null,
@@ -73,9 +94,17 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                         margin: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            EditPostButton(postId),
+                            EditPostButton(
+                              postId: postId,
+                              reviewStatus: reviewStatus,
+                              postType: postType,
+                            ),
                             const SizedBox(width: 8.0),
-                            DeletePostButton(postId),
+                            DeletePostButton(
+                              postId: postId,
+                              reviewStatus: reviewStatus,
+                              postType: postType,
+                            ),
                           ],
                         ),
                       )

@@ -67,9 +67,11 @@ class Posts with ChangeNotifier {
         description: '',
         phoneNumber: '',
         username: '',
+        createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         user: user!,
         originalImages: [],
+        reviewHistory: [],
       );
     }
   }
@@ -173,6 +175,7 @@ class Posts with ChangeNotifier {
     Map<String, dynamic>? queryParameters,
     int page = 1,
     bool updatePosts = false,
+    PostType postType = PostType.confirmed,
   }) async {
     Map<String, dynamic> _parameters;
 
@@ -189,12 +192,16 @@ class Posts with ChangeNotifier {
       scheme: baseScheme,
       host: baseHost,
       port: basePort,
-      path: 'api/posts',
+      path:
+          'api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}',
       queryParameters: _parameters,
     );
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
 
       if (response.statusCode >= 500) {
         throw Failure('Server error', response.statusCode);
@@ -212,7 +219,7 @@ class Posts with ChangeNotifier {
       final dynamic data = json.decode(response.body);
       final List<Post> loadedPosts = [];
       data['result'].forEach((element) {
-        loadedPosts.add(Post.fromJson(element));
+        loadedPosts.add(Post.fromJson(json: element, postType: postType));
       });
 
       if (updatePosts) {
@@ -232,11 +239,13 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> createPost(Post post) async {
+    final data = post.toJson();
+    data.removeWhere((key, value) => value == null);
     try {
       final url = Uri.parse('$baseUrl/api/posts');
       final response = await http.post(
         url,
-        body: json.encode(post.toJson()),
+        body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'JWT $token'
@@ -262,11 +271,13 @@ class Posts with ChangeNotifier {
   }
 
   Future<void> updatePost(Post post) async {
+    final data = post.toJson();
+    data.removeWhere((key, value) => value == null);
     try {
       final url = Uri.parse('$baseUrl/api/posts/${post.id}');
       final response = await http.put(
         url,
-        body: json.encode(post.toJson()),
+        body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'JWT $token'
@@ -291,9 +302,14 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> deletePost(int postId) async {
+  Future<void> deletePost({
+    required int postId,
+    required PostType postType,
+  }) async {
     try {
-      final url = Uri.parse('$baseUrl/api/posts/$postId');
+      final url = Uri.parse(
+        '$baseUrl/api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}/$postId',
+      );
       final response =
           await http.delete(url, headers: {'Authorization': 'JWT $token'});
 
@@ -448,6 +464,159 @@ class Posts with ChangeNotifier {
 
       final dynamic data = json.decode(response.body);
       return data['phoneNumber'] as String;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<bool> blockPostForModeration(
+    int postId,
+  ) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/block_for_moderation/$postId',
+    );
+
+    var result = false;
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      result = true;
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+
+    return result;
+  }
+
+  Future<void> unblockPostFromModeration(
+    int postId,
+  ) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/unblock_from_moderation/$postId',
+    );
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> confirmPost(
+    int postId,
+  ) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/confirm/$postId',
+    );
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token'
+        },
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> rejectPost(int postId, String comment) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/reject/$postId',
+    );
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'comment': comment,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token'
+        },
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      notifyListeners();
     } catch (error) {
       rethrow;
     }

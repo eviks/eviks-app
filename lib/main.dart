@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/providers/theme_preferences.dart';
+import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +25,7 @@ import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
 
 Future main() async {
+  HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
@@ -163,9 +167,19 @@ class MyApp extends StatelessWidget {
             EditPostScreen.routeName: (ctx) => const EditPostScreen(),
             FiltersScreen.routeName: (ctx) => const FiltersScreen(),
             ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
+            PostReviewScreen.routeName: (ctx) => const PostReviewScreen(),
           },
         ),
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

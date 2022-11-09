@@ -25,6 +25,7 @@ class _PostScreenState extends State<PostScreen> {
     String _errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     final _pagination = Provider.of<Posts>(context, listen: false).pagination;
+
     if (_pagination.available != null || _pagination.current == 0) {
       final _page = _pagination.current + 1;
 

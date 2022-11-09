@@ -374,6 +374,8 @@ class _EditPostImagesState extends State<EditPostImages> {
                           child: UploadedImage(
                             key: Key(_imageDataList[index].id),
                             imageData: _imageDataList[index],
+                            unreviewed:
+                                postData?.postType != PostType.confirmed,
                             setUploadStatus: setUploadStatus,
                             deleteImage: deleteImage,
                           ),

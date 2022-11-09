@@ -11,11 +11,13 @@ class Carousel extends StatefulWidget {
     required this.images,
     required this.height,
     this.imageSize = '640',
+    required this.temp,
   }) : super(key: key);
 
   final List<String> images;
   final double height;
   final String imageSize;
+  final bool temp;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -30,7 +32,7 @@ class _CarouselState extends State<Carousel> {
       for (final imageId in widget.images) {
         precacheImage(
           CachedNetworkImageProvider(
-            '$baseUrl/uploads/post_images/$imageId/image_${widget.imageSize}.webp',
+            '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/$imageId/image_${widget.imageSize}.webp',
           ),
           context,
         );
@@ -57,7 +59,7 @@ class _CarouselState extends State<Carousel> {
           itemBuilder: (ctx, index, _) {
             return CachedNetworkImage(
               imageUrl:
-                  '$baseUrl/uploads/post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
+                  '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
               placeholder: (context, url) => const SkeletonAvatar(
                 style: SkeletonAvatarStyle(width: double.infinity),
               ),

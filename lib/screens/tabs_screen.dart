@@ -1,4 +1,6 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/user.dart';
+import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,7 @@ class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   var _isInit = true;
   var _isAuth = false;
+  UserRole _userRole = UserRole.user;
 
   @override
   void didChangeDependencies() {
@@ -52,6 +55,26 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     _isAuth = Provider.of<Auth>(context, listen: true).isAuth;
+
+    final _currentUserRole = Provider.of<Auth>(
+      context,
+      listen: true,
+    ).userRole;
+
+    if (_userRole != _currentUserRole) {
+      setState(() {
+        _userRole = _currentUserRole;
+        _selectedPageIndex = 0;
+        _pages = [
+          if (_currentUserRole == UserRole.moderator) const PostReviewScreen(),
+          PostScreen(),
+          FavoritesScreen(),
+          const NewPostScreen(),
+          const UserProfileScreen(),
+        ];
+      });
+    }
+
     return Scaffold(
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -63,6 +86,11 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor:
             Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         items: [
+          if (_currentUserRole == UserRole.moderator)
+            BottomNavigationBarItem(
+              icon: const Icon(CustomIcons.shield),
+              label: AppLocalizations.of(context)!.postReview,
+            ),
           BottomNavigationBarItem(
             icon: const Icon(CustomIcons.search),
             label: AppLocalizations.of(context)!.tabsScreenSearch,

@@ -149,6 +149,16 @@ ThemeData lightThemeData(BuildContext context) {
           secondaryLabelStyle: const TextStyle(color: lightColor),
           labelStyle: const TextStyle(color: darkColor),
         ),
+    tabBarTheme: const TabBarTheme(
+      indicator: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: primaryColor,
+            width: 2.0,
+          ),
+        ),
+      ),
+    ),
   );
 }
 
@@ -289,5 +299,15 @@ ThemeData darkThemeData(BuildContext context) {
           secondaryLabelStyle: const TextStyle(color: darkColor),
           labelStyle: const TextStyle(color: lightGreyColor),
         ),
+    tabBarTheme: const TabBarTheme(
+      indicator: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: lightPrimaryColor,
+            width: 2.0,
+          ),
+        ),
+      ),
+    ),
   );
 }

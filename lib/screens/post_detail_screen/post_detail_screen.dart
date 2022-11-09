@@ -1,12 +1,12 @@
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_content.dart';
 import './post_detail_header.dart';
+import './post_detail_moderation_buttons.dart';
 import '../../../models/failure.dart';
 import '../../../models/post.dart';
 import '../../constants.dart';
@@ -15,7 +15,6 @@ import '../../providers/posts.dart';
 import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
 import '../../widgets/sized_config.dart';
-import '../../widgets/styled_elevated_button.dart';
 
 class PostDetailScreen extends StatefulWidget {
   const PostDetailScreen({Key? key}) : super(key: key);
@@ -28,7 +27,9 @@ class PostDetailScreen extends StatefulWidget {
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
   final ScrollController _scrollController = ScrollController();
-  bool _leadingVisibility = false;
+  var _isInit = true;
+  var _leadingVisibility = false;
+  var _isBlocked = false;
 
   bool get _isAppBarExpanded {
     final headerHeight =
@@ -42,7 +43,50 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      final _userRole = Provider.of<Auth>(context, listen: false).userRole;
+
+      if (_userRole == UserRole.moderator) {
+        final postId = ModalRoute.of(context)!.settings.arguments! as int;
+
+        String _errorMessage = '';
+        bool _result = false;
+
+        try {
+          _result = await Provider.of<Posts>(context, listen: false)
+              .blockPostForModeration(postId);
+        } on Failure catch (error) {
+          if (error.statusCode >= 500) {
+            _errorMessage = AppLocalizations.of(context)!.serverError;
+          } else {
+            _errorMessage = AppLocalizations.of(context)!.networkError;
+          }
+        } catch (error) {
+          _errorMessage = AppLocalizations.of(context)!.unknownError;
+          _errorMessage = error.toString();
+        }
+
+        if (_errorMessage.isNotEmpty) {
+          if (!mounted) return;
+          showSnackBar(context, _errorMessage);
+          return;
+        }
+
+        if (!_result) {
+          setState(() {
+            _isBlocked = true;
+          });
+        }
+      }
+
+      if (mounted) {
+        setState(() {
+          _isInit = false;
+        });
+      }
+    }
+
     _scrollController.addListener(() {
       if (_isAppBarExpanded && _leadingVisibility == false) {
         setState(
@@ -60,34 +104,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     });
 
     super.didChangeDependencies();
-  }
-
-  Future<void> _callPhoneNumber() async {
-    final postId = ModalRoute.of(context)!.settings.arguments! as int;
-    String phoneNumber = '';
-    String _errorMessage = '';
-    try {
-      phoneNumber = await Provider.of<Posts>(context, listen: false)
-          .fetchPostPhoneNumber(postId);
-    } on Failure catch (error) {
-      if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
-      } else {
-        _errorMessage = error.toString();
-      }
-    } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
-    }
-
-    if (_errorMessage.isNotEmpty) {
-      if (!mounted) return;
-      showSnackBar(context, _errorMessage);
-      return;
-    }
-
-    if (await Permission.phone.request().isGranted) {
-      launch('tel://$phoneNumber');
-    }
   }
 
   Widget getAppBarTitle(Post loadedPost) {
@@ -144,7 +160,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
     _scrollController.dispose();
     super.dispose();
   }
@@ -159,94 +175,120 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ? 50.0
             : 70.0;
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
+    final userRole = Provider.of<Auth>(context, listen: false).userRole;
     SizeConfig().init(context);
     return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverPersistentHeader(
-              delegate: PostDetailHeader(
-                user: loadedPost.user,
-                postId: loadedPost.id,
-                images: loadedPost.images,
-                height: SizeConfig.safeBlockVertical * headerHeight,
-                buttonsVisibility: !_leadingVisibility,
-              ),
-            ),
-            SliverAppBar(
-              backgroundColor: Colors.transparent,
-              flexibleSpace: Stack(
-                children: [
-                  Container(
-                    color: Theme.of(context).backgroundColor,
-                  )
-                ],
-              ),
-              leading: Navigator.canPop(context)
-                  ? AnimatedOpacity(
-                      opacity: _leadingVisibility ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 500),
-                      child: Visibility(
-                        visible: _leadingVisibility,
-                        child: IconButton(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(CustomIcons.back),
-                        ),
-                      ),
-                    )
-                  : null,
-              title: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: getAppBarTitle(loadedPost),
-              ),
-              pinned: true,
-              actions: [
-                AnimatedOpacity(
-                  opacity: _leadingVisibility ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: Visibility(
-                    visible: _leadingVisibility,
-                    child: Container(
-                      child: userId == loadedPost.user
-                          ? Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 4.0,
-                              ),
-                              child: EditPostButton(postId),
-                            )
-                          : Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 4.0,
-                              ),
-                              child: FavoriteButton(
-                                postId: postId,
-                                elevation: 0.0,
-                              ),
-                            ),
+      body: _isBlocked
+          ? null
+          : SafeArea(
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverPersistentHeader(
+                    delegate: PostDetailHeader(
+                      user: loadedPost.user,
+                      postId: loadedPost.id,
+                      images: loadedPost.images,
+                      height: SizeConfig.safeBlockVertical * headerHeight,
+                      buttonsVisibility: !_leadingVisibility,
+                      reviewStatus: loadedPost.reviewStatus,
+                      postType: loadedPost.postType,
                     ),
                   ),
-                )
-              ],
+                  SliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    flexibleSpace: Stack(
+                      children: [
+                        Container(
+                          color: Theme.of(context).backgroundColor,
+                        )
+                      ],
+                    ),
+                    leading: Navigator.canPop(context)
+                        ? AnimatedOpacity(
+                            opacity: _leadingVisibility ? 1.0 : 0.0,
+                            duration: const Duration(milliseconds: 500),
+                            child: Visibility(
+                              visible: _leadingVisibility,
+                              child: IconButton(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
+                                onPressed: () {
+                                  final _userRole =
+                                      Provider.of<Auth>(context, listen: false)
+                                          .userRole;
+
+                                  if (_userRole == UserRole.moderator) {
+                                    final postId = ModalRoute.of(context)!
+                                        .settings
+                                        .arguments! as int;
+
+                                    Provider.of<Posts>(context, listen: false)
+                                        .unblockPostFromModeration(postId);
+                                  }
+
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(CustomIcons.back),
+                              ),
+                            ),
+                          )
+                        : null,
+                    title: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: getAppBarTitle(loadedPost),
+                    ),
+                    pinned: true,
+                    actions: [
+                      AnimatedOpacity(
+                        opacity: _leadingVisibility ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: Visibility(
+                          visible: _leadingVisibility,
+                          child: Container(
+                            child: userId == loadedPost.user
+                                ? Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 12.0,
+                                      vertical: 4.0,
+                                    ),
+                                    child: EditPostButton(
+                                      postId: postId,
+                                      reviewStatus: loadedPost.reviewStatus,
+                                      postType: loadedPost.postType,
+                                    ),
+                                  )
+                                : Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 12.0,
+                                      vertical: 4.0,
+                                    ),
+                                    child: FavoriteButton(
+                                      postId: postId,
+                                      elevation: 0.0,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  PostDetailContent(
+                    loadedPost,
+                  ),
+                ],
+              ),
             ),
-            PostDetailContent(
-              loadedPost,
-            ),
-          ],
-        ),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: StyledElevatedButton(
-          text: AppLocalizations.of(context)!.call,
-          onPressed: _callPhoneNumber,
-        ),
+        child: userRole == UserRole.moderator
+            ? PostDetailModerationButtons(
+                postId: postId,
+              )
+            : null,
       ),
     );
   }

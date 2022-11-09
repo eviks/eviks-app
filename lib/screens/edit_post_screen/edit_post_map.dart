@@ -294,7 +294,7 @@ class _EditPostMapState extends State<EditPostMap> {
             layers: [
               TileLayerOptions(
                 urlTemplate:
-                    'http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+                    'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
               ),
             ],
           ),

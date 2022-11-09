@@ -17,13 +17,16 @@ import '../models/post.dart';
 import '../providers/auth.dart';
 import '../providers/posts.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
+import 'post_item_review_status.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;
+  final PostType postType;
 
   const PostItem({
     Key? key,
     required this.post,
+    this.postType = PostType.confirmed,
   }) : super(key: key);
 
   @override
@@ -81,6 +84,15 @@ class _PostItemState extends State<PostItem> {
         ),
         child: Column(
           children: <Widget>[
+            if (widget.post.postType == PostType.unreviewed &&
+                widget.post.reviewStatus != null)
+              Row(
+                children: [
+                  PostReviewStatus(
+                    reviewStatus: widget.post.reviewStatus!,
+                  ),
+                ],
+              ),
             Stack(
               alignment: Alignment.topRight,
               children: <Widget>[
@@ -89,6 +101,7 @@ class _PostItemState extends State<PostItem> {
                   child: Carousel(
                     images: widget.post.images,
                     height: headerHeight,
+                    temp: widget.postType == PostType.unreviewed,
                   ),
                 ),
                 Consumer<Auth>(
@@ -99,9 +112,17 @@ class _PostItemState extends State<PostItem> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            EditPostButton(widget.post.id),
+                            EditPostButton(
+                              postId: widget.post.id,
+                              reviewStatus: widget.post.reviewStatus,
+                              postType: widget.post.postType,
+                            ),
                             const SizedBox(width: 8.0),
-                            DeletePostButton(widget.post.id),
+                            DeletePostButton(
+                              postId: widget.post.id,
+                              reviewStatus: widget.post.reviewStatus,
+                              postType: widget.post.postType,
+                            ),
                           ],
                         ),
                       );

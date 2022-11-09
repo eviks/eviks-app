@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:eviks_mobile/models/post_blocking.dart';
+import 'package:eviks_mobile/models/review_history.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -31,6 +33,10 @@ enum Renovation {
   designer,
   noRenovation,
 }
+
+enum ReviewStatus { onreview, confirmed, rejected }
+
+enum PostType { confirmed, unreviewed, archived }
 
 String userTypeDescription(UserType userType, BuildContext ctx) {
   switch (userType) {
@@ -117,6 +123,37 @@ String renovationDescription(Renovation renovation, BuildContext ctx) {
   }
 }
 
+String reviewStatusTitle(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.onreview:
+      return AppLocalizations.of(ctx)!.onreviewTitle;
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedTitle;
+    default:
+      return '';
+  }
+}
+
+String reviewStatusHint(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.onreview:
+      return AppLocalizations.of(ctx)!.onreviewHint;
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedHint;
+    default:
+      return '';
+  }
+}
+
+String reviewStatusHintEnding(ReviewStatus reviewStatus, BuildContext ctx) {
+  switch (reviewStatus) {
+    case ReviewStatus.rejected:
+      return AppLocalizations.of(ctx)!.rejectedHintEnding;
+    default:
+      return '';
+  }
+}
+
 class Post {
   final int id;
   final UserType userType;
@@ -172,11 +209,16 @@ class Post {
   final bool? municipalServicesIncluded;
   final String? phoneNumber;
   final String username;
+  final DateTime createdAt;
   final DateTime updatedAt;
   final int step;
   final int? lastStep;
   final String user;
   final List<String> originalImages;
+  final PostType postType;
+  final ReviewStatus? reviewStatus;
+  final List<ReviewHistory> reviewHistory;
+  final PostBlocking? blocking;
 
   Post({
     required this.id,
@@ -233,14 +275,19 @@ class Post {
     this.municipalServicesIncluded,
     required this.phoneNumber,
     required this.username,
+    required this.createdAt,
     required this.updatedAt,
     this.step = 0,
     this.lastStep,
     required this.user,
     required this.originalImages,
+    this.postType = PostType.confirmed,
+    this.reviewStatus,
+    required this.reviewHistory,
+    this.blocking,
   });
 
-  factory Post.fromJson(dynamic json) {
+  factory Post.fromJson({required dynamic json, required PostType postType}) {
     return Post(
       id: json['_id'] as int,
       userType: UserType.values.firstWhere(
@@ -346,14 +393,37 @@ class Post {
       phoneNumber:
           json['phoneNumber'] == null ? null : json['phoneNumber'] as String,
       username: json['username'] as String,
+      createdAt: DateTime.parse(json['updatedAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       user: json['user'] as String,
       lastStep: 7,
       originalImages: (json['images'] as List<dynamic>).cast<String>(),
+      postType: postType,
+      reviewStatus: json['reviewStatus'] == null
+          ? null
+          : ReviewStatus.values.firstWhere(
+              (element) =>
+                  element.toString() ==
+                  'ReviewStatus.${json['reviewStatus'] as String}',
+            ),
+      reviewHistory: json['reviewHistory'] == null
+          ? []
+          : (json['reviewHistory'].map((element) {
+              return ReviewHistory.fromJson(
+                element,
+              );
+            }).toList() as List<dynamic>)
+              .cast<ReviewHistory>(),
+      blocking: json['blocking'] == null
+          ? null
+          : PostBlocking.fromJson(
+              json['blocking'],
+            ),
     );
   }
 
   Map<String, dynamic> toJson() => {
+        '_id': id,
         'userType': userType.toString().replaceAll('UserType.', ''),
         'estateType': estateType.toString().replaceAll('EstateType.', ''),
         'apartmentType':
@@ -497,9 +567,11 @@ class Post {
     bool? municipalServicesIncluded,
     String? phoneNumber,
     String? username,
+    DateTime? createdAt,
     DateTime? updatedAt,
     int? step,
     int? lastStep,
+    PostType? postType,
   }) {
     return Post(
       id: id,
@@ -584,12 +656,15 @@ class Post {
           : municipalServicesIncluded ?? this.municipalServicesIncluded,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       username: username ?? this.username,
+      createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       step: step ?? this.step,
       lastStep:
           lastStep == null ? this.lastStep : max(lastStep, this.lastStep ?? -1),
       user: user,
+      postType: postType ?? this.postType,
       originalImages: originalImages,
+      reviewHistory: [],
     );
   }
 }
