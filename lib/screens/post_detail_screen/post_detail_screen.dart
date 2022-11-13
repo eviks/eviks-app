@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './post_detail_buttons.dart';
 import './post_detail_content.dart';
 import './post_detail_header.dart';
 import './post_detail_moderation_buttons.dart';
@@ -288,7 +289,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ? PostDetailModerationButtons(
                 postId: postId,
               )
-            : null,
+            : const PostDetailButtons(),
       ),
     );
   }
