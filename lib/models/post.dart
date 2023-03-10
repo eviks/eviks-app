@@ -326,7 +326,7 @@ class Post {
               json['metroStation'],
             ),
       rooms: json['rooms'] as int,
-      sqm: json['sqm'] as int,
+      sqm: json["sqm"] is double ? (json["sqm"] as double).toInt() : json["sqm"] as int,
       livingRoomsSqm:
           json['livingRoomsSqm'] == null ? null : json['livingRoomsSqm'] as int,
       kitchenSqm: json['kitchenSqm'] == null ? null : json['kitchenSqm'] as int,
