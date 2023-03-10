@@ -29,11 +29,11 @@ class _PostScreenState extends State<PostScreen> {
     if (_pagination.available != null || _pagination.current == 0) {
       final _page = _pagination.current + 1;
 
+      try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
           page: _page,
           updatePosts: updatePosts,
         );
-      try {
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
           _errorMessage = AppLocalizations.of(context)!.serverError;

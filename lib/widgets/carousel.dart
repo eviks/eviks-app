@@ -71,24 +71,27 @@ class _CarouselState extends State<Carousel> {
         ),
         SizedBox(
           height: widget.height,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: widget.images.map((image) {
-              final index = widget.images.indexOf(image);
-              return Container(
-                width: 10.0,
-                height: 10.0,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _currentIndex == index
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).scaffoldBackgroundColor,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(
+                    16.0,
+                  ),
                 ),
-              );
-            }).toList(),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text(
+                  '${_currentIndex + 1}/${widget.images.length}',
+                ),
+              ),
+            ),
           ),
         ),
       ],
