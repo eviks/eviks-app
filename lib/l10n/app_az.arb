@@ -261,5 +261,6 @@
     "posts": "Elanlar",
     "subscriptions": "Axtarışlar",
     "subscriptionsTitle": "Axtarış nizamlamaları saxlayın",
-    "subscriptionsHint": "Sizin üçün uyğun olan yeni elanlar barədə bildirişlər alın"
+    "subscriptionsHint": "Sizin üçün uyğun olan yeni elanlar barədə bildirişlər alın",
+    "subscribeButton": "Abunə olmaq"
 }

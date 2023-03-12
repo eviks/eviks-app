@@ -10,6 +10,7 @@ import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
+import '../widgets/subscribe_button.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -209,6 +210,7 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                 ],
               ),
+        floatingActionButton: SubscribeButton(),
       );
     }
   }
