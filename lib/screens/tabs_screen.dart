@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import './auth_screen/auth_screen.dart';
-import './favorites_screen.dart';
+import './favorites_screen/favorites_screen.dart';
 import './new_post_screen.dart';
 import './posts_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
