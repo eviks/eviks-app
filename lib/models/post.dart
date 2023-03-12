@@ -219,6 +219,8 @@ class Post {
   final ReviewStatus? reviewStatus;
   final List<ReviewHistory> reviewHistory;
   final PostBlocking? blocking;
+  final bool? isExternal;
+  final String? source;
 
   Post({
     required this.id,
@@ -285,6 +287,8 @@ class Post {
     this.reviewStatus,
     required this.reviewHistory,
     this.blocking,
+    this.isExternal,
+    this.source,
   });
 
   factory Post.fromJson({required dynamic json, required PostType postType}) {
@@ -326,7 +330,9 @@ class Post {
               json['metroStation'],
             ),
       rooms: json['rooms'] as int,
-      sqm: json["sqm"] is double ? (json["sqm"] as double).toInt() : json["sqm"] as int,
+      sqm: json["sqm"] is double
+          ? (json["sqm"] as double).toInt()
+          : json["sqm"] as int,
       livingRoomsSqm:
           json['livingRoomsSqm'] == null ? null : json['livingRoomsSqm'] as int,
       kitchenSqm: json['kitchenSqm'] == null ? null : json['kitchenSqm'] as int,
@@ -419,6 +425,9 @@ class Post {
           : PostBlocking.fromJson(
               json['blocking'],
             ),
+      isExternal:
+          json['isExternal'] == null ? null : json['isExternal'] as bool,
+      source: json['source'] == null ? null : json['source'] as String,
     );
   }
 
