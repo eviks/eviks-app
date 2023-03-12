@@ -19,6 +19,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final bool buttonsVisibility;
   final ReviewStatus? reviewStatus;
   final PostType postType;
+  final bool isExternal;
 
   PostDetailHeader({
     required this.user,
@@ -28,6 +29,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.buttonsVisibility,
     required this.reviewStatus,
     required this.postType,
+    required this.isExternal,
   });
 
   @override
@@ -43,6 +45,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
           images: images,
           height: height,
           temp: postType == PostType.unreviewed,
+          external: isExternal,
+          displayIndicator: buttonsVisibility,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(

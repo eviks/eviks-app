@@ -11,13 +11,17 @@ class Carousel extends StatefulWidget {
     required this.images,
     required this.height,
     this.imageSize = '640',
+    required this.external,
     required this.temp,
+    this.displayIndicator = true,
   }) : super(key: key);
 
   final List<String> images;
   final double height;
   final String imageSize;
+  final bool external;
   final bool temp;
+  final bool displayIndicator;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -32,7 +36,9 @@ class _CarouselState extends State<Carousel> {
       for (final imageId in widget.images) {
         precacheImage(
           CachedNetworkImageProvider(
-            '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/$imageId/image_${widget.imageSize}.webp',
+            widget.external
+                ? imageId
+                : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/$imageId/image_${widget.imageSize}.webp',
           ),
           context,
         );
@@ -58,8 +64,9 @@ class _CarouselState extends State<Carousel> {
           itemCount: widget.images.length,
           itemBuilder: (ctx, index, _) {
             return CachedNetworkImage(
-              imageUrl:
-                  '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
+              imageUrl: widget.external
+                  ? widget.images[index]
+                  : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
               placeholder: (context, url) => const SkeletonAvatar(
                 style: SkeletonAvatarStyle(width: double.infinity),
               ),
@@ -69,31 +76,32 @@ class _CarouselState extends State<Carousel> {
             );
           },
         ),
-        SizedBox(
-          height: widget.height,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(
-                    16.0,
+        if (widget.displayIndicator)
+          SizedBox(
+            height: widget.height,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(
+                      16.0,
+                    ),
                   ),
                 ),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(
-                  '${_currentIndex + 1}/${widget.images.length}',
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text(
+                    '${_currentIndex + 1}/${widget.images.length}',
+                  ),
                 ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
