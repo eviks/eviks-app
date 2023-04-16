@@ -45,6 +45,12 @@ class Posts with ChangeNotifier {
     return _pagination;
   }
 
+  String get url {
+    final data = _filters.toQueryParameters();
+    data.removeWhere((key, value) => value == null);
+    return Uri(queryParameters: data).query;
+  }
+
   Future<void> initNewPost(Post? loadedPost) async {
     if (loadedPost != null) {
       _postData = loadedPost;

@@ -262,5 +262,10 @@
     "subscriptions": "Axtarışlar",
     "subscriptionsTitle": "Axtarış nizamlamaları saxlayın",
     "subscriptionsHint": "Sizin üçün uyğun olan yeni elanlar barədə bildirişlər alın",
-    "subscribeButton": "Abunə olmaq"
+    "subscribeButton": "Axtarışa abunə ol",
+    "subscriptionName": "Axtarışın adı",
+    "createSubscriptionTitle": "Axtarışa abunə olmaq",
+    "createSubscriptionHint": "Siz bu axtarış üzrə yeni elanlar barədə bildirişləri alacaqsınız",
+    "subscriptionEdit": "Redaktə etmək",
+    "subscriptionDelete": "Ləğv etmək"
 }

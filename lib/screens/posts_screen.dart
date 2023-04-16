@@ -101,6 +101,7 @@ class _PostScreenState extends State<PostScreen> {
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;
+      final url = Provider.of<Posts>(context).url;
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -210,7 +211,7 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                 ],
               ),
-        floatingActionButton: SubscribeButton(),
+        floatingActionButton: SubscribeButton(url),
       );
     }
   }

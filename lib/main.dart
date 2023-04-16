@@ -16,6 +16,7 @@ import './providers/auth.dart';
 import './providers/locale_provider.dart';
 import './providers/localities.dart';
 import './providers/posts.dart';
+import './providers/subscriptions.dart';
 import './providers/theme_preferences.dart';
 import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
@@ -101,6 +102,13 @@ class MyApp extends StatelessWidget {
             previousPosts?.postData,
             previousPosts?.filters ?? initFilters(),
             previousPosts?.pagination ?? initPagination(),
+          ),
+        ),
+        ChangeNotifierProxyProvider<Auth, Subscriptions>(
+          create: (ctx) => Subscriptions('', []),
+          update: (ctx, auth, previousSubscriptions) => Subscriptions(
+            auth.token,
+            previousSubscriptions?.subscriptions ?? [],
           ),
         ),
         ChangeNotifierProvider(create: (ctx) => Localities()),

@@ -262,5 +262,10 @@
     "subscriptions": "Подписки",
     "subscriptionsTitle": "Сохраняйте параметры поиска",
     "subscriptionsHint": "Получайте уведомления о новых объявлениях, которые подходят именно вам",
-    "subscribeButton": "Подписаться"
+    "subscribeButton": "Подписаться",
+    "subscriptionName": "Название поиска",
+    "createSubscriptionTitle": "Подписаться на поиск",
+    "createSubscriptionHint": "Вы будете получать уведомления о новых объявлениях по этому поиску",
+    "subscriptionEdit": "Редактировать",
+    "subscriptionDelete": "Удалить"
 }

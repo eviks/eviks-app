@@ -1,3 +1,4 @@
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -5,10 +6,11 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../models/failure.dart';
-import '../../providers/auth.dart';
-import '../../providers/posts.dart';
-import '../../widgets/post_item.dart';
+import '../../providers/subscriptions.dart' as provider;
 import '../../widgets/sized_config.dart';
+import '../tabs_screen.dart';
+
+enum MenuItems { edit, delete }
 
 class Subscriptions extends StatefulWidget {
   const Subscriptions({Key? key}) : super(key: key);
@@ -19,73 +21,45 @@ class Subscriptions extends StatefulWidget {
 
 class _SubscriptionsState extends State<Subscriptions> {
   var _isInit = true;
-  var _isLoading = false;
-  List<String> ids = [];
-  final ScrollController _scrollController = ScrollController();
 
-  Future<void> _fetchPosts(bool updatePosts) async {
-    if (ids.isNotEmpty) {
-      final Map<String, dynamic> _queryParameters = {'ids': ids.join(',')};
+  Future<void> _fetchSubscriptions() async {
+    String _errorMessage = '';
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
-      String _errorMessage = '';
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      final _pagination = Provider.of<Posts>(context, listen: false).pagination;
-      if (_pagination.available != null || _pagination.current == 0) {
-        final _page = _pagination.current + 1;
-        try {
-          await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-            queryParameters: _queryParameters,
-            page: _page,
-            updatePosts: updatePosts,
-          );
-        } on Failure catch (error) {
-          if (error.statusCode >= 500) {
-            _errorMessage = AppLocalizations.of(context)!.serverError;
-          } else {
-            _errorMessage = AppLocalizations.of(context)!.networkError;
-          }
-        } catch (error) {
-          _errorMessage = AppLocalizations.of(context)!.unknownError;
-        }
-
-        if (_errorMessage.isNotEmpty) {
-          if (!mounted) return;
-          showSnackBar(context, _errorMessage);
-        }
+    try {
+      await Provider.of<provider.Subscriptions>(context, listen: false)
+          .getSubscriptions();
+    } on Failure catch (error) {
+      if (error.statusCode >= 500) {
+        _errorMessage = AppLocalizations.of(context)!.serverError;
+      } else {
+        _errorMessage = AppLocalizations.of(context)!.networkError;
       }
+    } catch (error) {
+      _errorMessage = AppLocalizations.of(context)!.unknownError;
     }
+
+    if (_errorMessage.isNotEmpty) {
+      if (!mounted) return;
+      showSnackBar(context, _errorMessage);
+    }
+  }
+
+  void _goToPosts() {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      TabsScreen.routeName,
+      (route) => false,
+      arguments: Pages.posts,
+    );
   }
 
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
-      _scrollController.addListener(
-        () async {
-          if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent) {
-            setState(() {
-              _isLoading = true;
-            });
+      Provider.of<provider.Subscriptions>(context, listen: false)
+          .clearSubscriptions();
 
-            await _fetchPosts(true);
-
-            setState(() {
-              _isLoading = false;
-            });
-          }
-        },
-      );
-
-      final favorites = Provider.of<Auth>(context, listen: false).favorites;
-      favorites.forEach((key, value) {
-        if (value == true) {
-          ids.add(key);
-        }
-      });
-
-      Provider.of<Posts>(context, listen: false).clearPosts();
-
-      await _fetchPosts(false);
+      await _fetchSubscriptions();
 
       if (mounted) {
         setState(() {
@@ -97,12 +71,6 @@ class _SubscriptionsState extends State<Subscriptions> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
@@ -111,8 +79,9 @@ class _SubscriptionsState extends State<Subscriptions> {
         child: CircularProgressIndicator(),
       );
     } else {
-      final posts = Provider.of<Posts>(context).posts;
-      return posts.isEmpty
+      final subscriptions =
+          Provider.of<provider.Subscriptions>(context).subscriptions;
+      return subscriptions.isEmpty
           ? SingleChildScrollView(
               child: SafeArea(
                 child: Center(
@@ -161,7 +130,7 @@ class _SubscriptionsState extends State<Subscriptions> {
           : Stack(
               children: [
                 ListView.builder(
-                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (ctx, index) {
                     return AnimationConfiguration.staggeredList(
@@ -170,30 +139,45 @@ class _SubscriptionsState extends State<Subscriptions> {
                       child: SlideAnimation(
                         verticalOffset: 50.0,
                         child: FadeInAnimation(
-                          child: PostItem(
-                            key: Key(posts[index].id.toString()),
-                            post: posts[index],
+                          child: Card(
+                            child: ListTile(
+                              key: Key(subscriptions[index].id),
+                              leading: const Icon(CustomIcons.search),
+                              title: Text(subscriptions[index].name),
+                              trailing: PopupMenuButton<MenuItems>(
+                                onSelected: (value) {
+                                  // todo
+                                },
+                                itemBuilder: (BuildContext bc) {
+                                  return [
+                                    PopupMenuItem(
+                                      value: MenuItems.edit,
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .subscriptionEdit,
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      value: MenuItems.delete,
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .subscriptionDelete,
+                                      ),
+                                    ),
+                                  ];
+                                },
+                              ),
+                              onTap: () {
+                                _goToPosts();
+                              },
+                            ),
                           ),
                         ),
                       ),
                     );
                   },
-                  itemCount: posts.length,
+                  itemCount: subscriptions.length,
                 ),
-                if (_isLoading)
-                  Positioned(
-                    bottom: 0,
-                    width: SizeConfig.blockSizeHorizontal * 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             );
     }

@@ -12,6 +12,8 @@ import './posts_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
 import '../providers/auth.dart';
 
+enum Pages { postReview, posts, favorites, newPost, userProfile }
+
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tabs';
 
@@ -25,11 +27,29 @@ class _TabsScreenState extends State<TabsScreen> {
   var _isInit = true;
   var _isAuth = false;
   UserRole _userRole = UserRole.user;
+  Map<Pages, int> pages = {};
+
+  int getPageIndex() {
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    final pageValue = arguments != null ? arguments as Pages : Pages.posts;
+    final pageIndex = pages[pageValue] ?? 0;
+    return pageIndex;
+  }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
+      pages = {
+        Pages.posts: 0,
+        Pages.favorites: 1,
+        Pages.newPost: 2,
+        Pages.userProfile: 3
+      };
+
+      final pageIndex = getPageIndex();
+
       setState(() {
+        _selectedPageIndex = pageIndex;
         _pages = [
           PostScreen(),
           FavoritesScreen(),
@@ -61,10 +81,29 @@ class _TabsScreenState extends State<TabsScreen> {
       listen: true,
     ).userRole;
 
+    if (_currentUserRole == UserRole.moderator) {
+      pages = {
+        Pages.postReview: 0,
+        Pages.posts: 1,
+        Pages.favorites: 2,
+        Pages.newPost: 3,
+        Pages.userProfile: 4
+      };
+    } else {
+      pages = {
+        Pages.posts: 0,
+        Pages.favorites: 1,
+        Pages.newPost: 2,
+        Pages.userProfile: 3
+      };
+    }
+
+    final pageIndex = getPageIndex();
+
     if (_userRole != _currentUserRole) {
       setState(() {
         _userRole = _currentUserRole;
-        _selectedPageIndex = 0;
+        _selectedPageIndex = pageIndex;
         _pages = [
           if (_currentUserRole == UserRole.moderator) const PostReviewScreen(),
           PostScreen(),
