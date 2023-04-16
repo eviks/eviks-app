@@ -194,6 +194,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       buttonsVisibility: !_leadingVisibility,
                       reviewStatus: loadedPost.reviewStatus,
                       postType: loadedPost.postType,
+                      isExternal: loadedPost.isExternal ?? false,
                     ),
                   ),
                   SliverAppBar(

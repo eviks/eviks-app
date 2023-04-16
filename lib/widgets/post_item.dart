@@ -101,6 +101,7 @@ class _PostItemState extends State<PostItem> {
                   child: Carousel(
                     images: widget.post.images,
                     height: headerHeight,
+                    external: widget.post.isExternal ?? false,
                     temp: widget.postType == PostType.unreviewed,
                   ),
                 ),

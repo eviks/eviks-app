@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './post_detail_additional.dart';
 import './post_detail_building.dart';
@@ -81,12 +82,24 @@ class PostDetailContent extends StatelessWidget {
                 PostDetailUser(
                   post: post,
                 ),
-                if (post.description?.isNotEmpty ?? false)
+                if (post.description?.isNotEmpty ??
+                    false || (post.isExternal ?? false))
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _ContentTitle(
                         AppLocalizations.of(context)!.postDetailDescription,
+                      ),
+                      InkWell(
+                        child: Text(
+                          post.source ?? '',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                        onTap: () => launch(post.source ?? ''),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
                       ),
                       Text(
                         post.description ?? '',
