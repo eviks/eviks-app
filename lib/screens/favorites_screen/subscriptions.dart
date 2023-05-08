@@ -13,6 +13,7 @@ import '../../providers/localities.dart';
 import '../../providers/posts.dart';
 import '../../providers/subscriptions.dart' as provider;
 import '../../widgets/sized_config.dart';
+import '../../widgets/subscription_modal.dart';
 import '../tabs_screen.dart';
 
 enum MenuItems { edit, delete }
@@ -187,7 +188,9 @@ class _SubscriptionsState extends State<Subscriptions> {
               children: [
                 ListView.builder(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 4.0),
+                    horizontal: 8.0,
+                    vertical: 4.0,
+                  ),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (ctx, index) {
                     return AnimationConfiguration.staggeredList(
@@ -202,8 +205,33 @@ class _SubscriptionsState extends State<Subscriptions> {
                               leading: const Icon(CustomIcons.search),
                               title: Text(subscriptions[index].name),
                               trailing: PopupMenuButton<MenuItems>(
-                                onSelected: (value) {
-                                  // todo
+                                onSelected: (value) async {
+                                  if (value == MenuItems.delete) {
+                                    await Provider.of<provider.Subscriptions>(
+                                      context,
+                                      listen: false,
+                                    ).deleteSubscription(
+                                      subscriptions[index].id,
+                                    );
+                                  } else {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(16.0),
+                                          topRight: Radius.circular(16.0),
+                                        ),
+                                      ),
+                                      builder: (BuildContext context) {
+                                        return SubscriptionModal(
+                                          subscriptions[index].url,
+                                          subscriptions[index].name,
+                                          subscriptions[index].id,
+                                        );
+                                      },
+                                    );
+                                  }
                                 },
                                 itemBuilder: (BuildContext bc) {
                                   return [

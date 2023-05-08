@@ -51,6 +51,8 @@ class Subscriptions with ChangeNotifier {
         throw Failure(buffer.toString(), response.statusCode);
       }
 
+      clearSubscriptions();
+
       final dynamic data = json.decode(response.body);
       data.forEach((element) {
         _subscriptions.add(Subscription.fromJson(json: element));
@@ -87,6 +89,70 @@ class Subscriptions with ChangeNotifier {
         );
         throw Failure(buffer.toString(), response.statusCode);
       }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateSubscription(Subscription subscription) async {
+    final data = subscription.toJson();
+    try {
+      final url = Uri.parse('$baseUrl/api/subscriptions');
+      final response = await http.put(
+        url,
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'JWT $token'
+        },
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      clearSubscriptions();
+
+      final dynamic subscriptionsData = json.decode(response.body);
+      subscriptionsData.forEach((element) {
+        _subscriptions.add(Subscription.fromJson(json: element));
+      });
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteSubscription(String id) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/subscriptions/$id');
+      final response =
+          await http.delete(url, headers: {'Authorization': 'JWT $token'});
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+      _subscriptions.removeWhere((element) => element.id == id);
       notifyListeners();
     } catch (error) {
       rethrow;
