@@ -23,36 +23,34 @@ class PostDetailMainInfo extends StatelessWidget {
             hint: AppLocalizations.of(context)!.roomsShort,
           ),
           _MainInfo(
-            value: '${post.sqm.toString()} ${AppLocalizations.of(context)!.m2}',
+            value: '${post.sqm} ${AppLocalizations.of(context)!.m2}',
             hint: AppLocalizations.of(context)!.sqmShort,
           ),
           if ((post.livingRoomsSqm ?? 0) > 0)
             _MainInfo(
               value:
-                  '${post.livingRoomsSqm.toString()} ${AppLocalizations.of(context)!.m2}',
+                  '${post.livingRoomsSqm} ${AppLocalizations.of(context)!.m2}',
               hint: AppLocalizations.of(context)!.livingRoomsSqmShort,
             ),
           if ((post.kitchenSqm ?? 0) > 0)
             _MainInfo(
-              value:
-                  '${post.kitchenSqm.toString()} ${AppLocalizations.of(context)!.m2}',
+              value: '${post.kitchenSqm} ${AppLocalizations.of(context)!.m2}',
               hint: AppLocalizations.of(context)!.kitchenSqmShort,
             ),
           if (post.estateType == EstateType.apartment)
             _MainInfo(
-              value:
-                  '${post.floor.toString()} / ${post.totalFloors.toString()}',
+              value: '${post.floor} / ${post.totalFloors}',
               hint: AppLocalizations.of(context)!.floor,
             ),
           if (post.estateType == EstateType.house)
             _MainInfo(
-              value: '${post.lotSqm.toString()} ',
+              value: '${post.lotSqm} ',
               hint: AppLocalizations.of(context)!.lotSqmShort,
             ),
           if (post.estateType == EstateType.house &&
               (post.totalFloors ?? 0) > 1)
             _MainInfo(
-              value: '${post.lotSqm.toString()} ',
+              value: '${post.lotSqm} ',
               hint: AppLocalizations.of(context)!.totalFloorsShort,
             ),
         ],

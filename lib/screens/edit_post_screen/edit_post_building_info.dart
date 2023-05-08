@@ -35,7 +35,7 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 4) {
         _yearBuild = postData?.yearBuild;

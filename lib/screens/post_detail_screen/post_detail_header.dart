@@ -64,11 +64,11 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                       child: ElevatedButton(
                         onPressed: Navigator.canPop(context)
                             ? () {
-                                final _userRole =
+                                final userRole =
                                     Provider.of<Auth>(context, listen: false)
                                         .userRole;
 
-                                if (_userRole == UserRole.moderator) {
+                                if (userRole == UserRole.moderator) {
                                   final postId = ModalRoute.of(context)!
                                       .settings
                                       .arguments! as int;
@@ -87,8 +87,9 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           fixedSize: const Size(50.0, 50.0),
-                          primary: Theme.of(context).backgroundColor,
-                          onPrimary: Theme.of(context).dividerColor,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                          foregroundColor: Theme.of(context).dividerColor,
                         ),
                         child: const Icon(CustomIcons.back),
                       ),

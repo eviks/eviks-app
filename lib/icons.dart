@@ -280,6 +280,10 @@ class CustomIcons {
     0xe840,
     fontFamily: _kFontFam,
   );
+  static const IconData shield = IconData(
+    0xe841,
+    fontFamily: _kFontFam,
+  );
   static const IconData showpassword = IconData(
     0xe842,
     fontFamily: _kFontFam,
@@ -292,8 +296,8 @@ class CustomIcons {
     0xe844,
     fontFamily: _kFontFam,
   );
-  static const IconData shield = IconData(
-    0xe841,
+  static const IconData bell = IconData(
+    0xe845,
     fontFamily: _kFontFam,
   );
 }

@@ -30,7 +30,7 @@ class _CitySelectionState extends State<CitySelection> {
         _isLoading = true;
       });
 
-      String _errorMessage = '';
+      String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       try {
         final result = await Provider.of<Localities>(context, listen: false)
@@ -41,17 +41,17 @@ class _CitySelectionState extends State<CitySelection> {
         });
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = AppLocalizations.of(context)!.networkError;
+          errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
-      if (_errorMessage.isNotEmpty) {
+      if (errorMessage.isNotEmpty) {
         if (!mounted) return;
-        showSnackBar(context, _errorMessage);
+        showSnackBar(context, errorMessage);
       }
 
       setState(() {

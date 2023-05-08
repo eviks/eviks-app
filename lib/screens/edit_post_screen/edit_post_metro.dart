@@ -33,7 +33,7 @@ class _EditPostMetroState extends State<EditPostMetro> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       _metroStations = postData?.city.metroStations ?? [];
       _metroStations.sort((a, b) {
@@ -164,6 +164,7 @@ class _EditPostMetroState extends State<EditPostMetro> {
                           return AppLocalizations.of(context)!
                               .errorRequiredField;
                         }
+                        return null;
                       },
                     ),
                     const SizedBox(

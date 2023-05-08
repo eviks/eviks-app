@@ -14,9 +14,9 @@ class MainFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _filters = Provider.of<Posts>(context).filters;
+    final filters = Provider.of<Posts>(context).filters;
 
-    void _updateFilters(Map<String, dynamic> newValues) {
+    void updateFilters(Map<String, dynamic> newValues) {
       Provider.of<Posts>(context, listen: false).updateFilters(newValues);
     }
 
@@ -27,10 +27,10 @@ class MainFilters extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: ToggleFormField<DealType>(
             values: DealType.values,
-            initialValue: _filters.dealType,
+            initialValue: filters.dealType,
             getDescription: dealTypeFiltersDescription,
             onPressed: (DealType value) {
-              _updateFilters({'dealType': value});
+              updateFilters({'dealType': value});
             },
             icons: const [
               CustomIcons.sale,
@@ -44,20 +44,20 @@ class MainFilters extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: ToggleFormField<EstateType>(
             values: EstateType.values,
-            initialValue: _filters.estateType,
+            initialValue: filters.estateType,
             getDescription: estateTypeDescription,
             onPressed: (EstateType? value) {
-              final Map<String, dynamic> _newValues = {};
+              final Map<String, dynamic> newValues = {};
 
-              _newValues['estateType'] = value;
+              newValues['estateType'] = value;
               if (value != EstateType.apartment) {
-                _newValues['apartmentType'] = null;
+                newValues['apartmentType'] = null;
               } else {
-                _newValues['lotSqmMin'] = null;
-                _newValues['lotSqmMax'] = null;
+                newValues['lotSqmMin'] = null;
+                newValues['lotSqmMax'] = null;
               }
 
-              _updateFilters(_newValues);
+              updateFilters(newValues);
             },
             icons: const [
               CustomIcons.apartment,
@@ -67,18 +67,18 @@ class MainFilters extends StatelessWidget {
           ),
         ),
         AnimatedOpacity(
-          opacity: _filters.estateType == EstateType.apartment ? 1.0 : 0.0,
+          opacity: filters.estateType == EstateType.apartment ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 500),
           child: Visibility(
-            visible: _filters.estateType == EstateType.apartment,
+            visible: filters.estateType == EstateType.apartment,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: ToggleFormField<ApartmentType>(
                 values: ApartmentType.values,
-                initialValue: _filters.apartmentType,
+                initialValue: filters.apartmentType,
                 getDescription: apartmentTypeDescription,
                 onPressed: (ApartmentType? value) {
-                  _updateFilters({'apartmentType': value});
+                  updateFilters({'apartmentType': value});
                 },
                 icons: const [
                   CustomIcons.newbuilding,
@@ -95,20 +95,20 @@ class MainFilters extends StatelessWidget {
           title: AppLocalizations.of(context)!.price,
           icon: CustomIcons.money,
           initialValueFrom:
-              _filters.priceMin != 0 ? _filters.priceMin?.toString() : null,
+              filters.priceMin != 0 ? filters.priceMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
           initialValueTo:
-              _filters.priceMax != 0 ? _filters.priceMax?.toString() : null,
+              filters.priceMax != 0 ? filters.priceMax?.toString() : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters({
+            updateFilters({
               'priceMin': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
-            _updateFilters({
+            updateFilters({
               'priceMax': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
@@ -117,20 +117,20 @@ class MainFilters extends StatelessWidget {
           title: AppLocalizations.of(context)!.rooms,
           icon: CustomIcons.door,
           initialValueFrom:
-              _filters.roomsMin != 0 ? _filters.roomsMin?.toString() : null,
+              filters.roomsMin != 0 ? filters.roomsMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
           initialValueTo:
-              _filters.roomsMax != 0 ? _filters.roomsMax?.toString() : null,
+              filters.roomsMax != 0 ? filters.roomsMax?.toString() : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters({
+            updateFilters({
               'roomsMin': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
-            _updateFilters({
+            updateFilters({
               'roomsMax': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },

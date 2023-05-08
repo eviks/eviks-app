@@ -41,9 +41,7 @@ ThemeData lightThemeData(BuildContext context) {
       },
     ),
     primaryColor: primaryColor,
-    androidOverscrollIndicator: AndroidOverscrollIndicator.glow,
     disabledColor: greyColor,
-    backgroundColor: lightColor,
     scaffoldBackgroundColor: lightColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: lightColor,
@@ -186,7 +184,6 @@ ThemeData darkThemeData(BuildContext context) {
     cardColor: darkColor,
     primaryColor: lightPrimaryColor,
     disabledColor: greyColor,
-    backgroundColor: darkColor,
     scaffoldBackgroundColor: darkColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: darkColor,
@@ -213,10 +210,11 @@ ThemeData darkThemeData(BuildContext context) {
           fontFamily: 'Roboto',
           bodyColor: lightPrimaryColor,
         ),
-    colorScheme: const ColorScheme.light(
+    colorScheme: const ColorScheme.dark(
       primary: lightPrimaryColor,
       error: lightDangerColor,
       secondary: lightPrimaryColor,
+      background: darkColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

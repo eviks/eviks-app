@@ -29,7 +29,7 @@ class UploadedImage extends StatefulWidget {
 
 class _UploadedImageState extends State<UploadedImage> {
   Future<void> uploadImage() async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       final res = await Provider.of<Posts>(context, listen: false)
@@ -39,18 +39,18 @@ class _UploadedImageState extends State<UploadedImage> {
       }
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
-    if (_errorMessage.isNotEmpty) {
+    if (errorMessage.isNotEmpty) {
       widget.deleteImage(widget.imageData.id);
       if (!mounted) return;
-      showSnackBar(context, _errorMessage);
+      showSnackBar(context, errorMessage);
       return;
     }
   }
@@ -80,7 +80,10 @@ class _UploadedImageState extends State<UploadedImage> {
                   width: 32.0,
                   height: 32.0,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .background
+                        .withOpacity(0.5),
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: IconButton(
@@ -102,7 +105,8 @@ class _UploadedImageState extends State<UploadedImage> {
                 fit: BoxFit.fill,
               ),
               Container(
-                color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                color:
+                    Theme.of(context).colorScheme.background.withOpacity(0.5),
               ),
               Center(
                 child: CircularProgressIndicator(

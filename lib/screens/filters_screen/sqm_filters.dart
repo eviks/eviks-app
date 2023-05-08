@@ -13,8 +13,8 @@ class SqmFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _filters = Provider.of<Posts>(context).filters;
-    void _updateFilters(Map<String, dynamic> newValues) {
+    final filters = Provider.of<Posts>(context).filters;
+    void updateFilters(Map<String, dynamic> newValues) {
       Provider.of<Posts>(context, listen: false).updateFilters(newValues);
     }
 
@@ -37,20 +37,20 @@ class SqmFilters extends StatelessWidget {
           title: AppLocalizations.of(context)!.sqm,
           icon: CustomIcons.sqm,
           initialValueFrom:
-              _filters.sqmMin != 0 ? _filters.sqmMin?.toString() : null,
+              filters.sqmMin != 0 ? filters.sqmMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
           initialValueTo:
-              _filters.sqmMax != 0 ? _filters.sqmMax?.toString() : null,
+              filters.sqmMax != 0 ? filters.sqmMax?.toString() : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters(
+            updateFilters(
               {'sqmMin': value?.isEmpty ?? true ? null : int.parse(value!)},
             );
           },
           onChangedTo: (value) {
-            _updateFilters(
+            updateFilters(
               {'sqmMax': value?.isEmpty ?? true ? null : int.parse(value!)},
             );
           },
@@ -58,24 +58,24 @@ class SqmFilters extends StatelessWidget {
         RangeField(
           title: AppLocalizations.of(context)!.livingRoomsSqm,
           icon: CustomIcons.sqm,
-          initialValueFrom: _filters.livingRoomsSqmMin != 0
-              ? _filters.livingRoomsSqmMin?.toString()
+          initialValueFrom: filters.livingRoomsSqmMin != 0
+              ? filters.livingRoomsSqmMin?.toString()
               : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
-          initialValueTo: _filters.livingRoomsSqmMax != 0
-              ? _filters.livingRoomsSqmMax?.toString()
+          initialValueTo: filters.livingRoomsSqmMax != 0
+              ? filters.livingRoomsSqmMax?.toString()
               : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters({
+            updateFilters({
               'livingRoomsSqmMin':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
-            _updateFilters({
+            updateFilters({
               'livingRoomsSqmMax':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });
@@ -84,47 +84,47 @@ class SqmFilters extends StatelessWidget {
         RangeField(
           title: AppLocalizations.of(context)!.kitchenSqm,
           icon: CustomIcons.sqm,
-          initialValueFrom: _filters.kitchenSqmMin != 0
-              ? _filters.kitchenSqmMin?.toString()
+          initialValueFrom: filters.kitchenSqmMin != 0
+              ? filters.kitchenSqmMin?.toString()
               : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
-          initialValueTo: _filters.kitchenSqmMax != 0
-              ? _filters.kitchenSqmMax?.toString()
+          initialValueTo: filters.kitchenSqmMax != 0
+              ? filters.kitchenSqmMax?.toString()
               : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters({
+            updateFilters({
               'kitchenSqmMin': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
-            _updateFilters({
+            updateFilters({
               'kitchenSqmMax': value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
         ),
         Visibility(
-          visible: _filters.estateType == EstateType.house,
+          visible: filters.estateType == EstateType.house,
           child: RangeField(
             title: AppLocalizations.of(context)!.lotSqm,
             icon: CustomIcons.sqm,
             initialValueFrom:
-                _filters.lotSqmMin != 0 ? _filters.lotSqmMin?.toString() : null,
+                filters.lotSqmMin != 0 ? filters.lotSqmMin?.toString() : null,
             keyboardTypeFrom: TextInputType.number,
             inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
             initialValueTo:
-                _filters.lotSqmMax != 0 ? _filters.lotSqmMax?.toString() : null,
+                filters.lotSqmMax != 0 ? filters.lotSqmMax?.toString() : null,
             keyboardTypeTo: TextInputType.number,
             inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
             onChangedFrom: (value) {
-              _updateFilters({
+              updateFilters({
                 'lotSqmMin': value?.isEmpty ?? true ? null : int.parse(value!)
               });
             },
             onChangedTo: (value) {
-              _updateFilters({
+              updateFilters({
                 'lotSqmMax': value?.isEmpty ?? true ? null : int.parse(value!)
               });
             },

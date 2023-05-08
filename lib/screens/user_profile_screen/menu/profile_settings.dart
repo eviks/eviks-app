@@ -49,19 +49,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .updateProfile(_displayName, _password, _newPassword);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -70,8 +70,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
     } else {
       showSnackBar(context, AppLocalizations.of(context)!.profileIsUpdated);
     }
@@ -96,24 +96,24 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           ),
           TextButton(
             onPressed: () async {
-              String _errorMessage = '';
+              String errorMessage = '';
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               try {
                 await Provider.of<Auth>(context, listen: false).deleteProfile();
               } on Failure catch (error) {
                 if (error.statusCode >= 500) {
-                  _errorMessage = AppLocalizations.of(context)!.serverError;
+                  errorMessage = AppLocalizations.of(context)!.serverError;
                 } else {
-                  _errorMessage = error.toString();
+                  errorMessage = error.toString();
                 }
               } catch (error) {
-                _errorMessage = AppLocalizations.of(context)!.unknownError;
+                errorMessage = AppLocalizations.of(context)!.unknownError;
               }
 
               if (!mounted) return;
 
-              if (_errorMessage.isNotEmpty) {
-                showSnackBar(context, _errorMessage);
+              if (errorMessage.isNotEmpty) {
+                showSnackBar(context, errorMessage);
               }
 
               Navigator.of(context).pushNamedAndRemoveUntil(
@@ -136,7 +136,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final bool _isGoogleUser =
+    final bool isGoogleUser =
         (Provider.of<Auth>(context).user?.googleId ?? '') != '';
     return Scaffold(
       appBar: AppBar(
@@ -172,6 +172,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.errorRequiredField;
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _displayName = value ?? '';
@@ -186,11 +187,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     obscureText: true,
                     validator: (value) {
                       if (_newPassword.isNotEmpty) {
-                        if ((value == null || value.isEmpty) &&
-                            !_isGoogleUser) {
+                        if ((value == null || value.isEmpty) && !isGoogleUser) {
                           return AppLocalizations.of(context)!.errorPassword;
                         }
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _password = value ?? '';
@@ -201,7 +202,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     title: AppLocalizations.of(context)!.newPassword,
                     obscureText: true,
                     validator: (value) {
-                      if (!_isGoogleUser && _password.isNotEmpty) {
+                      if (!isGoogleUser && _password.isNotEmpty) {
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.errorNewPassword;
                         } else if (value.length < 6) {
@@ -212,6 +213,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           value.length < 6) {
                         return AppLocalizations.of(context)!.invalidPassword;
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _newPassword = value ?? '';

@@ -19,10 +19,10 @@ class MetroStation {
   });
 
   String getLocalizedName(BuildContext context) {
-    final Locale _locale = Localizations.localeOf(context);
-    if (_locale == const Locale('az')) return name;
-    if (_locale == const Locale('ru')) return nameRu;
-    if (_locale == const Locale('en')) return nameEn;
+    final Locale locale = Localizations.localeOf(context);
+    if (locale == const Locale('az')) return name;
+    if (locale == const Locale('ru')) return nameRu;
+    if (locale == const Locale('en')) return nameEn;
     return name;
   }
 

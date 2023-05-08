@@ -32,7 +32,7 @@ class _CarouselState extends State<Carousel> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       for (final imageId in widget.images) {
         precacheImage(
           CachedNetworkImageProvider(
@@ -85,7 +85,7 @@ class _CarouselState extends State<Carousel> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(
                       16.0,
@@ -94,7 +94,9 @@ class _CarouselState extends State<Carousel> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: Text(
                     '${_currentIndex + 1}/${widget.images.length}',
                   ),

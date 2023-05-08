@@ -28,35 +28,35 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
   final ScrollController _scrollController = ScrollController();
 
   Future<void> _fetchPosts(bool updatePosts) async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    final Map<String, dynamic> _queryParameters = {'reviewStatus': 'onreview'};
-    final _pagination = Provider.of<Posts>(context, listen: false).pagination;
+    final Map<String, dynamic> queryParameters = {'reviewStatus': 'onreview'};
+    final pagination = Provider.of<Posts>(context, listen: false).pagination;
 
-    if (_pagination.available != null || _pagination.current == 0) {
-      final _page = _pagination.current + 1;
+    if (pagination.available != null || pagination.current == 0) {
+      final page = pagination.current + 1;
 
       try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-          page: _page,
+          page: page,
           updatePosts: updatePosts,
           postType: PostType.unreviewed,
-          queryParameters: _queryParameters,
+          queryParameters: queryParameters,
         );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = AppLocalizations.of(context)!.networkError;
+          errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
-        _errorMessage = error.toString();
+        errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = error.toString();
       }
 
-      if (_errorMessage.isNotEmpty) {
+      if (errorMessage.isNotEmpty) {
         if (!mounted) return;
-        showSnackBar(context, _errorMessage);
+        showSnackBar(context, errorMessage);
       }
     }
   }
@@ -110,12 +110,12 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
     );
 
     String getPostTitle(Post post) {
-      return '#${post.id.toString()} | ${post.city.getLocalizedName(context)} | ${post.district.getLocalizedName(context)} | ${dealTypeDescriptionAlternative(post.dealType, context)}';
+      return '#${post.id} | ${post.city.getLocalizedName(context)} | ${post.district.getLocalizedName(context)} | ${dealTypeDescriptionAlternative(post.dealType, context)}';
     }
 
     if (_isInit) {
-      return Container(
-        color: Theme.of(context).backgroundColor,
+      return ColoredBox(
+        color: Theme.of(context).colorScheme.background,
         child: const Center(
           child: CircularProgressIndicator(),
         ),
@@ -149,7 +149,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                     controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (ctx, index) {
-                      final _isBlocked = (posts[index]
+                      final isBlocked = (posts[index]
                                   .blocking
                                   ?.blockingExpires
                                   .isAfter(DateTime.now()) ??
@@ -163,13 +163,13 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                           verticalOffset: 50.0,
                           child: FadeInAnimation(
                             child: ListTile(
-                              enabled: !_isBlocked,
+                              enabled: !isBlocked,
                               trailing: const Icon(CustomIcons.next),
                               title: Text(getPostTitle(posts[index])),
                               subtitle: Text(
                                 dateFormatter.format(posts[index].createdAt),
                               ),
-                              onTap: _isBlocked
+                              onTap: isBlocked
                                   ? null
                                   : () async {
                                       await Navigator.pushNamed(

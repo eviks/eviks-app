@@ -28,38 +28,38 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    final _isAuth = Provider.of<Auth>(context, listen: false).isAuth;
+    final isAuth = Provider.of<Auth>(context, listen: false).isAuth;
 
-    Future<void> _logout() async {
-      String _errorMessage = '';
+    Future<void> logout() async {
+      String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       try {
         await Provider.of<Auth>(context, listen: false).logout();
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = error.toString();
+          errorMessage = error.toString();
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
       if (!mounted) return;
 
-      if (_errorMessage.isNotEmpty) {
-        showSnackBar(context, _errorMessage);
+      if (errorMessage.isNotEmpty) {
+        showSnackBar(context, errorMessage);
         return;
       }
       Navigator.of(context)
           .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
     }
 
-    void _login() {
+    void login() {
       Navigator.of(context).pushNamed(AuthScreen.routeName);
     }
 
-    void _goToUserPosts() {
+    void goToUserPosts() {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -68,7 +68,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
     }
 
-    void _goToProfileSettings() {
+    void goToProfileSettings() {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -77,7 +77,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
     }
 
-    void _changeThemeMode() {
+    void changeThemeMode() {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -86,7 +86,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
     }
 
-    void _changeLanguage() {
+    void changeLanguage() {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -116,42 +116,42 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                if (_isAuth)
+                if (isAuth)
                   Column(
                     children: [
                       UserProfileMenu(
                         title: AppLocalizations.of(context)!.myPosts,
                         icon: CustomIcons.bookmark,
-                        onPressed: _goToUserPosts,
+                        onPressed: goToUserPosts,
                       ),
                       UserProfileMenu(
                         title: AppLocalizations.of(context)!.profileSettings,
                         icon: CustomIcons.user,
-                        onPressed: _goToProfileSettings,
+                        onPressed: goToProfileSettings,
                       ),
                     ],
                   ),
-                if (!_isAuth)
+                if (!isAuth)
                   UserProfileMenu(
                     title: AppLocalizations.of(context)!.login,
                     icon: CustomIcons.login,
-                    onPressed: _login,
+                    onPressed: login,
                   ),
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.theme,
                   icon: CustomIcons.thememode,
-                  onPressed: _changeThemeMode,
+                  onPressed: changeThemeMode,
                 ),
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.language,
                   icon: CustomIcons.globe,
-                  onPressed: _changeLanguage,
+                  onPressed: changeLanguage,
                 ),
-                if (_isAuth)
+                if (isAuth)
                   UserProfileMenu(
                     title: AppLocalizations.of(context)!.logout,
                     icon: CustomIcons.logout,
-                    onPressed: _logout,
+                    onPressed: logout,
                   ),
                 const Text('0.0.1'),
               ],

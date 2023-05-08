@@ -45,19 +45,25 @@ class Posts with ChangeNotifier {
     return _pagination;
   }
 
+  String get url {
+    final data = _filters.toQueryParameters();
+    data.removeWhere((key, value) => value == null);
+    return Uri(queryParameters: data).query;
+  }
+
   Future<void> initNewPost(Post? loadedPost) async {
     if (loadedPost != null) {
       _postData = loadedPost;
     } else {
-      final _capital = getCapitalCity();
+      final capital = getCapitalCity();
       _postData = Post(
         id: 0,
         userType: UserType.owner,
         estateType: EstateType.house,
         dealType: DealType.sale,
         location: [],
-        city: _capital,
-        district: _capital.children![0],
+        city: capital,
+        district: capital.children![0],
         address: '',
         sqm: 0,
         renovation: Renovation.cosmetic,
@@ -84,6 +90,70 @@ class Posts with ChangeNotifier {
   void setFilters(Filters value) {
     _filters = value;
     notifyListeners();
+  }
+
+  Filters getFiltersfromQueryParameters(
+    Map<String, String> params,
+    Settlement city,
+    List<Settlement>? districts,
+    List<Settlement>? subdistricts,
+    List<MetroStation>? metroStations,
+  ) {
+    return Filters(
+      city: city,
+      districts: districts,
+      subdistricts: subdistricts,
+      metroStations: metroStations,
+      dealType: DealType.values.firstWhere(
+        (element) => element.toString() == 'DealType.${params['dealType']}',
+      ),
+      estateType: EstateType.values.firstWhere(
+        (element) => element.toString() == 'EstateType.${params['estateType']}',
+      ),
+      apartmentType: params['apartmentType'] == null
+          ? null
+          : ApartmentType.values.firstWhere(
+              (element) =>
+                  element.toString() ==
+                  'ApartmentType.${params['apartmentType']}',
+            ),
+      priceMin:
+          params['priceMin'] == null ? null : int.parse(params['priceMin']!),
+      priceMax:
+          params['priceMax'] == null ? null : int.parse(params['priceMax']!),
+      roomsMin:
+          params['roomsMin'] == null ? null : int.parse(params['roomsMin']!),
+      roomsMax:
+          params['roomsMax'] == null ? null : int.parse(params['roomsMax']!),
+      sqmMin: params['sqmMin'] == null ? null : int.parse(params['sqmMin']!),
+      sqmMax: params['sqmMax'] == null ? null : int.parse(params['sqmMax']!),
+      livingRoomsSqmMin: params['livingRoomsSqmMin'] == null
+          ? null
+          : int.parse(params['livingRoomsSqmMin']!),
+      livingRoomsSqmMax: params['livingRoomsSqmMax'] == null
+          ? null
+          : int.parse(params['livingRoomsSqmMax']!),
+      kitchenSqmMin: params['kitchenSqmMin'] == null
+          ? null
+          : int.parse(params['kitchenSqmMin']!),
+      kitchenSqmMax: params['kitchenSqmMax'] == null
+          ? null
+          : int.parse(params['kitchenSqmMax']!),
+      lotSqmMin:
+          params['lotSqmMin'] == null ? null : int.parse(params['lotSqmMin']!),
+      lotSqmMax:
+          params['lotSqmMax'] == null ? null : int.parse(params['lotSqmMax']!),
+      floorMin:
+          params['floorMin'] == null ? null : int.parse(params['floorMin']!),
+      floorMax:
+          params['floorMax'] == null ? null : int.parse(params['floorMax']!),
+      totalFloorsMin: params['totalFloorsMin'] == null
+          ? null
+          : int.parse(params['totalFloorsMin']!),
+      totalFloorsMax: params['totalFloorsMax'] == null
+          ? null
+          : int.parse(params['totalFloorsMax']!),
+    );
   }
 
   void updateFilters(Map<String, dynamic> newValues) {
@@ -177,16 +247,16 @@ class Posts with ChangeNotifier {
     bool updatePosts = false,
     PostType postType = PostType.confirmed,
   }) async {
-    Map<String, dynamic> _parameters;
+    Map<String, dynamic> parameters;
 
     if (queryParameters == null) {
-      _parameters = _filters.toQueryParameters();
+      parameters = _filters.toQueryParameters();
     } else {
-      _parameters = queryParameters;
+      parameters = queryParameters;
     }
 
-    _parameters['page'] = page.toString();
-    _parameters['limit'] = '20';
+    parameters['page'] = page.toString();
+    parameters['limit'] = '20';
 
     final url = Uri(
       scheme: baseScheme,
@@ -194,7 +264,7 @@ class Posts with ChangeNotifier {
       port: basePort,
       path:
           'api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}',
-      queryParameters: _parameters,
+      queryParameters: parameters,
     );
 
     try {

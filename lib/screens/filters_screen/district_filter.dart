@@ -17,14 +17,14 @@ class DistrictFilter extends StatefulWidget {
 
 class _DistrictFilterState extends State<DistrictFilter> {
   Future<void> _selectDistrict(BuildContext context) async {
-    final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
+    final Filters filters = Provider.of<Posts>(context, listen: false).filters;
     final result = await Navigator.push<Map<String, List<Settlement>>?>(
       context,
       MaterialPageRoute(
         builder: (context) => DistrictSelection(
-          city: _filters.city,
-          selectedDistricts: _filters.districts ?? [],
-          selectedSubdistricts: _filters.subdistricts ?? [],
+          city: filters.city,
+          selectedDistricts: filters.districts ?? [],
+          selectedSubdistricts: filters.subdistricts ?? [],
         ),
       ),
     );

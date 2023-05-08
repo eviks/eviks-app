@@ -45,7 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
     _formKey.currentState!.save();
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false).register(
@@ -55,12 +55,12 @@ class _RegisterFormState extends State<RegisterForm> {
       );
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -69,8 +69,8 @@ class _RegisterFormState extends State<RegisterForm> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -101,6 +101,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorRequiredField;
               }
+              return null;
             },
             onSaved: (value) {
               _authData['displayName'] = value ?? '';
@@ -114,6 +115,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorEmail;
               }
+              return null;
             },
             onSaved: (value) {
               _authData['email'] = value ?? '';
@@ -142,6 +144,7 @@ class _RegisterFormState extends State<RegisterForm> {
               } else if (value.length < 6) {
                 return AppLocalizations.of(context)!.invalidPassword;
               }
+              return null;
             },
             onSaved: (value) {
               _authData['password'] = value ?? '';

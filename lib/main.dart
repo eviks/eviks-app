@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/providers/theme_preferences.dart';
 import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,6 +16,7 @@ import './providers/auth.dart';
 import './providers/locale_provider.dart';
 import './providers/localities.dart';
 import './providers/posts.dart';
+import './providers/subscriptions.dart';
 import './providers/theme_preferences.dart';
 import './screens/auth_screen/auth_screen.dart';
 import './screens/edit_post_screen/edit_post_screen.dart';
@@ -38,6 +39,9 @@ Future main() async {
 
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  final messaging = FirebaseMessaging.instance;
+  await messaging.requestPermission();
 
   runApp(
     MyApp(
@@ -103,6 +107,13 @@ class MyApp extends StatelessWidget {
             previousPosts?.pagination ?? initPagination(),
           ),
         ),
+        ChangeNotifierProxyProvider<Auth, Subscriptions>(
+          create: (ctx) => Subscriptions('', []),
+          update: (ctx, auth, previousSubscriptions) => Subscriptions(
+            auth.token,
+            previousSubscriptions?.subscriptions ?? [],
+          ),
+        ),
         ChangeNotifierProvider(create: (ctx) => Localities()),
         ChangeNotifierProvider(
           create: (ctx) => ThemePreferences(themeMode ?? ThemeMode.system),
@@ -114,11 +125,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer3<Auth, ThemePreferences, LocaleProvider>(
-        builder: (ctx, auth, themePreferences, _localeProvider, _) =>
+        builder: (ctx, auth, themePreferences, localeProvider, _) =>
             MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
-          locale: _localeProvider.locale,
+          locale: localeProvider.locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themePreferences.themeMode,

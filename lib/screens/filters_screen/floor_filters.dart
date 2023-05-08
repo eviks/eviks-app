@@ -13,8 +13,8 @@ class FloorFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _filters = Provider.of<Posts>(context).filters;
-    void _updateFilters(Map<String, dynamic> newValues) {
+    final filters = Provider.of<Posts>(context).filters;
+    void updateFilters(Map<String, dynamic> newValues) {
       Provider.of<Posts>(context, listen: false).updateFilters(newValues);
     }
 
@@ -34,25 +34,25 @@ class FloorFilters extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: _filters.estateType == EstateType.apartment,
+          visible: filters.estateType == EstateType.apartment,
           child: RangeField(
             title: AppLocalizations.of(context)!.floor,
             icon: CustomIcons.elevator,
             initialValueFrom:
-                _filters.floorMin != 0 ? _filters.floorMin?.toString() : null,
+                filters.floorMin != 0 ? filters.floorMin?.toString() : null,
             keyboardTypeFrom: TextInputType.number,
             inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
             initialValueTo:
-                _filters.floorMax != 0 ? _filters.floorMax?.toString() : null,
+                filters.floorMax != 0 ? filters.floorMax?.toString() : null,
             keyboardTypeTo: TextInputType.number,
             inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
             onChangedFrom: (value) {
-              _updateFilters({
+              updateFilters({
                 'floorMin': value?.isEmpty ?? true ? null : int.parse(value!)
               });
             },
             onChangedTo: (value) {
-              _updateFilters({
+              updateFilters({
                 'floorMax': value?.isEmpty ?? true ? null : int.parse(value!)
               });
             },
@@ -61,24 +61,24 @@ class FloorFilters extends StatelessWidget {
         RangeField(
           title: AppLocalizations.of(context)!.totalFloors,
           icon: CustomIcons.elevator,
-          initialValueFrom: _filters.totalFloorsMin != 0
-              ? _filters.totalFloorsMin?.toString()
+          initialValueFrom: filters.totalFloorsMin != 0
+              ? filters.totalFloorsMin?.toString()
               : null,
           keyboardTypeFrom: TextInputType.number,
           inputFormattersFrom: [FilteringTextInputFormatter.digitsOnly],
-          initialValueTo: _filters.totalFloorsMax != 0
-              ? _filters.totalFloorsMax?.toString()
+          initialValueTo: filters.totalFloorsMax != 0
+              ? filters.totalFloorsMax?.toString()
               : null,
           keyboardTypeTo: TextInputType.number,
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
-            _updateFilters({
+            updateFilters({
               'totalFloorsMin':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });
           },
           onChangedTo: (value) {
-            _updateFilters({
+            updateFilters({
               'totalFloorsMax':
                   value?.isEmpty ?? true ? null : int.parse(value!)
             });

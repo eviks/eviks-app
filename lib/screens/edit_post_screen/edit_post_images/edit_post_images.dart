@@ -37,9 +37,9 @@ class _EditPostImagesState extends State<EditPostImages> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      bool _isTemp(String id) {
+      bool isTemp(String id) {
         return postData?.originalImages
                 .firstWhereOrNull((element) => element == id) ==
             null;
@@ -49,7 +49,7 @@ class _EditPostImagesState extends State<EditPostImages> {
         _imageDataList = postData?.images
                 .map(
                   (id) =>
-                      ImageData(id: id, isUploaded: true, isTemp: _isTemp(id)),
+                      ImageData(id: id, isUploaded: true, isTemp: isTemp(id)),
                 )
                 .toList() ??
             [];
@@ -63,50 +63,48 @@ class _EditPostImagesState extends State<EditPostImages> {
 
   Future<void> _selectImageFromGallery() async {
     final pickedFileList = await _picker.pickMultiImage();
-    if (pickedFileList != null) {
-      final List<ImageData> _newFiles = [];
-      for (final file in pickedFileList) {
-        if (!mounted) return;
+    final List<ImageData> newFiles = [];
+    for (final file in pickedFileList) {
+      if (!mounted) return;
 
-        var id = '';
+      var id = '';
 
-        String _errorMessage = '';
-        ScaffoldMessenger.of(context).removeCurrentSnackBar();
-        try {
-          id = await Provider.of<Posts>(context, listen: false)
-              .getImageUploadId();
-        } on Failure catch (error) {
-          if (error.statusCode >= 500) {
-            _errorMessage = AppLocalizations.of(context)!.serverError;
-          } else {
-            _errorMessage = error.toString();
-          }
-        } catch (error) {
-          _errorMessage = AppLocalizations.of(context)!.unknownError;
+      String errorMessage = '';
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      try {
+        id =
+            await Provider.of<Posts>(context, listen: false).getImageUploadId();
+      } on Failure catch (error) {
+        if (error.statusCode >= 500) {
+          errorMessage = AppLocalizations.of(context)!.serverError;
+        } else {
+          errorMessage = error.toString();
         }
-
-        if (!mounted) return;
-
-        if (_errorMessage.isNotEmpty) {
-          showSnackBar(context, _errorMessage);
-          return;
-        }
-
-        _newFiles.add(
-          ImageData(
-            file: file,
-            id: id,
-          ),
-        );
+      } catch (error) {
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
-      setState(() {
-        _imageDataList = [
-          ..._imageDataList,
-          ..._newFiles,
-        ];
-      });
+      if (!mounted) return;
+
+      if (errorMessage.isNotEmpty) {
+        showSnackBar(context, errorMessage);
+        return;
+      }
+
+      newFiles.add(
+        ImageData(
+          file: file,
+          id: id,
+        ),
+      );
     }
+
+    setState(() {
+      _imageDataList = [
+        ..._imageDataList,
+        ...newFiles,
+      ];
+    });
   }
 
   Future<void> _takeAPhoto() async {
@@ -116,25 +114,25 @@ class _EditPostImagesState extends State<EditPostImages> {
 
       var id = '';
 
-      String _errorMessage = '';
+      String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       try {
         id =
             await Provider.of<Posts>(context, listen: false).getImageUploadId();
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = error.toString();
+          errorMessage = error.toString();
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
       if (!mounted) return;
 
-      if (_errorMessage.isNotEmpty) {
-        showSnackBar(context, _errorMessage);
+      if (errorMessage.isNotEmpty) {
+        showSnackBar(context, errorMessage);
         return;
       }
 
@@ -167,26 +165,26 @@ class _EditPostImagesState extends State<EditPostImages> {
   }
 
   Future<void> deleteImage(String id) async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if ((postData?.id ?? 0) == 0) {
       try {
         await Provider.of<Posts>(context, listen: false).deleteImage(id);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = error.toString();
+          errorMessage = error.toString();
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
     }
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -264,7 +262,8 @@ class _EditPostImagesState extends State<EditPostImages> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.imagesError,
-                      style: TextStyle(color: Theme.of(context).errorColor),
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
                     ),
                     const SizedBox(
                       height: 16.0,
@@ -303,7 +302,9 @@ class _EditPostImagesState extends State<EditPostImages> {
                                               .request()
                                               .isGranted) {
                                             _selectImageFromGallery();
-                                            Navigator.pop(context);
+                                            if (mounted) {
+                                              Navigator.pop(context);
+                                            }
                                           }
                                         },
                                         icon: const Icon(CustomIcons.image),
@@ -320,19 +321,19 @@ class _EditPostImagesState extends State<EditPostImages> {
                                             Permission.camera,
                                             Permission.storage
                                           ].request();
-                                          bool _areGranted = true;
+                                          bool areGranted = true;
                                           statuses.forEach(
                                             (key, value) {
-                                              if (_areGranted &&
+                                              if (areGranted &&
                                                   value !=
                                                       PermissionStatus
                                                           .granted) {
-                                                _areGranted = false;
+                                                areGranted = false;
                                               }
                                             },
                                           );
                                           if (!mounted) return;
-                                          if (_areGranted) {
+                                          if (areGranted) {
                                             _takeAPhoto();
                                             Navigator.pop(context);
                                           }

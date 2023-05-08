@@ -38,7 +38,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 7) {
         _price = postData?.price;
@@ -154,6 +154,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
                             return AppLocalizations.of(context)!
                                 .errorRequiredField;
                           }
+                          return null;
                         },
                         onSaved: (value) {
                           _price =

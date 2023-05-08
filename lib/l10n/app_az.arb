@@ -257,5 +257,15 @@
     "confirm": "Təsdiq eləmək",
     "reject": "Rədd etmək",
     "rejectionTitle": "Bu elanın rədd edilməsinin səbəbini göstərin",
-    "rejectionReason": "Rədd edilməsinin səbəbini"
+    "rejectionReason": "Rədd edilməsinin səbəbini",
+    "posts": "Elanlar",
+    "subscriptions": "Axtarışlar",
+    "subscriptionsTitle": "Axtarış nizamlamaları saxlayın",
+    "subscriptionsHint": "Sizin üçün uyğun olan yeni elanlar barədə bildirişlər alın",
+    "subscribeButton": "Axtarışa abunə ol",
+    "subscriptionName": "Axtarışın adı",
+    "createSubscriptionTitle": "Axtarışa abunə olmaq",
+    "createSubscriptionHint": "Siz bu axtarış üzrə yeni elanlar barədə bildirişləri alacaqsınız",
+    "subscriptionEdit": "Redaktə etmək",
+    "subscriptionDelete": "Ləğv etmək"
 }

@@ -46,35 +46,35 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
-      final _userRole = Provider.of<Auth>(context, listen: false).userRole;
+      final userRole = Provider.of<Auth>(context, listen: false).userRole;
 
-      if (_userRole == UserRole.moderator) {
+      if (userRole == UserRole.moderator) {
         final postId = ModalRoute.of(context)!.settings.arguments! as int;
 
-        String _errorMessage = '';
-        bool _result = false;
+        String errorMessage = '';
+        bool result = false;
 
         try {
-          _result = await Provider.of<Posts>(context, listen: false)
+          result = await Provider.of<Posts>(context, listen: false)
               .blockPostForModeration(postId);
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
-            _errorMessage = AppLocalizations.of(context)!.serverError;
+            errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
-            _errorMessage = AppLocalizations.of(context)!.networkError;
+            errorMessage = AppLocalizations.of(context)!.networkError;
           }
         } catch (error) {
-          _errorMessage = AppLocalizations.of(context)!.unknownError;
-          _errorMessage = error.toString();
+          errorMessage = AppLocalizations.of(context)!.unknownError;
+          errorMessage = error.toString();
         }
 
-        if (_errorMessage.isNotEmpty) {
+        if (errorMessage.isNotEmpty) {
           if (!mounted) return;
-          showSnackBar(context, _errorMessage);
+          showSnackBar(context, errorMessage);
           return;
         }
 
-        if (!_result) {
+        if (!result) {
           setState(() {
             _isBlocked = true;
           });
@@ -117,7 +117,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 28.0,
-                color: Theme.of(context).textTheme.bodyText1?.color,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
           ),
@@ -130,7 +130,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Theme.of(context).textTheme.bodyText1?.color,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -143,7 +143,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22.0,
-              color: Theme.of(context).textTheme.bodyText1?.color,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
             ),
           ),
           Text(
@@ -152,7 +152,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Theme.of(context).textTheme.bodyText1?.color,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
             ),
           ),
         ],
@@ -202,7 +202,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     flexibleSpace: Stack(
                       children: [
                         Container(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).colorScheme.background,
                         )
                       ],
                     ),
@@ -215,14 +215,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               child: IconButton(
                                 color: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .bodyLarge
                                     ?.color,
                                 onPressed: () {
-                                  final _userRole =
+                                  final userRole0 =
                                       Provider.of<Auth>(context, listen: false)
                                           .userRole;
 
-                                  if (_userRole == UserRole.moderator) {
+                                  if (userRole0 == UserRole.moderator) {
                                     final postId = ModalRoute.of(context)!
                                         .settings
                                         .arguments! as int;

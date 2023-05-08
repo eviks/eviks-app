@@ -59,7 +59,7 @@ class _EditPostMapState extends State<EditPostMap> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
 
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 1) {
@@ -169,7 +169,7 @@ class _EditPostMapState extends State<EditPostMap> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       final response = await Provider.of<Localities>(context, listen: false)
@@ -180,17 +180,17 @@ class _EditPostMapState extends State<EditPostMap> {
       });
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
-    if (_errorMessage.isNotEmpty) {
+    if (errorMessage.isNotEmpty) {
       if (!mounted) return;
-      showSnackBar(context, _errorMessage);
+      showSnackBar(context, errorMessage);
     }
 
     setState(() {
@@ -291,8 +291,8 @@ class _EditPostMapState extends State<EditPostMap> {
                   InteractiveFlag.drag |
                   InteractiveFlag.doubleTapZoom,
             ),
-            layers: [
-              TileLayerOptions(
+            children: [
+              TileLayer(
                 urlTemplate:
                     'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
               ),
@@ -312,7 +312,7 @@ class _EditPostMapState extends State<EditPostMap> {
                 key: _formKey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: _typeMode
                         ? null
                         : const BorderRadius.only(
@@ -386,6 +386,7 @@ class _EditPostMapState extends State<EditPostMap> {
                                   return AppLocalizations.of(context)!
                                       .wrongAddress;
                                 }
+                                return null;
                               },
                               onSaved: (value) {
                                 _address = value ?? '';
@@ -425,7 +426,7 @@ class _EditPostMapState extends State<EditPostMap> {
               if (_typeMode)
                 Expanded(
                   child: Container(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     width: SizeConfig.screenWidth,
                     child: _isLoading
                         ? Align(

@@ -20,8 +20,8 @@ class IconChoiseChip extends StatelessWidget {
       avatar: Icon(
         icon,
         color: value
-            ? Theme.of(context).backgroundColor
-            : Theme.of(context).chipTheme.labelStyle.color,
+            ? Theme.of(context).colorScheme.background
+            : Theme.of(context).colorScheme.primary,
       ),
       label: label,
       selected: value,

@@ -22,13 +22,13 @@ class UserInfo extends StatelessWidget {
                   ? CircleAvatar(
                       backgroundImage:
                           CachedNetworkImageProvider(auth.user!.picture!),
-                      backgroundColor: Theme.of(context).backgroundColor,
+                      backgroundColor: Theme.of(context).colorScheme.background,
                     )
                   : CircleAvatar(
                       backgroundImage: const AssetImage(
                         'assets/img/illustrations/avatar.png',
                       ),
-                      backgroundColor: Theme.of(context).backgroundColor,
+                      backgroundColor: Theme.of(context).colorScheme.background,
                     ),
             ),
             const SizedBox(

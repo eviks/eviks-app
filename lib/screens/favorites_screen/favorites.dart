@@ -1,37 +1,31 @@
-import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
-import '../../../models/failure.dart';
-import '../../../providers/auth.dart';
-import '../../../providers/posts.dart';
-import '../../../widgets/post_item.dart';
-import '../../../widgets/sized_config.dart';
+import '../../constants.dart';
+import '../../models/failure.dart';
+import '../../providers/auth.dart';
+import '../../providers/posts.dart';
+import '../../widgets/post_item.dart';
+import '../../widgets/sized_config.dart';
 
-class UserPostsTabBarView extends StatefulWidget {
-  final PostType postType;
-
-  const UserPostsTabBarView({
-    Key? key,
-    required this.postType,
-  }) : super(key: key);
+class Favorites extends StatefulWidget {
+  const Favorites({Key? key}) : super(key: key);
 
   @override
-  State<UserPostsTabBarView> createState() => _UserPostsTabBarViewState();
+  State<Favorites> createState() => _FavoritesState();
 }
 
-class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
+class _FavoritesState extends State<Favorites> {
   var _isInit = true;
   var _isLoading = false;
+  List<String> ids = [];
   final ScrollController _scrollController = ScrollController();
 
   Future<void> _fetchPosts(bool updatePosts) async {
-    final userId = Provider.of<Auth>(context, listen: false).user?.id;
-    if (userId != null) {
-      final Map<String, dynamic> queryParameters = {'userId': userId};
+    if (ids.isNotEmpty) {
+      final Map<String, dynamic> queryParameters = {'ids': ids.join(',')};
 
       String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -43,7 +37,6 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
             queryParameters: queryParameters,
             page: page,
             updatePosts: updatePosts,
-            postType: widget.postType,
           );
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
@@ -83,6 +76,13 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
         },
       );
 
+      final favorites = Provider.of<Auth>(context, listen: false).favorites;
+      favorites.forEach((key, value) {
+        if (value == true) {
+          ids.add(key);
+        }
+      });
+
       Provider.of<Posts>(context, listen: false).clearPosts();
 
       await _fetchPosts(false);
@@ -105,18 +105,13 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     if (_isInit) {
-      return ColoredBox(
-        color: Theme.of(context).colorScheme.background,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     } else {
-      final posts = Provider.of<Posts>(context)
-          .posts
-          .where((element) => element.postType == widget.postType)
-          .toList();
+      final posts = Provider.of<Posts>(context).posts;
       return posts.isEmpty
           ? SingleChildScrollView(
               child: SafeArea(
@@ -128,7 +123,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                         SizedBox(
                           height: SizeConfig.safeBlockVertical * 40.0,
                           child: Image.asset(
-                            "assets/img/illustrations/my_posts.png",
+                            "assets/img/illustrations/favorites.png",
                           ),
                         ),
                         Padding(
@@ -136,7 +131,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                           child: Column(
                             children: [
                               Text(
-                                AppLocalizations.of(context)!.myPostsTitle,
+                                AppLocalizations.of(context)!.favoritesTitle,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 24.0,
@@ -147,7 +142,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                                 height: 8.0,
                               ),
                               Text(
-                                AppLocalizations.of(context)!.myPostsHint,
+                                AppLocalizations.of(context)!.favoritesHint,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Theme.of(context).dividerColor,
@@ -177,7 +172,6 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                           child: PostItem(
                             key: Key(posts[index].id.toString()),
                             post: posts[index],
-                            postType: widget.postType,
                           ),
                         ),
                       ),

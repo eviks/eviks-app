@@ -55,7 +55,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 5) {
         _description = postData?.description;

@@ -10,6 +10,7 @@ import '../models/failure.dart';
 import '../providers/posts.dart';
 import '../widgets/post_item.dart';
 import '../widgets/sized_config.dart';
+import '../widgets/subscribe_button.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -22,32 +23,32 @@ class _PostScreenState extends State<PostScreen> {
   final ScrollController _scrollController = ScrollController();
 
   Future<void> _fetchPosts(bool updatePosts) async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    final _pagination = Provider.of<Posts>(context, listen: false).pagination;
+    final pagination = Provider.of<Posts>(context, listen: false).pagination;
 
-    if (_pagination.available != null || _pagination.current == 0) {
-      final _page = _pagination.current + 1;
+    if (pagination.available != null || pagination.current == 0) {
+      final page = pagination.current + 1;
 
       try {
         await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-          page: _page,
+          page: page,
           updatePosts: updatePosts,
         );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = AppLocalizations.of(context)!.networkError;
+          errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
-        _errorMessage = error.toString();
+        errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = error.toString();
       }
 
-      if (_errorMessage.isNotEmpty) {
+      if (errorMessage.isNotEmpty) {
         if (!mounted) return;
-        showSnackBar(context, _errorMessage);
+        showSnackBar(context, errorMessage);
       }
     }
   }
@@ -100,6 +101,7 @@ class _PostScreenState extends State<PostScreen> {
       );
     } else {
       final posts = Provider.of<Posts>(context).posts;
+      final url = Provider.of<Posts>(context).url;
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -209,6 +211,7 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                 ],
               ),
+        floatingActionButton: SubscribeButton(url),
       );
     }
   }

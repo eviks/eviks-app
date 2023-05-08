@@ -140,7 +140,7 @@ class _TreeBranchState extends State<TreeBranch> {
                   checkboxType: CheckboxType.parent,
                   labelStyle: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 )
               : ListTile(

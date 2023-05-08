@@ -74,12 +74,12 @@ class PostDetailMap extends StatelessWidget {
                     InteractiveFlag.drag |
                     InteractiveFlag.doubleTapZoom,
               ),
-              layers: [
-                TileLayerOptions(
+              children: [
+                TileLayer(
                   urlTemplate:
                       'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
                 ),
-                MarkerLayerOptions(
+                MarkerLayer(
                   markers: [
                     Marker(
                       height: 60,

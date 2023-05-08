@@ -45,19 +45,19 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .resetPassword(widget.email, widget.resetPasswordToken, _password);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -66,8 +66,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
     } else {
       showSnackBar(context, AppLocalizations.of(context)!.profileIsUpdated);
     }
@@ -115,6 +115,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                       } else if (value.length < 6) {
                         return AppLocalizations.of(context)!.invalidPassword;
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _password = value ?? '';
