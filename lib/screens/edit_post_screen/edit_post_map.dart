@@ -291,8 +291,8 @@ class _EditPostMapState extends State<EditPostMap> {
                   InteractiveFlag.drag |
                   InteractiveFlag.doubleTapZoom,
             ),
-            layers: [
-              TileLayerOptions(
+            children: [
+              TileLayer(
                 urlTemplate:
                     'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
               ),

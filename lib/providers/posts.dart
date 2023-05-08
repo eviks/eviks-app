@@ -5,12 +5,14 @@ import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/failure.dart';
 import '../models/filters.dart';
 import '../models/pagination.dart';
 import '../models/post.dart';
+import '../providers/localities.dart';
 
 class Posts with ChangeNotifier {
   String token;
@@ -90,6 +92,70 @@ class Posts with ChangeNotifier {
   void setFilters(Filters value) {
     _filters = value;
     notifyListeners();
+  }
+
+  Filters getFiltersfromQueryParameters(
+    Map<String, String> params,
+    Settlement city,
+    List<Settlement>? districts,
+    List<Settlement>? subdistricts,
+    List<MetroStation>? metroStations,
+  ) {
+    return Filters(
+      city: city,
+      districts: districts,
+      subdistricts: subdistricts,
+      metroStations: metroStations,
+      dealType: DealType.values.firstWhere(
+        (element) => element.toString() == 'DealType.${params['dealType']}',
+      ),
+      estateType: EstateType.values.firstWhere(
+        (element) => element.toString() == 'EstateType.${params['estateType']}',
+      ),
+      apartmentType: params['apartmentType'] == null
+          ? null
+          : ApartmentType.values.firstWhere(
+              (element) =>
+                  element.toString() ==
+                  'ApartmentType.${params['apartmentType']}',
+            ),
+      priceMin:
+          params['priceMin'] == null ? null : int.parse(params['priceMin']!),
+      priceMax:
+          params['priceMax'] == null ? null : int.parse(params['priceMax']!),
+      roomsMin:
+          params['roomsMin'] == null ? null : int.parse(params['roomsMin']!),
+      roomsMax:
+          params['roomsMax'] == null ? null : int.parse(params['roomsMax']!),
+      sqmMin: params['sqmMin'] == null ? null : int.parse(params['sqmMin']!),
+      sqmMax: params['sqmMax'] == null ? null : int.parse(params['sqmMax']!),
+      livingRoomsSqmMin: params['livingRoomsSqmMin'] == null
+          ? null
+          : int.parse(params['livingRoomsSqmMin']!),
+      livingRoomsSqmMax: params['livingRoomsSqmMax'] == null
+          ? null
+          : int.parse(params['livingRoomsSqmMax']!),
+      kitchenSqmMin: params['kitchenSqmMin'] == null
+          ? null
+          : int.parse(params['kitchenSqmMin']!),
+      kitchenSqmMax: params['kitchenSqmMax'] == null
+          ? null
+          : int.parse(params['kitchenSqmMax']!),
+      lotSqmMin:
+          params['lotSqmMin'] == null ? null : int.parse(params['lotSqmMin']!),
+      lotSqmMax:
+          params['lotSqmMax'] == null ? null : int.parse(params['lotSqmMax']!),
+      floorMin:
+          params['floorMin'] == null ? null : int.parse(params['floorMin']!),
+      floorMax:
+          params['floorMax'] == null ? null : int.parse(params['floorMax']!),
+      totalFloorsMin: params['totalFloorsMin'] == null
+          ? null
+          : int.parse(params['totalFloorsMin']!),
+      totalFloorsMax: params['totalFloorsMax'] == null
+          ? null
+          : int.parse(params['totalFloorsMax']!),
+    );
   }
 
   void updateFilters(Map<String, dynamic> newValues) {

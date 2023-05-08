@@ -4,6 +4,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/providers/theme_preferences.dart';
 import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,6 +40,9 @@ Future main() async {
 
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  final messaging = FirebaseMessaging.instance;
+  await messaging.requestPermission();
 
   runApp(
     MyApp(

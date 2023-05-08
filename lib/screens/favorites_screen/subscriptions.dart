@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,6 +7,10 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../models/failure.dart';
+import '../../models/metro_station.dart';
+import '../../models/settlement.dart';
+import '../../providers/localities.dart';
+import '../../providers/posts.dart';
 import '../../providers/subscriptions.dart' as provider;
 import '../../widgets/sized_config.dart';
 import '../tabs_screen.dart';
@@ -45,7 +50,60 @@ class _SubscriptionsState extends State<Subscriptions> {
     }
   }
 
-  void _goToPosts() {
+  Future<void> _goToPosts(String url) async {
+    final params = Uri.splitQueryString(url);
+
+    print(params['priceMin']);
+
+    Settlement city;
+    List<Settlement>? districts;
+    List<Settlement>? subdistricts;
+    List<MetroStation>? metroStations;
+
+    // City
+    final result = await Provider.of<Localities>(context, listen: false)
+        .getLocalities({'id': params["cityId"]!, 'type': '2'});
+    city = result[0];
+
+    // District
+    if (params["districtId"] != null) {
+      if (!mounted) return;
+      districts = await Provider.of<Localities>(context, listen: false)
+          .getLocalities({'id': params["districtId"]!});
+    }
+
+    // Subdistrict
+    if (params["subdistrictId"] != null) {
+      if (!mounted) return;
+      subdistricts = await Provider.of<Localities>(context, listen: false)
+          .getLocalities({'id': params["subdistrictId"]!});
+    }
+
+    // Metro station
+    if (params["metroStationId"] != null) {
+      final metroStationId = (params["metroStationId"]!).split(',');
+      metroStations = city.metroStations
+          ?.where(
+            (element) =>
+                metroStationId
+                    .firstWhereOrNull((id) => id == element.id.toString()) !=
+                null,
+          )
+          .toList();
+    }
+
+    if (!mounted) return;
+    final filters = Provider.of<Posts>(context, listen: false)
+        .getFiltersfromQueryParameters(
+      params,
+      city,
+      districts,
+      subdistricts,
+      metroStations,
+    );
+
+    Provider.of<Posts>(context, listen: false).setFilters(filters);
+
     Navigator.of(context).pushNamedAndRemoveUntil(
       TabsScreen.routeName,
       (route) => false,
@@ -168,7 +226,7 @@ class _SubscriptionsState extends State<Subscriptions> {
                                 },
                               ),
                               onTap: () {
-                                _goToPosts();
+                                _goToPosts(subscriptions[index].url);
                               },
                             ),
                           ),

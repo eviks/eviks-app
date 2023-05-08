@@ -1,5 +1,6 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/subscription.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ import '../../providers/subscriptions.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import '../models/failure.dart';
-import '../models/subscription.dart';
 
 class SubscribeButton extends StatefulWidget {
   final String url;
@@ -39,8 +39,14 @@ class _SubscribeButtonState extends State<SubscribeButton> {
         return;
       }
 
-      final Subscription subscription =
-          Subscription(id: "0", name: _name, url: widget.url);
+      final deviceToken = await FirebaseMessaging.instance.getToken() ?? '';
+
+      final Subscription subscription = Subscription(
+        id: "0",
+        name: _name,
+        url: widget.url,
+        deviceToken: deviceToken,
+      );
 
       String _errorMessage = '';
       try {

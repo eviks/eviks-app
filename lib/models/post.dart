@@ -17,6 +17,7 @@ enum EstateType {
   apartment,
   house,
 }
+
 enum ApartmentType {
   newBuilding,
   secondaryBuilding,
