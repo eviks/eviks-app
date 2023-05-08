@@ -44,19 +44,19 @@ class _LoginFormState extends State<LoginForm> {
 
     _formKey.currentState!.save();
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .login(_authData['email']!, _authData['password']!);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -65,8 +65,8 @@ class _LoginFormState extends State<LoginForm> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -75,24 +75,24 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _loginWithGoogle() async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false).loginWithGoogle();
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -117,6 +117,7 @@ class _LoginFormState extends State<LoginForm> {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorEmail;
               }
+              return null;
             },
             onSaved: (value) {
               _authData['email'] = value ?? '';
@@ -142,6 +143,7 @@ class _LoginFormState extends State<LoginForm> {
               if (value == null || value.isEmpty) {
                 return AppLocalizations.of(context)!.errorPassword;
               }
+              return null;
             },
             onSaved: (value) {
               _authData['password'] = value ?? '';
@@ -204,8 +206,8 @@ class _LoginFormState extends State<LoginForm> {
               ),
               onPressed: _loginWithGoogle,
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).backgroundColor,
-                onPrimary: Theme.of(context).textTheme.bodyText1?.color,
+                backgroundColor: Theme.of(context).colorScheme.background,
+                foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
           ),

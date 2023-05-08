@@ -35,7 +35,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 8) {
         _phoneNumber = postData?.phoneNumber;
@@ -84,7 +84,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
     try {
@@ -108,12 +108,12 @@ class _EditPostContactsState extends State<EditPostContacts> {
       }
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -122,8 +122,8 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -139,7 +139,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
 
   @override
   Widget build(BuildContext context) {
-    final bool _showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -205,6 +205,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
                           return AppLocalizations.of(context)!
                               .errorRequiredField;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _username = value ?? '';
@@ -220,6 +221,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
                           return AppLocalizations.of(context)!
                               .errorRequiredField;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _phoneNumber = value ?? '';
@@ -237,7 +239,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Visibility(
-        visible: _showFab,
+        visible: showFab,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: StyledElevatedButton(

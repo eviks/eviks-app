@@ -30,7 +30,7 @@ class PostDetailReviewStatus extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               color: reviewStatus == ReviewStatus.rejected
-                  ? Theme.of(context).errorColor
+                  ? Theme.of(context).colorScheme.error
                   : null,
             ),
           ),

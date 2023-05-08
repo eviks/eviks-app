@@ -16,17 +16,16 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _isFavorite =
-        Provider.of<Auth>(context, listen: true).postIsFavorite(postId);
-    final user = Provider.of<Auth>(context, listen: true).user;
+    final isFavorite = Provider.of<Auth>(context).postIsFavorite(postId);
+    final user = Provider.of<Auth>(context).user;
 
-    void _toggleFavoriteStatus() {
+    void toggleFavoriteStatus() {
       if (user == null) {
         Navigator.of(context).pushNamed(AuthScreen.routeName);
         return;
       }
 
-      if (_isFavorite) {
+      if (isFavorite) {
         Provider.of<Auth>(context, listen: false)
             .removePostFromFavorites(postId);
       } else {
@@ -35,7 +34,7 @@ class FavoriteButton extends StatelessWidget {
     }
 
     return ElevatedButton(
-      onPressed: _toggleFavoriteStatus,
+      onPressed: toggleFavoriteStatus,
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(4.0),
         minimumSize: const Size(50, 50),
@@ -44,11 +43,11 @@ class FavoriteButton extends StatelessWidget {
         ),
         fixedSize: const Size(50.0, 50.0),
         elevation: elevation,
-        primary: _isFavorite
+        backgroundColor: isFavorite
             ? Theme.of(context).primaryColor
-            : Theme.of(context).backgroundColor,
-        onPrimary: _isFavorite
-            ? Theme.of(context).backgroundColor
+            : Theme.of(context).colorScheme.background,
+        foregroundColor: isFavorite
+            ? Theme.of(context).colorScheme.background
             : Theme.of(context).dividerColor,
       ),
       child: const Icon(

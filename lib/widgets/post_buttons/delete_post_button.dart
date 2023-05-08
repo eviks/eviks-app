@@ -47,7 +47,7 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        String _errorMessage = '';
+                        String errorMessage = '';
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         try {
                           await Provider.of<Posts>(context, listen: false)
@@ -57,20 +57,20 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                           );
                         } on Failure catch (error) {
                           if (error.statusCode >= 500) {
-                            _errorMessage =
+                            errorMessage =
                                 AppLocalizations.of(context)!.serverError;
                           } else {
-                            _errorMessage = error.toString();
+                            errorMessage = error.toString();
                           }
                         } catch (error) {
-                          _errorMessage =
+                          errorMessage =
                               AppLocalizations.of(context)!.unknownError;
                         }
 
                         if (!mounted) return;
 
-                        if (_errorMessage.isNotEmpty) {
-                          showSnackBar(context, _errorMessage);
+                        if (errorMessage.isNotEmpty) {
+                          showSnackBar(context, errorMessage);
                         }
 
                         Navigator.pop(context);
@@ -92,8 +92,8 @@ class _DeletePostButtonState extends State<DeletePostButton> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         fixedSize: const Size(50.0, 50.0),
-        primary: Theme.of(context).backgroundColor,
-        onPrimary: Theme.of(context).dividerColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(CustomIcons.garbage),
     );

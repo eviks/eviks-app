@@ -67,7 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             IconButton(
                               icon: Icon(
                                 CustomIcons.close,
-                                color: Theme.of(context).backgroundColor,
+                                color: Theme.of(context).colorScheme.background,
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -86,7 +86,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ? AppLocalizations.of(context)!.signInTitle
                                     : AppLocalizations.of(context)!.signUpTitle,
                                 style: TextStyle(
-                                  color: Theme.of(context).backgroundColor,
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   fontSize: 32.0,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -98,7 +99,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     : AppLocalizations.of(context)!
                                         .signUpSubtitle,
                                 style: TextStyle(
-                                  color: Theme.of(context).backgroundColor,
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   fontSize: 18.0,
                                 ),
                               ),
@@ -116,7 +118,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       minHeight: SizeConfig.safeBlockVertical * 75.0,
                     ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).colorScheme.background,
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(
                           50.0,

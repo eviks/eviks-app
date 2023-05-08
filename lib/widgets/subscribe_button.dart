@@ -28,7 +28,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _subscribe() async {
+    Future<void> subscribe() async {
       if (_formKey.currentState == null) {
         return;
       }
@@ -48,24 +48,25 @@ class _SubscribeButtonState extends State<SubscribeButton> {
         deviceToken: deviceToken,
       );
 
-      String _errorMessage = '';
+      String errorMessage = '';
+      if (!mounted) return;
       try {
         await Provider.of<Subscriptions>(context, listen: false)
             .subscribe(subscription);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = error.toString();
+          errorMessage = error.toString();
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
-      if (_errorMessage.isNotEmpty) {
+      if (errorMessage.isNotEmpty) {
         if (!mounted) return;
         setState(() {
-          _errorText = _errorMessage;
+          _errorText = errorMessage;
         });
         _formKey.currentState!.validate();
       } else {
@@ -131,6 +132,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
                                 .errorRequiredField;
                           }
                           if (_errorText.isNotEmpty) return _errorText;
+                          return null;
                         },
                         onSaved: (value) {
                           _errorText = '';
@@ -140,7 +142,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
                       StyledElevatedButton(
                         text: AppLocalizations.of(context)!.subscribeButton,
                         height: 50.0,
-                        onPressed: _subscribe,
+                        onPressed: subscribe,
                       ),
                     ],
                   ),
@@ -158,8 +160,9 @@ class _SubscribeButtonState extends State<SubscribeButton> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
-        primary: Theme.of(context).backgroundColor.withOpacity(0.9),
-        onPrimary: Theme.of(context).textTheme.bodyText1?.color,
+        backgroundColor:
+            Theme.of(context).colorScheme.background.withOpacity(0.9),
+        foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
       ),
     );
   }

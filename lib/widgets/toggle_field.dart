@@ -66,11 +66,11 @@ class _ToggleFieldState extends State<ToggleField> {
               Radius.circular(8.0),
             ),
             onPressed: (int newIndex) {
-              var _unselected = false;
+              var unselected = false;
               setState(() {
                 for (int index = 0; index < _selections.length; index++) {
-                  if (!_unselected) {
-                    _unselected = _selections[index] && index == newIndex;
+                  if (!unselected) {
+                    unselected = _selections[index] && index == newIndex;
                   }
                   _selections[index] = index == newIndex &&
                       (!_selections[index] || !widget.allowUnselect);
@@ -78,13 +78,13 @@ class _ToggleFieldState extends State<ToggleField> {
               });
               if (widget.onPressed != null) {
                 widget.onPressed!(
-                  (_unselected && widget.allowUnselect)
+                  (unselected && widget.allowUnselect)
                       ? null
                       : widget.values[newIndex],
                 );
               }
               widget.state?.didChange(
-                (_unselected && widget.allowUnselect)
+                (unselected && widget.allowUnselect)
                     ? null
                     : widget.values[newIndex],
               );
@@ -124,7 +124,7 @@ class _ToggleFieldState extends State<ToggleField> {
           Text(
             widget.state?.errorText ?? '',
             style: TextStyle(
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
       ],

@@ -20,28 +20,31 @@ class _PostDetailButtonsState extends State<PostDetailButtons> {
   Future<void> _callPhoneNumber() async {
     final postId = ModalRoute.of(context)!.settings.arguments! as int;
     String phoneNumber = '';
-    String _errorMessage = '';
+    String errorMessage = '';
     try {
       phoneNumber = await Provider.of<Posts>(context, listen: false)
           .fetchPostPhoneNumber(postId);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
-    if (_errorMessage.isNotEmpty) {
+    if (errorMessage.isNotEmpty) {
       if (!mounted) return;
-      showSnackBar(context, _errorMessage);
+      showSnackBar(context, errorMessage);
       return;
     }
 
     if (await Permission.phone.request().isGranted) {
-      launch('tel://$phoneNumber');
+      final uri = Uri.parse('tel://$phoneNumber');
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {}
     }
   }
 

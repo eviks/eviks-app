@@ -5,14 +5,12 @@ import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/failure.dart';
 import '../models/filters.dart';
 import '../models/pagination.dart';
 import '../models/post.dart';
-import '../providers/localities.dart';
 
 class Posts with ChangeNotifier {
   String token;
@@ -57,15 +55,15 @@ class Posts with ChangeNotifier {
     if (loadedPost != null) {
       _postData = loadedPost;
     } else {
-      final _capital = getCapitalCity();
+      final capital = getCapitalCity();
       _postData = Post(
         id: 0,
         userType: UserType.owner,
         estateType: EstateType.house,
         dealType: DealType.sale,
         location: [],
-        city: _capital,
-        district: _capital.children![0],
+        city: capital,
+        district: capital.children![0],
         address: '',
         sqm: 0,
         renovation: Renovation.cosmetic,
@@ -249,16 +247,16 @@ class Posts with ChangeNotifier {
     bool updatePosts = false,
     PostType postType = PostType.confirmed,
   }) async {
-    Map<String, dynamic> _parameters;
+    Map<String, dynamic> parameters;
 
     if (queryParameters == null) {
-      _parameters = _filters.toQueryParameters();
+      parameters = _filters.toQueryParameters();
     } else {
-      _parameters = queryParameters;
+      parameters = queryParameters;
     }
 
-    _parameters['page'] = page.toString();
-    _parameters['limit'] = '20';
+    parameters['page'] = page.toString();
+    parameters['limit'] = '20';
 
     final url = Uri(
       scheme: baseScheme,
@@ -266,7 +264,7 @@ class Posts with ChangeNotifier {
       port: basePort,
       path:
           'api/posts${postType == PostType.unreviewed ? '/unreviewed_posts' : ''}',
-      queryParameters: _parameters,
+      queryParameters: parameters,
     );
 
     try {

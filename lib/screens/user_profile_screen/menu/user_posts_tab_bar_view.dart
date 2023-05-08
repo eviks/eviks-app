@@ -31,33 +31,33 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
   Future<void> _fetchPosts(bool updatePosts) async {
     final userId = Provider.of<Auth>(context, listen: false).user?.id;
     if (userId != null) {
-      final Map<String, dynamic> _queryParameters = {'userId': userId};
+      final Map<String, dynamic> queryParameters = {'userId': userId};
 
-      String _errorMessage = '';
+      String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      final _pagination = Provider.of<Posts>(context, listen: false).pagination;
-      if (_pagination.available != null || _pagination.current == 0) {
-        final _page = _pagination.current + 1;
+      final pagination = Provider.of<Posts>(context, listen: false).pagination;
+      if (pagination.available != null || pagination.current == 0) {
+        final page = pagination.current + 1;
         try {
           await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
-            queryParameters: _queryParameters,
-            page: _page,
+            queryParameters: queryParameters,
+            page: page,
             updatePosts: updatePosts,
             postType: widget.postType,
           );
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
-            _errorMessage = AppLocalizations.of(context)!.serverError;
+            errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
-            _errorMessage = AppLocalizations.of(context)!.networkError;
+            errorMessage = AppLocalizations.of(context)!.networkError;
           }
         } catch (error) {
-          _errorMessage = AppLocalizations.of(context)!.unknownError;
+          errorMessage = AppLocalizations.of(context)!.unknownError;
         }
 
-        if (_errorMessage.isNotEmpty) {
+        if (errorMessage.isNotEmpty) {
           if (!mounted) return;
-          showSnackBar(context, _errorMessage);
+          showSnackBar(context, errorMessage);
         }
       }
     }
@@ -106,8 +106,8 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     if (_isInit) {
-      return Container(
-        color: Theme.of(context).backgroundColor,
+      return ColoredBox(
+        color: Theme.of(context).colorScheme.background,
         child: const Center(
           child: CircularProgressIndicator(),
         ),

@@ -34,19 +34,19 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
       _isLoading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .verifyResetPasswordToken(widget.email, _resetPasswordToken);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -55,8 +55,8 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -132,9 +132,9 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(5.0),
                     activeColor: Theme.of(context).dividerColor,
-                    activeFillColor: Theme.of(context).backgroundColor,
+                    activeFillColor: Theme.of(context).colorScheme.background,
                     selectedColor: Theme.of(context).primaryColor,
-                    selectedFillColor: Theme.of(context).backgroundColor,
+                    selectedFillColor: Theme.of(context).colorScheme.background,
                     inactiveColor: Theme.of(context).dividerColor,
                     inactiveFillColor: Theme.of(context).dividerColor,
                   ),
@@ -158,7 +158,7 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                             width: 24.0,
                             height: 24.0,
                             child: CircularProgressIndicator(
-                              color: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).colorScheme.background,
                             ),
                           )
                         : Text(

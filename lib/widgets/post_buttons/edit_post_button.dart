@@ -29,8 +29,8 @@ class EditPostButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
         ),
         fixedSize: const Size(50.0, 50.0),
-        primary: Theme.of(context).backgroundColor,
-        onPrimary: Theme.of(context).dividerColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(CustomIcons.pencil),
     );

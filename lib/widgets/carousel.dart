@@ -85,7 +85,7 @@ class _CarouselState extends State<Carousel> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(
                       16.0,

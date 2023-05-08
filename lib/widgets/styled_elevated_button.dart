@@ -39,7 +39,7 @@ class StyledElevatedButton extends StatelessWidget {
               if (color == null) {
                 return !secondary
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).backgroundColor;
+                    : Theme.of(context).colorScheme.background;
               } else {
                 return color!;
               }
@@ -61,7 +61,7 @@ class StyledElevatedButton extends StatelessWidget {
                 height: 24.0,
                 child: CircularProgressIndicator(
                   color: !secondary
-                      ? Theme.of(context).backgroundColor
+                      ? Theme.of(context).colorScheme.background
                       : Theme.of(context).primaryColor,
                 ),
               )
@@ -73,7 +73,7 @@ class StyledElevatedButton extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: !secondary
-                          ? Theme.of(context).backgroundColor
+                          ? Theme.of(context).colorScheme.background
                           : Theme.of(context).primaryColor,
                       fontSize: 16.0,
                       fontWeight: !secondary ? FontWeight.bold : null,
@@ -87,7 +87,7 @@ class StyledElevatedButton extends StatelessWidget {
                     Icon(
                       suffixIcon,
                       color: !secondary
-                          ? Theme.of(context).backgroundColor
+                          ? Theme.of(context).colorScheme.background
                           : Theme.of(context).primaryColor,
                     )
                 ],

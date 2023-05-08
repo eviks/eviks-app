@@ -96,7 +96,12 @@ class PostDetailContent extends StatelessWidget {
                           style:
                               TextStyle(color: Theme.of(context).primaryColor),
                         ),
-                        onTap: () => launch(post.source ?? ''),
+                        onTap: () async {
+                          final uri = Uri.parse(post.source ?? '');
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri);
+                          } else {}
+                        },
                       ),
                       const SizedBox(
                         height: 10.0,

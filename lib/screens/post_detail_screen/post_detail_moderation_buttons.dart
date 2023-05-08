@@ -42,20 +42,20 @@ class _PostDetailModerationButtonsState
       _loading = true;
     });
 
-    String _errorMessage = '';
+    String errorMessage = '';
 
     try {
       await Provider.of<Posts>(context, listen: false)
           .confirmPost(widget.postId);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = AppLocalizations.of(context)!.networkError;
+        errorMessage = AppLocalizations.of(context)!.networkError;
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
-      _errorMessage = error.toString();
+      errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = error.toString();
     }
 
     setState(() {
@@ -64,8 +64,8 @@ class _PostDetailModerationButtonsState
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
     } else {
       Navigator.of(context).pop();
     }
@@ -98,23 +98,22 @@ class _PostDetailModerationButtonsState
                       _loading = true;
                     });
 
-                    String _errorMessage = '';
+                    String errorMessage = '';
 
                     try {
                       await Provider.of<Posts>(context, listen: false)
                           .rejectPost(widget.postId, _controller.text);
                     } on Failure catch (error) {
                       if (error.statusCode >= 500) {
-                        _errorMessage =
+                        errorMessage =
                             AppLocalizations.of(context)!.serverError;
                       } else {
-                        _errorMessage =
+                        errorMessage =
                             AppLocalizations.of(context)!.networkError;
                       }
                     } catch (error) {
-                      _errorMessage =
-                          AppLocalizations.of(context)!.unknownError;
-                      _errorMessage = error.toString();
+                      errorMessage = AppLocalizations.of(context)!.unknownError;
+                      errorMessage = error.toString();
                     }
 
                     setState(() {
@@ -123,8 +122,8 @@ class _PostDetailModerationButtonsState
 
                     if (!mounted) return;
 
-                    if (_errorMessage.isNotEmpty) {
-                      showSnackBar(context, _errorMessage);
+                    if (errorMessage.isNotEmpty) {
+                      showSnackBar(context, errorMessage);
                     } else {
                       Navigator.of(context).pop(true);
                     }

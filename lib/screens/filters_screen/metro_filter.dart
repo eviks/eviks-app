@@ -17,13 +17,13 @@ class MetroFilter extends StatefulWidget {
 
 class _MetroFilterState extends State<MetroFilter> {
   Future<void> _selectMetro(BuildContext context) async {
-    final Filters _filters = Provider.of<Posts>(context, listen: false).filters;
+    final Filters filters = Provider.of<Posts>(context, listen: false).filters;
     final metroStations = await Navigator.push<List<MetroStation>?>(
       context,
       MaterialPageRoute(
         builder: (context) => MetroSelection(
-          metroStations: _filters.city.metroStations ?? [],
-          selectedMetroStations: _filters.metroStations ?? [],
+          metroStations: filters.city.metroStations ?? [],
+          selectedMetroStations: filters.metroStations ?? [],
         ),
       ),
     );

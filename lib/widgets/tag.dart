@@ -38,7 +38,7 @@ class Tag extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             return darken(
-              Theme.of(context).backgroundColor,
+              Theme.of(context).colorScheme.background,
             );
           },
         ),

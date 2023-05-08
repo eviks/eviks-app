@@ -35,7 +35,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 0) {
         _userType = postData?.userType;
@@ -127,6 +127,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                         if (value == null) {
                           return AppLocalizations.of(context)!.fieldIsRequired;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _userType = value;
@@ -148,6 +149,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                         if (value == null) {
                           return AppLocalizations.of(context)!.fieldIsRequired;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _estateType = value;
@@ -182,6 +184,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                               return AppLocalizations.of(context)!
                                   .fieldIsRequired;
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             _apartmentType = value;
@@ -205,6 +208,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                         if (value == null) {
                           return AppLocalizations.of(context)!.fieldIsRequired;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _dealType = value;

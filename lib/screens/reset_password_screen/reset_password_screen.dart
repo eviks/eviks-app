@@ -40,19 +40,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     _formKey.currentState!.save();
 
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     try {
       await Provider.of<Auth>(context, listen: false)
           .createResetPasswordToken(_email);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = error.toString();
+        errorMessage = error.toString();
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
     setState(() {
@@ -61,8 +61,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     if (!mounted) return;
 
-    if (_errorMessage.isNotEmpty) {
-      showSnackBar(context, _errorMessage);
+    if (errorMessage.isNotEmpty) {
+      showSnackBar(context, errorMessage);
       return;
     }
 
@@ -140,6 +140,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             if (value == null || value.isEmpty) {
                               return AppLocalizations.of(context)!.errorEmail;
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             _email = value ?? '';

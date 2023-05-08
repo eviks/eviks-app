@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/providers/theme_preferences.dart';
 import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -126,11 +125,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer3<Auth, ThemePreferences, LocaleProvider>(
-        builder: (ctx, auth, themePreferences, _localeProvider, _) =>
+        builder: (ctx, auth, themePreferences, localeProvider, _) =>
             MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
-          locale: _localeProvider.locale,
+          locale: localeProvider.locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           themeMode: themePreferences.themeMode,

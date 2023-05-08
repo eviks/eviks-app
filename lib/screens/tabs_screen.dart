@@ -74,14 +74,13 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _isAuth = Provider.of<Auth>(context, listen: true).isAuth;
+    _isAuth = Provider.of<Auth>(context).isAuth;
 
-    final _currentUserRole = Provider.of<Auth>(
+    final currentUserRole = Provider.of<Auth>(
       context,
-      listen: true,
     ).userRole;
 
-    if (_currentUserRole == UserRole.moderator) {
+    if (currentUserRole == UserRole.moderator) {
       pages = {
         Pages.postReview: 0,
         Pages.posts: 1,
@@ -100,12 +99,12 @@ class _TabsScreenState extends State<TabsScreen> {
 
     final pageIndex = getPageIndex();
 
-    if (_userRole != _currentUserRole) {
+    if (_userRole != currentUserRole) {
       setState(() {
-        _userRole = _currentUserRole;
+        _userRole = currentUserRole;
         _selectedPageIndex = pageIndex;
         _pages = [
-          if (_currentUserRole == UserRole.moderator) const PostReviewScreen(),
+          if (currentUserRole == UserRole.moderator) const PostReviewScreen(),
           PostScreen(),
           FavoritesScreen(),
           const NewPostScreen(),
@@ -125,7 +124,7 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor:
             Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         items: [
-          if (_currentUserRole == UserRole.moderator)
+          if (currentUserRole == UserRole.moderator)
             BottomNavigationBarItem(
               icon: const Icon(CustomIcons.shield),
               label: AppLocalizations.of(context)!.postReview,

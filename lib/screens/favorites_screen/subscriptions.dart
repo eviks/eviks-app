@@ -28,7 +28,7 @@ class _SubscriptionsState extends State<Subscriptions> {
   var _isInit = true;
 
   Future<void> _fetchSubscriptions() async {
-    String _errorMessage = '';
+    String errorMessage = '';
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
     try {
@@ -36,24 +36,22 @@ class _SubscriptionsState extends State<Subscriptions> {
           .getSubscriptions();
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
-        _errorMessage = AppLocalizations.of(context)!.serverError;
+        errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
-        _errorMessage = AppLocalizations.of(context)!.networkError;
+        errorMessage = AppLocalizations.of(context)!.networkError;
       }
     } catch (error) {
-      _errorMessage = AppLocalizations.of(context)!.unknownError;
+      errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
-    if (_errorMessage.isNotEmpty) {
+    if (errorMessage.isNotEmpty) {
       if (!mounted) return;
-      showSnackBar(context, _errorMessage);
+      showSnackBar(context, errorMessage);
     }
   }
 
   Future<void> _goToPosts(String url) async {
     final params = Uri.splitQueryString(url);
-
-    print(params['priceMin']);
 
     Settlement city;
     List<Settlement>? districts;
@@ -188,7 +186,8 @@ class _SubscriptionsState extends State<Subscriptions> {
           : Stack(
               children: [
                 ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 4.0),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (ctx, index) {
                     return AnimationConfiguration.staggeredList(

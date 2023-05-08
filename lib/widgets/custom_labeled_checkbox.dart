@@ -51,7 +51,7 @@ class CustomLabeledCheckbox extends StatelessWidget {
             const SizedBox(width: 8.0),
             Text(
               label,
-              style: labelStyle ?? Theme.of(context).textTheme.subtitle1,
+              style: labelStyle ?? Theme.of(context).textTheme.titleMedium,
             )
           ],
         ),

@@ -51,7 +51,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       _selectedDistricts = widget.selectedDistricts;
       _selectedSubdistricts = widget.selectedSubdistricts;
 
-      String _errorMessage = '';
+      String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       final result = await Provider.of<Localities>(context, listen: false)
           .getLocalities({
@@ -66,16 +66,16 @@ class _DistrictSelectionState extends State<DistrictSelection> {
         });
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
-          _errorMessage = AppLocalizations.of(context)!.serverError;
+          errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
-          _errorMessage = AppLocalizations.of(context)!.networkError;
+          errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
-        _errorMessage = AppLocalizations.of(context)!.unknownError;
+        errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
-      if (_errorMessage.isNotEmpty) {
-        showSnackBar(context, _errorMessage);
+      if (errorMessage.isNotEmpty) {
+        showSnackBar(context, errorMessage);
       }
 
       setState(() {

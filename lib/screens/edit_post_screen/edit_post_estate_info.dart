@@ -46,7 +46,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
 
   @override
   void didChangeDependencies() {
-    postData = Provider.of<Posts>(context, listen: true).postData;
+    postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
       if ((postData?.lastStep ?? -1) >= 3) {
         _rooms = postData?.rooms;
@@ -168,6 +168,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                             return AppLocalizations.of(context)!
                                 .errorRequiredField;
                           }
+                          return null;
                         },
                         onSaved: (value) {
                           _rooms =
@@ -187,6 +188,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                             return AppLocalizations.of(context)!
                                 .errorRequiredField;
                           }
+                          return null;
                         },
                         onSaved: (value) {
                           _sqm = value?.isEmpty ?? true ? 0 : int.parse(value!);
@@ -237,6 +239,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                               return AppLocalizations.of(context)!
                                   .errorRequiredField;
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             _lotSqm =
@@ -276,6 +279,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                                   return AppLocalizations.of(context)!
                                       .errorFloor;
                                 }
+                                return null;
                               },
                               onSaved: (value) {
                                 _floor = value?.isEmpty ?? true
@@ -306,6 +310,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                                   return AppLocalizations.of(context)!
                                       .errorRequiredField;
                                 }
+                                return null;
                               },
                               onSaved: (value) {
                                 _totalFloors = value?.isEmpty ?? true
@@ -376,6 +381,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         if (value == null) {
                           return AppLocalizations.of(context)!.fieldIsRequired;
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _renovation = value;
