@@ -15,9 +15,9 @@ import './models/settlement.dart';
 // const basePort = 443;
 
 // Development
-const baseUrl = 'http://192.168.1.109:3000';
+const baseUrl = 'http://192.168.1.100:3000';
 const baseScheme = 'http';
-const baseHost = '192.168.1.109';
+const baseHost = '192.168.1.100';
 const basePort = 3000;
 
 const primaryColor = Color(0xFFFF337A);

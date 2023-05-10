@@ -2,7 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import './subscription_modal.dart';
+import '../../widgets/subscription_modal.dart';
 
 class SubscribeButton extends StatefulWidget {
   final String url;

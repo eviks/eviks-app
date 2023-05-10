@@ -267,5 +267,7 @@
     "createSubscriptionTitle": "Axtarışa abunə olmaq",
     "createSubscriptionHint": "Siz bu axtarış üzrə yeni elanlar barədə bildirişləri alacaqsınız",
     "subscriptionEdit": "Redaktə etmək",
-    "subscriptionDelete": "Ləğv etmək"
+    "subscriptionDelete": "Ləğv etmək",
+    "listView": "Siyahı",
+    "mapView": "Xəritədə"
 }

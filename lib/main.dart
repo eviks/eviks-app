@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Posts>(
           create: (ctx) =>
-              Posts('', '', [], null, initFilters(), initPagination()),
+              Posts('', '', [], null, initFilters(), initPagination(), []),
           update: (ctx, auth, previousPosts) => Posts(
             auth.token,
             auth.user?.id ?? '',
@@ -105,6 +105,7 @@ class MyApp extends StatelessWidget {
             previousPosts?.postData,
             previousPosts?.filters ?? initFilters(),
             previousPosts?.pagination ?? initPagination(),
+            previousPosts?.postsLocations ?? [],
           ),
         ),
         ChangeNotifierProxyProvider<Auth, Subscriptions>(

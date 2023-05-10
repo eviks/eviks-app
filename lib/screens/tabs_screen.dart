@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 import './auth_screen/auth_screen.dart';
 import './favorites_screen/favorites_screen.dart';
 import './new_post_screen.dart';
-import './posts_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
 import '../providers/auth.dart';
+import 'posts_search/posts_screen.dart';
 
 enum Pages { postReview, posts, favorites, newPost, userProfile }
 
