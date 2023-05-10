@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:eviks_mobile/models/metro_station.dart';
 import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
@@ -315,10 +316,51 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetPostsLocations() async {
-    Map<String, dynamic> parameters;
+  Future<void> fetchSinglePost(
+      {required int id, PostType postType = PostType.confirmed}) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/post/$id',
+    );
 
-    parameters = _filters.toQueryParameters();
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final dynamic data = json.decode(response.body);
+      final result = Post.fromJson(json: data, postType: postType);
+
+      _postData = result;
+      if (_posts.firstWhereOrNull((element) => element.id == result.id) ==
+          null) {
+        _posts.add(result);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchAndSetPostsLocations() async {
+    final Map<String, dynamic> parameters = _filters.toQueryParameters();
 
     final url = Uri(
       scheme: baseScheme,

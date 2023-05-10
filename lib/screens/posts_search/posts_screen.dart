@@ -29,6 +29,7 @@ class _PostScreenState extends State<PostScreen> {
     setState(() {
       _mapView = !_mapView;
     });
+    Provider.of<Posts>(context, listen: false).clearPosts();
     _fetchPosts(false);
   }
 
@@ -37,11 +38,10 @@ class _PostScreenState extends State<PostScreen> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     final pagination = Provider.of<Posts>(context, listen: false).pagination;
 
-    if (pagination.available != null || pagination.current == 0) {
-      final page = pagination.current + 1;
-
+    if (pagination.available != null || pagination.current == 0 || _mapView) {
       try {
         if (!_mapView) {
+          final page = pagination.current + 1;
           await Provider.of<Posts>(context, listen: false).fetchAndSetPosts(
             page: page,
             updatePosts: updatePosts,

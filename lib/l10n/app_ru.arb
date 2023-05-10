@@ -269,5 +269,8 @@
     "subscriptionEdit": "Редактировать",
     "subscriptionDelete": "Удалить",
     "listView": "Списком",
-    "mapView": "На карте"
+    "mapView": "На карте",
+    "thousand": "тыс",
+    "million": "млн",
+    "billion": "млрд"
 }

@@ -64,6 +64,20 @@ void showSnackBar(BuildContext context, String mesaage) {
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
+String priceFormatter(BuildContext context, int price) {
+  if (price > 999 && price < 99999) {
+    return "${(price / 1000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.thousand}";
+  } else if (price > 99999 && price < 999999) {
+    return "${(price / 1000).toStringAsFixed(0)} ${AppLocalizations.of(context)!.thousand}";
+  } else if (price > 999999 && price < 999999999) {
+    return "${(price / 1000000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.million}";
+  } else if (price > 999999999) {
+    return "${(price / 1000000000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.billion}";
+  } else {
+    return price.toString();
+  }
+}
+
 String removeAzerbaijaniChars(String value) {
   String newValue = value;
   newValue = newValue.replaceAll(RegExp('ç', caseSensitive: false), 'c');

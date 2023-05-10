@@ -4,6 +4,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import './post_item_modal.dart';
 import '../../constants.dart';
 import '../../models/filters.dart';
 import '../../models/post_location.dart';
@@ -48,25 +49,44 @@ class _MapSearchState extends State<MapSearch> {
             markers: postsLocations
                 .map(
                   (e) => Marker(
-                    width: 60.0,
+                    width: 65.0,
                     point: LatLng(e.location[1], e.location[0]),
-                    builder: (ctx) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Theme.of(context).primaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: softDarkColor.withOpacity(0.4),
-                            blurRadius: 1,
-                            offset: const Offset(3, 1),
+                    builder: (ctx) => GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0),
+                              topRight: Radius.circular(16.0),
+                            ),
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          e.price.toString(),
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.background,
+                          builder: (BuildContext context) {
+                            return PostItemModal(
+                              id: e.id,
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Theme.of(context).primaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: softDarkColor.withOpacity(0.4),
+                              blurRadius: 1,
+                              offset: const Offset(3, 1),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            priceFormatter(context, e.price),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
                           ),
                         ),
                       ),

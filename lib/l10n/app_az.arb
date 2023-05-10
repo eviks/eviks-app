@@ -269,5 +269,8 @@
     "subscriptionEdit": "Redaktə etmək",
     "subscriptionDelete": "Ləğv etmək",
     "listView": "Siyahı",
-    "mapView": "Xəritədə"
+    "mapView": "Xəritədə",
+    "thousand": "min",
+    "million": "mln",
+    "billion": "mlrd"
 }
