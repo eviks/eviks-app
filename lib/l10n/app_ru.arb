@@ -272,5 +272,7 @@
     "mapView": "На карте",
     "thousand": "тыс",
     "million": "млн",
-    "billion": "млрд"
+    "billion": "млрд",
+    "drawHint": "Нарисовать область",
+    "deleteAreaHint": "Удалить область"
 }

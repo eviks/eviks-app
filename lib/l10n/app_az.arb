@@ -272,5 +272,7 @@
     "mapView": "Xəritədə",
     "thousand": "min",
     "million": "mln",
-    "billion": "mlrd"
+    "billion": "mlrd",
+    "drawHint": "Sahəni çəkmək",
+    "deleteAreaHint": "Sahəni silmək"
 }

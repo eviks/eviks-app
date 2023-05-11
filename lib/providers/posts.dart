@@ -236,6 +236,9 @@ class Posts with ChangeNotifier {
         case 'totalFloorsMax':
           _filters.totalFloorsMax = value as int?;
           break;
+        case 'searchArea':
+          _filters.searchArea = value as List<List<double>>?;
+          break;
         default:
       }
     });
@@ -262,6 +265,8 @@ class Posts with ChangeNotifier {
     } else {
       parameters = queryParameters;
     }
+
+    parameters.removeWhere((key, value) => value == null);
 
     parameters['page'] = page.toString();
     parameters['limit'] = '20';
@@ -316,8 +321,10 @@ class Posts with ChangeNotifier {
     }
   }
 
-  Future<void> fetchSinglePost(
-      {required int id, PostType postType = PostType.confirmed}) async {
+  Future<void> fetchSinglePost({
+    required int id,
+    PostType postType = PostType.confirmed,
+  }) async {
     final url = Uri(
       scheme: baseScheme,
       host: baseHost,
@@ -361,6 +368,7 @@ class Posts with ChangeNotifier {
 
   Future<void> fetchAndSetPostsLocations() async {
     final Map<String, dynamic> parameters = _filters.toQueryParameters();
+    parameters.removeWhere((key, value) => value == null);
 
     final url = Uri(
       scheme: baseScheme,
