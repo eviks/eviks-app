@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './map_search.dart';
 import './subscribe_button.dart';
@@ -22,15 +23,44 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   var _isInit = true;
   var _isLoading = false;
-  var _mapView = false;
+  late bool _mapView;
   final ScrollController _scrollController = ScrollController();
 
-  void _switchViewMode() {
+  Future<void> getViewModePreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _mapView = (prefs.getString('mapView') ?? '') == 'true';
+      });
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> saveViewModePreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (_mapView) {
+        prefs.setString('mapView', 'true');
+      } else {
+        prefs.remove('mapView');
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> _switchViewMode() async {
     setState(() {
+      _isInit = true;
       _mapView = !_mapView;
     });
     Provider.of<Posts>(context, listen: false).clearPosts();
-    _fetchPosts(false);
+    await _fetchPosts(false);
+    setState(() {
+      _isInit = false;
+    });
+    await saveViewModePreferences();
   }
 
   Future<void> _fetchPosts(bool updatePosts) async {
@@ -71,6 +101,8 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
+      await getViewModePreferences();
+
       _scrollController.addListener(
         () async {
           if (_scrollController.position.pixels ==
