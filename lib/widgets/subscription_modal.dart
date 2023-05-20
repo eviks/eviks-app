@@ -4,7 +4,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../providers/auth.dart';
 import '../../providers/subscriptions.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
@@ -32,6 +34,16 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> saveUserIdInPreferences() async {
+      final userId = Provider.of<Auth>(context, listen: false).userId;
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('userId', userId);
+      } catch (error) {
+        rethrow;
+      }
+    }
+
     Future<void> subscribe() async {
       if (_formKey.currentState == null) {
         return;
@@ -42,6 +54,8 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
       if (!_formKey.currentState!.validate()) {
         return;
       }
+
+      saveUserIdInPreferences();
 
       final deviceToken = await FirebaseMessaging.instance.getToken() ?? '';
 

@@ -300,4 +300,12 @@ class CustomIcons {
     0xe845,
     fontFamily: _kFontFam,
   );
+  static const IconData map = IconData(
+    0xe846,
+    fontFamily: _kFontFam,
+  );
+  static const IconData list = IconData(
+    0xe847,
+    fontFamily: _kFontFam,
+  );
 }

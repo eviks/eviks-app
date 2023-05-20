@@ -9,16 +9,16 @@ import './models/post.dart';
 import './models/settlement.dart';
 
 // Production
-// const baseUrl = 'https://eviks.xyz';
-// const baseScheme = 'https';
-// const baseHost = 'eviks.xyz';
-// const basePort = 443;
+const baseUrl = 'https://eviks.xyz';
+const baseScheme = 'https';
+const baseHost = 'eviks.xyz';
+const basePort = 443;
 
 // Development
-const baseUrl = 'http://192.168.1.109:3000';
-const baseScheme = 'http';
-const baseHost = '192.168.1.109';
-const basePort = 3000;
+// const baseUrl = 'http://192.168.1.108:3000';
+// const baseScheme = 'http';
+// const baseHost = '192.168.1.108';
+// const basePort = 3000;
 
 const primaryColor = Color(0xFFFF337A);
 const lightPrimaryColor = Color(0xFFFF4788);
@@ -62,6 +62,20 @@ void showSnackBar(BuildContext context, String mesaage) {
     ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
+
+String priceFormatter(BuildContext context, int price) {
+  if (price > 999 && price < 99999) {
+    return "${(price / 1000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.thousand}";
+  } else if (price > 99999 && price < 999999) {
+    return "${(price / 1000).toStringAsFixed(0)} ${AppLocalizations.of(context)!.thousand}";
+  } else if (price > 999999 && price < 999999999) {
+    return "${(price / 1000000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.million}";
+  } else if (price > 999999999) {
+    return "${(price / 1000000000).toStringAsFixed(1)} ${AppLocalizations.of(context)!.billion}";
+  } else {
+    return price.toString();
+  }
 }
 
 String removeAzerbaijaniChars(String value) {

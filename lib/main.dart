@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './constants.dart';
+import './notification_service.dart';
 import './providers/auth.dart';
 import './providers/locale_provider.dart';
 import './providers/localities.dart';
@@ -24,10 +24,32 @@ import './screens/filters_screen/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
+import '../models/notification_data.dart';
+import './models/navigation_service.dart';
+import '../screens/post_review_screen/post_review_screen.dart';
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  try {
+    final data = NotificationData.fromJson(json: message.data);
+
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId') ?? '';
+    if (data.user != null && userId != data.user) {
+      return;
+    }
+
+    NotificationService().showNotification(
+      data,
+    );
+  } catch (error) {
+    //
+  }
+}
 
 Future main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
   final locale = await getLocale();
@@ -42,6 +64,10 @@ Future main() async {
 
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
+
+  NotificationService().initNotification();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   runApp(
     MyApp(
@@ -97,7 +123,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Posts>(
           create: (ctx) =>
-              Posts('', '', [], null, initFilters(), initPagination()),
+              Posts('', '', [], null, initFilters(), initPagination(), []),
           update: (ctx, auth, previousPosts) => Posts(
             auth.token,
             auth.user?.id ?? '',
@@ -105,6 +131,7 @@ class MyApp extends StatelessWidget {
             previousPosts?.postData,
             previousPosts?.filters ?? initFilters(),
             previousPosts?.pagination ?? initPagination(),
+            previousPosts?.postsLocations ?? [],
           ),
         ),
         ChangeNotifierProxyProvider<Auth, Subscriptions>(
@@ -127,6 +154,7 @@ class MyApp extends StatelessWidget {
       child: Consumer3<Auth, ThemePreferences, LocaleProvider>(
         builder: (ctx, auth, themePreferences, localeProvider, _) =>
             MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
           locale: localeProvider.locale,

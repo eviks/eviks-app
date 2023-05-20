@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:eviks_mobile/models/metro_station.dart';
 import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,7 @@ import '../models/failure.dart';
 import '../models/filters.dart';
 import '../models/pagination.dart';
 import '../models/post.dart';
+import '../models/post_location.dart';
 
 class Posts with ChangeNotifier {
   String token;
@@ -19,6 +21,7 @@ class Posts with ChangeNotifier {
   Post? _postData;
   Filters _filters;
   Pagination _pagination;
+  List<PostLocation> _postsLocations;
 
   Posts(
     this.token,
@@ -27,6 +30,7 @@ class Posts with ChangeNotifier {
     this._postData,
     this._filters,
     this._pagination,
+    this._postsLocations,
   );
 
   List<Post> get posts {
@@ -49,6 +53,10 @@ class Posts with ChangeNotifier {
     final data = _filters.toQueryParameters();
     data.removeWhere((key, value) => value == null);
     return Uri(queryParameters: data).query;
+  }
+
+  List<PostLocation> get postsLocations {
+    return [..._postsLocations];
   }
 
   Future<void> initNewPost(Post? loadedPost) async {
@@ -228,6 +236,9 @@ class Posts with ChangeNotifier {
         case 'totalFloorsMax':
           _filters.totalFloorsMax = value as int?;
           break;
+        case 'searchArea':
+          _filters.searchArea = value as List<List<double>>?;
+          break;
         default:
       }
     });
@@ -254,6 +265,8 @@ class Posts with ChangeNotifier {
     } else {
       parameters = queryParameters;
     }
+
+    parameters.removeWhere((key, value) => value == null);
 
     parameters['page'] = page.toString();
     parameters['limit'] = '20';
@@ -301,6 +314,100 @@ class Posts with ChangeNotifier {
       _pagination = Pagination.fromJson(
         data['pagination'],
       );
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchSinglePost({
+    required int id,
+    PostType postType = PostType.confirmed,
+  }) async {
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/post/$id',
+    );
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final dynamic data = json.decode(response.body);
+      final result = Post.fromJson(json: data, postType: postType);
+
+      _postData = result;
+      if (_posts.firstWhereOrNull((element) => element.id == result.id) ==
+          null) {
+        _posts.add(result);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchAndSetPostsLocations() async {
+    final Map<String, dynamic> parameters = _filters.toQueryParameters();
+    parameters.removeWhere((key, value) => value == null);
+
+    final url = Uri(
+      scheme: baseScheme,
+      host: baseHost,
+      port: basePort,
+      path: 'api/posts/locations',
+      queryParameters: parameters,
+    );
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'JWT $token'},
+      );
+
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
+
+      final dynamic data = json.decode(response.body);
+      final List<PostLocation> loadedLocations = [];
+      data.forEach((element) {
+        loadedLocations.add(
+          PostLocation.fromJson(
+            json: element,
+          ),
+        );
+      });
+
+      _postsLocations = loadedLocations;
 
       notifyListeners();
     } catch (error) {

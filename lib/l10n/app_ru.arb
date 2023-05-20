@@ -267,5 +267,12 @@
     "createSubscriptionTitle": "Подписаться на поиск",
     "createSubscriptionHint": "Вы будете получать уведомления о новых объявлениях по этому поиску",
     "subscriptionEdit": "Редактировать",
-    "subscriptionDelete": "Удалить"
+    "subscriptionDelete": "Удалить",
+    "listView": "Списком",
+    "mapView": "На карте",
+    "thousand": "тыс",
+    "million": "млн",
+    "billion": "млрд",
+    "drawHint": "Нарисовать область",
+    "deleteAreaHint": "Удалить область"
 }

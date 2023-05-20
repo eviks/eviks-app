@@ -25,6 +25,10 @@ class Auth with ChangeNotifier {
     return token != '';
   }
 
+  String get userId {
+    return _user?.id ?? '';
+  }
+
   UserRole get userRole {
     return _user?.role ?? UserRole.user;
   }
@@ -485,6 +489,7 @@ class Auth with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', token);
+      prefs.setString('userId', userId);
     } catch (error) {
       rethrow;
     }
@@ -494,6 +499,7 @@ class Auth with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove('token');
+      prefs.remove('userId');
     } catch (error) {
       rethrow;
     }
