@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +24,22 @@ import './screens/filters_screen/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
+import '../models/notification_data.dart';
+import './models/navigation_service.dart';
+import '../screens/post_review_screen/post_review_screen.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
+    final data = NotificationData.fromJson(json: message.data);
+
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('userId') ?? '';
-    if (userId != message.data['user'] as String) {
+    if (data.user != null && userId != data.user) {
       return;
     }
 
     NotificationService().showNotification(
-      0,
-      message.data['title'] as String,
-      message.data['body'] as String,
-      null,
+      data,
     );
   } catch (error) {
     //
@@ -153,6 +154,7 @@ class MyApp extends StatelessWidget {
       child: Consumer3<Auth, ThemePreferences, LocaleProvider>(
         builder: (ctx, auth, themePreferences, localeProvider, _) =>
             MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'Eviks',
           locale: localeProvider.locale,

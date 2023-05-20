@@ -9,10 +9,9 @@ import './auth_screen/auth_screen.dart';
 import './favorites_screen/favorites_screen.dart';
 import './new_post_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
+import '../models/pages_payload.dart';
 import '../providers/auth.dart';
 import 'posts_search/posts_screen.dart';
-
-enum Pages { postReview, posts, favorites, newPost, userProfile }
 
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tabs';
@@ -28,10 +27,15 @@ class _TabsScreenState extends State<TabsScreen> {
   var _isAuth = false;
   UserRole _userRole = UserRole.user;
   Map<Pages, int> pages = {};
+  Map<String, dynamic>? payload = {};
 
   int getPageIndex() {
     final arguments = ModalRoute.of(context)!.settings.arguments;
-    final pageValue = arguments != null ? arguments as Pages : Pages.posts;
+    final pagesAndPayload = arguments != null
+        ? arguments as PagesPayload
+        : PagesPayload(Pages.posts, null);
+    final pageValue = pagesAndPayload.page;
+    payload = pagesAndPayload.payload;
     final pageIndex = pages[pageValue] ?? 0;
     return pageIndex;
   }
@@ -51,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
       setState(() {
         _selectedPageIndex = pageIndex;
         _pages = [
-          PostScreen(),
+          const PostScreen(),
           FavoritesScreen(),
           const NewPostScreen(),
           const UserProfileScreen(),
@@ -105,7 +109,9 @@ class _TabsScreenState extends State<TabsScreen> {
         _selectedPageIndex = pageIndex;
         _pages = [
           if (currentUserRole == UserRole.moderator) const PostReviewScreen(),
-          PostScreen(),
+          PostScreen(
+            url: payload?['url'] == null ? null : payload?['url'] as String,
+          ),
           FavoritesScreen(),
           const NewPostScreen(),
           const UserProfileScreen(),
