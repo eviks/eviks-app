@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './constants.dart';
+import './notification_service.dart';
 import './providers/auth.dart';
 import './providers/locale_provider.dart';
 import './providers/localities.dart';
@@ -25,9 +26,29 @@ import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId') ?? '';
+    if (userId != message.data['user'] as String) {
+      return;
+    }
+
+    NotificationService().showNotification(
+      0,
+      message.data['title'] as String,
+      message.data['body'] as String,
+      null,
+    );
+  } catch (error) {
+    //
+  }
+}
+
 Future main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
   final locale = await getLocale();
@@ -42,6 +63,10 @@ Future main() async {
 
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
+
+  NotificationService().initNotification();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   runApp(
     MyApp(

@@ -1,7 +1,10 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/auth.dart';
+import '../../screens/auth_screen/auth_screen.dart';
 import '../../widgets/subscription_modal.dart';
 
 class SubscribeButton extends StatefulWidget {
@@ -20,6 +23,11 @@ class _SubscribeButtonState extends State<SubscribeButton> {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
+        final user = Provider.of<Auth>(context, listen: false).user;
+        if (user == null) {
+          Navigator.of(context).pushNamed(AuthScreen.routeName);
+          return;
+        }
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
