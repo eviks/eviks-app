@@ -205,9 +205,9 @@ class _LoginFormState extends State<LoginForm> {
                 AppLocalizations.of(context)!.loginWithGoogle,
               ),
               onPressed: _loginWithGoogle,
-              style: ElevatedButton.styleFrom(
+              style: OutlinedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.background,
-                foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
+                foregroundColor: Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),

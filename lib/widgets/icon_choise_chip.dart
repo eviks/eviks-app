@@ -16,7 +16,7 @@ class IconChoiseChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceChip(
+    return FilterChip(
       avatar: Icon(
         icon,
         color: value
@@ -24,11 +24,16 @@ class IconChoiseChip extends StatelessWidget {
             : Theme.of(context).colorScheme.primary,
       ),
       label: label,
+      labelStyle: TextStyle(
+        color: value
+            ? Theme.of(context).colorScheme.background
+            : Theme.of(context).colorScheme.onBackground,
+      ),
       selected: value,
       onSelected: onSelected,
       elevation: 3.0,
       padding: const EdgeInsets.all(
-        16.0,
+        8.0,
       ),
       labelPadding: const EdgeInsets.all(
         8.0,

@@ -20,26 +20,18 @@ class Tag extends StatelessWidget {
       onPressed: onPressed,
       icon: Icon(
         icon,
-        color: darken(
-          Theme.of(context).dividerColor,
-          0.2,
-        ),
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
       label: Text(
         label,
         style: TextStyle(
-          color: darken(
-            Theme.of(context).dividerColor,
-            0.2,
-          ),
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
-            return darken(
-              Theme.of(context).colorScheme.background,
-            );
+            return Theme.of(context).primaryColor;
           },
         ),
         elevation: MaterialStateProperty.resolveWith<double?>(

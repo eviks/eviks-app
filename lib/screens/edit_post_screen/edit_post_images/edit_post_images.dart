@@ -284,12 +284,6 @@ class _EditPostImagesState extends State<EditPostImages> {
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.0),
-                                  topRight: Radius.circular(16.0),
-                                ),
-                              ),
                               builder: (BuildContext context) {
                                 return SizedBox(
                                   height: SizeConfig.safeBlockVertical * 40.0,

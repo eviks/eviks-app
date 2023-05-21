@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './constants.dart';
+import './models/navigation_service.dart';
 import './notification_service.dart';
 import './providers/auth.dart';
 import './providers/locale_provider.dart';
@@ -25,7 +26,6 @@ import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
 import '../models/notification_data.dart';
-import './models/navigation_service.dart';
 import '../screens/post_review_screen/post_review_screen.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {

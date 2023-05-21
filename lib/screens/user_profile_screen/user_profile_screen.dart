@@ -105,7 +105,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             constraints: BoxConstraints(
               minHeight: SizeConfig.safeBlockVertical * 70.0,
             ),

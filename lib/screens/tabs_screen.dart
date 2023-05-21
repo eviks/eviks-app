@@ -121,33 +121,31 @@ class _TabsScreenState extends State<TabsScreen> {
 
     return Scaffold(
       body: _pages[_selectedPageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        showUnselectedLabels: true,
-        selectedFontSize: 12.0,
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: _selectPage,
+        selectedIndex: _selectedPageIndex,
+        height: 60.0,
         backgroundColor:
             Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-        items: [
+        destinations: [
           if (currentUserRole == UserRole.moderator)
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: const Icon(CustomIcons.shield),
               label: AppLocalizations.of(context)!.postReview,
             ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.search),
             label: AppLocalizations.of(context)!.tabsScreenSearch,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.heart),
             label: AppLocalizations.of(context)!.favorites,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.plus),
             label: AppLocalizations.of(context)!.tabsScreenCreate,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.settings),
             label: AppLocalizations.of(context)!.tabsScreenProfile,
           ),

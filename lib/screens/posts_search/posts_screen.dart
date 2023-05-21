@@ -162,7 +162,8 @@ class _PostScreenState extends State<PostScreen> {
               ?.where(
                 (element) =>
                     metroStationId.firstWhereOrNull(
-                        (id) => id == element.id.toString()) !=
+                      (id) => id == element.id.toString(),
+                    ) !=
                     null,
               )
               .toList();
@@ -220,6 +221,7 @@ class _PostScreenState extends State<PostScreen> {
           ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(CustomIcons.logo),
               const SizedBox(

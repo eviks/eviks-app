@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.1.0+7
+version: 0.2.0+0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -45,13 +45,14 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   skeletons: ^0.0.3
   cached_network_image: ^3.2.0
-  flutter_native_splash: ^2.1.6
+  flutter_native_splash: ^2.2.19
   firebase_messaging: ^14.5.0
   flutter_map_marker_cluster: ^1.1.0
   flutter_local_notifications: ^14.0.1
 
 flutter_native_splash:
-  color: '#FF337A'
+  color: '#BC0052'
+  background_image: 'assets/img/splash/splash_background.png'
   image: assets/img/splash/splash.png
 
 dev_dependencies:
@@ -60,11 +61,11 @@ dev_dependencies:
   lint: ^2.0.1
   flutter_launcher_icons: ^0.13.1
 
-flutter_icons:
+flutter_launcher_icons:
   android: 'launcher_icon'
   ios: true
   image_path: 'assets/img/logo/app_logo.png'
-  adaptive_icon_background: '#FF337A'
+  adaptive_icon_background: 'assets/img/logo/app_background.png'
   adaptive_icon_foreground: 'assets/img/logo/app_foreground_logo.png'
 
 # For information on the generic Dart part of this file, see the
