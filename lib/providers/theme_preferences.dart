@@ -33,45 +33,28 @@ class ThemePreferences with ChangeNotifier {
 }
 
 ThemeData lightThemeData(BuildContext context) {
-  return ThemeData.light().copyWith(
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
+  return ThemeData(
+    useMaterial3: true,
+    colorSchemeSeed: primaryColor,
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(
+          const BorderSide(
+            color: lightGreyColor,
+          ),
+        ),
+        shape: MaterialStateProperty.all(
+          const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+        ),
+      ),
     ),
-    primaryColor: primaryColor,
-    disabledColor: greyColor,
-    scaffoldBackgroundColor: lightColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: lightColor,
-      shadowColor: Colors.transparent,
+      shadowColor: lightGreyColor,
       centerTitle: true,
-      elevation: 0,
-      iconTheme: IconThemeData(
-        color: primaryColor,
-      ),
-      titleTextStyle: TextStyle(
-        color: primaryColor,
-        fontSize: 24.0,
-      ),
-    ),
-    iconTheme: const IconThemeData(color: darkColor),
-    textTheme: ThemeData.light().textTheme.apply(
-          fontFamily: 'Roboto',
-          bodyColor: darkColor,
-        ),
-    primaryIconTheme: const IconThemeData(
-      color: primaryColor,
-    ),
-    primaryTextTheme: ThemeData.light().textTheme.apply(
-          fontFamily: 'Roboto',
-          bodyColor: primaryColor,
-        ),
-    colorScheme: const ColorScheme.light(
-      primary: primaryColor,
-      error: dangerColor,
-      secondary: primaryColor,
+      scrolledUnderElevation: 2,
+      surfaceTintColor: Colors.transparent,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
@@ -91,130 +74,53 @@ ThemeData lightThemeData(BuildContext context) {
         borderSide: BorderSide(color: primaryColor, width: 2.0),
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    chipTheme: ChipThemeData(
+      showCheckmark: false,
+      selectedColor: primaryColor,
+      elevation: 0,
+      side: const BorderSide(
+        width: 0,
+        color: lightGreyColor,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
       backgroundColor: lightColor,
-      selectedItemColor: primaryColor,
-      selectedIconTheme: IconThemeData(color: primaryColor),
-      unselectedItemColor: darkGreyColor,
-    ),
-    dividerColor: greyColor,
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: primaryColor,
-      contentTextStyle: TextStyle(
-        color: lightColor,
-      ),
-      actionTextColor: lightColor,
-      behavior: SnackBarBehavior.floating,
-    ),
-    toggleButtonsTheme: const ToggleButtonsThemeData(
-      selectedColor: lightColor,
-      fillColor: primaryColor,
-    ),
-    radioTheme: RadioThemeData(
-      fillColor: MaterialStateColor.resolveWith(
-        (states) {
-          if (states.contains(MaterialState.selected)) {
-            return primaryColor;
-          }
-          return greyColor;
-        },
-      ),
-    ),
-    checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return primaryColor;
-        }
-        return greyColor;
-      }),
-    ),
-    switchTheme: SwitchThemeData(
-      trackColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return primaryColor;
-        }
-        return greyColor;
-      }),
-      thumbColor: MaterialStateColor.resolveWith(
-        (states) {
-          return lightColor;
-        },
-      ),
-    ),
-    chipTheme: ThemeData.light().chipTheme.copyWith(
-          backgroundColor: lightColor,
-          secondarySelectedColor: primaryColor,
-          secondaryLabelStyle: const TextStyle(color: lightColor),
-          labelStyle: const TextStyle(color: darkColor),
-        ),
-    tabBarTheme: const TabBarTheme(
-      indicator: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: primaryColor,
-            width: 2.0,
-          ),
-        ),
-      ),
     ),
   );
 }
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
-    brightness: Brightness.dark,
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: ButtonStyle(
-        side: MaterialStateProperty.all(
-          const BorderSide(color: softDarkColor),
-        ),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(darkColor),
-      ),
-    ),
-    cardColor: darkColor,
+    useMaterial3: true,
     primaryColor: lightPrimaryColor,
-    disabledColor: greyColor,
-    scaffoldBackgroundColor: darkColor,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: darkColor,
-      shadowColor: Colors.transparent,
-      centerTitle: true,
-      elevation: 0,
-      iconTheme: IconThemeData(
-        color: lightPrimaryColor,
-      ),
-      titleTextStyle: TextStyle(
-        color: lightPrimaryColor,
-        fontSize: 24.0,
-      ),
-    ),
-    iconTheme: const IconThemeData(color: lightGreyColor),
-    textTheme: ThemeData.dark().textTheme.apply(
-          fontFamily: 'Roboto',
-          bodyColor: lightGreyColor,
-        ),
-    primaryIconTheme: const IconThemeData(
-      color: lightPrimaryColor,
-    ),
-    primaryTextTheme: ThemeData.light().textTheme.apply(
-          fontFamily: 'Roboto',
-          bodyColor: lightPrimaryColor,
-        ),
     colorScheme: const ColorScheme.dark(
       primary: lightPrimaryColor,
       error: lightDangerColor,
       secondary: lightPrimaryColor,
       background: darkColor,
+    ),
+    brightness: Brightness.dark,
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        side: MaterialStateProperty.all(
+          const BorderSide(
+            color: darkGreyColor,
+          ),
+        ),
+        shape: MaterialStateProperty.all(
+          const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+        ),
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      color: darkColor,
+      shadowColor: darkColor,
+      centerTitle: true,
+      scrolledUnderElevation: 2,
+      surfaceTintColor: Colors.transparent,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
@@ -229,83 +135,33 @@ ThemeData darkThemeData(BuildContext context) {
       ),
       fillColor: softDarkColor,
       errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: primaryColor, width: 2.0),
+        borderSide: BorderSide(color: lightPrimaryColor, width: 2.0),
       ),
       focusedErrorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: primaryColor, width: 2.0),
+        borderSide: BorderSide(color: lightPrimaryColor, width: 2.0),
       ),
       iconColor: lightGreyColor,
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: softDarkColor,
-      selectedItemColor: lightPrimaryColor,
-      selectedIconTheme: IconThemeData(color: lightPrimaryColor),
-      unselectedItemColor: greyColor,
-    ),
-    dividerColor: greyColor,
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: lightPrimaryColor,
-      contentTextStyle: TextStyle(
+    chipTheme: ChipThemeData(
+      showCheckmark: false,
+      selectedColor: lightPrimaryColor,
+      elevation: 0,
+      side: const BorderSide(
+        width: 0,
         color: darkColor,
       ),
-      actionTextColor: darkColor,
-      behavior: SnackBarBehavior.floating,
-    ),
-    toggleButtonsTheme: const ToggleButtonsThemeData(
-      selectedColor: darkColor,
-      color: lightGreyColor,
-      fillColor: lightPrimaryColor,
-      borderColor: darkGreyColor,
-    ),
-    radioTheme: RadioThemeData(
-      fillColor: MaterialStateColor.resolveWith(
-        (states) {
-          if (states.contains(MaterialState.selected)) {
-            return lightPrimaryColor;
-          }
-          return greyColor;
-        },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
       ),
+      backgroundColor: softDarkColor,
     ),
-    checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return lightPrimaryColor;
-        }
-        return greyColor;
-      }),
-      checkColor: MaterialStateProperty.all(darkColor),
+    scaffoldBackgroundColor: darkColor,
+    dividerColor: greyColor,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: softDarkColor,
     ),
-    switchTheme: SwitchThemeData(
-      trackColor: MaterialStateColor.resolveWith(
-        (states) {
-          if (states.contains(MaterialState.selected)) {
-            return lightPrimaryColor;
-          }
-          return greyColor;
-        },
-      ),
-      thumbColor: MaterialStateColor.resolveWith(
-        (states) {
-          return darkGreyColor;
-        },
-      ),
-    ),
-    chipTheme: ThemeData.light().chipTheme.copyWith(
-          backgroundColor: darkColor,
-          secondarySelectedColor: lightPrimaryColor,
-          secondaryLabelStyle: const TextStyle(color: darkColor),
-          labelStyle: const TextStyle(color: lightGreyColor),
-        ),
-    tabBarTheme: const TabBarTheme(
-      indicator: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: lightPrimaryColor,
-            width: 2.0,
-          ),
-        ),
-      ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: darkColor,
     ),
   );
 }

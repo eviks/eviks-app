@@ -162,7 +162,7 @@ class _PostScreenState extends State<PostScreen> {
               ?.where(
                 (element) =>
                     metroStationId.firstWhereOrNull(
-                        (id) => id == element.id.toString()) !=
+                        (id) => id == element.id.toString(),) !=
                     null,
               )
               .toList();

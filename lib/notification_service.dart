@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import './constants.dart';
+import './models/navigation_service.dart';
 import './models/notification_data.dart';
 import './models/notification_payload.dart';
-import './models/navigation_service.dart';
 import './models/pages_payload.dart';
 import './screens/tabs_screen.dart';
 
