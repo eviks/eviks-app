@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-
 class Tag extends StatelessWidget {
   final String label;
   final IconData? icon;
