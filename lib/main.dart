@@ -28,6 +28,7 @@ import './screens/tabs_screen.dart';
 import '../models/notification_data.dart';
 import '../screens/post_review_screen/post_review_screen.dart';
 
+@pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
     final data = NotificationData.fromJson(json: message.data);

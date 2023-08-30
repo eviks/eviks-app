@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,6 +74,7 @@ class Auth with ChangeNotifier {
       _token = data['token'] ?? '';
       await loadUser();
       await saveTokenOnDevice();
+      await saveUserDevice();
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -114,6 +115,7 @@ class Auth with ChangeNotifier {
         _token = data['token'] ?? '';
         await loadUser();
         await saveTokenOnDevice();
+        await saveUserDevice();
         notifyListeners();
       }
     } catch (error) {
@@ -188,6 +190,7 @@ class Auth with ChangeNotifier {
       _token = data['token'] == null ? '' : data['token']!;
       await loadUser();
       await saveTokenOnDevice();
+      await saveUserDevice();
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -296,6 +299,7 @@ class Auth with ChangeNotifier {
       _token = data['token'] == null ? '' : data['token']!;
       await loadUser();
       await saveTokenOnDevice();
+      await saveUserDevice();
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -500,6 +504,38 @@ class Auth with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove('token');
       prefs.remove('userId');
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> saveUserDevice() async {
+    try {
+      final deviceToken = await FirebaseMessaging.instance.getToken() ?? '';
+
+      final url = Uri.parse('$baseUrl/api/users/save_device');
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'deviceToken': deviceToken,
+        }),
+        headers: {
+          'Authorization': 'JWT $token',
+          'Content-Type': 'application/json'
+        },
+      );
+      if (response.statusCode >= 500) {
+        throw Failure('Server error', response.statusCode);
+      } else if (response.statusCode != 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+
+        final buffer = StringBuffer();
+        buffer.writeAll(
+          data['errors'].map((error) => error['msg']) as Iterable<dynamic>,
+          '\n',
+        );
+        throw Failure(buffer.toString(), response.statusCode);
+      }
     } catch (error) {
       rethrow;
     }
