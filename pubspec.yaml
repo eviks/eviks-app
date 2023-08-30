@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.2.0+8
+version: 0.2.0+10
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   carousel_slider: ^4.0.0
@@ -51,8 +51,8 @@ dependencies:
   flutter_local_notifications: ^14.0.1
 
 flutter_native_splash:
-  color: '#BC0052'
-  background_image: 'assets/img/splash/splash_background.png'
+  color: "#BC0052"
+  background_image: "assets/img/splash/splash_background.png"
   image: assets/img/splash/splash.png
 
 dev_dependencies:
@@ -62,11 +62,11 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
-  android: 'launcher_icon'
+  android: "launcher_icon"
   ios: true
-  image_path: 'assets/img/logo/app_logo.png'
-  adaptive_icon_background: 'assets/img/logo/app_background.png'
-  adaptive_icon_foreground: 'assets/img/logo/app_foreground_logo.png'
+  image_path: "assets/img/logo/app_logo.png"
+  adaptive_icon_background: "assets/img/logo/app_background.png"
+  adaptive_icon_foreground: "assets/img/logo/app_foreground_logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
