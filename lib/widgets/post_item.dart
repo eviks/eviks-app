@@ -121,7 +121,7 @@ class _PostItemState extends State<PostItem> {
                               reviewStatus: widget.post.reviewStatus,
                               postType: widget.post.postType,
                             ),
-                            const SizedBox(width: 8.0),
+                            const SizedBox(width: 4.0),
                             DeletePostButton(
                               postId: widget.post.id,
                               reviewStatus: widget.post.reviewStatus,

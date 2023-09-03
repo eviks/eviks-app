@@ -274,5 +274,22 @@
     "million": "млн",
     "billion": "млрд",
     "drawHint": "Нарисовать область",
-    "deleteAreaHint": "Удалить область"
+    "deleteAreaHint": "Удалить область",
+    "shareText": "Смотри, какое объявление есть на Eviks\n{district}\n{price} AZN, {rooms} ком.\n{url}",
+    "@shareText": {
+        "placeholders": {
+                    "district": {
+                        "type": "String"
+                    },
+                    "price": {
+                        "type": "int"
+                    },
+                    "rooms": {
+                        "type": "int"
+                    },
+                    "url": {
+                        "type": "String"
+                    }
+                }
+      }
 }

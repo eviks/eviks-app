@@ -308,4 +308,12 @@ class CustomIcons {
     0xe847,
     fontFamily: _kFontFam,
   );
+  static const IconData share = IconData(
+    0xe848,
+    fontFamily: _kFontFam,
+  );
+  static const IconData moreVert = IconData(
+    0xe849,
+    fontFamily: _kFontFam,
+  );
 }

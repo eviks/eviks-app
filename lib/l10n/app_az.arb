@@ -274,5 +274,22 @@
     "million": "mln",
     "billion": "mlrd",
     "drawHint": "Sahəni çəkmək",
-    "deleteAreaHint": "Sahəni silmək"
+    "deleteAreaHint": "Sahəni silmək",
+    "shareText": "Bax, Eviks-də nə tapdım\n{district}\n{price} AZN, {rooms} otaq\n{url}",
+    "@shareText": {
+        "placeholders": {
+                    "district": {
+                        "type": "String"
+                    },
+                    "price": {
+                        "type": "int"
+                    },
+                    "rooms": {
+                        "type": "int"
+                    },
+                    "url": {
+                        "type": "String"
+                    }
+                }
+      }
 }
