@@ -15,6 +15,7 @@ import '../../providers/auth.dart';
 import '../../providers/posts.dart';
 import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
+import '../../widgets/post_buttons/share_button.dart';
 import '../../widgets/sized_config.dart';
 
 class PostDetailScreen extends StatefulWidget {
@@ -35,8 +36,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   bool get _isAppBarExpanded {
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 45.0
-            : 60.0;
+            ? 40.0
+            : 55.0;
 
     return _scrollController.hasClients &&
         _scrollController.offset >
@@ -195,6 +196,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       reviewStatus: loadedPost.reviewStatus,
                       postType: loadedPost.postType,
                       isExternal: loadedPost.isExternal ?? false,
+                      districtName:
+                          loadedPost.district.getLocalizedName(context),
+                      price: loadedPost.price,
+                      rooms: loadedPost.rooms,
                     ),
                   ),
                   SliverAppBar(
@@ -233,7 +238,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
                                   Navigator.pop(context);
                                 },
-                                icon: const Icon(CustomIcons.back),
+                                icon: const Icon(
+                                  CustomIcons.back,
+                                  size: 18.0,
+                                ),
                               ),
                             ),
                           )
@@ -256,10 +264,26 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                       horizontal: 12.0,
                                       vertical: 4.0,
                                     ),
-                                    child: EditPostButton(
-                                      postId: postId,
-                                      reviewStatus: loadedPost.reviewStatus,
-                                      postType: loadedPost.postType,
+                                    child: Row(
+                                      children: [
+                                        ShareButton(
+                                          postId: postId,
+                                          districtName: loadedPost.district
+                                              .getLocalizedName(context),
+                                          price: loadedPost.price,
+                                          rooms: loadedPost.rooms,
+                                          elevation: 0.0,
+                                        ),
+                                        const SizedBox(
+                                          width: 4.0,
+                                        ),
+                                        EditPostButton(
+                                          postId: postId,
+                                          reviewStatus: loadedPost.reviewStatus,
+                                          postType: loadedPost.postType,
+                                          elevation: 0.0,
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Container(
@@ -267,9 +291,24 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                       horizontal: 12.0,
                                       vertical: 4.0,
                                     ),
-                                    child: FavoriteButton(
-                                      postId: postId,
-                                      elevation: 0.0,
+                                    child: Row(
+                                      children: [
+                                        FavoriteButton(
+                                          postId: postId,
+                                          elevation: 0.0,
+                                        ),
+                                        const SizedBox(
+                                          width: 4.0,
+                                        ),
+                                        ShareButton(
+                                          postId: postId,
+                                          districtName: loadedPost.district
+                                              .getLocalizedName(context),
+                                          price: loadedPost.price,
+                                          rooms: loadedPost.rooms,
+                                          elevation: 0.0,
+                                        ),
+                                      ],
                                     ),
                                   ),
                           ),

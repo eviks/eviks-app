@@ -10,6 +10,7 @@ import '../../widgets/carousel.dart';
 import '../../widgets/post_buttons/delete_post_button.dart';
 import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
+import '../../widgets/post_buttons/share_button.dart';
 
 class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final String user;
@@ -20,6 +21,9 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final ReviewStatus? reviewStatus;
   final PostType postType;
   final bool isExternal;
+  final String districtName;
+  final int price;
+  final int rooms;
 
   PostDetailHeader({
     required this.user,
@@ -30,6 +34,9 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.reviewStatus,
     required this.postType,
     required this.isExternal,
+    required this.districtName,
+    required this.price,
+    required this.rooms,
   });
 
   @override
@@ -81,17 +88,20 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(4.0),
-                          minimumSize: const Size(50, 50),
+                          padding: EdgeInsets.zero,
+                          minimumSize: const Size(45, 45),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.0),
                           ),
-                          fixedSize: const Size(50.0, 50.0),
+                          fixedSize: const Size(45.0, 45.0),
                           backgroundColor:
                               Theme.of(context).colorScheme.background,
                           foregroundColor: Theme.of(context).dividerColor,
                         ),
-                        child: const Icon(CustomIcons.back),
+                        child: const Icon(
+                          CustomIcons.back,
+                          size: 18.0,
+                        ),
                       ),
                     ),
                     if ((auth.user?.id ?? '') == user)
@@ -99,12 +109,19 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                         margin: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
+                            ShareButton(
+                              postId: postId,
+                              districtName: districtName,
+                              price: price,
+                              rooms: rooms,
+                            ),
+                            const SizedBox(width: 4.0),
                             EditPostButton(
                               postId: postId,
                               reviewStatus: reviewStatus,
                               postType: postType,
                             ),
-                            const SizedBox(width: 8.0),
+                            const SizedBox(width: 4.0),
                             DeletePostButton(
                               postId: postId,
                               reviewStatus: reviewStatus,
@@ -116,8 +133,19 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                     else
                       Container(
                         margin: const EdgeInsets.all(8.0),
-                        child: FavoriteButton(
-                          postId: postId,
+                        child: Row(
+                          children: [
+                            FavoriteButton(
+                              postId: postId,
+                            ),
+                            const SizedBox(width: 4.0),
+                            ShareButton(
+                              postId: postId,
+                              districtName: districtName,
+                              price: price,
+                              rooms: rooms,
+                            ),
+                          ],
                         ),
                       ),
                   ],

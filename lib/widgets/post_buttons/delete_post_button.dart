@@ -86,16 +86,19 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                 ),
               ),
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(4.0),
-        minimumSize: const Size(50, 50),
+        padding: EdgeInsets.zero,
+        minimumSize: const Size(45, 45),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
-        fixedSize: const Size(50.0, 50.0),
+        fixedSize: const Size(45.0, 45.0),
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).dividerColor,
       ),
-      child: const Icon(CustomIcons.garbage),
+      child: const Icon(
+        CustomIcons.garbage,
+        size: 18.0,
+      ),
     );
   }
 }

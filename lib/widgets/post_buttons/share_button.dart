@@ -1,29 +1,34 @@
 import 'package:eviks_mobile/icons.dart';
-import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
-import '../../screens/edit_post_screen/edit_post_screen.dart';
+import '../../constants.dart';
 
-class EditPostButton extends StatelessWidget {
+class ShareButton extends StatelessWidget {
   final int postId;
-  final ReviewStatus? reviewStatus;
-  final PostType postType;
+  final String districtName;
+  final int price;
+  final int rooms;
   final double? elevation;
 
-  const EditPostButton({
+  const ShareButton({
     required this.postId,
-    required this.reviewStatus,
-    required this.postType,
+    required this.districtName,
+    required this.price,
+    required this.rooms,
     this.elevation,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: reviewStatus == ReviewStatus.onreview
-          ? null
-          : () => Navigator.of(context)
-              .pushNamed(EditPostScreen.routeName, arguments: postId),
+      onPressed: () async {
+        final url = '$baseUrl/posts/$postId';
+        final message = AppLocalizations.of(context)!
+            .shareText(districtName, price, rooms, url);
+        await Share.share(message);
+      },
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.zero,
         minimumSize: const Size(45, 45),
@@ -36,7 +41,7 @@ class EditPostButton extends StatelessWidget {
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(
-        CustomIcons.pencil,
+        CustomIcons.share,
         size: 18.0,
       ),
     );
