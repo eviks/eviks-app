@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../constants.dart';
+import '../widgets/counter.dart';
+import '../widgets/full_image_viewer.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({
@@ -14,6 +16,7 @@ class Carousel extends StatefulWidget {
     required this.external,
     required this.temp,
     this.displayIndicator = true,
+    this.fullScreenView = false,
   }) : super(key: key);
 
   final List<String> images;
@@ -22,6 +25,7 @@ class Carousel extends StatefulWidget {
   final bool external;
   final bool temp;
   final bool displayIndicator;
+  final bool fullScreenView;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -49,62 +53,58 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CarouselSlider.builder(
-          options: CarouselOptions(
-            height: widget.height,
-            viewportFraction: 1,
-            onPageChanged: (index, _) {
-              setState(() {
-                _currentIndex = index;
-              });
+    return InkWell(
+      onTap: widget.fullScreenView
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FullImageViewer(
+                    images: widget.images,
+                    imageSize: '1280',
+                    isExternal: widget.external,
+                    temp: widget.temp,
+                    initialIndex: _currentIndex,
+                  ),
+                ),
+              );
+            }
+          : null,
+      child: Stack(
+        children: [
+          CarouselSlider.builder(
+            options: CarouselOptions(
+              height: widget.height,
+              viewportFraction: 1,
+              onPageChanged: (index, _) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
+            itemCount: widget.images.length,
+            itemBuilder: (ctx, index, _) {
+              return CachedNetworkImage(
+                imageUrl: widget.external
+                    ? widget.images[index]
+                    : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
+                placeholder: (context, url) => const SkeletonAvatar(
+                  style: SkeletonAvatarStyle(width: double.infinity),
+                ),
+                width: double.infinity,
+                fit: BoxFit.cover,
+                fadeInDuration: const Duration(milliseconds: 100),
+              );
             },
           ),
-          itemCount: widget.images.length,
-          itemBuilder: (ctx, index, _) {
-            return CachedNetworkImage(
-              imageUrl: widget.external
-                  ? widget.images[index]
-                  : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
-              placeholder: (context, url) => const SkeletonAvatar(
-                style: SkeletonAvatarStyle(width: double.infinity),
-              ),
-              width: double.infinity,
-              fit: BoxFit.cover,
-              fadeInDuration: const Duration(milliseconds: 100),
-            );
-          },
-        ),
-        if (widget.displayIndicator)
-          SizedBox(
-            height: widget.height,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 2.0, vertical: 15.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(
-                      16.0,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
-                  ),
-                  child: Text(
-                    '${_currentIndex + 1}/${widget.images.length}',
-                  ),
-                ),
-              ),
+          if (widget.displayIndicator)
+            Counter(
+              height: widget.height,
+              total: widget.images.length,
+              current: _currentIndex + 1,
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }
