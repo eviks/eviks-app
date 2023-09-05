@@ -54,6 +54,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
           temp: postType == PostType.unreviewed,
           external: isExternal,
           displayIndicator: buttonsVisibility,
+          fullScreenView: true,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
