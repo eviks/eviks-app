@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,7 +23,11 @@ class MapSearch extends StatefulWidget {
 
 class _MapSearchState extends State<MapSearch> {
   late List<LatLng> searchArea = [];
+  List<LatLng> currentPosition = [];
   bool drawing = false;
+  MapPosition? _previousPosition;
+  Timer? _moveEndTimer;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -37,12 +43,23 @@ class _MapSearchState extends State<MapSearch> {
     super.initState();
   }
 
-  void updateFilters() {
-    Provider.of<Posts>(context, listen: false).updateFilters({
-      'searchArea': searchArea.map((e) => [e.longitude, e.latitude]).toList()
-    });
+  Future<void> updateFilters() async {
+    var coordinates = [];
+    if (searchArea.isNotEmpty) {
+      coordinates = searchArea.map((e) => [e.longitude, e.latitude]).toList();
+    } else {
+      coordinates =
+          currentPosition.map((e) => [e.longitude, e.latitude]).toList();
+    }
 
-    Provider.of<Posts>(context, listen: false).fetchAndSetPostsLocations();
+    Provider.of<Posts>(context, listen: false)
+        .updateFilters({'searchArea': coordinates});
+
+    await Provider.of<Posts>(context, listen: false)
+        .fetchAndSetPostsLocations();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -50,6 +67,33 @@ class _MapSearchState extends State<MapSearch> {
     final Filters filters = Provider.of<Posts>(context).filters;
     final List<PostLocation> postsLocations =
         Provider.of<Posts>(context).postsLocations;
+
+    void cancelMoveEndTimer() {
+      if (_moveEndTimer != null && _moveEndTimer!.isActive) {
+        _moveEndTimer!.cancel();
+      }
+    }
+
+    void startMoveEndTimer(MapPosition position) {
+      cancelMoveEndTimer();
+
+      _moveEndTimer = Timer(const Duration(seconds: 1), () {
+        setState(() {
+          if (position.bounds != null && position.bounds!.isValid) {
+            currentPosition = [
+              position.bounds!.northWest,
+              position.bounds!.northEast!,
+              position.bounds!.southEast,
+              position.bounds!.southWest!
+            ];
+          } else {
+            currentPosition = [];
+          }
+          updateFilters();
+        });
+      });
+    }
+
     return Stack(
       children: [
         FlutterMap(
@@ -63,6 +107,19 @@ class _MapSearchState extends State<MapSearch> {
                   searchArea.add(point);
                 });
               }
+            },
+            onPositionChanged: (MapPosition position, bool gesture) {
+              if (!_isLoading) {
+                setState(() {
+                  _isLoading = true;
+                });
+              }
+
+              if (_previousPosition != null && position != _previousPosition) {
+                cancelMoveEndTimer();
+              }
+              _previousPosition = position;
+              startMoveEndTimer(position);
             },
             interactiveFlags: drawing
                 ? InteractiveFlag.none
@@ -170,6 +227,12 @@ class _MapSearchState extends State<MapSearch> {
             ),
           ],
         ),
+        if (_isLoading)
+          const LinearProgressIndicator()
+        else
+          const SizedBox(
+            height: 0,
+          ),
         SizedBox(
           width: double.infinity,
           child: Padding(
