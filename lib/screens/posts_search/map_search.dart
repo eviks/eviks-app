@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,6 +14,7 @@ import '../../constants.dart';
 import '../../models/filters.dart';
 import '../../models/post_location.dart';
 import '../../providers/posts.dart';
+import '../../widgets/sized_config.dart';
 
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
@@ -20,15 +24,72 @@ class MapSearch extends StatefulWidget {
 }
 
 class _MapSearchState extends State<MapSearch> {
-  List<LatLng> searchArea = [];
+  late List<LatLng> searchArea = [];
+  List<LatLng> currentPosition = [];
   bool drawing = false;
+  MapPosition? _previousPosition;
+  Timer? _moveEndTimer;
+  bool _isLoading = false;
+  final MapController _mapController = MapController();
+  late Posts _appProvider;
+  late LatLng _center;
+  double _radius = 0.01;
 
-  void updateFilters() {
-    Provider.of<Posts>(context, listen: false).updateFilters({
-      'searchArea': searchArea.map((e) => [e.longitude, e.latitude]).toList()
+  @override
+  void initState() {
+    final initialSearchArea =
+        Provider.of<Posts>(context, listen: false).filters.searchArea;
+    if (initialSearchArea != null) {
+      setState(() {
+        searchArea = initialSearchArea
+            .map((element) => LatLng(element[1], element[0]))
+            .toList();
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _appProvider = Provider.of<Posts>(context, listen: false);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    if (searchArea.isEmpty) {
+      currentPosition = [];
+      _mapController.dispose();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _appProvider.updateFilters({
+          'searchArea':
+              currentPosition.map((e) => [e.longitude, e.latitude]).toList()
+        }),
+      );
+    }
+    super.dispose();
+  }
+
+  Future<void> updateFilters() async {
+    var coordinates = [];
+    if (searchArea.isNotEmpty) {
+      coordinates = searchArea.map((e) => [e.longitude, e.latitude]).toList();
+    } else {
+      coordinates =
+          currentPosition.map((e) => [e.longitude, e.latitude]).toList();
+    }
+
+    Provider.of<Posts>(context, listen: false)
+        .updateFilters({'searchArea': coordinates});
+
+    setState(() {
+      _isLoading = true;
     });
-
-    Provider.of<Posts>(context, listen: false).fetchAndSetPostsLocations();
+    await Provider.of<Posts>(context, listen: false)
+        .fetchAndSetPostsLocations();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -36,19 +97,74 @@ class _MapSearchState extends State<MapSearch> {
     final Filters filters = Provider.of<Posts>(context).filters;
     final List<PostLocation> postsLocations =
         Provider.of<Posts>(context).postsLocations;
+
+    void cancelMoveEndTimer() {
+      if (_moveEndTimer != null && _moveEndTimer!.isActive) {
+        _moveEndTimer!.cancel();
+      }
+    }
+
+    void startMoveEndTimer(MapPosition position) {
+      cancelMoveEndTimer();
+
+      _moveEndTimer = Timer(const Duration(seconds: 1), () {
+        setState(() {
+          if (position.bounds != null && position.bounds!.isValid) {
+            currentPosition = [
+              position.bounds!.northWest,
+              position.bounds!.northEast!,
+              position.bounds!.southEast,
+              position.bounds!.southWest!
+            ];
+          } else {
+            currentPosition = [];
+          }
+          updateFilters();
+        });
+      });
+    }
+
+    void createCirclePolygon() {
+      const sides = 36;
+      const double rotation = 2 * pi / sides;
+
+      final List<LatLng> polygonPoints = [];
+
+      for (int i = 0; i < sides; i++) {
+        final double angle = rotation * i;
+        final double x = _center.latitude + _radius * cos(angle);
+        final double y = _center.longitude + _radius * sin(angle);
+        polygonPoints.add(LatLng(x, y));
+      }
+
+      setState(() {
+        searchArea = polygonPoints;
+      });
+    }
+
+    SizeConfig().init(context);
+
     return Stack(
       children: [
         FlutterMap(
+          mapController: _mapController,
           options: MapOptions(
             center: LatLng(filters.city.y ?? 0, filters.city.x ?? 0),
             zoom: 12,
             maxZoom: 18,
             onPointerHover: (e, point) {
               if (drawing) {
-                setState(() {
-                  searchArea.add(point);
-                });
+                _center = point;
+                _radius = 0.01 - (_mapController.zoom - 12) * 0.01 / 12;
+                createCirclePolygon();
               }
+            },
+            onPositionChanged: (MapPosition position, bool gesture) {
+              if (_previousPosition != null && position != _previousPosition) {
+                cancelMoveEndTimer();
+              }
+              _previousPosition = position;
+              startMoveEndTimer(position);
             },
             interactiveFlags: drawing
                 ? InteractiveFlag.none
@@ -65,7 +181,7 @@ class _MapSearchState extends State<MapSearch> {
               polygons: [
                 Polygon(
                   points: searchArea,
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withOpacity(0.2),
                   borderStrokeWidth: 5.0,
                   borderColor: Theme.of(context).primaryColor,
                   isFilled: true,
@@ -74,7 +190,6 @@ class _MapSearchState extends State<MapSearch> {
             ),
             MarkerClusterLayerWidget(
               options: MarkerClusterLayerOptions(
-                maxClusterRadius: 45,
                 anchor: AnchorPos.align(AnchorAlign.center),
                 size: const Size(40.0, 40.0),
                 fitBoundsOptions: const FitBoundsOptions(
@@ -157,6 +272,35 @@ class _MapSearchState extends State<MapSearch> {
             ),
           ],
         ),
+        if (_isLoading)
+          const LinearProgressIndicator()
+        else
+          const SizedBox(
+            height: 0,
+          ),
+        if (drawing)
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: SizeConfig.safeBlockHorizontal * 30.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Slider(
+                    value: _radius,
+                    onChanged: (value) {
+                      _radius = value;
+                      createCirclePolygon();
+                    },
+                    min: 0.001,
+                    max: 0.05,
+                  ),
+                ],
+              ),
+            ),
+          ),
         SizedBox(
           width: double.infinity,
           child: Padding(
