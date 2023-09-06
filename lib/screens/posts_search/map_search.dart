@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '../../constants.dart';
 import '../../models/filters.dart';
 import '../../models/post_location.dart';
 import '../../providers/posts.dart';
+import '../../widgets/sized_config.dart';
 
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
@@ -28,6 +30,10 @@ class _MapSearchState extends State<MapSearch> {
   MapPosition? _previousPosition;
   Timer? _moveEndTimer;
   bool _isLoading = false;
+  final MapController _mapController = MapController();
+  late Posts _appProvider;
+  late LatLng _center;
+  double _radius = 0.01;
 
   @override
   void initState() {
@@ -43,6 +49,27 @@ class _MapSearchState extends State<MapSearch> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    _appProvider = Provider.of<Posts>(context, listen: false);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    if (searchArea.isEmpty) {
+      currentPosition = [];
+      _mapController.dispose();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _appProvider.updateFilters({
+          'searchArea':
+              currentPosition.map((e) => [e.longitude, e.latitude]).toList()
+        }),
+      );
+    }
+    super.dispose();
+  }
+
   Future<void> updateFilters() async {
     var coordinates = [];
     if (searchArea.isNotEmpty) {
@@ -55,6 +82,9 @@ class _MapSearchState extends State<MapSearch> {
     Provider.of<Posts>(context, listen: false)
         .updateFilters({'searchArea': coordinates});
 
+    setState(() {
+      _isLoading = true;
+    });
     await Provider.of<Posts>(context, listen: false)
         .fetchAndSetPostsLocations();
     setState(() {
@@ -94,27 +124,42 @@ class _MapSearchState extends State<MapSearch> {
       });
     }
 
+    void createCirclePolygon() {
+      const sides = 36;
+      const double rotation = 2 * pi / sides;
+
+      final List<LatLng> polygonPoints = [];
+
+      for (int i = 0; i < sides; i++) {
+        final double angle = rotation * i;
+        final double x = _center.latitude + _radius * cos(angle);
+        final double y = _center.longitude + _radius * sin(angle);
+        polygonPoints.add(LatLng(x, y));
+      }
+
+      setState(() {
+        searchArea = polygonPoints;
+      });
+    }
+
+    SizeConfig().init(context);
+
     return Stack(
       children: [
         FlutterMap(
+          mapController: _mapController,
           options: MapOptions(
             center: LatLng(filters.city.y ?? 0, filters.city.x ?? 0),
             zoom: 12,
             maxZoom: 18,
             onPointerHover: (e, point) {
               if (drawing) {
-                setState(() {
-                  searchArea.add(point);
-                });
+                _center = point;
+                _radius = 0.01 - (_mapController.zoom - 12) * 0.01 / 12;
+                createCirclePolygon();
               }
             },
             onPositionChanged: (MapPosition position, bool gesture) {
-              if (!_isLoading) {
-                setState(() {
-                  _isLoading = true;
-                });
-              }
-
               if (_previousPosition != null && position != _previousPosition) {
                 cancelMoveEndTimer();
               }
@@ -136,7 +181,7 @@ class _MapSearchState extends State<MapSearch> {
               polygons: [
                 Polygon(
                   points: searchArea,
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withOpacity(0.2),
                   borderStrokeWidth: 5.0,
                   borderColor: Theme.of(context).primaryColor,
                   isFilled: true,
@@ -232,6 +277,29 @@ class _MapSearchState extends State<MapSearch> {
         else
           const SizedBox(
             height: 0,
+          ),
+        if (drawing)
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: SizeConfig.safeBlockHorizontal * 30.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Slider(
+                    value: _radius,
+                    onChanged: (value) {
+                      _radius = value;
+                      createCirclePolygon();
+                    },
+                    min: 0.001,
+                    max: 0.05,
+                  ),
+                ],
+              ),
+            ),
           ),
         SizedBox(
           width: double.infinity,
