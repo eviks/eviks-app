@@ -20,8 +20,22 @@ class MapSearch extends StatefulWidget {
 }
 
 class _MapSearchState extends State<MapSearch> {
-  List<LatLng> searchArea = [];
+  late List<LatLng> searchArea = [];
   bool drawing = false;
+
+  @override
+  void initState() {
+    final initialSearchArea =
+        Provider.of<Posts>(context, listen: false).filters.searchArea;
+    if (initialSearchArea != null) {
+      setState(() {
+        searchArea = initialSearchArea
+            .map((element) => LatLng(element[1], element[0]))
+            .toList();
+      });
+    }
+    super.initState();
+  }
 
   void updateFilters() {
     Provider.of<Posts>(context, listen: false).updateFilters({
@@ -74,7 +88,6 @@ class _MapSearchState extends State<MapSearch> {
             ),
             MarkerClusterLayerWidget(
               options: MarkerClusterLayerOptions(
-                maxClusterRadius: 45,
                 anchor: AnchorPos.align(AnchorAlign.center),
                 size: const Size(40.0, 40.0),
                 fitBoundsOptions: const FitBoundsOptions(

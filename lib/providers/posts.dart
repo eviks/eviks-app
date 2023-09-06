@@ -100,6 +100,30 @@ class Posts with ChangeNotifier {
     notifyListeners();
   }
 
+  List<List<double>> parseSearchAreaUrl(String url) {
+    final List<List<double>> searchArea = [];
+    final List<List<dynamic>> listOfDynamic = [];
+    final coordinates = url.split('],');
+
+    for (var i = 0; i < coordinates.length; i++) {
+      final source = coordinates[i];
+      listOfDynamic.add(
+        jsonDecode('$source${i == coordinates.length - 1 ? '' : ']'}')
+            as List<dynamic>,
+      );
+    }
+
+    for (final item in listOfDynamic) {
+      if (item.length == 2) {
+        final double lat = item[0] as double;
+        final double lon = item[1] as double;
+        searchArea.add([lat, lon]);
+      }
+    }
+
+    return searchArea;
+  }
+
   Filters getFiltersfromQueryParameters(
     Map<String, String> params,
     Settlement city,
@@ -161,6 +185,9 @@ class Posts with ChangeNotifier {
       totalFloorsMax: params['totalFloorsMax'] == null
           ? null
           : int.parse(params['totalFloorsMax']!),
+      searchArea: params['searchArea'] == null
+          ? null
+          : parseSearchAreaUrl(params['searchArea']!),
     );
   }
 

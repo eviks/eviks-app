@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -40,6 +41,19 @@ class _FullImageViewerState extends State<FullImageViewer> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CustomIcons.back),
+                color: lightColor,
+              )
+            : null,
+      ),
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
