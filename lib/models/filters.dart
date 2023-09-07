@@ -28,6 +28,7 @@ class Filters {
   int? totalFloorsMin;
   int? totalFloorsMax;
   List<List<double>>? searchArea;
+  bool tempSearchArea;
 
   Filters({
     required this.city,
@@ -54,6 +55,7 @@ class Filters {
     this.totalFloorsMin,
     this.totalFloorsMax,
     this.searchArea,
+    this.tempSearchArea = false,
   });
 
   Map<String, dynamic> toQueryParameters() => {
@@ -114,6 +116,7 @@ class Filters {
       totalFloorsMin: totalFloorsMin,
       totalFloorsMax: totalFloorsMax,
       searchArea: searchArea,
+      tempSearchArea: tempSearchArea,
     );
   }
 }

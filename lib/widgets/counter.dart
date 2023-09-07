@@ -5,12 +5,12 @@ class Counter extends StatelessWidget {
   final int total;
   final int current;
 
-  const Counter(
-      {Key? key,
-      required this.height,
-      required this.total,
-      required this.current})
-      : super(key: key);
+  const Counter({
+    Key? key,
+    required this.height,
+    required this.total,
+    required this.current,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

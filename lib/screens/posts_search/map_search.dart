@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import '../../constants.dart';
 import '../../models/filters.dart';
 import '../../models/post_location.dart';
 import '../../providers/posts.dart';
-import '../../widgets/sized_config.dart';
 
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
@@ -30,16 +28,14 @@ class _MapSearchState extends State<MapSearch> {
   MapPosition? _previousPosition;
   Timer? _moveEndTimer;
   bool _isLoading = false;
-  final MapController _mapController = MapController();
-  late Posts _appProvider;
-  late LatLng _center;
-  double _radius = 0.01;
 
   @override
   void initState() {
-    final initialSearchArea =
-        Provider.of<Posts>(context, listen: false).filters.searchArea;
-    if (initialSearchArea != null) {
+    final filters = Provider.of<Posts>(context, listen: false).filters;
+    final initialSearchArea = filters.searchArea;
+    final tempSearchArea = filters.tempSearchArea;
+
+    if (initialSearchArea != null && !tempSearchArea) {
       setState(() {
         searchArea = initialSearchArea
             .map((element) => LatLng(element[1], element[0]))
@@ -49,29 +45,8 @@ class _MapSearchState extends State<MapSearch> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    _appProvider = Provider.of<Posts>(context, listen: false);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    if (searchArea.isEmpty) {
-      currentPosition = [];
-      _mapController.dispose();
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _appProvider.updateFilters({
-          'searchArea':
-              currentPosition.map((e) => [e.longitude, e.latitude]).toList()
-        }),
-      );
-    }
-    super.dispose();
-  }
-
   Future<void> updateFilters() async {
-    var coordinates = [];
+    List<List<double>> coordinates = [];
     if (searchArea.isNotEmpty) {
       coordinates = searchArea.map((e) => [e.longitude, e.latitude]).toList();
     } else {
@@ -79,17 +54,32 @@ class _MapSearchState extends State<MapSearch> {
           currentPosition.map((e) => [e.longitude, e.latitude]).toList();
     }
 
-    Provider.of<Posts>(context, listen: false)
-        .updateFilters({'searchArea': coordinates});
+    Provider.of<Posts>(context, listen: false).updateFilters(
+        {'searchArea': coordinates, 'tempSearchArea': searchArea.isEmpty});
 
     setState(() {
       _isLoading = true;
     });
+
     await Provider.of<Posts>(context, listen: false)
         .fetchAndSetPostsLocations();
+
+    if (searchArea.isEmpty) {
+      if (!mounted) return;
+      coordinates = [];
+      Provider.of<Posts>(context, listen: false)
+          .updateFilters({'searchArea': coordinates});
+    }
+
     setState(() {
       _isLoading = false;
     });
+  }
+
+  @override
+  void dispose() {
+    _moveEndTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -105,6 +95,8 @@ class _MapSearchState extends State<MapSearch> {
     }
 
     void startMoveEndTimer(MapPosition position) {
+      if (!mounted) return;
+
       cancelMoveEndTimer();
 
       _moveEndTimer = Timer(const Duration(seconds: 1), () {
@@ -124,39 +116,18 @@ class _MapSearchState extends State<MapSearch> {
       });
     }
 
-    void createCirclePolygon() {
-      const sides = 36;
-      const double rotation = 2 * pi / sides;
-
-      final List<LatLng> polygonPoints = [];
-
-      for (int i = 0; i < sides; i++) {
-        final double angle = rotation * i;
-        final double x = _center.latitude + _radius * cos(angle);
-        final double y = _center.longitude + _radius * sin(angle);
-        polygonPoints.add(LatLng(x, y));
-      }
-
-      setState(() {
-        searchArea = polygonPoints;
-      });
-    }
-
-    SizeConfig().init(context);
-
     return Stack(
       children: [
         FlutterMap(
-          mapController: _mapController,
           options: MapOptions(
             center: LatLng(filters.city.y ?? 0, filters.city.x ?? 0),
             zoom: 12,
             maxZoom: 18,
             onPointerHover: (e, point) {
               if (drawing) {
-                _center = point;
-                _radius = 0.01 - (_mapController.zoom - 12) * 0.01 / 12;
-                createCirclePolygon();
+                setState(() {
+                  searchArea.add(point);
+                });
               }
             },
             onPositionChanged: (MapPosition position, bool gesture) {
@@ -196,55 +167,58 @@ class _MapSearchState extends State<MapSearch> {
                   padding: EdgeInsets.all(50),
                   maxZoom: 18,
                 ),
-                markers: postsLocations
-                    .map(
-                      (e) => Marker(
-                        width: 65.0,
-                        point: LatLng(e.location[1], e.location[0]),
-                        builder: (ctx) => GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.0),
-                                  topRight: Radius.circular(16.0),
-                                ),
-                              ),
-                              builder: (BuildContext context) {
-                                return PostItemModal(
-                                  id: e.id,
+                markers: drawing
+                    ? []
+                    : postsLocations
+                        .map(
+                          (e) => Marker(
+                            width: 65.0,
+                            point: LatLng(e.location[1], e.location[0]),
+                            builder: (ctx) => GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(16.0),
+                                      topRight: Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return PostItemModal(
+                                      id: e.id,
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: softDarkColor.withOpacity(0.4),
-                                  blurRadius: 1,
-                                  offset: const Offset(3, 1),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Theme.of(context).primaryColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: softDarkColor.withOpacity(0.4),
+                                      blurRadius: 1,
+                                      offset: const Offset(3, 1),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                priceFormatter(context, e.price),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.background,
+                                child: Center(
+                                  child: Text(
+                                    priceFormatter(context, e.price),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+                        )
+                        .toList(),
                 builder: (context, markers) {
                   return Container(
                     decoration: BoxDecoration(
@@ -277,29 +251,6 @@ class _MapSearchState extends State<MapSearch> {
         else
           const SizedBox(
             height: 0,
-          ),
-        if (drawing)
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: SizeConfig.safeBlockHorizontal * 30.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Slider(
-                    value: _radius,
-                    onChanged: (value) {
-                      _radius = value;
-                      createCirclePolygon();
-                    },
-                    min: 0.001,
-                    max: 0.05,
-                  ),
-                ],
-              ),
-            ),
           ),
         SizedBox(
           width: double.infinity,
@@ -345,15 +296,22 @@ class _MapSearchState extends State<MapSearch> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                if (searchArea.isNotEmpty && !drawing)
+                if ((searchArea.isNotEmpty && !drawing) || drawing)
                   Tooltip(
                     message: AppLocalizations.of(context)!.deleteAreaHint,
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          searchArea = [];
-                        });
-                        updateFilters();
+                        if (searchArea.isNotEmpty && !drawing) {
+                          setState(() {
+                            searchArea = [];
+                          });
+                          updateFilters();
+                        } else {
+                          setState(() {
+                            searchArea =
+                                searchArea.take(searchArea.length - 1).toList();
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
