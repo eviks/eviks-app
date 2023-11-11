@@ -325,7 +325,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: userRole == UserRole.moderator
+        child: (userRole == UserRole.moderator &&
+                loadedPost.reviewStatus == ReviewStatus.onreview)
             ? PostDetailModerationButtons(
                 postId: postId,
               )

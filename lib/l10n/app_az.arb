@@ -291,5 +291,12 @@
                         "type": "String"
                     }
                 }
-      }
+      },
+    "sort": "Sıralama",
+    "priceAsc": "Əvvəlcə ucuz",
+    "priceDsc": "Əvvəlcə bahalı",
+    "sqmAsc": "Əvvəlcə kiçik sahə ilə",
+    "sqmDsc": "Əvvəlcə böyük sahə ilə",
+    "dateAsc": "Əvvəlcə köhnə elanlar",
+    "dateDsc": "Əvvəlcə yeni elanlar"
 }

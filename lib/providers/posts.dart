@@ -188,6 +188,11 @@ class Posts with ChangeNotifier {
       searchArea: params['searchArea'] == null
           ? null
           : parseSearchAreaUrl(params['searchArea']!),
+      sort: params['sort'] == null
+          ? SortType.dateDsc
+          : SortType.values.firstWhere(
+              (element) => element.toString() == 'SortType.${params['sort']}',
+            ),
     );
   }
 
@@ -265,6 +270,9 @@ class Posts with ChangeNotifier {
           break;
         case 'searchArea':
           _filters.searchArea = value as List<List<double>>?;
+          break;
+        case 'sort':
+          _filters.sort = value as SortType;
           break;
         default:
       }

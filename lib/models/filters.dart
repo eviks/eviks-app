@@ -1,7 +1,37 @@
 import 'package:eviks_mobile/models/post.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import './metro_station.dart';
 import './settlement.dart';
+
+enum SortType {
+  priceAsc,
+  priceDsc,
+  sqmAsc,
+  sqmDsc,
+  dateAsc,
+  dateDsc,
+}
+
+String sortDescription(SortType userType, BuildContext ctx) {
+  switch (userType) {
+    case SortType.priceAsc:
+      return AppLocalizations.of(ctx)!.priceAsc;
+    case SortType.priceDsc:
+      return AppLocalizations.of(ctx)!.priceDsc;
+    case SortType.sqmAsc:
+      return AppLocalizations.of(ctx)!.sqmAsc;
+    case SortType.sqmDsc:
+      return AppLocalizations.of(ctx)!.sqmDsc;
+    case SortType.dateAsc:
+      return AppLocalizations.of(ctx)!.dateAsc;
+    case SortType.dateDsc:
+      return AppLocalizations.of(ctx)!.dateDsc;
+    default:
+      return '';
+  }
+}
 
 class Filters {
   Settlement city;
@@ -28,6 +58,7 @@ class Filters {
   int? totalFloorsMin;
   int? totalFloorsMax;
   List<List<double>>? searchArea;
+  SortType sort;
 
   Filters({
     required this.city,
@@ -54,6 +85,7 @@ class Filters {
     this.totalFloorsMin,
     this.totalFloorsMax,
     this.searchArea,
+    this.sort = SortType.dateDsc,
   });
 
   Map<String, dynamic> toQueryParameters() => {
@@ -85,7 +117,9 @@ class Filters {
             totalFloorsMin == 0 ? null : totalFloorsMin?.toString(),
         'totalFloorsMax':
             totalFloorsMax == 0 ? null : totalFloorsMax?.toString(),
-        'searchArea': searchArea?.isEmpty ?? true ? null : searchArea?.join(',')
+        'searchArea':
+            searchArea?.isEmpty ?? true ? null : searchArea?.join(','),
+        'sort': sort.toString().replaceAll('SortType.', ''),
       };
 
   Filters copy() {
@@ -114,6 +148,7 @@ class Filters {
       totalFloorsMin: totalFloorsMin,
       totalFloorsMax: totalFloorsMax,
       searchArea: searchArea,
+      sort: sort,
     );
   }
 }

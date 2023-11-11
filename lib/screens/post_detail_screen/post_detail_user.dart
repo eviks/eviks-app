@@ -30,9 +30,7 @@ class PostDetailUser extends StatelessWidget {
       margin: const EdgeInsets.only(top: 15.0),
       width: SizeConfig.safeBlockHorizontal * 100,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? softDarkColor
-            : Theme.of(context).primaryColor.withOpacity(0.1),
+        color: isDarkMode ? softDarkColor : lightGreyColor.withOpacity(0.5),
         borderRadius: const BorderRadius.all(
           Radius.circular(
             8.0,

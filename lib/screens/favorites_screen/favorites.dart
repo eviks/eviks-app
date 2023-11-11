@@ -159,6 +159,7 @@ class _FavoritesState extends State<Favorites> {
             )
           : Stack(
               children: [
+                if (_isLoading) const LinearProgressIndicator(),
                 ListView.builder(
                   controller: _scrollController,
                   physics: const BouncingScrollPhysics(),
@@ -179,20 +180,6 @@ class _FavoritesState extends State<Favorites> {
                   },
                   itemCount: posts.length,
                 ),
-                if (_isLoading)
-                  Positioned(
-                    bottom: 0,
-                    width: SizeConfig.blockSizeHorizontal * 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             );
     }

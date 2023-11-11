@@ -8,6 +8,7 @@ import './district_filter.dart';
 import './floor_filters.dart';
 import './main_filters.dart';
 import './metro_filter.dart';
+import './sort_button.dart';
 import './sqm_filters.dart';
 import '../../models/filters.dart';
 import '../../providers/posts.dart';
@@ -81,6 +82,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SortButton(),
                     const CityFilter(),
                     const DistrictFilter(),
                     Consumer<Posts>(

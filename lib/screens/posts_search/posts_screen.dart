@@ -112,17 +112,19 @@ class _PostScreenState extends State<PostScreen> {
 
       _scrollController.addListener(
         () async {
-          if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent) {
-            setState(() {
-              _isLoading = true;
-            });
+          if (_scrollController.position.pixels >
+              _scrollController.position.maxScrollExtent - 3000) {
+            if (!_isLoading) {
+              setState(() {
+                _isLoading = true;
+              });
 
-            await _fetchPosts(true);
+              await _fetchPosts(true);
 
-            setState(() {
-              _isLoading = false;
-            });
+              setState(() {
+                _isLoading = false;
+              });
+            }
           }
         },
       );
@@ -285,6 +287,7 @@ class _PostScreenState extends State<PostScreen> {
                 : Stack(
                     alignment: AlignmentDirectional.topEnd,
                     children: [
+                      if (_isLoading) const LinearProgressIndicator(),
                       AnimationLimiter(
                         child: ListView.builder(
                           controller: _scrollController,
@@ -307,20 +310,6 @@ class _PostScreenState extends State<PostScreen> {
                           itemCount: posts.length,
                         ),
                       ),
-                      if (_isLoading)
-                        Positioned(
-                          bottom: 0,
-                          width: SizeConfig.blockSizeHorizontal * 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(),
-                              ),
-                            ],
-                          ),
-                        ),
                     ],
                   ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
