@@ -105,6 +105,11 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
+  Future<void> _refreshList() async {
+    Provider.of<Posts>(context, listen: false).clearPosts();
+    await _fetchPosts(false);
+  }
+
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
@@ -284,33 +289,36 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                     ),
                   )
-                : Stack(
-                    alignment: AlignmentDirectional.topEnd,
-                    children: [
-                      if (_isLoading) const LinearProgressIndicator(),
-                      AnimationLimiter(
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (ctx, index) {
-                            return AnimationConfiguration.staggeredList(
-                              position: index,
-                              duration: const Duration(milliseconds: 375),
-                              child: SlideAnimation(
-                                verticalOffset: 50.0,
-                                child: FadeInAnimation(
-                                  child: PostItem(
-                                    key: Key(posts[index].id.toString()),
-                                    post: posts[index],
+                : RefreshIndicator(
+                    onRefresh: _refreshList,
+                    child: Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        AnimationLimiter(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (ctx, index) {
+                              return AnimationConfiguration.staggeredList(
+                                position: index,
+                                duration: const Duration(milliseconds: 375),
+                                child: SlideAnimation(
+                                  verticalOffset: 50.0,
+                                  child: FadeInAnimation(
+                                    child: PostItem(
+                                      key: Key(posts[index].id.toString()),
+                                      post: posts[index],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          itemCount: posts.length,
+                              );
+                            },
+                            itemCount: posts.length,
+                          ),
                         ),
-                      ),
-                    ],
+                        if (_isLoading) const LinearProgressIndicator(),
+                      ],
+                    ),
                   ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(

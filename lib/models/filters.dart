@@ -58,8 +58,8 @@ class Filters {
   int? totalFloorsMin;
   int? totalFloorsMax;
   List<List<double>>? searchArea;
-  SortType sort;
   bool tempSearchArea;
+  SortType sort;
 
   Filters({
     required this.city,
