@@ -234,7 +234,8 @@ class _PostItemState extends State<PostItem> {
                         child: Row(
                           children: <Widget>[
                             Text(
-                              dateFormatter.format(widget.post.updatedAt),
+                              dateFormatter
+                                  .format(widget.post.updatedAt.toLocal()),
                               style: TextStyle(
                                 color: Theme.of(context).disabledColor,
                               ),

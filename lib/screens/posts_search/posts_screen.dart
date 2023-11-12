@@ -230,13 +230,19 @@ class _PostScreenState extends State<PostScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(CustomIcons.logo),
+              Icon(
+                CustomIcons.logo,
+                color: Theme.of(context).primaryColor,
+              ),
               const SizedBox(
                 width: 5,
               ),
               Text(
                 AppLocalizations.of(context)!.postsScreenTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ],
           ),

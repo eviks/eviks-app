@@ -141,7 +141,7 @@ class CustomIcons {
     fontFamily: _kFontFam,
   );
   static const IconData logo = IconData(
-    0xe81e,
+    0xe84a,
     fontFamily: _kFontFam,
   );
   static const IconData measuring = IconData(

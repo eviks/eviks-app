@@ -61,7 +61,7 @@ class PostDetailUser extends StatelessWidget {
             height: 16.0,
           ),
           Text(
-            dateFormatter.format(post.updatedAt),
+            dateFormatter.format(post.updatedAt.toLocal()),
             style: TextStyle(
               color: isDarkMode ? lightGreyColor : null,
             ),
