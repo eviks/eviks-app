@@ -15,9 +15,9 @@ const baseHost = 'eviks.xyz';
 const basePort = 443;
 
 // Development
-// const baseUrl = 'http://192.168.1.108:3000';
+// const baseUrl = 'http://192.168.1.103:3000';
 // const baseScheme = 'http';
-// const baseHost = '192.168.1.108';
+// const baseHost = '192.168.1.103';
 // const basePort = 3000;
 
 const primaryColor = Color(0xFFBC0052);
