@@ -175,7 +175,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
                 children: [
                   ListView.builder(
                     controller: _scrollController,
-                    physics: const BouncingScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemBuilder: (ctx, index) {
                       return AnimationConfiguration.staggeredList(
                         position: index,

@@ -303,7 +303,7 @@ class _PostScreenState extends State<PostScreen> {
                         AnimationLimiter(
                           child: ListView.builder(
                             controller: _scrollController,
-                            physics: const BouncingScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             itemBuilder: (ctx, index) {
                               return AnimationConfiguration.staggeredList(
                                 position: index,

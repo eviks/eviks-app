@@ -170,7 +170,7 @@ class _FavoritesState extends State<Favorites> {
                 children: [
                   ListView.builder(
                     controller: _scrollController,
-                    physics: const BouncingScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemBuilder: (ctx, index) {
                       return AnimationConfiguration.staggeredList(
                         position: index,
