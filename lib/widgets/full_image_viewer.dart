@@ -61,6 +61,8 @@ class _FullImageViewerState extends State<FullImageViewer> {
             scrollPhysics: const BouncingScrollPhysics(),
             builder: (BuildContext context, int index) {
               return PhotoViewGalleryPageOptions(
+                minScale: 0.0,
+                maxScale: 3.0,
                 imageProvider: CachedNetworkImageProvider(
                   widget.isExternal
                       ? widget.images[index]

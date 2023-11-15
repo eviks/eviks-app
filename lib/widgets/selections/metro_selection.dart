@@ -59,6 +59,7 @@ class _MetroSelectionState extends State<MetroSelection> {
           AppLocalizations.of(context)!.selectMetroStation,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
+        scrolledUnderElevation: 0.0,
       ),
       body: SafeArea(
         child: Padding(

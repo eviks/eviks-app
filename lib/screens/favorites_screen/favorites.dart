@@ -56,22 +56,29 @@ class _FavoritesState extends State<Favorites> {
     }
   }
 
+  Future<void> _refreshList() async {
+    Provider.of<Posts>(context, listen: false).clearPosts();
+    await _fetchPosts(false);
+  }
+
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
       _scrollController.addListener(
         () async {
-          if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent) {
-            setState(() {
-              _isLoading = true;
-            });
+          if (_scrollController.position.pixels >
+              _scrollController.position.maxScrollExtent - 3000) {
+            if (!_isLoading) {
+              setState(() {
+                _isLoading = true;
+              });
 
-            await _fetchPosts(true);
+              await _fetchPosts(true);
 
-            setState(() {
-              _isLoading = false;
-            });
+              setState(() {
+                _isLoading = false;
+              });
+            }
           }
         },
       );
@@ -157,43 +164,33 @@ class _FavoritesState extends State<Favorites> {
                 ),
               ),
             )
-          : Stack(
-              children: [
-                ListView.builder(
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (ctx, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        child: FadeInAnimation(
-                          child: PostItem(
-                            key: Key(posts[index].id.toString()),
-                            post: posts[index],
+          : RefreshIndicator(
+              onRefresh: _refreshList,
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (ctx, index) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: PostItem(
+                              key: Key(posts[index].id.toString()),
+                              post: posts[index],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  itemCount: posts.length,
-                ),
-                if (_isLoading)
-                  Positioned(
-                    bottom: 0,
-                    width: SizeConfig.blockSizeHorizontal * 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
+                    itemCount: posts.length,
                   ),
-              ],
+                  if (_isLoading) const LinearProgressIndicator(),
+                ],
+              ),
             );
     }
   }

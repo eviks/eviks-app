@@ -166,6 +166,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
           AppLocalizations.of(context)!.selectDistrict,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
+        scrolledUnderElevation: 0.0,
       ),
       body: _isLoading
           ? (const Center(

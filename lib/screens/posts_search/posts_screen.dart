@@ -105,6 +105,11 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
+  Future<void> _refreshList() async {
+    Provider.of<Posts>(context, listen: false).clearPosts();
+    await _fetchPosts(false);
+  }
+
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
@@ -112,17 +117,19 @@ class _PostScreenState extends State<PostScreen> {
 
       _scrollController.addListener(
         () async {
-          if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent) {
-            setState(() {
-              _isLoading = true;
-            });
+          if (_scrollController.position.pixels >
+              _scrollController.position.maxScrollExtent - 3000) {
+            if (!_isLoading) {
+              setState(() {
+                _isLoading = true;
+              });
 
-            await _fetchPosts(true);
+              await _fetchPosts(true);
 
-            setState(() {
-              _isLoading = false;
-            });
+              setState(() {
+                _isLoading = false;
+              });
+            }
           }
         },
       );
@@ -223,13 +230,19 @@ class _PostScreenState extends State<PostScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(CustomIcons.logo),
+              Icon(
+                CustomIcons.logo,
+                color: Theme.of(context).primaryColor,
+              ),
               const SizedBox(
                 width: 5,
               ),
               Text(
                 AppLocalizations.of(context)!.postsScreenTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ],
           ),
@@ -282,46 +295,36 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                     ),
                   )
-                : Stack(
-                    alignment: AlignmentDirectional.topEnd,
-                    children: [
-                      AnimationLimiter(
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (ctx, index) {
-                            return AnimationConfiguration.staggeredList(
-                              position: index,
-                              duration: const Duration(milliseconds: 375),
-                              child: SlideAnimation(
-                                verticalOffset: 50.0,
-                                child: FadeInAnimation(
-                                  child: PostItem(
-                                    key: Key(posts[index].id.toString()),
-                                    post: posts[index],
+                : RefreshIndicator(
+                    onRefresh: _refreshList,
+                    child: Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        AnimationLimiter(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemBuilder: (ctx, index) {
+                              return AnimationConfiguration.staggeredList(
+                                position: index,
+                                duration: const Duration(milliseconds: 375),
+                                child: SlideAnimation(
+                                  verticalOffset: 50.0,
+                                  child: FadeInAnimation(
+                                    child: PostItem(
+                                      key: Key(posts[index].id.toString()),
+                                      post: posts[index],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          itemCount: posts.length,
-                        ),
-                      ),
-                      if (_isLoading)
-                        Positioned(
-                          bottom: 0,
-                          width: SizeConfig.blockSizeHorizontal * 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(),
-                              ),
-                            ],
+                              );
+                            },
+                            itemCount: posts.length,
                           ),
                         ),
-                    ],
+                        if (_isLoading) const LinearProgressIndicator(),
+                      ],
+                    ),
                   ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(

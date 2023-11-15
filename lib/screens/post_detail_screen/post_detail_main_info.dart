@@ -47,12 +47,6 @@ class PostDetailMainInfo extends StatelessWidget {
               value: '${post.lotSqm} ',
               hint: AppLocalizations.of(context)!.lotSqmShort,
             ),
-          if (post.estateType == EstateType.house &&
-              (post.totalFloors ?? 0) > 1)
-            _MainInfo(
-              value: '${post.lotSqm} ',
-              hint: AppLocalizations.of(context)!.totalFloorsShort,
-            ),
         ],
       ),
     );

@@ -167,7 +167,8 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                               trailing: const Icon(CustomIcons.next),
                               title: Text(getPostTitle(posts[index])),
                               subtitle: Text(
-                                dateFormatter.format(posts[index].createdAt),
+                                dateFormatter
+                                    .format(posts[index].createdAt.toLocal()),
                               ),
                               onTap: isBlocked
                                   ? null

@@ -91,6 +91,7 @@ class _CitySelectionState extends State<CitySelection> {
           AppLocalizations.of(context)!.selectCity,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
+        scrolledUnderElevation: 0.0,
       ),
       body: _isLoading
           ? (const Center(

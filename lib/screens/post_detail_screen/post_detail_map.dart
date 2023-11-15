@@ -28,7 +28,7 @@ class PostDetailMap extends StatelessWidget {
               Text(
                 _getlocationName(context),
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                   fontSize: 18.0,
                 ),
               ),

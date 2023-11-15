@@ -79,8 +79,17 @@ class PostDetailContent extends StatelessWidget {
                     reviewStatus: post.reviewStatus!,
                     reviewHistory: post.reviewHistory,
                   ),
-                PostDetailUser(
-                  post: post,
+                const SizedBox(
+                  height: 10.0,
+                ),
+                _ContentTitle(
+                  AppLocalizations.of(context)!.postDetailLocation,
+                ),
+                SizedBox(
+                  height: 250.0,
+                  child: PostDetailMap(
+                    post,
+                  ),
                 ),
                 if (post.description?.isNotEmpty ??
                     false || (post.isExternal ?? false))
@@ -142,17 +151,14 @@ class PostDetailContent extends StatelessWidget {
                       ),
                     ],
                   ),
-                _ContentTitle(
-                  AppLocalizations.of(context)!.postDetailLocation,
+                const SizedBox(
+                  height: 10.0,
                 ),
-                SizedBox(
-                  height: 300.0,
-                  child: PostDetailMap(
-                    post,
-                  ),
+                PostDetailUser(
+                  post: post,
                 ),
                 const SizedBox(
-                  height: 80,
+                  height: 100.0,
                 )
               ],
             ),
