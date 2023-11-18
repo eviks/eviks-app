@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -105,113 +106,123 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
-          const SizedBox(
-            height: 8.0,
+        children: AnimationConfiguration.toStaggeredList(
+          childAnimationBuilder: (widget) => SlideAnimation(
+            duration: const Duration(milliseconds: 375),
+            verticalOffset: 50.0,
+            child: FadeInAnimation(
+              duration: const Duration(milliseconds: 375),
+              child: widget,
+            ),
           ),
-          StyledInput(
-            icon: CustomIcons.email,
-            title: AppLocalizations.of(context)!.authEmail,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorEmail;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _authData['email'] = value ?? '';
-            },
-          ),
-          StyledInput(
-            icon: CustomIcons.password,
-            title: AppLocalizations.of(context)!.password,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _showPassword
-                    ? CustomIcons.hidepassword
-                    : CustomIcons.showpassword,
-              ),
-              onPressed: () {
-                setState(() {
-                  _showPassword = !_showPassword;
-                });
+          children: [
+            const SizedBox(
+              height: 8.0,
+            ),
+            StyledInput(
+              icon: CustomIcons.email,
+              title: AppLocalizations.of(context)!.authEmail,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.errorEmail;
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['email'] = value ?? '';
               },
             ),
-            obscureText: !_showPassword,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorPassword;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _authData['password'] = value ?? '';
-            },
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, ResetPasswordScreen.routeName);
-            },
-            child: Text(
-              AppLocalizations.of(context)!.oopsforgotPassword,
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 4.0,
-          ),
-          StyledElevatedButton(
-            text: AppLocalizations.of(context)!.loginButton,
-            onPressed: _login,
-            loading: _isLoading,
-          ),
-          StyledElevatedButton(
-            onPressed: () {
-              widget.switchAuthMode(AuthMode.register);
-            },
-            secondary: true,
-            text: AppLocalizations.of(context)!.createAccount,
-          ),
-          Row(
-            children: [
-              const Expanded(child: Divider()),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 16.0,
+            StyledInput(
+              icon: CustomIcons.password,
+              title: AppLocalizations.of(context)!.password,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _showPassword
+                      ? CustomIcons.hidepassword
+                      : CustomIcons.showpassword,
                 ),
-                child: Text(
-                  AppLocalizations.of(context)!.loginOr,
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+              ),
+              obscureText: !_showPassword,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.errorPassword;
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['password'] = value ?? '';
+              },
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, ResetPasswordScreen.routeName);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.oopsforgotPassword,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
-              const Expanded(child: Divider()),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.only(
-              top: 8.0,
             ),
-            height: 60.0,
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              icon: Image.asset(
-                "assets/img/svg/google.png",
-                height: 24.0,
+            const SizedBox(
+              height: 4.0,
+            ),
+            StyledElevatedButton(
+              text: AppLocalizations.of(context)!.loginButton,
+              onPressed: _login,
+              loading: _isLoading,
+            ),
+            StyledElevatedButton(
+              onPressed: () {
+                widget.switchAuthMode(AuthMode.register);
+              },
+              secondary: true,
+              text: AppLocalizations.of(context)!.createAccount,
+            ),
+            Row(
+              children: [
+                const Expanded(child: Divider()),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 16.0,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.loginOr,
+                  ),
+                ),
+                const Expanded(child: Divider()),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                top: 8.0,
               ),
-              label: Text(
-                AppLocalizations.of(context)!.loginWithGoogle,
-              ),
-              onPressed: _loginWithGoogle,
-              style: OutlinedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.background,
-                foregroundColor: Theme.of(context).colorScheme.onBackground,
+              height: 60.0,
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                icon: Image.asset(
+                  "assets/img/svg/google.png",
+                  height: 24.0,
+                ),
+                label: Text(
+                  AppLocalizations.of(context)!.loginWithGoogle,
+                ),
+                onPressed: _loginWithGoogle,
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  foregroundColor: Theme.of(context).colorScheme.onBackground,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

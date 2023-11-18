@@ -27,14 +27,14 @@ class UserProfileMenu extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(
-                width: isDarkMode ? 0 : 1,
-                color: isDarkMode ? Colors.transparent : lightGreyColor,
+              side: const BorderSide(
+                width: 0,
+                color: Colors.transparent,
               ),
             ),
           ),
           backgroundColor: MaterialStateProperty.all(
-            isDarkMode ? softDarkColor : lightColor,
+            isDarkMode ? softDarkColor : extraLightGreyColor,
           ),
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 2.0, horizontal: 18.0),

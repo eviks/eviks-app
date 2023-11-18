@@ -1,4 +1,8 @@
+import 'package:eviks_mobile/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/theme_preferences.dart';
 
 class StyledElevatedButton extends StatelessWidget {
   final String text;
@@ -24,13 +28,34 @@ class StyledElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode =
+        Provider.of<ThemePreferences>(context, listen: false).themeMode ==
+            ThemeMode.dark;
     return Container(
-      padding: const EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 8.0,
       ),
       width: width,
       height: height,
-      color: Colors.transparent,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        gradient: const LinearGradient(
+          colors: [
+            lightPrimaryColor,
+            darkPrimaryColor,
+          ],
+        ),
+        boxShadow: secondary || !isDarkMode
+            ? null
+            : [
+                BoxShadow(
+                  spreadRadius: -1.0,
+                  color: Theme.of(context).primaryColor.withOpacity(0.6),
+                  blurRadius: 16,
+                  blurStyle: BlurStyle.outer,
+                ),
+              ],
+      ),
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
         style: ButtonStyle(
@@ -38,7 +63,7 @@ class StyledElevatedButton extends StatelessWidget {
             (Set<MaterialState> states) {
               if (color == null) {
                 return !secondary
-                    ? Theme.of(context).primaryColor
+                    ? Colors.transparent
                     : Theme.of(context).colorScheme.background;
               } else {
                 return color!;
