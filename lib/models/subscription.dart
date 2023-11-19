@@ -3,12 +3,14 @@ class Subscription {
   final String name;
   final String url;
   final String? deviceToken;
+  final int numberOfElements;
 
   Subscription({
     required this.id,
     required this.name,
     required this.url,
     required this.deviceToken,
+    required this.numberOfElements,
   });
 
   factory Subscription.fromJson({required dynamic json}) {
@@ -18,6 +20,9 @@ class Subscription {
       url: json['url'] as String,
       deviceToken:
           json['deviceToken'] == null ? null : json['deviceToken'] as String,
+      numberOfElements: json['numberOfElements'] == null
+          ? 0
+          : json['numberOfElements'] as int,
     );
   }
 

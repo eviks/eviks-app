@@ -298,5 +298,13 @@
     "sqmAsc": "Сначало с малой площадью",
     "sqmDsc": "Сначала с большой площадью",
     "dateAsc": "Сначала старые объявления",
-    "dateDsc": "Сначала новые объявления"
+    "dateDsc": "Сначала новые объявления",
+    "subscriptionText": "+{newPosts}",
+    "@subscriptionText": {
+        "placeholders": {
+                    "newPosts": {
+                        "type": "int"
+                    }
+                }
+      }
 }

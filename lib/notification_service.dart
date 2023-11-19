@@ -90,8 +90,7 @@ Future<void> onSelectNotification(
         .pushNamedAndRemoveUntil(
       TabsScreen.routeName,
       (route) => false,
-      arguments:
-          PagesPayload(Pages.posts, {'url': payload.subscriptionUrl ?? ''}),
+      arguments: PagesPayload(Pages.favorites, {'tab': 1}),
     );
   }
 }

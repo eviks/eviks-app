@@ -56,7 +56,7 @@ class _TabsScreenState extends State<TabsScreen> {
         _selectedPageIndex = pageIndex;
         _pages = [
           const PostScreen(),
-          FavoritesScreen(),
+          const FavoritesScreen(),
           const NewPostScreen(),
           const UserProfileScreen(),
         ];
@@ -112,7 +112,9 @@ class _TabsScreenState extends State<TabsScreen> {
           PostScreen(
             url: payload?['url'] == null ? null : payload?['url'] as String,
           ),
-          FavoritesScreen(),
+          FavoritesScreen(
+            tab: payload?['tab'] == null ? 0 : payload?['tab'] as int,
+          ),
           const NewPostScreen(),
           const UserProfileScreen(),
         ];

@@ -298,5 +298,13 @@
     "sqmAsc": "Əvvəlcə kiçik sahə ilə",
     "sqmDsc": "Əvvəlcə böyük sahə ilə",
     "dateAsc": "Əvvəlcə köhnə elanlar",
-    "dateDsc": "Əvvəlcə yeni elanlar"
+    "dateDsc": "Əvvəlcə yeni elanlar",
+    "subscriptionText": "+{newPosts}",
+    "@subscriptionText": {
+        "placeholders": {
+                    "newPosts": {
+                        "type": "int"
+                    }
+                }
+      }
 }

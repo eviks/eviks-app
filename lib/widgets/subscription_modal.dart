@@ -64,6 +64,7 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
         name: _name,
         url: widget.url,
         deviceToken: deviceToken,
+        numberOfElements: 0,
       );
 
       String errorMessage = '';

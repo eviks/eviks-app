@@ -148,7 +148,42 @@ class _SubscriptionsState extends State<Subscriptions> {
                             child: ListTile(
                               key: Key(subscriptions[index].id),
                               leading: const Icon(CustomIcons.search),
-                              title: Text(subscriptions[index].name),
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      subscriptions[index].name,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  if (subscriptions[index].numberOfElements > 0)
+                                    DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .subscriptionText(
+                                            subscriptions[index]
+                                                .numberOfElements,
+                                          ),
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              ),
                               trailing: PopupMenuButton<MenuItems>(
                                 onSelected: (value) async {
                                   if (value == MenuItems.delete) {
