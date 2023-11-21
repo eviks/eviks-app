@@ -51,6 +51,7 @@ dependencies:
   flutter_local_notifications: ^14.0.1
   share_plus: ^6.0.1
   photo_view: ^0.14.0
+  flutter_background_service: ^5.0.4
 
 flutter_native_splash:
   color: "#BC0052"
