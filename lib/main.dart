@@ -70,10 +70,9 @@ Future main() async {
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
 
-  NotificationService().initNotification();
-
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+  await NotificationService().initNotification();
   await initializeService();
 
   runApp(
@@ -231,27 +230,48 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 Future<void> initializeService() async {
-  // final service = FlutterBackgroundService();
+  final service = FlutterBackgroundService();
 
-  // await service.configure(
-  //   androidConfiguration: AndroidConfiguration(
-  //     onStart: onStart,
-  //     isForegroundMode: true,
-  //     notificationChannelId: 'my_foreground',
-  //     initialNotificationTitle: 'AWESOME SERVICE',
-  //     initialNotificationContent: 'Initializing',
-  //     foregroundServiceNotificationId: 888,
-  //   ),
-  //   iosConfiguration: IosConfiguration(
-  //     onForeground: onStart,
-  //     // onBackground: onIosBackground,
-  //   ),
-  // );
+  service.invoke('setAsBackground');
+
+  await service.configure(
+    androidConfiguration: AndroidConfiguration(
+      onStart: onStart,
+      isForegroundMode: true,
+      notificationChannelId: 'my_foreground',
+      initialNotificationTitle: 'AWESOME SERVICE',
+      initialNotificationContent: 'Initializing',
+      foregroundServiceNotificationId: 888,
+    ),
+    iosConfiguration: IosConfiguration(
+      onForeground: onStart,
+      onBackground: onIosBackground,
+    ),
+  );
+
+  service.startService();
+}
+
+@pragma('vm:entry-point')
+Future<bool> onIosBackground(ServiceInstance service) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
+
+  final preferences = await SharedPreferences.getInstance();
+  await preferences.reload();
+  final log = preferences.getStringList('log') ?? <String>[];
+  log.add(DateTime.now().toIso8601String());
+  await preferences.setStringList('log', log);
+
+  return true;
 }
 
 @pragma('vm:entry-point')
 Future<void> onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
+
+  final preferences = await SharedPreferences.getInstance();
+  await preferences.setString("hello", "world");
 
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
@@ -271,8 +291,6 @@ Future<void> onStart(ServiceInstance service) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         print(1);
-        // final data = NotificationData.fromJson(json: '');
-        // NotificationService().showNotification(data);
       }
     }
   });
