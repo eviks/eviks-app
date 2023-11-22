@@ -48,18 +48,6 @@ class NotificationService {
         onDidReceiveBackgroundNotificationResponse: onSelectNotification,
       );
     }
-
-    const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'my_foreground',
-      'MY FOREGROUND SERVICE',
-      description: 'This channel is used for important notifications.',
-      importance: Importance.low,
-    );
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
   }
 
   Future<NotificationDetails> notificationDetails() async {
