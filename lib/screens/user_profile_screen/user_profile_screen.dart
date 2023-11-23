@@ -154,7 +154,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     icon: CustomIcons.logout,
                     onPressed: logout,
                   ),
-                const Text('0.2.0'),
+                const Text('0.3.0'),
               ],
             ),
           ),

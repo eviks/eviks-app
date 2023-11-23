@@ -265,7 +265,7 @@
     "subscribeButton": "Axtarışa abunə ol",
     "subscriptionName": "Axtarışın adı",
     "createSubscriptionTitle": "Axtarışa abunə olmaq",
-    "createSubscriptionHint": "Siz bu axtarış üzrə yeni elanlar barədə bildirişləri alacaqsınız",
+    "createSubscriptionHint": "Axtarışınızı sazlamaqdan yorulmusuz? Abunə olun!",
     "subscriptionEdit": "Redaktə etmək",
     "subscriptionDelete": "Ləğv etmək",
     "listView": "Siyahı",
@@ -306,5 +306,6 @@
                         "type": "int"
                     }
                 }
-      }
+      },
+    "getNotifications": "Bildirişləri almaq"
 }

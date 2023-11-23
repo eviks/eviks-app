@@ -147,7 +147,9 @@ class _SubscriptionsState extends State<Subscriptions> {
                           child: Card(
                             child: ListTile(
                               key: Key(subscriptions[index].id),
-                              leading: const Icon(CustomIcons.search),
+                              leading: subscriptions[index].notify
+                                  ? const Icon(CustomIcons.bell)
+                                  : const Icon(CustomIcons.search),
                               title: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -205,9 +207,10 @@ class _SubscriptionsState extends State<Subscriptions> {
                                       ),
                                       builder: (BuildContext context) {
                                         return SubscriptionModal(
-                                          subscriptions[index].url,
-                                          subscriptions[index].name,
-                                          subscriptions[index].id,
+                                          url: subscriptions[index].url,
+                                          name: subscriptions[index].name,
+                                          id: subscriptions[index].id,
+                                          notify: subscriptions[index].notify,
                                         );
                                       },
                                     );

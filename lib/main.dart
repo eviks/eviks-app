@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:eviks_mobile/background_service.dart';
 import 'package:eviks_mobile/icons.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -71,7 +70,6 @@ Future main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   await NotificationService().initNotification();
-  await BackgroundService().initializeService();
 
   runApp(
     MyApp(

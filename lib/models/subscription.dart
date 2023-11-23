@@ -3,6 +3,7 @@ class Subscription {
   final String name;
   final String url;
   final String? deviceToken;
+  final bool notify;
   final int numberOfElements;
 
   Subscription({
@@ -10,6 +11,7 @@ class Subscription {
     required this.name,
     required this.url,
     required this.deviceToken,
+    required this.notify,
     required this.numberOfElements,
   });
 
@@ -20,12 +22,18 @@ class Subscription {
       url: json['url'] as String,
       deviceToken:
           json['deviceToken'] == null ? null : json['deviceToken'] as String,
+      notify: json['notify'] as bool || false,
       numberOfElements: json['numberOfElements'] == null
           ? 0
           : json['numberOfElements'] as int,
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'url': url, 'deviceToken': deviceToken};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'url': url,
+        'deviceToken': deviceToken,
+        'notify': notify
+      };
 }
