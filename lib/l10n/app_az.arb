@@ -62,7 +62,7 @@
     "verificationHint": "Emaila göndərilən kodu daxil edin",
     "verifyButton": "Təsdiqlə",
     "favorites": "Seçilmişlər",
-    "favoritesTitle": "Elanları seçilmişlərə əlavə edin",
+    "favoritesTitle": "Elanları seçilmişlərə əlavə edin ❤️",
     "favoritesHint": "Maraqlı elanlar həmişə əlin altında",
     "logout": "Çıxmaq",
     "unknownError": "Ups...səhv baş verib 😕",
@@ -260,8 +260,8 @@
     "rejectionReason": "Rədd edilməsinin səbəbini",
     "posts": "Elanlar",
     "subscriptions": "Axtarışlar",
-    "subscriptionsTitle": "Axtarış nizamlamaları saxlayın",
-    "subscriptionsHint": "Sizin üçün uyğun olan yeni elanlar barədə bildirişlər alın",
+    "subscriptionsTitle": "Axtarış nizamlamaları saxlayın 🔔",
+    "subscriptionsHint": "Sizə uyğun olan axtarışlara abunə olun və yeni elanlar barədə bildirişlər alın",
     "subscribeButton": "Axtarışa abunə ol",
     "subscriptionName": "Axtarışın adı",
     "createSubscriptionTitle": "Axtarışa abunə olmaq",
@@ -307,5 +307,13 @@
                     }
                 }
       },
-    "getNotifications": "Bildirişləri almaq"
+    "getNotifications": "Bildirişləri almaq",
+    "onBoardWelcomeTitle": "Xoş gəlmisiniz! 👋",
+    "onBoardWelcomeSubtitle": "Bakıda və bütün Azərbaycanda emlaklar barədə pulsuz elanlar",
+    "onBoardSubscriptionsTitle": "Axtarış parametrlərinizi saxlayın 🔔",
+    "onBoardSubscriptionsSubtitle": "Sizə uyğun olan axtarışlara abunə olun və yeni elanlar barədə bildirişlər alın",
+    "onBoardMapTitle": "Xəritə üzrə axtarış 🗺️",
+    "onBoardMapSubtitle": "Axtarış sahələrini birbaşa xəritədə çəkin",
+    "onBoardSkip": "Keç",
+    "onBoardDone": "Başlamaq"
 }

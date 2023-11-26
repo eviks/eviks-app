@@ -20,6 +20,9 @@ const basePort = 443;
 // const baseHost = '192.168.1.120';
 // const basePort = 3000;
 
+const appVersion = '0.3.0';
+const appLaunchVersion = 1;
+
 const primaryColor = Color(0xFFBC0052);
 const lightPrimaryColor = Color(0xFFF5006A);
 const lightColor = Color(0xFFFFFFFF);
