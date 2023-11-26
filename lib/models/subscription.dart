@@ -16,13 +16,15 @@ class Subscription {
   });
 
   factory Subscription.fromJson({required dynamic json}) {
+    print(json);
     return Subscription(
       id: json['_id'] as String,
       name: json['name'] as String,
       url: json['url'] as String,
       deviceToken:
           json['deviceToken'] == null ? null : json['deviceToken'] as String,
-      notify: json['notify'] as bool || false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
+      notify: json['notify'] == null ? false : json['notify'] as bool,
       numberOfElements: json['numberOfElements'] == null
           ? 0
           : json['numberOfElements'] as int,
