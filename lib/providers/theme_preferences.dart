@@ -58,11 +58,12 @@ ThemeData lightThemeData(BuildContext context) {
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide.none,
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(
           color: primaryColor,
           width: 2.0,
         ),
@@ -127,8 +128,9 @@ ThemeData darkThemeData(BuildContext context) {
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide.none,
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(
           color: lightPrimaryColor,
           width: 2.0,
         ),

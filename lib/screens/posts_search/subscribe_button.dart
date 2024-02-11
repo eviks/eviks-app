@@ -38,7 +38,12 @@ class _SubscribeButtonState extends State<SubscribeButton> {
             ),
           ),
           builder: (BuildContext context) {
-            return SubscriptionModal(widget.url, '', '');
+            return SubscriptionModal(
+              url: widget.url,
+              name: '',
+              id: '',
+              notify: false,
+            );
           },
         );
       },

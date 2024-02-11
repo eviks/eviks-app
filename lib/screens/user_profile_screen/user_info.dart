@@ -15,22 +15,21 @@ class UserInfo extends StatelessWidget {
       builder: (context, auth, child) {
         return Column(
           children: [
-            SizedBox(
-              height: SizeConfig.safeBlockHorizontal * 25.0,
-              width: SizeConfig.safeBlockVertical * 25.0,
-              child: auth.user?.picture != null
-                  ? CircleAvatar(
-                      backgroundImage:
-                          CachedNetworkImageProvider(auth.user!.picture!),
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                    )
-                  : CircleAvatar(
-                      backgroundImage: const AssetImage(
-                        'assets/img/illustrations/avatar.png',
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                    ),
-            ),
+            if (auth.user?.picture != null)
+              CircleAvatar(
+                radius: 50.0,
+                backgroundImage:
+                    CachedNetworkImageProvider(auth.user!.picture!),
+                backgroundColor: Theme.of(context).colorScheme.background,
+              )
+            else
+              CircleAvatar(
+                radius: 50.0,
+                backgroundImage: const AssetImage(
+                  'assets/img/illustrations/avatar.png',
+                ),
+                backgroundColor: Theme.of(context).colorScheme.background,
+              ),
             const SizedBox(
               height: 10.0,
             ),

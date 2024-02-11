@@ -55,7 +55,8 @@ class _MapSearchState extends State<MapSearch> {
     }
 
     Provider.of<Posts>(context, listen: false).updateFilters(
-        {'searchArea': coordinates, 'tempSearchArea': searchArea.isEmpty});
+      {'searchArea': coordinates, 'tempSearchArea': searchArea.isEmpty},
+    );
 
     setState(() {
       _isLoading = true;

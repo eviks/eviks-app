@@ -6,6 +6,10 @@ import './favorites.dart';
 import './subscriptions.dart';
 
 class FavoritesScreen extends StatefulWidget {
+  final int? tab;
+
+  const FavoritesScreen({this.tab});
+
   @override
   _FavoritesScreenState createState() => _FavoritesScreenState();
 }
@@ -14,6 +18,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: widget.tab ?? 0,
       length: 2,
       child: Scaffold(
         appBar: AppBar(

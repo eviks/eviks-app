@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:eviks_mobile/icons.dart';
+import 'package:eviks_mobile/screens/onboard_screen.dart.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +56,7 @@ Future main() async {
   await Firebase.initializeApp();
   final themeMode = await getThemePreferences();
   final locale = await getLocale();
+  final launchVersion = await getLaunchVersion();
 
   final mySystemTheme = themeMode == ThemeMode.dark
       ? SystemUiOverlayStyle.dark
@@ -66,14 +69,15 @@ Future main() async {
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
 
-  NotificationService().initNotification();
-
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  await NotificationService().initNotification();
 
   runApp(
     MyApp(
       themeMode: themeMode,
       locale: locale,
+      launchVersion: launchVersion,
     ),
   );
 }
@@ -106,17 +110,29 @@ Future<Locale> getLocale() async {
   }
 }
 
+Future<int> getLaunchVersion() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    return int.parse(prefs.getString('launchVersion') ?? '');
+  } catch (error) {
+    return 0;
+  }
+}
+
 class MyApp extends StatelessWidget {
   final ThemeMode? themeMode;
   final Locale? locale;
+  final int launchVersion;
 
-  const MyApp({this.themeMode, this.locale});
+  const MyApp({this.themeMode, this.locale, this.launchVersion = 0});
 
   @override
   Widget build(BuildContext context) {
-    Widget getHomePage() {
+    Widget getHomePage(int launchVersion) {
       FlutterNativeSplash.remove();
-      return TabsScreen();
+      return launchVersion < appLaunchVersion
+          ? const OnBoardScreen()
+          : TabsScreen();
     }
 
     return MultiProvider(
@@ -165,7 +181,7 @@ class MyApp extends StatelessWidget {
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           home: auth.isAuth
-              ? getHomePage()
+              ? getHomePage(launchVersion)
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (ctx, authResultSnapshot) =>
@@ -198,7 +214,7 @@ class MyApp extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : getHomePage(),
+                          : getHomePage(launchVersion),
                 ),
           routes: {
             TabsScreen.routeName: (ctx) => TabsScreen(),

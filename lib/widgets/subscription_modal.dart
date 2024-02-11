@@ -16,12 +16,14 @@ class SubscriptionModal extends StatefulWidget {
   final String url;
   final String name;
   final String id;
+  final bool notify;
 
-  const SubscriptionModal(
-    this.url,
-    this.name,
-    this.id,
-  );
+  const SubscriptionModal({
+    required this.url,
+    required this.name,
+    required this.id,
+    required this.notify,
+  });
 
   @override
   State<SubscriptionModal> createState() => _SubscriptionModalState();
@@ -29,8 +31,15 @@ class SubscriptionModal extends StatefulWidget {
 
 class _SubscriptionModalState extends State<SubscriptionModal> {
   String _name = '';
+  late bool _notify;
   final _formKey = GlobalKey<FormState>();
   String _errorText = '';
+
+  @override
+  void initState() {
+    _notify = widget.notify;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +73,8 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
         name: _name,
         url: widget.url,
         deviceToken: deviceToken,
+        notify: _notify,
+        numberOfElements: 0,
       );
 
       String errorMessage = '';
@@ -147,6 +158,19 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
                 onSaved: (value) {
                   _errorText = '';
                   _name = value ?? '';
+                },
+              ),
+              SwitchListTile(
+                value: _notify,
+                secondary: Icon(
+                  CustomIcons.bell,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                title: Text(AppLocalizations.of(context)!.getNotifications),
+                onChanged: (bool value) {
+                  setState(() {
+                    _notify = value;
+                  });
                 },
               ),
               StyledElevatedButton(

@@ -15,21 +15,26 @@ const baseHost = 'eviks.xyz';
 const basePort = 443;
 
 // Development
-// const baseUrl = 'http://192.168.1.103:3000';
+// const baseUrl = 'http://192.168.1.120:3000';
 // const baseScheme = 'http';
-// const baseHost = '192.168.1.103';
+// const baseHost = '192.168.1.120';
 // const basePort = 3000;
+
+const appVersion = '0.3.0';
+const appLaunchVersion = 1;
 
 const primaryColor = Color(0xFFBC0052);
 const lightPrimaryColor = Color(0xFFF5006A);
 const lightColor = Color(0xFFFFFFFF);
 const lightGreyColor = Color(0xFFD8D8D8);
+const extraLightGreyColor = Color(0xFFF3F4F6);
 const greyColor = Color(0xFFB4B4B4);
 const darkGreyColor = Color(0xFF7A7A7A);
 const darkColor = Color(0xFF1F1C21);
 const softDarkColor = Color(0xFF342E37);
 const dangerColor = Color(0xFFBC0052);
 const lightDangerColor = Color(0xFFF5006A);
+const darkPrimaryColor = Color(0xFFA30047);
 
 final currencyFormat =
     NumberFormat.currency(locale: 'az_AZ', symbol: '₼', decimalDigits: 0);

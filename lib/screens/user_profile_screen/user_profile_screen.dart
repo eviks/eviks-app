@@ -2,6 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './menu/locale_settings.dart';
 import './menu/profile_settings.dart';
@@ -154,7 +155,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     icon: CustomIcons.logout,
                     onPressed: logout,
                   ),
-                const Text('0.2.0'),
+                const Text(appVersion),
+                const SizedBox(
+                  height: 5.0,
+                ),
+                InkWell(
+                  child: const Text(
+                    'Illustrations by Icons 8 from Ouch!',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                  onTap: () async {
+                    final uri = Uri.parse('https://icons8.com/illustrations/');
+                    await launchUrl(uri);
+                  },
+                ),
               ],
             ),
           ),

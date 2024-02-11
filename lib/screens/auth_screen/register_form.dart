@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 import './verification.dart';
@@ -89,80 +90,90 @@ class _RegisterFormState extends State<RegisterForm> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
-          const SizedBox(
-            height: 16.0,
+        children: AnimationConfiguration.toStaggeredList(
+          childAnimationBuilder: (widget) => SlideAnimation(
+            duration: const Duration(milliseconds: 375),
+            verticalOffset: 50.0,
+            child: FadeInAnimation(
+              duration: const Duration(milliseconds: 375),
+              child: widget,
+            ),
           ),
-          StyledInput(
-            icon: CustomIcons.user,
-            title: AppLocalizations.of(context)!.displayName,
-            keyboardType: TextInputType.name,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorRequiredField;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _authData['displayName'] = value ?? '';
-            },
-          ),
-          StyledInput(
-            icon: CustomIcons.email,
-            title: AppLocalizations.of(context)!.authEmail,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorEmail;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _authData['email'] = value ?? '';
-            },
-          ),
-          StyledInput(
-            icon: CustomIcons.password,
-            title: AppLocalizations.of(context)!.password,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _showPassword
-                    ? CustomIcons.hidepassword
-                    : CustomIcons.showpassword,
-              ),
-              onPressed: () {
-                setState(() {
-                  _showPassword = !_showPassword;
-                });
+          children: [
+            const SizedBox(
+              height: 16.0,
+            ),
+            StyledInput(
+              icon: CustomIcons.user,
+              title: AppLocalizations.of(context)!.displayName,
+              keyboardType: TextInputType.name,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.errorRequiredField;
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['displayName'] = value ?? '';
               },
             ),
-            obscureText: !_showPassword,
-            controller: _passwordController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.errorPassword;
-              } else if (value.length < 6) {
-                return AppLocalizations.of(context)!.invalidPassword;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _authData['password'] = value ?? '';
-            },
-          ),
-          StyledElevatedButton(
-            text: AppLocalizations.of(context)!.registerButton,
-            onPressed: _register,
-            loading: _isLoading,
-          ),
-          StyledElevatedButton(
-            onPressed: () {
-              widget.switchAuthMode(AuthMode.login);
-            },
-            text: AppLocalizations.of(context)!.login,
-            secondary: true,
-          )
-        ],
+            StyledInput(
+              icon: CustomIcons.email,
+              title: AppLocalizations.of(context)!.authEmail,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.errorEmail;
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['email'] = value ?? '';
+              },
+            ),
+            StyledInput(
+              icon: CustomIcons.password,
+              title: AppLocalizations.of(context)!.password,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _showPassword
+                      ? CustomIcons.hidepassword
+                      : CustomIcons.showpassword,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+              ),
+              obscureText: !_showPassword,
+              controller: _passwordController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return AppLocalizations.of(context)!.errorPassword;
+                } else if (value.length < 6) {
+                  return AppLocalizations.of(context)!.invalidPassword;
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _authData['password'] = value ?? '';
+              },
+            ),
+            StyledElevatedButton(
+              text: AppLocalizations.of(context)!.registerButton,
+              onPressed: _register,
+              loading: _isLoading,
+            ),
+            StyledElevatedButton(
+              onPressed: () {
+                widget.switchAuthMode(AuthMode.login);
+              },
+              text: AppLocalizations.of(context)!.login,
+              secondary: true,
+            )
+          ],
+        ),
       ),
     );
   }

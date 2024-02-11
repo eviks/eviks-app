@@ -147,8 +147,45 @@ class _SubscriptionsState extends State<Subscriptions> {
                           child: Card(
                             child: ListTile(
                               key: Key(subscriptions[index].id),
-                              leading: const Icon(CustomIcons.search),
-                              title: Text(subscriptions[index].name),
+                              leading: subscriptions[index].notify
+                                  ? const Icon(CustomIcons.bell)
+                                  : const Icon(CustomIcons.search),
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      subscriptions[index].name,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  if (subscriptions[index].numberOfElements > 0)
+                                    DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .subscriptionText(
+                                            subscriptions[index]
+                                                .numberOfElements,
+                                          ),
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              ),
                               trailing: PopupMenuButton<MenuItems>(
                                 onSelected: (value) async {
                                   if (value == MenuItems.delete) {
@@ -170,9 +207,10 @@ class _SubscriptionsState extends State<Subscriptions> {
                                       ),
                                       builder: (BuildContext context) {
                                         return SubscriptionModal(
-                                          subscriptions[index].url,
-                                          subscriptions[index].name,
-                                          subscriptions[index].id,
+                                          url: subscriptions[index].url,
+                                          name: subscriptions[index].name,
+                                          id: subscriptions[index].id,
+                                          notify: subscriptions[index].notify,
                                         );
                                       },
                                     );
