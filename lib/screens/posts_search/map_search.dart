@@ -102,12 +102,12 @@ class _MapSearchState extends State<MapSearch> {
 
       _moveEndTimer = Timer(const Duration(seconds: 1), () {
         setState(() {
-          if (position.bounds != null && position.bounds!.isValid) {
+          if (position.bounds != null) {
             currentPosition = [
               position.bounds!.northWest,
-              position.bounds!.northEast!,
+              position.bounds!.northEast,
               position.bounds!.southEast,
-              position.bounds!.southWest!
+              position.bounds!.southWest
             ];
           } else {
             currentPosition = [];
@@ -162,12 +162,10 @@ class _MapSearchState extends State<MapSearch> {
             ),
             MarkerClusterLayerWidget(
               options: MarkerClusterLayerOptions(
-                anchor: AnchorPos.align(AnchorAlign.center),
+                alignment: Alignment.center,
                 size: const Size(40.0, 40.0),
-                fitBoundsOptions: const FitBoundsOptions(
-                  padding: EdgeInsets.all(50),
-                  maxZoom: 18,
-                ),
+                padding: const EdgeInsets.all(50),
+                maxZoom: 18,
                 markers: drawing
                     ? []
                     : postsLocations
@@ -175,7 +173,7 @@ class _MapSearchState extends State<MapSearch> {
                           (e) => Marker(
                             width: 65.0,
                             point: LatLng(e.location[1], e.location[0]),
-                            builder: (ctx) => GestureDetector(
+                            child: GestureDetector(
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,

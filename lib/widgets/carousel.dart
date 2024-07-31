@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:skeletons/skeletons.dart';
 
 import '../constants.dart';
 import '../widgets/counter.dart';
@@ -88,9 +87,6 @@ class _CarouselState extends State<Carousel> {
                 imageUrl: widget.external
                     ? widget.images[index]
                     : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
-                placeholder: (context, url) => const SkeletonAvatar(
-                  style: SkeletonAvatarStyle(width: double.infinity),
-                ),
                 width: double.infinity,
                 fit: BoxFit.cover,
                 fadeInDuration: const Duration(milliseconds: 100),

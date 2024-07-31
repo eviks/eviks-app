@@ -67,12 +67,14 @@ class PostDetailMap extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(post.location[1], post.location[0]),
-                zoom: 16,
+                initialCenter: LatLng(post.location[1], post.location[0]),
+                initialZoom: 16,
                 maxZoom: 18,
-                interactiveFlags: InteractiveFlag.pinchZoom |
-                    InteractiveFlag.drag |
-                    InteractiveFlag.doubleTapZoom,
+                interactionOptions: const InteractionOptions(
+                  flags: InteractiveFlag.pinchZoom |
+                      InteractiveFlag.drag |
+                      InteractiveFlag.doubleTapZoom,
+                ),
               ),
               children: [
                 TileLayer(
@@ -85,7 +87,7 @@ class PostDetailMap extends StatelessWidget {
                       height: 60,
                       width: 60,
                       point: LatLng(post.location[1], post.location[0]),
-                      builder: (ctx) => SvgPicture.asset(
+                      child: SvgPicture.asset(
                         "assets/img/svg/location.svg",
                       ),
                     )
