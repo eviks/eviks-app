@@ -40,7 +40,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      if ((postData?.lastStep ?? -1) >= 7) {
+      if ((postData?.lastStep ?? -1) >= 8) {
         _price = postData?.price;
         _haggle = postData?.haggle;
         _installmentOfPayment = postData?.installmentOfPayment;
@@ -96,8 +96,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
         installmentOfPayment: _installmentOfPayment,
         prepayment: _prepayment,
         municipalServicesIncluded: _municipalServicesIncluded,
-        lastStep: 7,
-        step: _goToNextStep ? 8 : 6,
+        lastStep: 8,
+        step: _goToNextStep ? 9 : 7,
       ),
     );
   }

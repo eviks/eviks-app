@@ -4,24 +4,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './edit_post_images/edit_post_images.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
-import './edit_post_contacts.dart';
 import './step_title.dart';
 
-class EditPostPrice extends StatefulWidget {
-  const EditPostPrice({
+class EditPostVideo extends StatefulWidget {
+  const EditPostVideo({
     Key? key,
   }) : super(key: key);
 
   @override
-  _EditPostPriceState createState() => _EditPostPriceState();
+  _EditPostVideoState createState() => _EditPostVideoState();
 }
 
-class _EditPostPriceState extends State<EditPostPrice> {
+class _EditPostVideoState extends State<EditPostVideo> {
   late Post? postData;
   bool _goToNextStep = false;
   bool _isInit = true;
@@ -34,7 +34,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      if ((postData?.lastStep ?? -1) >= 7) {
+      if ((postData?.lastStep ?? -1) >= 6) {
         _videoLink = postData?.videoLink;
       }
 
@@ -59,7 +59,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
     _updatePost();
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EditPostContacts()),
+      MaterialPageRoute(builder: (context) => const EditPostImages()),
     );
   }
 
@@ -67,8 +67,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
     Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         videoLink: _videoLink,
-        lastStep: 7,
-        step: _goToNextStep ? 8 : 6,
+        lastStep: 6,
+        step: _goToNextStep ? 7 : 5,
       ),
     );
   }
@@ -108,22 +108,56 @@ class _EditPostPriceState extends State<EditPostPrice> {
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 40.0,
-                      child: StyledInput(
-                        icon: CustomIcons.money,
-                        title: AppLocalizations.of(context)!.youtubeLink,
-                        initialValue: _videoLink,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        onSaved: (value) {
-                          _videoLink = value;
-                        },
+                      height: SizeConfig.safeBlockVertical * 30.0,
+                      child: Image.asset(
+                        "assets/img/illustrations/video.png",
                       ),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.addPostVideo,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.addPostVideoHint,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    StyledInput(
+                      icon: CustomIcons.money,
+                      title: AppLocalizations.of(context)!.youtubeLink,
+                      initialValue: _videoLink,
+                      hintText: "https://youtu.be/",
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (!value
+                              .toLowerCase()
+                              .startsWith('https://youtu.be/')) {
+                            return AppLocalizations.of(context)!
+                                .invalidYoutubeLink;
+                          }
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _videoLink = value;
+                      },
                     ),
                     const SizedBox(
                       height: 32.0,

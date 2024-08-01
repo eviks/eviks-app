@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_images/edit_post_images.dart';
+import './edit_post_video.dart';
 import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
@@ -105,7 +105,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
     _updatePost();
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EditPostImages()),
+      MaterialPageRoute(builder: (context) => const EditPostVideo()),
     );
   }
 

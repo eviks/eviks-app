@@ -37,7 +37,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      if ((postData?.lastStep ?? -1) >= 8) {
+      if ((postData?.lastStep ?? -1) >= 9) {
         _phoneNumber = postData?.phoneNumber;
         _username = postData?.username;
       }
@@ -69,8 +69,8 @@ class _EditPostContactsState extends State<EditPostContacts> {
       postData?.copyWith(
         phoneNumber: _phoneNumber,
         username: _username,
-        lastStep: 8,
-        step: !_confirmPost ? 7 : 8,
+        lastStep: 9,
+        step: !_confirmPost ? 8 : 9,
       ),
     );
   }

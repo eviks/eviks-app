@@ -45,7 +45,7 @@ class _EditPostImagesState extends State<EditPostImages> {
             null;
       }
 
-      if ((postData?.lastStep ?? -1) >= 6) {
+      if ((postData?.lastStep ?? -1) >= 7) {
         _imageDataList = postData?.images
                 .map(
                   (id) =>
@@ -221,8 +221,8 @@ class _EditPostImagesState extends State<EditPostImages> {
     Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         images: _imageDataList.map((element) => element.id).toList(),
-        lastStep: 6,
-        step: _goToNextStep ? 7 : 5,
+        lastStep: 7,
+        step: _goToNextStep ? 8 : 6,
       ),
     );
   }
@@ -286,6 +286,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
+                                  width: SizeConfig.safeBlockHorizontal * 100.0,
                                   height: SizeConfig.safeBlockVertical * 40.0,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

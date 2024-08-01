@@ -317,5 +317,8 @@
   "onBoardSkip": "Keç",
   "onBoardDone": "Başlamaq",
   "videoLinkTitle": "Video",
-  "youtubeLink": "YouTube-də video"
+  "youtubeLink": "YouTube-də link",
+  "addPostVideo": "Video əlavə edin!",
+  "addPostVideoHint": "Video potensial alıcıların əksər suallarına cavab verməyə və vaxtınıza qənaət etməyə kömək edəcək",
+  "invalidYoutubeLink": "Zəhmət olmasa, videoya düzgün linki göstərin"
 }

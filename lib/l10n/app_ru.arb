@@ -317,5 +317,8 @@
   "onBoardSkip": "Пропустить",
   "onBoardDone": "Начать",
   "videoLinkTitle": "Видео",
-  "youtubeLink": "Видео на YouTube"
+  "youtubeLink": "Ссылка на YouTube",
+  "addPostVideo": "Добавьте видео!",
+  "addPostVideoHint": "Видео поможет снять большую часть вопросов потенциальных покупателей и сэкономить ваше время",
+  "invalidYoutubeLink": "Пожалуйста, укажите правильную ссылку на видео"
 }
