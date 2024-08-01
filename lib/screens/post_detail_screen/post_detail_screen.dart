@@ -188,19 +188,19 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 slivers: [
                   SliverPersistentHeader(
                     delegate: PostDetailHeader(
-                      user: loadedPost.user,
-                      postId: loadedPost.id,
-                      images: loadedPost.images,
-                      height: SizeConfig.safeBlockVertical * headerHeight,
-                      buttonsVisibility: !_leadingVisibility,
-                      reviewStatus: loadedPost.reviewStatus,
-                      postType: loadedPost.postType,
-                      isExternal: loadedPost.isExternal ?? false,
-                      districtName:
-                          loadedPost.district.getLocalizedName(context),
-                      price: loadedPost.price,
-                      rooms: loadedPost.rooms,
-                    ),
+                        user: loadedPost.user,
+                        postId: loadedPost.id,
+                        images: loadedPost.images,
+                        height: SizeConfig.safeBlockVertical * headerHeight,
+                        buttonsVisibility: !_leadingVisibility,
+                        reviewStatus: loadedPost.reviewStatus,
+                        postType: loadedPost.postType,
+                        isExternal: loadedPost.isExternal ?? false,
+                        districtName:
+                            loadedPost.district.getLocalizedName(context),
+                        price: loadedPost.price,
+                        rooms: loadedPost.rooms,
+                        videoLink: loadedPost.videoLink),
                   ),
                   SliverAppBar(
                     backgroundColor: Colors.transparent,

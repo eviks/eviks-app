@@ -4,6 +4,7 @@ import 'package:eviks_mobile/models/user.dart';
 import 'package:eviks_mobile/providers/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/carousel.dart';
@@ -24,6 +25,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final String districtName;
   final int price;
   final int rooms;
+  final String? videoLink;
 
   PostDetailHeader({
     required this.user,
@@ -37,6 +39,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.districtName,
     required this.price,
     required this.rooms,
+    required this.videoLink,
   });
 
   @override
@@ -55,6 +58,9 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
           external: isExternal,
           displayIndicator: buttonsVisibility,
           fullScreenView: true,
+          videoId: videoLink != null
+              ? YoutubePlayer.convertUrlToId(videoLink!)
+              : null,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
