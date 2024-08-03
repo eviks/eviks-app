@@ -18,8 +18,10 @@ class UserProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDarkMode =
-        Provider.of<ThemePreferences>(context).themeMode == ThemeMode.dark;
+    final brightness = MediaQuery.of(context).platformBrightness;
+    final themeMode = Provider.of<ThemePreferences>(context).themeMode;
+    final bool isDarkMode = themeMode == ThemeMode.dark ||
+        (themeMode == ThemeMode.system && brightness == Brightness.dark);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextButton(

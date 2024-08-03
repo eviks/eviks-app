@@ -23,7 +23,8 @@ const basePort = 3000;
 const appVersion = '0.3.0';
 const appLaunchVersion = 1;
 
-const primaryColor = Color(0xFFBC0052);
+const primaryColor = Color(0xFFF5006A);
+const secondaryColor = Color(0xFFFFEBF3);
 const lightPrimaryColor = Color(0xFFF5006A);
 const lightColor = Color(0xFFFFFFFF);
 const lightGreyColor = Color(0xFFD8D8D8);

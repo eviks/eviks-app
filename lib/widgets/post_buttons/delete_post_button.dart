@@ -57,17 +57,19 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                           );
                         } on Failure catch (error) {
                           if (error.statusCode >= 500) {
+                            if (!context.mounted) return;
                             errorMessage =
                                 AppLocalizations.of(context)!.serverError;
                           } else {
                             errorMessage = error.toString();
                           }
                         } catch (error) {
+                          if (!context.mounted) return;
                           errorMessage =
                               AppLocalizations.of(context)!.unknownError;
                         }
 
-                        if (!mounted) return;
+                        if (!context.mounted) return;
 
                         if (errorMessage.isNotEmpty) {
                           showSnackBar(context, errorMessage);

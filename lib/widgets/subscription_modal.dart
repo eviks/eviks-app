@@ -78,7 +78,7 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
       );
 
       String errorMessage = '';
-      if (!mounted) return;
+      if (!context.mounted) return;
       try {
         if (widget.id.isEmpty) {
           await Provider.of<Subscriptions>(context, listen: false)
@@ -89,11 +89,13 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
         }
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!context.mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!context.mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
@@ -104,7 +106,7 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
         });
         _formKey.currentState!.validate();
       } else {
-        if (!mounted) return;
+        if (!context.mounted) return;
         Navigator.pop(context);
       }
     }

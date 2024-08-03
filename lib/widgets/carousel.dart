@@ -57,7 +57,8 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    final videoIncluded = widget.videoLink != null;
+    final videoIncluded =
+        widget.videoLink != null && widget.videoLink!.isNotEmpty;
     final totalCount = widget.images.length + (videoIncluded ? 1 : 0);
 
     return InkWell(

@@ -35,7 +35,11 @@ class ThemePreferences with ChangeNotifier {
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData(
     useMaterial3: true,
-    colorSchemeSeed: primaryColor,
+    colorScheme: const ColorScheme.light(
+      primary: lightPrimaryColor,
+      error: dangerColor,
+      secondary: secondaryColor,
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
         side: WidgetStateProperty.all(
@@ -57,6 +61,7 @@ ThemeData lightThemeData(BuildContext context) {
       surfaceTintColor: Colors.transparent,
     ),
     inputDecorationTheme: InputDecorationTheme(
+      fillColor: secondaryColor,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide.none,
@@ -88,12 +93,12 @@ ThemeData lightThemeData(BuildContext context) {
       ),
       backgroundColor: lightColor,
     ),
+    tabBarTheme: const TabBarTheme(dividerColor: greyColor),
   );
 }
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
-    useMaterial3: true,
     primaryColor: lightPrimaryColor,
     colorScheme: const ColorScheme.dark(
       primary: lightPrimaryColor,
@@ -165,5 +170,6 @@ ThemeData darkThemeData(BuildContext context) {
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: darkColor,
     ),
+    tabBarTheme: const TabBarTheme(dividerColor: softDarkColor),
   );
 }

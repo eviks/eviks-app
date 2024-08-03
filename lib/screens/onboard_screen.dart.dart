@@ -24,7 +24,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       appLaunchVersion.toString(),
     );
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => TabsScreen()),

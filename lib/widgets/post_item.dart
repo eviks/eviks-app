@@ -52,16 +52,18 @@ class _PostItemState extends State<PostItem> {
             .fetchPostPhoneNumber(postId);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!context.mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!context.mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
       if (errorMessage.isNotEmpty) {
-        if (!mounted) return;
+        if (!context.mounted) return;
         showSnackBar(context, errorMessage);
         return;
       }
@@ -112,20 +114,61 @@ class _PostItemState extends State<PostItem> {
                   builder: (context, auth, child) {
                     if ((auth.user?.id ?? '') == widget.post.user) {
                       return Container(
-                        margin: const EdgeInsets.only(top: 16.0, right: 8.0),
+                        margin: const EdgeInsets.only(
+                          top: 16.0,
+                          right: 8.0,
+                          left: 8.0,
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            EditPostButton(
-                              postId: widget.post.id,
-                              reviewStatus: widget.post.reviewStatus,
-                              postType: widget.post.postType,
+                            Visibility(
+                              visible:
+                                  widget.post.videoLink?.isNotEmpty ?? false,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(
+                                      8.0,
+                                    ),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        CustomIcons.play,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      Text(
+                                        AppLocalizations.of(context)!.hasVideo,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                            const SizedBox(width: 4.0),
-                            DeletePostButton(
-                              postId: widget.post.id,
-                              reviewStatus: widget.post.reviewStatus,
-                              postType: widget.post.postType,
+                            Row(
+                              children: [
+                                EditPostButton(
+                                  postId: widget.post.id,
+                                  reviewStatus: widget.post.reviewStatus,
+                                  postType: widget.post.postType,
+                                ),
+                                const SizedBox(width: 4.0),
+                                DeletePostButton(
+                                  postId: widget.post.id,
+                                  reviewStatus: widget.post.reviewStatus,
+                                  postType: widget.post.postType,
+                                ),
+                              ],
                             ),
                           ],
                         ),

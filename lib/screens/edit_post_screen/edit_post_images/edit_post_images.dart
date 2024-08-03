@@ -303,7 +303,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                               .request()
                                               .isGranted) {
                                             _selectImageFromGallery();
-                                            if (mounted) {
+                                            if (context.mounted) {
                                               Navigator.pop(context);
                                             }
                                           }
@@ -336,6 +336,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                           if (!mounted) return;
                                           if (areGranted) {
                                             _takeAPhoto();
+                                            if (!context.mounted) return;
                                             Navigator.pop(context);
                                           }
                                         },

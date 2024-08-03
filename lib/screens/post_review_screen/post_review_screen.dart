@@ -182,7 +182,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                                         arguments: posts[index].id,
                                       );
 
-                                      if (mounted) {
+                                      if (context.mounted) {
                                         Provider.of<Posts>(
                                           context,
                                           listen: false,

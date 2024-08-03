@@ -108,13 +108,16 @@ class _PostDetailModerationButtonsState
                           .rejectPost(widget.postId, _controller.text);
                     } on Failure catch (error) {
                       if (error.statusCode >= 500) {
+                        if (!context.mounted) return;
                         errorMessage =
                             AppLocalizations.of(context)!.serverError;
                       } else {
+                        if (!context.mounted) return;
                         errorMessage =
                             AppLocalizations.of(context)!.networkError;
                       }
                     } catch (error) {
+                      if (!context.mounted) return;
                       errorMessage = AppLocalizations.of(context)!.unknownError;
                       errorMessage = error.toString();
                     }
@@ -126,8 +129,10 @@ class _PostDetailModerationButtonsState
                     if (!mounted) return;
 
                     if (errorMessage.isNotEmpty) {
+                      if (!context.mounted) return;
                       showSnackBar(context, errorMessage);
                     } else {
+                      if (!context.mounted) return;
                       Navigator.of(context).pop(true);
                     }
                   },
@@ -174,7 +179,7 @@ class _PostDetailModerationButtonsState
             onPressed: () async {
               final result = await _rejectPost();
               if (result ?? false) {
-                if (!mounted) return;
+                if (!context.mounted) return;
                 Navigator.of(context).pop();
               }
             },

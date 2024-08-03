@@ -34,24 +34,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     Future<void> logout() async {
       String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
       try {
         await Provider.of<Auth>(context, listen: false).logout();
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!context.mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!context.mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
       if (!mounted) return;
 
       if (errorMessage.isNotEmpty) {
+        if (!context.mounted) return;
         showSnackBar(context, errorMessage);
         return;
       }
+
+      if (!context.mounted) return;
       Navigator.of(context)
           .pushNamedAndRemoveUntil(TabsScreen.routeName, (route) => false);
     }
