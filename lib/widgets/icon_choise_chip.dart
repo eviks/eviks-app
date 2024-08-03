@@ -33,10 +33,10 @@ class IconChoiseChip extends StatelessWidget {
       onSelected: onSelected,
       elevation: 3.0,
       padding: const EdgeInsets.all(
-        8.0,
+        5.0,
       ),
       labelPadding: const EdgeInsets.all(
-        8.0,
+        5.0,
       ),
     );
   }

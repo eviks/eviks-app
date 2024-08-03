@@ -40,7 +40,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      if ((postData?.lastStep ?? -1) >= 8) {
+      if ((postData?.lastStep ?? -1) >= 7) {
         _price = postData?.price;
         _haggle = postData?.haggle;
         _installmentOfPayment = postData?.installmentOfPayment;
@@ -127,9 +127,9 @@ class _EditPostPriceState extends State<EditPostPrice> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(

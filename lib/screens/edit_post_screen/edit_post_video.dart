@@ -26,6 +26,9 @@ class _EditPostVideoState extends State<EditPostVideo> {
   bool _goToNextStep = false;
   bool _isInit = true;
 
+  RegExp validateYoutubeUrl =
+      RegExp(r'^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$');
+
   final _formKey = GlobalKey<FormState>();
 
   String? _videoLink;
@@ -98,9 +101,9 @@ class _EditPostVideoState extends State<EditPostVideo> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(
@@ -127,7 +130,7 @@ class _EditPostVideoState extends State<EditPostVideo> {
                       ),
                     ),
                     const SizedBox(
-                      height: 8.0,
+                      height: 16.0,
                     ),
                     Text(
                       AppLocalizations.of(context)!.addPostVideoHint,
@@ -137,18 +140,16 @@ class _EditPostVideoState extends State<EditPostVideo> {
                       ),
                     ),
                     const SizedBox(
-                      height: 16.0,
+                      height: 32.0,
                     ),
                     StyledInput(
-                      icon: CustomIcons.money,
+                      icon: CustomIcons.play,
                       title: AppLocalizations.of(context)!.youtubeLink,
                       initialValue: _videoLink,
                       hintText: "https://youtu.be/",
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
-                          if (!value
-                              .toLowerCase()
-                              .startsWith('https://youtu.be/')) {
+                          if (!validateYoutubeUrl.hasMatch(value)) {
                             return AppLocalizations.of(context)!
                                 .invalidYoutubeLink;
                           }

@@ -141,9 +141,9 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 14.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 14.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(

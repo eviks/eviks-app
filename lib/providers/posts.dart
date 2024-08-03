@@ -188,6 +188,11 @@ class Posts with ChangeNotifier {
       searchArea: params['searchArea'] == null
           ? null
           : parseSearchAreaUrl(params['searchArea']!),
+      hasVideo: params['hasVideo']?.toLowerCase() == 'true',
+      documented: params['documented']?.toLowerCase() == 'true',
+      fromOwner: params['fromOwner']?.toLowerCase() == 'true',
+      withoutRedevelopment:
+          params['withoutRedevelopment']?.toLowerCase() == 'true',
       sort: params['sort'] == null
           ? SortType.dateDsc
           : SortType.values.firstWhere(
@@ -270,6 +275,18 @@ class Posts with ChangeNotifier {
           break;
         case 'searchArea':
           _filters.searchArea = value as List<List<double>>?;
+          break;
+        case 'hasVideo':
+          _filters.hasVideo = value as bool?;
+          break;
+        case 'documented':
+          _filters.documented = value as bool?;
+          break;
+        case 'fromOwner':
+          _filters.fromOwner = value as bool?;
+          break;
+        case 'withoutRedevelopment':
+          _filters.withoutRedevelopment = value as bool?;
           break;
         case 'sort':
           _filters.sort = value as SortType;

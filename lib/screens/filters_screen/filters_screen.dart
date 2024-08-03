@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import './additional_filters.dart';
 import './city_filter.dart';
 import './district_filter.dart';
 import './floor_filters.dart';
@@ -94,6 +95,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     const MainFilters(),
                     const SqmFilters(),
                     const FloorFilters(),
+                    const AdditionalFilters(),
                   ],
                 ),
               ),

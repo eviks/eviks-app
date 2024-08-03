@@ -17,7 +17,8 @@ class Carousel extends StatefulWidget {
     required this.temp,
     this.displayIndicator = true,
     this.fullScreenView = false,
-    this.videoId,
+    this.videoLink,
+    this.buttonsVisibility = false,
   }) : super(key: key);
 
   final List<String> images;
@@ -27,7 +28,8 @@ class Carousel extends StatefulWidget {
   final bool temp;
   final bool displayIndicator;
   final bool fullScreenView;
-  final String? videoId;
+  final String? videoLink;
+  final bool buttonsVisibility;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -55,7 +57,7 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    final videoIncluded = widget.videoId != null;
+    final videoIncluded = widget.videoLink != null;
     final totalCount = widget.images.length + (videoIncluded ? 1 : 0);
 
     return InkWell(
@@ -92,7 +94,8 @@ class _CarouselState extends State<Carousel> {
             itemBuilder: (ctx, index, _) {
               if (videoIncluded && index == 0) {
                 return VideoThumbnail(
-                  videoId: widget.videoId!,
+                  videoLink: widget.videoLink!,
+                  buttonsVisibility: widget.buttonsVisibility,
                 );
               }
               final imageIndex = videoIncluded ? index - 1 : index;

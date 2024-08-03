@@ -4,7 +4,6 @@ import 'package:eviks_mobile/models/user.dart';
 import 'package:eviks_mobile/providers/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/carousel.dart';
@@ -58,9 +57,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
           external: isExternal,
           displayIndicator: buttonsVisibility,
           fullScreenView: true,
-          videoId: videoLink != null
-              ? YoutubePlayer.convertUrlToId(videoLink!)
-              : null,
+          videoLink: videoLink,
+          buttonsVisibility: buttonsVisibility,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(

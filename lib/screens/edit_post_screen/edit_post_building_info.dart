@@ -109,9 +109,9 @@ class _EditPostBuildingInfoState extends State<EditPostBuildingInfo> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Form(

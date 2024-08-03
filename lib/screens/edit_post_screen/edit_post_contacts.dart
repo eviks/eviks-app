@@ -37,7 +37,7 @@ class _EditPostContactsState extends State<EditPostContacts> {
   void didChangeDependencies() {
     postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      if ((postData?.lastStep ?? -1) >= 9) {
+      if ((postData?.lastStep ?? -1) >= 8) {
         _phoneNumber = postData?.phoneNumber;
         _username = postData?.username;
       }
@@ -157,9 +157,9 @@ class _EditPostContactsState extends State<EditPostContacts> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(
