@@ -4,12 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
-import './verification.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import './verification.dart';
 
 class RegisterForm extends StatefulWidget {
   final Function switchAuthMode;
@@ -55,12 +55,14 @@ class _RegisterFormState extends State<RegisterForm> {
         _authData['password']!,
       );
     } on Failure catch (error) {
+      if (!mounted) return;
       if (error.statusCode >= 500) {
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -171,7 +173,7 @@ class _RegisterFormState extends State<RegisterForm> {
               },
               text: AppLocalizations.of(context)!.login,
               secondary: true,
-            )
+            ),
           ],
         ),
       ),

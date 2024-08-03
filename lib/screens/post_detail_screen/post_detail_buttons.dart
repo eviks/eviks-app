@@ -26,11 +26,13 @@ class _PostDetailButtonsState extends State<PostDetailButtons> {
           .fetchPostPhoneNumber(postId);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 

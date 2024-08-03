@@ -4,18 +4,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import './menu/locale_settings.dart';
-import './menu/profile_settings.dart';
-import './menu/theme_mode_settings.dart';
-import './menu/user_posts.dart';
-import './user_info.dart';
-import './user_profile_menu.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../screens/tabs_screen.dart';
 import '../../widgets/sized_config.dart';
 import '../auth_screen/auth_screen.dart';
+import './menu/locale_settings.dart';
+import './menu/profile_settings.dart';
+import './menu/theme_mode_settings.dart';
+import './menu/user_posts.dart';
+import './user_info.dart';
+import './user_profile_menu.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);

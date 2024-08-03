@@ -27,18 +27,18 @@ class Tag extends StatelessWidget {
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
             return Theme.of(context).primaryColor;
           },
         ),
-        elevation: MaterialStateProperty.resolveWith<double?>(
-          (Set<MaterialState> states) {
+        elevation: WidgetStateProperty.resolveWith<double?>(
+          (Set<WidgetState> states) {
             return 0.0;
           },
         ),
-        shape: MaterialStateProperty.resolveWith<OutlinedBorder?>(
-          (Set<MaterialState> states) {
+        shape: WidgetStateProperty.resolveWith<OutlinedBorder?>(
+          (Set<WidgetState> states) {
             return RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             );

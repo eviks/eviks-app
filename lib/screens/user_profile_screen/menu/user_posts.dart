@@ -45,7 +45,7 @@ class _UserPostsState extends State<UserPosts> {
             ),
             UserPostsTabBarView(
               postType: PostType.unreviewed,
-            )
+            ),
           ],
         ),
       ),

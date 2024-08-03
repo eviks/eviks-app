@@ -52,7 +52,7 @@ class CustomLabeledCheckbox extends StatelessWidget {
             Text(
               label,
               style: labelStyle ?? Theme.of(context).textTheme.titleMedium,
-            )
+            ),
           ],
         ),
       ),

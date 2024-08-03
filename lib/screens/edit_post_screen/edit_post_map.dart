@@ -9,10 +9,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_district.dart';
-import './edit_post_estate_info.dart';
-import './edit_post_metro.dart';
-import './step_title.dart';
 import '../../constants.dart';
 import '../../models/address.dart';
 import '../../models/failure.dart';
@@ -23,6 +19,10 @@ import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import './edit_post_district.dart';
+import './edit_post_estate_info.dart';
+import './edit_post_metro.dart';
+import './step_title.dart';
 
 class EditPostMap extends StatefulWidget {
   const EditPostMap({
@@ -83,8 +83,8 @@ class _EditPostMapState extends State<EditPostMap> {
         if (mapEvent is MapEventMoveEnd ||
             mapEvent is MapEventDoubleTapZoomEnd) {
           _getAddressByCoords([
-            _mapController?.center.longitude ?? 0,
-            _mapController?.center.latitude ?? 0
+            _mapController?.camera.center.longitude ?? 0,
+            _mapController?.camera.center.latitude ?? 0,
           ]);
         }
       });
@@ -179,12 +179,14 @@ class _EditPostMapState extends State<EditPostMap> {
         _addresses = response;
       });
     } on Failure catch (error) {
+      if (!mounted) return;
       if (error.statusCode >= 500) {
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -284,12 +286,14 @@ class _EditPostMapState extends State<EditPostMap> {
           FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              center: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
-              zoom: 14,
+              initialCenter: LatLng(_location?[1] ?? 0, _location?[0] ?? 0),
+              initialZoom: 14,
               maxZoom: 18,
-              interactiveFlags: InteractiveFlag.pinchZoom |
-                  InteractiveFlag.drag |
-                  InteractiveFlag.doubleTapZoom,
+              interactionOptions: const InteractionOptions(
+                flags: InteractiveFlag.pinchZoom |
+                    InteractiveFlag.drag |
+                    InteractiveFlag.doubleTapZoom,
+              ),
             ),
             children: [
               TileLayer(
@@ -312,7 +316,7 @@ class _EditPostMapState extends State<EditPostMap> {
                 key: _formKey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: _typeMode
                         ? null
                         : const BorderRadius.only(
@@ -426,7 +430,7 @@ class _EditPostMapState extends State<EditPostMap> {
               if (_typeMode)
                 Expanded(
                   child: Container(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     width: SizeConfig.screenWidth,
                     child: _isLoading
                         ? Align(
@@ -448,7 +452,7 @@ class _EditPostMapState extends State<EditPostMap> {
                                   onTap: () {
                                     onAddressSelect([
                                       _addresses[index].longitude,
-                                      _addresses[index].latitude
+                                      _addresses[index].latitude,
                                     ]);
                                   },
                                 ),

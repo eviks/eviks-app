@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/filters.dart';
+import '../../providers/posts.dart';
+import '../../widgets/sized_config.dart';
+import '../../widgets/styled_elevated_button.dart';
+import '../tabs_screen.dart';
 import './additional_filters.dart';
 import './city_filter.dart';
 import './district_filter.dart';
@@ -11,11 +16,6 @@ import './main_filters.dart';
 import './metro_filter.dart';
 import './sort_button.dart';
 import './sqm_filters.dart';
-import '../../models/filters.dart';
-import '../../providers/posts.dart';
-import '../../widgets/sized_config.dart';
-import '../../widgets/styled_elevated_button.dart';
-import '../tabs_screen.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);

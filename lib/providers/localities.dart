@@ -116,7 +116,7 @@ class Localities with ChangeNotifier {
       queryParameters: {
         'q': text,
         'lon': location[0].toString(),
-        'lat': location[1].toString()
+        'lat': location[1].toString(),
       },
     );
 

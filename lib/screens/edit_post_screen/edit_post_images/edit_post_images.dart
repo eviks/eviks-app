@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-import './uploaded_image.dart';
 import '../../../constants.dart';
 import '../../../models/failure.dart';
 import '../../../models/image_data.dart';
@@ -16,6 +15,7 @@ import '../../../widgets/sized_config.dart';
 import '../../../widgets/styled_elevated_button.dart';
 import '../edit_post_price.dart';
 import '../step_title.dart';
+import './uploaded_image.dart';
 
 class EditPostImages extends StatefulWidget {
   const EditPostImages({
@@ -75,12 +75,14 @@ class _EditPostImagesState extends State<EditPostImages> {
         id =
             await Provider.of<Posts>(context, listen: false).getImageUploadId();
       } on Failure catch (error) {
+        if (!mounted) return;
         if (error.statusCode >= 500) {
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
@@ -120,12 +122,14 @@ class _EditPostImagesState extends State<EditPostImages> {
         id =
             await Provider.of<Posts>(context, listen: false).getImageUploadId();
       } on Failure catch (error) {
+        if (!mounted) return;
         if (error.statusCode >= 500) {
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
@@ -172,11 +176,13 @@ class _EditPostImagesState extends State<EditPostImages> {
         await Provider.of<Posts>(context, listen: false).deleteImage(id);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
     }
@@ -314,7 +320,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                                   PermissionStatus> statuses =
                                               await [
                                             Permission.camera,
-                                            Permission.storage
+                                            Permission.storage,
                                           ].request();
                                           bool areGranted = true;
                                           statuses.forEach(

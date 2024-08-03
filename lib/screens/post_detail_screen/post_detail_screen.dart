@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './post_detail_buttons.dart';
-import './post_detail_content.dart';
-import './post_detail_header.dart';
-import './post_detail_moderation_buttons.dart';
 import '../../../models/failure.dart';
 import '../../../models/post.dart';
 import '../../constants.dart';
@@ -17,6 +13,10 @@ import '../../widgets/post_buttons/edit_post_button.dart';
 import '../../widgets/post_buttons/favorite_button.dart';
 import '../../widgets/post_buttons/share_button.dart';
 import '../../widgets/sized_config.dart';
+import './post_detail_buttons.dart';
+import './post_detail_content.dart';
+import './post_detail_header.dart';
+import './post_detail_moderation_buttons.dart';
 
 class PostDetailScreen extends StatefulWidget {
   const PostDetailScreen({Key? key}) : super(key: key);
@@ -60,11 +60,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               .blockPostForModeration(postId);
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
+            if (!mounted) return;
             errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
+            if (!mounted) return;
             errorMessage = AppLocalizations.of(context)!.networkError;
           }
         } catch (error) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.unknownError;
           errorMessage = error.toString();
         }
@@ -188,27 +191,28 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 slivers: [
                   SliverPersistentHeader(
                     delegate: PostDetailHeader(
-                        user: loadedPost.user,
-                        postId: loadedPost.id,
-                        images: loadedPost.images,
-                        height: SizeConfig.safeBlockVertical * headerHeight,
-                        buttonsVisibility: !_leadingVisibility,
-                        reviewStatus: loadedPost.reviewStatus,
-                        postType: loadedPost.postType,
-                        isExternal: loadedPost.isExternal ?? false,
-                        districtName:
-                            loadedPost.district.getLocalizedName(context),
-                        price: loadedPost.price,
-                        rooms: loadedPost.rooms,
-                        videoLink: loadedPost.videoLink),
+                      user: loadedPost.user,
+                      postId: loadedPost.id,
+                      images: loadedPost.images,
+                      height: SizeConfig.safeBlockVertical * headerHeight,
+                      buttonsVisibility: !_leadingVisibility,
+                      reviewStatus: loadedPost.reviewStatus,
+                      postType: loadedPost.postType,
+                      isExternal: loadedPost.isExternal ?? false,
+                      districtName:
+                          loadedPost.district.getLocalizedName(context),
+                      price: loadedPost.price,
+                      rooms: loadedPost.rooms,
+                      videoLink: loadedPost.videoLink,
+                    ),
                   ),
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
                     flexibleSpace: Stack(
                       children: [
                         Container(
-                          color: Theme.of(context).colorScheme.background,
-                        )
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
                       ],
                     ),
                     leading: Navigator.canPop(context)
@@ -313,7 +317,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                   ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   PostDetailContent(

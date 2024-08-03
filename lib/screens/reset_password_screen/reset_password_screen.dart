@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './reset_password_verification.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import './reset_password_verification.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const routeName = '/reset_password';

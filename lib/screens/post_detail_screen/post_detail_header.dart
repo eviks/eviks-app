@@ -100,7 +100,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                           ),
                           fixedSize: const Size(45.0, 45.0),
                           backgroundColor:
-                              Theme.of(context).colorScheme.background,
+                              Theme.of(context).colorScheme.surface,
                           foregroundColor: Theme.of(context).dividerColor,
                         ),
                         child: const Icon(

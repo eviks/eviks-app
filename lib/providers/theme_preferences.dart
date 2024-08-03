@@ -38,12 +38,12 @@ ThemeData lightThemeData(BuildContext context) {
     colorSchemeSeed: primaryColor,
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
-        side: MaterialStateProperty.all(
+        side: WidgetStateProperty.all(
           const BorderSide(
             color: lightGreyColor,
           ),
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
@@ -99,17 +99,17 @@ ThemeData darkThemeData(BuildContext context) {
       primary: lightPrimaryColor,
       error: lightDangerColor,
       secondary: lightPrimaryColor,
-      background: darkColor,
+      surface: darkColor,
     ),
     brightness: Brightness.dark,
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
-        side: MaterialStateProperty.all(
+        side: WidgetStateProperty.all(
           const BorderSide(
             color: darkGreyColor,
           ),
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),

@@ -92,7 +92,7 @@ class _DeletePostButtonState extends State<DeletePostButton> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         fixedSize: const Size(45.0, 45.0),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(

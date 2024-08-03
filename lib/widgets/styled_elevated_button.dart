@@ -34,23 +34,23 @@ class StyledElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
               if (color == null) {
                 return !secondary
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.background;
+                    : Theme.of(context).colorScheme.surface;
               } else {
                 return color!;
               }
             },
           ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          elevation: MaterialStateProperty.all<double>(0.0),
+          elevation: WidgetStateProperty.all<double>(0.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +61,7 @@ class StyledElevatedButton extends StatelessWidget {
                 height: 24.0,
                 child: CircularProgressIndicator(
                   color: !secondary
-                      ? Theme.of(context).colorScheme.background
+                      ? Theme.of(context).colorScheme.surface
                       : Theme.of(context).primaryColor,
                 ),
               )
@@ -73,7 +73,7 @@ class StyledElevatedButton extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: !secondary
-                          ? Theme.of(context).colorScheme.background
+                          ? Theme.of(context).colorScheme.surface
                           : Theme.of(context).primaryColor,
                       fontSize: 16.0,
                       fontWeight: !secondary ? FontWeight.bold : null,
@@ -87,9 +87,9 @@ class StyledElevatedButton extends StatelessWidget {
                     Icon(
                       suffixIcon,
                       color: !secondary
-                          ? Theme.of(context).colorScheme.background
+                          ? Theme.of(context).colorScheme.surface
                           : Theme.of(context).primaryColor,
-                    )
+                    ),
                 ],
               ),
           ],

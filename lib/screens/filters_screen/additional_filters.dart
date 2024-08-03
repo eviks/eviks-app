@@ -78,7 +78,7 @@ class AdditionalFilters extends StatelessWidget {
               },
             ),
           ],
-        )
+        ),
       ],
     );
   }

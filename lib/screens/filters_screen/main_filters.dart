@@ -104,12 +104,12 @@ class MainFilters extends StatelessWidget {
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
             updateFilters({
-              'priceMin': value?.isEmpty ?? true ? null : int.parse(value!)
+              'priceMin': value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
           onChangedTo: (value) {
             updateFilters({
-              'priceMax': value?.isEmpty ?? true ? null : int.parse(value!)
+              'priceMax': value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
         ),
@@ -126,12 +126,12 @@ class MainFilters extends StatelessWidget {
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
             updateFilters({
-              'roomsMin': value?.isEmpty ?? true ? null : int.parse(value!)
+              'roomsMin': value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
           onChangedTo: (value) {
             updateFilters({
-              'roomsMax': value?.isEmpty ?? true ? null : int.parse(value!)
+              'roomsMax': value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
         ),

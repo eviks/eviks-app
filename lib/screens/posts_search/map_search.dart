@@ -8,11 +8,11 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
-import './post_item_modal.dart';
 import '../../constants.dart';
 import '../../models/filters.dart';
 import '../../models/post_location.dart';
 import '../../providers/posts.dart';
+import './post_item_modal.dart';
 
 class MapSearch extends StatefulWidget {
   const MapSearch({Key? key}) : super(key: key);
@@ -107,7 +107,7 @@ class _MapSearchState extends State<MapSearch> {
               position.bounds!.northWest,
               position.bounds!.northEast,
               position.bounds!.southEast,
-              position.bounds!.southWest
+              position.bounds!.southWest,
             ];
           } else {
             currentPosition = [];
@@ -121,8 +121,8 @@ class _MapSearchState extends State<MapSearch> {
       children: [
         FlutterMap(
           options: MapOptions(
-            center: LatLng(filters.city.y ?? 0, filters.city.x ?? 0),
-            zoom: 12,
+            initialCenter: LatLng(filters.city.y ?? 0, filters.city.x ?? 0),
+            initialZoom: 12,
             maxZoom: 18,
             onPointerHover: (e, point) {
               if (drawing) {
@@ -138,11 +138,15 @@ class _MapSearchState extends State<MapSearch> {
               _previousPosition = position;
               startMoveEndTimer(position);
             },
-            interactiveFlags: drawing
-                ? InteractiveFlag.none
-                : InteractiveFlag.pinchZoom |
-                    InteractiveFlag.drag |
-                    InteractiveFlag.doubleTapZoom,
+            interactionOptions: drawing
+                ? const InteractionOptions(
+                    flags: InteractiveFlag.none,
+                  )
+                : const InteractionOptions(
+                    flags: InteractiveFlag.pinchZoom |
+                        InteractiveFlag.drag |
+                        InteractiveFlag.doubleTapZoom,
+                  ),
           ),
           children: [
             TileLayer(
@@ -157,7 +161,7 @@ class _MapSearchState extends State<MapSearch> {
                   borderStrokeWidth: 5.0,
                   borderColor: Theme.of(context).primaryColor,
                   isFilled: true,
-                )
+                ),
               ],
             ),
             MarkerClusterLayerWidget(
@@ -207,9 +211,8 @@ class _MapSearchState extends State<MapSearch> {
                                   child: Text(
                                     priceFormatter(context, e.price),
                                     style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                 ),
@@ -235,7 +238,7 @@ class _MapSearchState extends State<MapSearch> {
                       child: Text(
                         markers.length.toString(),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       ),
                     ),
@@ -282,7 +285,7 @@ class _MapSearchState extends State<MapSearch> {
                       fixedSize: const Size(50.0, 50.0),
                       backgroundColor: Theme.of(context)
                           .colorScheme
-                          .background
+                          .surface
                           .withOpacity(0.9),
                       foregroundColor:
                           Theme.of(context).textTheme.bodyLarge?.color,
@@ -321,14 +324,14 @@ class _MapSearchState extends State<MapSearch> {
                         fixedSize: const Size(50.0, 50.0),
                         backgroundColor: Theme.of(context)
                             .colorScheme
-                            .background
+                            .surface
                             .withOpacity(0.9),
                         foregroundColor:
                             Theme.of(context).textTheme.bodyLarge?.color,
                       ),
                       child: const Icon(CustomIcons.close),
                     ),
-                  )
+                  ),
               ],
             ),
           ),

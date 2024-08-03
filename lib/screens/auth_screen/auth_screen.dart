@@ -3,10 +3,10 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import './login_form.dart';
-import './register_form.dart';
 import '../../providers/auth.dart';
 import '../../widgets/sized_config.dart';
+import './login_form.dart';
+import './register_form.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/auth';
@@ -61,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               const SizedBox(
                                 width: 16.0,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -72,7 +72,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           IconButton(
                             icon: Icon(
                               CustomIcons.close,
-                              color: Theme.of(context).colorScheme.background,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -101,7 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(
                           50.0,
@@ -146,7 +146,7 @@ class LoginTitle extends StatelessWidget {
         Text(
           AppLocalizations.of(context)!.signInTitle,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             fontSize: 32.0,
             fontWeight: FontWeight.bold,
           ),
@@ -154,7 +154,7 @@ class LoginTitle extends StatelessWidget {
         Text(
           AppLocalizations.of(context)!.signInSubtitle,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             fontSize: 18.0,
           ),
         ),
@@ -175,7 +175,7 @@ class RegisterTitle extends StatelessWidget {
         Text(
           AppLocalizations.of(context)!.signUpTitle,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             fontSize: 32.0,
             fontWeight: FontWeight.bold,
           ),
@@ -183,7 +183,7 @@ class RegisterTitle extends StatelessWidget {
         Text(
           AppLocalizations.of(context)!.signUpSubtitle,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             fontSize: 18.0,
           ),
         ),

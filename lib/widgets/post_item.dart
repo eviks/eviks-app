@@ -6,17 +6,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import './carousel.dart';
-import './post_buttons/delete_post_button.dart';
-import './post_buttons/edit_post_button.dart';
-import './post_buttons/favorite_button.dart';
-import './styled_elevated_button.dart';
 import '../constants.dart';
 import '../models/failure.dart';
 import '../models/post.dart';
 import '../providers/auth.dart';
 import '../providers/posts.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
+import './carousel.dart';
+import './post_buttons/delete_post_button.dart';
+import './post_buttons/edit_post_button.dart';
+import './post_buttons/favorite_button.dart';
+import './styled_elevated_button.dart';
 import 'post_item_review_status.dart';
 
 class PostItem extends StatefulWidget {

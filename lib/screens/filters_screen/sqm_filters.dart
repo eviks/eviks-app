@@ -71,13 +71,13 @@ class SqmFilters extends StatelessWidget {
           onChangedFrom: (value) {
             updateFilters({
               'livingRoomsSqmMin':
-                  value?.isEmpty ?? true ? null : int.parse(value!)
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
           onChangedTo: (value) {
             updateFilters({
               'livingRoomsSqmMax':
-                  value?.isEmpty ?? true ? null : int.parse(value!)
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
         ),
@@ -96,12 +96,14 @@ class SqmFilters extends StatelessWidget {
           inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
           onChangedFrom: (value) {
             updateFilters({
-              'kitchenSqmMin': value?.isEmpty ?? true ? null : int.parse(value!)
+              'kitchenSqmMin':
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
           onChangedTo: (value) {
             updateFilters({
-              'kitchenSqmMax': value?.isEmpty ?? true ? null : int.parse(value!)
+              'kitchenSqmMax':
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
         ),
@@ -120,12 +122,12 @@ class SqmFilters extends StatelessWidget {
             inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
             onChangedFrom: (value) {
               updateFilters({
-                'lotSqmMin': value?.isEmpty ?? true ? null : int.parse(value!)
+                'lotSqmMin': value?.isEmpty ?? true ? null : int.parse(value!),
               });
             },
             onChangedTo: (value) {
               updateFilters({
-                'lotSqmMax': value?.isEmpty ?? true ? null : int.parse(value!)
+                'lotSqmMax': value?.isEmpty ?? true ? null : int.parse(value!),
               });
             },
           ),

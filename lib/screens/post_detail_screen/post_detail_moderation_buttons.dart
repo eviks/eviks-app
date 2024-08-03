@@ -49,11 +49,14 @@ class _PostDetailModerationButtonsState
           .confirmPost(widget.postId);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.networkError;
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
       errorMessage = error.toString();
     }
@@ -176,7 +179,7 @@ class _PostDetailModerationButtonsState
               }
             },
           ),
-        )
+        ),
       ],
     );
   }

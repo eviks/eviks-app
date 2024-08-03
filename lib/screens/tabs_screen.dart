@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../models/pages_payload.dart';
+import '../providers/auth.dart';
 import './auth_screen/auth_screen.dart';
 import './favorites_screen/favorites_screen.dart';
 import './new_post_screen.dart';
 import './user_profile_screen/user_profile_screen.dart';
-import '../models/pages_payload.dart';
-import '../providers/auth.dart';
 import 'posts_search/posts_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _TabsScreenState extends State<TabsScreen> {
         Pages.posts: 0,
         Pages.favorites: 1,
         Pages.newPost: 2,
-        Pages.userProfile: 3
+        Pages.userProfile: 3,
       };
 
       final pageIndex = getPageIndex();
@@ -94,14 +94,14 @@ class _TabsScreenState extends State<TabsScreen> {
         Pages.posts: 1,
         Pages.favorites: 2,
         Pages.newPost: 3,
-        Pages.userProfile: 4
+        Pages.userProfile: 4,
       };
     } else {
       pages = {
         Pages.posts: 0,
         Pages.favorites: 1,
         Pages.newPost: 2,
-        Pages.userProfile: 3
+        Pages.userProfile: 3,
       };
     }
 

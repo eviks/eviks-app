@@ -24,7 +24,7 @@ class UserProfileMenu extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
               side: const BorderSide(
@@ -33,10 +33,10 @@ class UserProfileMenu extends StatelessWidget {
               ),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(
             isDarkMode ? softDarkColor : extraLightGreyColor,
           ),
-          padding: MaterialStateProperty.all(
+          padding: WidgetStateProperty.all(
             const EdgeInsets.symmetric(vertical: 2.0, horizontal: 18.0),
           ),
         ),

@@ -116,7 +116,7 @@ class _DistrictFilterState extends State<DistrictFilter> {
                     .toList() ??
                 [],
           ),
-        )
+        ),
       ],
     );
   }

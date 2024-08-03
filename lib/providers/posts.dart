@@ -477,7 +477,7 @@ class Posts with ChangeNotifier {
         body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 
@@ -509,7 +509,7 @@ class Posts with ChangeNotifier {
         body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 
@@ -789,7 +789,7 @@ class Posts with ChangeNotifier {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 
@@ -828,7 +828,7 @@ class Posts with ChangeNotifier {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 

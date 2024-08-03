@@ -35,6 +35,6 @@ class Subscription {
         'name': name,
         'url': url,
         'deviceToken': deviceToken,
-        'notify': notify
+        'notify': notify,
       };
 }

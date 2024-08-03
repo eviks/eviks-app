@@ -45,9 +45,9 @@ class FavoriteButton extends StatelessWidget {
         elevation: elevation,
         backgroundColor: isFavorite
             ? Theme.of(context).primaryColor
-            : Theme.of(context).colorScheme.background,
+            : Theme.of(context).colorScheme.surface,
         foregroundColor: isFavorite
-            ? Theme.of(context).colorScheme.background
+            ? Theme.of(context).colorScheme.surface
             : Theme.of(context).dividerColor,
       ),
       child: const Icon(

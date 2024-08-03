@@ -34,8 +34,8 @@ class _PostItemModalState extends State<PostItemModal> {
   Widget build(BuildContext context) {
     final postData = Provider.of<Posts>(context).postData;
     if (_isInit) {
-      return Wrap(
-        children: const [
+      return const Wrap(
+        children: [
           SizedBox(
             height: 250,
             child: Center(

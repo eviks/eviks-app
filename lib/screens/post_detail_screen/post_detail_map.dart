@@ -90,7 +90,7 @@ class PostDetailMap extends StatelessWidget {
                       child: SvgPicture.asset(
                         "assets/img/svg/location.svg",
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
