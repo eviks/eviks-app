@@ -47,9 +47,7 @@ class VideoThumbnail extends StatelessWidget {
     return InkWell(
       onTap: () async {
         final uri = Uri.parse(videoLink);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
+        await launchUrl(uri);
       },
       child: Stack(
         alignment: Alignment.center,

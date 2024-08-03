@@ -44,9 +44,7 @@ class _PostDetailButtonsState extends State<PostDetailButtons> {
 
     if (await Permission.phone.request().isGranted) {
       final uri = Uri.parse('tel://$phoneNumber');
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      } else {}
+      await launchUrl(uri);
     }
   }
 

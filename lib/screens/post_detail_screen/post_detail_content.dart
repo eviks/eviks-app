@@ -107,9 +107,7 @@ class PostDetailContent extends StatelessWidget {
                         ),
                         onTap: () async {
                           final uri = Uri.parse(post.source ?? '');
-                          if (await canLaunchUrl(uri)) {
-                            await launchUrl(uri);
-                          } else {}
+                          await launchUrl(uri);
                         },
                       ),
                       const SizedBox(

@@ -70,9 +70,7 @@ class _PostItemState extends State<PostItem> {
 
       if (await Permission.phone.request().isGranted) {
         final uri = Uri.parse('tel://$phoneNumber');
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
+        await launchUrl(uri);
       }
     }
 
@@ -110,52 +108,51 @@ class _PostItemState extends State<PostItem> {
                     temp: widget.postType == PostType.unreviewed,
                   ),
                 ),
-                Consumer<Auth>(
-                  builder: (context, auth, child) {
-                    if ((auth.user?.id ?? '') == widget.post.user) {
-                      return Container(
-                        margin: const EdgeInsets.only(
-                          top: 16.0,
-                          right: 8.0,
-                          left: 8.0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Visibility(
-                              visible:
-                                  widget.post.videoLink?.isNotEmpty ?? false,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(
-                                      8.0,
-                                    ),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        CustomIcons.play,
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!.hasVideo,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 16.0,
+                    right: 8.0,
+                    left: 8.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: widget.post.videoLink?.isNotEmpty ?? false,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(
+                                8.0,
                               ),
                             ),
-                            Row(
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  CustomIcons.play,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.hasVideo,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Consumer<Auth>(
+                        builder: (context, auth, child) {
+                          if ((auth.user?.id ?? '') == widget.post.user) {
+                            return Row(
                               children: [
                                 EditPostButton(
                                   postId: widget.post.id,
@@ -169,18 +166,20 @@ class _PostItemState extends State<PostItem> {
                                   postType: widget.post.postType,
                                 ),
                               ],
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    return Container(
-                      margin: const EdgeInsets.only(top: 16.0, right: 8.0),
-                      child: FavoriteButton(
-                        postId: widget.post.id,
+                            );
+                          } else {
+                            return Container(
+                              margin:
+                                  const EdgeInsets.only(top: 16.0, right: 8.0),
+                              child: FavoriteButton(
+                                postId: widget.post.id,
+                              ),
+                            );
+                          }
+                        },
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 ),
               ],
             ),

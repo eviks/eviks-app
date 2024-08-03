@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../constants.dart';
 import '../widgets/counter.dart';
@@ -105,6 +106,13 @@ class _CarouselState extends State<Carousel> {
                     ? widget.images[imageIndex]
                     : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[imageIndex]}/image_${widget.imageSize}.webp',
                 width: double.infinity,
+                placeholder: (context, url) => Skeletonizer(
+                  child: Container(
+                    color: Colors.white,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
+                ),
                 fit: BoxFit.cover,
                 fadeInDuration: const Duration(milliseconds: 100),
               );
