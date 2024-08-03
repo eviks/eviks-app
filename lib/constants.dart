@@ -15,9 +15,9 @@ import './models/settlement.dart';
 // const basePort = 443;
 
 // Development
-const baseUrl = 'http://192.168.1.70:3000';
+const baseUrl = 'http://192.168.1.72:3000';
 const baseScheme = 'http';
-const baseHost = '192.168.1.70';
+const baseHost = '192.168.1.72';
 const basePort = 3000;
 
 const appVersion = '0.3.0';
