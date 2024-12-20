@@ -61,11 +61,17 @@ class _ThemeModeSettingsState extends State<ThemeModeSettings> {
             groupValue: _themeMode,
             onChanged: _onChanged,
           ),
+          const SizedBox(
+            height: 8.0,
+          ),
           RadioListTile<ThemeMode>(
             title: Text(AppLocalizations.of(context)!.darkTheme),
             value: ThemeMode.dark,
             groupValue: _themeMode,
             onChanged: _onChanged,
+          ),
+          const SizedBox(
+            height: 8.0,
           ),
           RadioListTile<ThemeMode>(
             title: Text(AppLocalizations.of(context)!.systemTheme),

@@ -364,10 +364,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         CustomIcons.hammer,
                         color: Theme.of(context).iconTheme.color,
                       ),
-                      title: FittedBox(
-                        child:
-                            Text(AppLocalizations.of(context)!.redevelopment),
-                      ),
+                      title: Text(AppLocalizations.of(context)!.redevelopment),
                       onChanged: (bool? value) {
                         setState(() {
                           _redevelopment = value;

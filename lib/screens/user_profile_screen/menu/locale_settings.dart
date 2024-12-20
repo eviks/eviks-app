@@ -60,6 +60,9 @@ class _LocaleSettingsState extends State<LocaleSettings> {
             groupValue: _locale,
             onChanged: _onChanged,
           ),
+          const SizedBox(
+            height: 8.0,
+          ),
           RadioListTile<Locale>(
             title: Text(AppLocalizations.of(context)!.russianLanguage),
             value: const Locale('ru'),
