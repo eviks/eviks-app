@@ -45,11 +45,14 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
         );
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
         errorMessage = error.toString();
       }
@@ -115,7 +118,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
 
     if (_isInit) {
       return ColoredBox(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         child: const Center(
           child: CircularProgressIndicator(),
         ),
@@ -179,7 +182,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                                         arguments: posts[index].id,
                                       );
 
-                                      if (mounted) {
+                                      if (context.mounted) {
                                         Provider.of<Posts>(
                                           context,
                                           listen: false,
@@ -199,9 +202,9 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                     Positioned(
                       bottom: 0,
                       width: SizeConfig.blockSizeHorizontal * 100.0,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.all(8.0),
                             child: CircularProgressIndicator(),

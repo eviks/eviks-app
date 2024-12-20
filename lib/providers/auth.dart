@@ -521,7 +521,7 @@ class Auth with ChangeNotifier {
         }),
         headers: {
           'Authorization': 'JWT $token',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
       );
       if (response.statusCode >= 500) {

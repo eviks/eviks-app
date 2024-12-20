@@ -38,12 +38,14 @@ class _VerificationState extends State<Verification> {
       await Provider.of<Auth>(context, listen: false)
           .verifyUser(widget.email, _activationToken);
     } on Failure catch (error) {
+      if (!mounted) return;
       if (error.statusCode >= 500) {
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -123,9 +125,9 @@ class _VerificationState extends State<Verification> {
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(5.0),
                     activeColor: Theme.of(context).dividerColor,
-                    activeFillColor: Theme.of(context).colorScheme.background,
+                    activeFillColor: Theme.of(context).colorScheme.surface,
                     selectedColor: Theme.of(context).primaryColor,
-                    selectedFillColor: Theme.of(context).colorScheme.background,
+                    selectedFillColor: Theme.of(context).colorScheme.surface,
                     inactiveColor: Theme.of(context).dividerColor,
                     inactiveFillColor: Theme.of(context).dividerColor,
                   ),
@@ -149,7 +151,7 @@ class _VerificationState extends State<Verification> {
                             width: 24.0,
                             height: 24.0,
                             child: CircularProgressIndicator(
-                              color: Theme.of(context).colorScheme.background,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                           )
                         : Text(
@@ -160,7 +162,7 @@ class _VerificationState extends State<Verification> {
                             ),
                           ),
                   ),
-                )
+                ),
               ],
             ),
           ),

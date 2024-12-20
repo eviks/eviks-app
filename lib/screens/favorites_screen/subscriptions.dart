@@ -33,11 +33,14 @@ class _SubscriptionsState extends State<Subscriptions> {
           .getSubscriptions();
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.networkError;
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -179,11 +182,11 @@ class _SubscriptionsState extends State<Subscriptions> {
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .background,
+                                                .surface,
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                 ],
                               ),
                               trailing: PopupMenuButton<MenuItems>(

@@ -16,7 +16,6 @@ class Subscription {
   });
 
   factory Subscription.fromJson({required dynamic json}) {
-    print(json);
     return Subscription(
       id: json['_id'] as String,
       name: json['name'] as String,
@@ -36,6 +35,6 @@ class Subscription {
         'name': name,
         'url': url,
         'deviceToken': deviceToken,
-        'notify': notify
+        'notify': notify,
       };
 }

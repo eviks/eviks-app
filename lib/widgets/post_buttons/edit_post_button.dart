@@ -32,7 +32,7 @@ class EditPostButton extends StatelessWidget {
         ),
         fixedSize: const Size(45.0, 45.0),
         elevation: elevation,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(

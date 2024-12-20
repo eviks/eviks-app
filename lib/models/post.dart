@@ -202,6 +202,7 @@ class Post {
   final bool? garage;
   final bool? pool;
   final bool? bathhouse;
+  final String? videoLink;
   final List<String> images;
   final int price;
   final bool? haggle;
@@ -270,6 +271,7 @@ class Post {
     this.garage = false,
     this.pool = false,
     this.bathhouse = false,
+    this.videoLink,
     required this.images,
     required this.price,
     this.haggle,
@@ -386,6 +388,7 @@ class Post {
       garage: json['garage'] == null ? null : json['garage'] as bool,
       pool: json['pool'] == null ? null : json['pool'] as bool,
       bathhouse: json['bathhouse'] == null ? null : json['bathhouse'] as bool,
+      videoLink: json['videoLink'] == null ? null : json['videoLink'] as String,
       images: (json['images'] as List<dynamic>).cast<String>(),
       price: json['price'] as int,
       haggle: json['haggle'] == null ? null : json['haggle'] as bool,
@@ -514,6 +517,7 @@ class Post {
         'pool': pool,
         'images': images,
         'bathhouse': bathhouse,
+        'videoLink': videoLink,
         'price': price,
         'haggle': haggle,
         'installmentOfPayment': installmentOfPayment,
@@ -570,6 +574,7 @@ class Post {
     bool? pool,
     List<String>? images,
     bool? bathhouse,
+    String? videoLink,
     int? price,
     bool? haggle,
     bool? installmentOfPayment,
@@ -652,6 +657,7 @@ class Post {
       bathhouse: (estateType ?? this.estateType) != EstateType.house
           ? null
           : bathhouse ?? this.bathhouse,
+      videoLink: videoLink ?? this.videoLink,
       images: images ?? this.images,
       price: price ?? this.price,
       haggle: haggle ?? this.haggle,

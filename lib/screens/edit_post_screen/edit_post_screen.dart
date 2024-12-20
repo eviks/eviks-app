@@ -2,10 +2,10 @@ import 'package:eviks_mobile/models/settlement.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_general_info.dart';
 import '../../models/post.dart';
 import '../../providers/localities.dart';
 import '../../providers/posts.dart';
+import './edit_post_general_info.dart';
 
 class EditPostScreen extends StatefulWidget {
   static const routeName = '/edit_post';

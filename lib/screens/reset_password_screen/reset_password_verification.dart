@@ -4,11 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-import './set_new_password.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../providers/auth.dart';
 import '../../widgets/sized_config.dart';
+import './set_new_password.dart';
 
 class ResetPasswordVerification extends StatefulWidget {
   final String email;
@@ -41,11 +41,13 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
           .verifyResetPasswordToken(widget.email, _resetPasswordToken);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -132,9 +134,9 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(5.0),
                     activeColor: Theme.of(context).dividerColor,
-                    activeFillColor: Theme.of(context).colorScheme.background,
+                    activeFillColor: Theme.of(context).colorScheme.surface,
                     selectedColor: Theme.of(context).primaryColor,
-                    selectedFillColor: Theme.of(context).colorScheme.background,
+                    selectedFillColor: Theme.of(context).colorScheme.surface,
                     inactiveColor: Theme.of(context).dividerColor,
                     inactiveFillColor: Theme.of(context).dividerColor,
                   ),
@@ -158,7 +160,7 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                             width: 24.0,
                             height: 24.0,
                             child: CircularProgressIndicator(
-                              color: Theme.of(context).colorScheme.background,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                           )
                         : Text(
@@ -169,7 +171,7 @@ class _ResetPasswordVerificationState extends State<ResetPasswordVerification> {
                             ),
                           ),
                   ),
-                )
+                ),
               ],
             ),
           ),

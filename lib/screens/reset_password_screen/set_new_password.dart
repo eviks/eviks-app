@@ -52,11 +52,13 @@ class _SetNewPasswordState extends State<SetNewPassword> {
           .resetPassword(widget.email, widget.resetPasswordToken, _password);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 

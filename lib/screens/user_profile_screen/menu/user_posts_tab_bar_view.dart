@@ -47,11 +47,14 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
           );
         } on Failure catch (error) {
           if (error.statusCode >= 500) {
+            if (!mounted) return;
             errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
+            if (!mounted) return;
             errorMessage = AppLocalizations.of(context)!.networkError;
           }
         } catch (error) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.unknownError;
         }
 
@@ -114,7 +117,7 @@ class _UserPostsTabBarViewState extends State<UserPostsTabBarView> {
     SizeConfig().init(context);
     if (_isInit) {
       return ColoredBox(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         child: const Center(
           child: CircularProgressIndicator(),
         ),

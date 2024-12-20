@@ -20,23 +20,23 @@ class IconChoiseChip extends StatelessWidget {
       avatar: Icon(
         icon,
         color: value
-            ? Theme.of(context).colorScheme.background
+            ? Theme.of(context).colorScheme.surface
             : Theme.of(context).colorScheme.primary,
       ),
       label: label,
       labelStyle: TextStyle(
         color: value
-            ? Theme.of(context).colorScheme.background
-            : Theme.of(context).colorScheme.onBackground,
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).colorScheme.onSurface,
       ),
       selected: value,
       onSelected: onSelected,
       elevation: 3.0,
       padding: const EdgeInsets.all(
-        8.0,
+        5.0,
       ),
       labelPadding: const EdgeInsets.all(
-        8.0,
+        5.0,
       ),
     );
   }

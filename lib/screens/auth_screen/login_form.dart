@@ -51,12 +51,14 @@ class _LoginFormState extends State<LoginForm> {
       await Provider.of<Auth>(context, listen: false)
           .login(_authData['email']!, _authData['password']!);
     } on Failure catch (error) {
+      if (!mounted) return;
       if (error.statusCode >= 500) {
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -81,12 +83,14 @@ class _LoginFormState extends State<LoginForm> {
     try {
       await Provider.of<Auth>(context, listen: false).loginWithGoogle();
     } on Failure catch (error) {
+      if (!mounted) return;
       if (error.statusCode >= 500) {
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -216,8 +220,8 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 onPressed: _loginWithGoogle,
                 style: OutlinedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  foregroundColor: Theme.of(context).colorScheme.onBackground,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  foregroundColor: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),

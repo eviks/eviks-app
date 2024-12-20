@@ -6,17 +6,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import './carousel.dart';
-import './post_buttons/delete_post_button.dart';
-import './post_buttons/edit_post_button.dart';
-import './post_buttons/favorite_button.dart';
-import './styled_elevated_button.dart';
 import '../constants.dart';
 import '../models/failure.dart';
 import '../models/post.dart';
 import '../providers/auth.dart';
 import '../providers/posts.dart';
 import '../screens/post_detail_screen/post_detail_screen.dart';
+import './carousel.dart';
+import './post_buttons/delete_post_button.dart';
+import './post_buttons/edit_post_button.dart';
+import './post_buttons/favorite_button.dart';
+import './styled_elevated_button.dart';
 import 'post_item_review_status.dart';
 
 class PostItem extends StatefulWidget {
@@ -52,25 +52,25 @@ class _PostItemState extends State<PostItem> {
             .fetchPostPhoneNumber(postId);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!context.mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!context.mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
       if (errorMessage.isNotEmpty) {
-        if (!mounted) return;
+        if (!context.mounted) return;
         showSnackBar(context, errorMessage);
         return;
       }
 
       if (await Permission.phone.request().isGranted) {
         final uri = Uri.parse('tel://$phoneNumber');
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
+        await launchUrl(uri);
       }
     }
 
@@ -108,36 +108,78 @@ class _PostItemState extends State<PostItem> {
                     temp: widget.postType == PostType.unreviewed,
                   ),
                 ),
-                Consumer<Auth>(
-                  builder: (context, auth, child) {
-                    if ((auth.user?.id ?? '') == widget.post.user) {
-                      return Container(
-                        margin: const EdgeInsets.only(top: 16.0, right: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            EditPostButton(
-                              postId: widget.post.id,
-                              reviewStatus: widget.post.reviewStatus,
-                              postType: widget.post.postType,
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 16.0,
+                    right: 8.0,
+                    left: 8.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: widget.post.videoLink?.isNotEmpty ?? false,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(
+                                8.0,
+                              ),
                             ),
-                            const SizedBox(width: 4.0),
-                            DeletePostButton(
-                              postId: widget.post.id,
-                              reviewStatus: widget.post.reviewStatus,
-                              postType: widget.post.postType,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  CustomIcons.play,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.hasVideo,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      );
-                    }
-                    return Container(
-                      margin: const EdgeInsets.only(top: 16.0, right: 8.0),
-                      child: FavoriteButton(
-                        postId: widget.post.id,
                       ),
-                    );
-                  },
+                      Consumer<Auth>(
+                        builder: (context, auth, child) {
+                          if ((auth.user?.id ?? '') == widget.post.user) {
+                            return Row(
+                              children: [
+                                EditPostButton(
+                                  postId: widget.post.id,
+                                  reviewStatus: widget.post.reviewStatus,
+                                  postType: widget.post.postType,
+                                ),
+                                const SizedBox(width: 4.0),
+                                DeletePostButton(
+                                  postId: widget.post.id,
+                                  reviewStatus: widget.post.reviewStatus,
+                                  postType: widget.post.postType,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Container(
+                              margin:
+                                  const EdgeInsets.only(top: 16.0, right: 8.0),
+                              child: FavoriteButton(
+                                postId: widget.post.id,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

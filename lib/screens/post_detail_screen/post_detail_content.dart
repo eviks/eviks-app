@@ -5,6 +5,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/post.dart';
+import '../../providers/auth.dart';
 import './post_detail_additional.dart';
 import './post_detail_building.dart';
 import './post_detail_general.dart';
@@ -12,8 +14,6 @@ import './post_detail_main_info.dart';
 import './post_detail_map.dart';
 import './post_detail_review_status.dart';
 import './post_detail_user.dart';
-import '../../models/post.dart';
-import '../../providers/auth.dart';
 
 class PostDetailContent extends StatelessWidget {
   final Post post;
@@ -107,9 +107,7 @@ class PostDetailContent extends StatelessWidget {
                         ),
                         onTap: () async {
                           final uri = Uri.parse(post.source ?? '');
-                          if (await canLaunchUrl(uri)) {
-                            await launchUrl(uri);
-                          } else {}
+                          await launchUrl(uri);
                         },
                       ),
                       const SizedBox(
@@ -159,7 +157,7 @@ class PostDetailContent extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 100.0,
-                )
+                ),
               ],
             ),
           ),

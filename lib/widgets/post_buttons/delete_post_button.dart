@@ -57,17 +57,19 @@ class _DeletePostButtonState extends State<DeletePostButton> {
                           );
                         } on Failure catch (error) {
                           if (error.statusCode >= 500) {
+                            if (!context.mounted) return;
                             errorMessage =
                                 AppLocalizations.of(context)!.serverError;
                           } else {
                             errorMessage = error.toString();
                           }
                         } catch (error) {
+                          if (!context.mounted) return;
                           errorMessage =
                               AppLocalizations.of(context)!.unknownError;
                         }
 
-                        if (!mounted) return;
+                        if (!context.mounted) return;
 
                         if (errorMessage.isNotEmpty) {
                           showSnackBar(context, errorMessage);
@@ -92,7 +94,7 @@ class _DeletePostButtonState extends State<DeletePostButton> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         fixedSize: const Size(45.0, 45.0),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(

@@ -29,7 +29,7 @@ class _DistrictFilterState extends State<DistrictFilter> {
       ),
     );
     if (result != null) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'districts': result['districts'],
         'subdistricts': result['subdistricts'],
@@ -116,7 +116,7 @@ class _DistrictFilterState extends State<DistrictFilter> {
                     .toList() ??
                 [],
           ),
-        )
+        ),
       ],
     );
   }

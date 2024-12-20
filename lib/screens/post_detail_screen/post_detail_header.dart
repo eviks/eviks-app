@@ -24,6 +24,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
   final String districtName;
   final int price;
   final int rooms;
+  final String? videoLink;
 
   PostDetailHeader({
     required this.user,
@@ -37,6 +38,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
     required this.districtName,
     required this.price,
     required this.rooms,
+    required this.videoLink,
   });
 
   @override
@@ -55,6 +57,8 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
           external: isExternal,
           displayIndicator: buttonsVisibility,
           fullScreenView: true,
+          videoLink: videoLink,
+          buttonsVisibility: buttonsVisibility,
         ),
         Consumer<Auth>(
           builder: (context, auth, child) => Padding(
@@ -96,7 +100,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                           ),
                           fixedSize: const Size(45.0, 45.0),
                           backgroundColor:
-                              Theme.of(context).colorScheme.background,
+                              Theme.of(context).colorScheme.surface,
                           foregroundColor: Theme.of(context).dividerColor,
                         ),
                         child: const Icon(

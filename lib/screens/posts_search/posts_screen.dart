@@ -6,9 +6,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './map_search.dart';
-import './subscribe_button.dart';
-import './switch_search_view_button.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/metro_station.dart';
@@ -18,6 +15,9 @@ import '../../providers/posts.dart';
 import '../../widgets/post_item.dart';
 import '../../widgets/sized_config.dart';
 import '../filters_screen/filters_screen.dart';
+import './map_search.dart';
+import './subscribe_button.dart';
+import './switch_search_view_button.dart';
 
 class PostScreen extends StatefulWidget {
   final String? url;
@@ -89,11 +89,14 @@ class _PostScreenState extends State<PostScreen> {
         }
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.networkError;
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
         errorMessage = error.toString();
       }

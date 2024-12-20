@@ -73,7 +73,7 @@ class Subscriptions with ChangeNotifier {
         body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 
@@ -104,7 +104,7 @@ class Subscriptions with ChangeNotifier {
         body: json.encode(data),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'JWT $token'
+          'Authorization': 'JWT $token',
         },
       );
 

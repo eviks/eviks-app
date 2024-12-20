@@ -56,11 +56,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           .updateProfile(_displayName, _password, _newPassword);
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -102,11 +104,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 await Provider.of<Auth>(context, listen: false).deleteProfile();
               } on Failure catch (error) {
                 if (error.statusCode >= 500) {
+                  if (!mounted) return;
                   errorMessage = AppLocalizations.of(context)!.serverError;
                 } else {
                   errorMessage = error.toString();
                 }
               } catch (error) {
+                if (!mounted) return;
                 errorMessage = AppLocalizations.of(context)!.unknownError;
               }
 

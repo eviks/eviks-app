@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../constants.dart';
 import '../widgets/counter.dart';
 import '../widgets/full_image_viewer.dart';
+import '../widgets/video_thumbnail.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({
@@ -17,6 +18,8 @@ class Carousel extends StatefulWidget {
     required this.temp,
     this.displayIndicator = true,
     this.fullScreenView = false,
+    this.videoLink,
+    this.buttonsVisibility = false,
   }) : super(key: key);
 
   final List<String> images;
@@ -26,6 +29,8 @@ class Carousel extends StatefulWidget {
   final bool temp;
   final bool displayIndicator;
   final bool fullScreenView;
+  final String? videoLink;
+  final bool buttonsVisibility;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -53,6 +58,10 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
+    final videoIncluded =
+        widget.videoLink != null && widget.videoLink!.isNotEmpty;
+    final totalCount = widget.images.length + (videoIncluded ? 1 : 0);
+
     return InkWell(
       onTap: widget.fullScreenView
           ? () {
@@ -64,7 +73,8 @@ class _CarouselState extends State<Carousel> {
                     imageSize: '1280',
                     isExternal: widget.external,
                     temp: widget.temp,
-                    initialIndex: _currentIndex,
+                    initialIndex:
+                        videoIncluded ? _currentIndex - 1 : _currentIndex,
                   ),
                 ),
               );
@@ -82,16 +92,27 @@ class _CarouselState extends State<Carousel> {
                 });
               },
             ),
-            itemCount: widget.images.length,
+            itemCount: totalCount,
             itemBuilder: (ctx, index, _) {
+              if (videoIncluded && index == 0) {
+                return VideoThumbnail(
+                  videoLink: widget.videoLink!,
+                  buttonsVisibility: widget.buttonsVisibility,
+                );
+              }
+              final imageIndex = videoIncluded ? index - 1 : index;
               return CachedNetworkImage(
                 imageUrl: widget.external
-                    ? widget.images[index]
-                    : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[index]}/image_${widget.imageSize}.webp',
-                placeholder: (context, url) => const SkeletonAvatar(
-                  style: SkeletonAvatarStyle(width: double.infinity),
-                ),
+                    ? widget.images[imageIndex]
+                    : '$baseUrl/uploads/${widget.temp ? 'temp/' : ''}post_images/${widget.images[imageIndex]}/image_${widget.imageSize}.webp',
                 width: double.infinity,
+                placeholder: (context, url) => Skeletonizer(
+                  child: Container(
+                    color: Colors.white,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
+                ),
                 fit: BoxFit.cover,
                 fadeInDuration: const Duration(milliseconds: 100),
               );
@@ -100,7 +121,7 @@ class _CarouselState extends State<Carousel> {
           if (widget.displayIndicator)
             Counter(
               height: widget.height,
-              total: widget.images.length,
+              total: totalCount,
               current: _currentIndex + 1,
             ),
         ],

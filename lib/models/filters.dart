@@ -59,6 +59,10 @@ class Filters {
   int? totalFloorsMax;
   List<List<double>>? searchArea;
   bool tempSearchArea;
+  bool? hasVideo;
+  bool? documented;
+  bool? fromOwner;
+  bool? withoutRedevelopment;
   SortType sort;
 
   Filters({
@@ -87,6 +91,10 @@ class Filters {
     this.totalFloorsMax,
     this.searchArea,
     this.tempSearchArea = false,
+    this.hasVideo,
+    this.documented,
+    this.fromOwner,
+    this.withoutRedevelopment,
     this.sort = SortType.dateDsc,
   });
 
@@ -121,6 +129,10 @@ class Filters {
             totalFloorsMax == 0 ? null : totalFloorsMax?.toString(),
         'searchArea':
             searchArea?.isEmpty ?? true ? null : searchArea?.join(','),
+        'hasVideo': hasVideo == true ? 'true' : null,
+        'documented': documented == true ? 'true' : null,
+        'fromOwner': fromOwner == true ? 'true' : null,
+        'withoutRedevelopment': withoutRedevelopment == true ? 'true' : null,
         'sort': sort.toString().replaceAll('SortType.', ''),
       };
 
@@ -151,6 +163,10 @@ class Filters {
       totalFloorsMax: totalFloorsMax,
       searchArea: searchArea,
       tempSearchArea: tempSearchArea,
+      hasVideo: hasVideo,
+      documented: documented,
+      fromOwner: fromOwner,
+      withoutRedevelopment: withoutRedevelopment,
       sort: sort,
     );
   }

@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_contacts.dart';
-import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import './edit_post_contacts.dart';
+import './step_title.dart';
 
 class EditPostPrice extends StatefulWidget {
   const EditPostPrice({
@@ -96,8 +96,8 @@ class _EditPostPriceState extends State<EditPostPrice> {
         installmentOfPayment: _installmentOfPayment,
         prepayment: _prepayment,
         municipalServicesIncluded: _municipalServicesIncluded,
-        lastStep: 7,
-        step: _goToNextStep ? 8 : 6,
+        lastStep: 8,
+        step: _goToNextStep ? 9 : 7,
       ),
     );
   }
@@ -127,9 +127,9 @@ class _EditPostPriceState extends State<EditPostPrice> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 15.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(
@@ -147,7 +147,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
                         initialValue: _price != 0 ? _price?.toString() : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {

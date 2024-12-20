@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_images/edit_post_images.dart';
-import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
 import '../../widgets/icon_choise_chip.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
+import './edit_post_video.dart';
+import './step_title.dart';
 
 class EditPostAdditionalInfo extends StatefulWidget {
   const EditPostAdditionalInfo({
@@ -105,7 +105,7 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
     _updatePost();
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EditPostImages()),
+      MaterialPageRoute(builder: (context) => const EditPostVideo()),
     );
   }
 
@@ -164,9 +164,9 @@ class _EditPostAdditionalInfoState extends State<EditPostAdditionalInfo> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 8.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 8.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(

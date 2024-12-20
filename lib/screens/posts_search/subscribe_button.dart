@@ -55,8 +55,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
-        backgroundColor:
-            Theme.of(context).colorScheme.background.withOpacity(0.9),
+        backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.9),
         foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
       ),
     );

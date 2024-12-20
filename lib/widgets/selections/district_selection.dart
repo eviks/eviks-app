@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './tree_branch.dart';
 import '../../constants.dart';
 import '../../models/failure.dart';
 import '../../models/settlement.dart';
 import '../../providers/localities.dart';
 import '../../widgets/styled_elevated_button.dart';
+import './tree_branch.dart';
 
 enum SubdistrictSelectMode { multiple, single }
 
@@ -53,9 +53,9 @@ class _DistrictSelectionState extends State<DistrictSelection> {
 
       String errorMessage = '';
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      final result = await Provider.of<Localities>(context, listen: false)
-          .getLocalities({
-        'id': widget.city.children?.map((e) => e.id).toList().join(',') ?? ''
+      final result =
+          await Provider.of<Localities>(context, listen: false).getLocalities({
+        'id': widget.city.children?.map((e) => e.id).toList().join(',') ?? '',
       });
 
       if (!mounted) return;
@@ -234,7 +234,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                 onPressed: () {
                   Navigator.of(context).pop({
                     'districts': _selectedDistricts,
-                    'subdistricts': _selectedSubdistricts
+                    'subdistricts': _selectedSubdistricts,
                   });
                 },
               ),

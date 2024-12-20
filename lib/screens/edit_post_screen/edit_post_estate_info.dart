@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import './edit_post_building_info.dart';
-import './step_title.dart';
 import '../../models/post.dart';
 import '../../providers/posts.dart';
 import '../../widgets/sized_config.dart';
 import '../../widgets/styled_elevated_button.dart';
 import '../../widgets/styled_input.dart';
 import '../../widgets/toggle_field.dart';
+import './edit_post_building_info.dart';
+import './step_title.dart';
 
 class EditPostEstateInfo extends StatefulWidget {
   const EditPostEstateInfo({
@@ -141,9 +141,9 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              SizeConfig.safeBlockHorizontal * 14.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               8.0,
-              SizeConfig.safeBlockHorizontal * 14.0,
+              SizeConfig.safeBlockHorizontal * 7.0,
               32.0,
             ),
             child: Center(
@@ -161,7 +161,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                         initialValue: _rooms != 0 ? _rooms?.toString() : null,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -262,7 +262,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                                   _floor != 0 ? _floor?.toString() : null,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
+                                FilteringTextInputFormatter.digitsOnly,
                               ],
                               validator: (value) {
                                 if (_isHouse) {
@@ -301,7 +301,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                               title: '',
                               keyboardType: TextInputType.number,
                               inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
+                                FilteringTextInputFormatter.digitsOnly,
                               ],
                               controller: _totalFloorsController,
                               validator: (value) {
@@ -332,7 +332,7 @@ class _EditPostEstateInfoState extends State<EditPostEstateInfo> {
                               AppLocalizations.of(context)!.totalFloorsInHouse,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
+                            FilteringTextInputFormatter.digitsOnly,
                           ],
                           controller: _totalFloorsController,
                           onSaved: (value) {

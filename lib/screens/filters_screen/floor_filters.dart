@@ -48,12 +48,12 @@ class FloorFilters extends StatelessWidget {
             inputFormattersTo: [FilteringTextInputFormatter.digitsOnly],
             onChangedFrom: (value) {
               updateFilters({
-                'floorMin': value?.isEmpty ?? true ? null : int.parse(value!)
+                'floorMin': value?.isEmpty ?? true ? null : int.parse(value!),
               });
             },
             onChangedTo: (value) {
               updateFilters({
-                'floorMax': value?.isEmpty ?? true ? null : int.parse(value!)
+                'floorMax': value?.isEmpty ?? true ? null : int.parse(value!),
               });
             },
           ),
@@ -74,13 +74,13 @@ class FloorFilters extends StatelessWidget {
           onChangedFrom: (value) {
             updateFilters({
               'totalFloorsMin':
-                  value?.isEmpty ?? true ? null : int.parse(value!)
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
           onChangedTo: (value) {
             updateFilters({
               'totalFloorsMax':
-                  value?.isEmpty ?? true ? null : int.parse(value!)
+                  value?.isEmpty ?? true ? null : int.parse(value!),
             });
           },
         ),

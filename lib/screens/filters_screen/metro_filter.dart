@@ -29,7 +29,7 @@ class _MetroFilterState extends State<MetroFilter> {
     );
 
     if (metroStations != null) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'metroStations': metroStations,
       });

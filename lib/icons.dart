@@ -316,4 +316,8 @@ class CustomIcons {
     0xe849,
     fontFamily: _kFontFam,
   );
+  static const IconData play = IconData(
+    0xe84c,
+    fontFamily: _kFontFam,
+  );
 }

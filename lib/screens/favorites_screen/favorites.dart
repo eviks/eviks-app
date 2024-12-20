@@ -39,12 +39,14 @@ class _FavoritesState extends State<Favorites> {
             updatePosts: updatePosts,
           );
         } on Failure catch (error) {
+          if (!mounted) return;
           if (error.statusCode >= 500) {
             errorMessage = AppLocalizations.of(context)!.serverError;
           } else {
             errorMessage = AppLocalizations.of(context)!.networkError;
           }
         } catch (error) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.unknownError;
         }
 

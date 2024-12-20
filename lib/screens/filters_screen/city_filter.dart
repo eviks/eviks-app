@@ -21,7 +21,7 @@ class _CityFilterState extends State<CityFilter> {
     );
 
     if (city != null) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       Provider.of<Posts>(context, listen: false).updateFilters({
         'city': city,
         'districts': null,

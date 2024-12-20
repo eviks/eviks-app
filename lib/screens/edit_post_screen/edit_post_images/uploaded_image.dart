@@ -39,11 +39,13 @@ class _UploadedImageState extends State<UploadedImage> {
       }
     } on Failure catch (error) {
       if (error.statusCode >= 500) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.serverError;
       } else {
         errorMessage = error.toString();
       }
     } catch (error) {
+      if (!mounted) return;
       errorMessage = AppLocalizations.of(context)!.unknownError;
     }
 
@@ -80,10 +82,8 @@ class _UploadedImageState extends State<UploadedImage> {
                   width: 32.0,
                   height: 32.0,
                   decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .background
-                        .withOpacity(0.5),
+                    color:
+                        Theme.of(context).colorScheme.surface.withOpacity(0.5),
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: IconButton(
@@ -94,7 +94,7 @@ class _UploadedImageState extends State<UploadedImage> {
                     },
                   ),
                 ),
-              )
+              ),
             ],
           )
         : Stack(
@@ -105,8 +105,7 @@ class _UploadedImageState extends State<UploadedImage> {
                 fit: BoxFit.fill,
               ),
               Container(
-                color:
-                    Theme.of(context).colorScheme.background.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
               ),
               Center(
                 child: CircularProgressIndicator(

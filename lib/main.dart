@@ -12,6 +12,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/notification_data.dart';
+import '../screens/post_review_screen/post_review_screen.dart';
 import './constants.dart';
 import './models/navigation_service.dart';
 import './notification_service.dart';
@@ -27,8 +29,6 @@ import './screens/filters_screen/filters_screen.dart';
 import './screens/post_detail_screen/post_detail_screen.dart';
 import './screens/reset_password_screen/reset_password_screen.dart';
 import './screens/tabs_screen.dart';
-import '../models/notification_data.dart';
-import '../screens/post_review_screen/post_review_screen.dart';
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -187,13 +187,13 @@ class MyApp extends StatelessWidget {
                   builder: (ctx, authResultSnapshot) =>
                       authResultSnapshot.connectionState ==
                               ConnectionState.waiting
-                          ? Scaffold(
+                          ? const Scaffold(
                               backgroundColor: primaryColor,
                               body: SizedBox(
                                 width: double.infinity,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       CustomIcons.logo,
                                       color: lightColor,

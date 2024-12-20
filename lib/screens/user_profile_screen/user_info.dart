@@ -20,7 +20,7 @@ class UserInfo extends StatelessWidget {
                 radius: 50.0,
                 backgroundImage:
                     CachedNetworkImageProvider(auth.user!.picture!),
-                backgroundColor: Theme.of(context).colorScheme.background,
+                backgroundColor: Theme.of(context).colorScheme.surface,
               )
             else
               CircleAvatar(
@@ -28,7 +28,7 @@ class UserInfo extends StatelessWidget {
                 backgroundImage: const AssetImage(
                   'assets/img/illustrations/avatar.png',
                 ),
-                backgroundColor: Theme.of(context).colorScheme.background,
+                backgroundColor: Theme.of(context).colorScheme.surface,
               ),
             const SizedBox(
               height: 10.0,

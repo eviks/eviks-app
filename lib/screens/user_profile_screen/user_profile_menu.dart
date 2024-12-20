@@ -18,13 +18,15 @@ class UserProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDarkMode =
-        Provider.of<ThemePreferences>(context).themeMode == ThemeMode.dark;
+    final brightness = MediaQuery.of(context).platformBrightness;
+    final themeMode = Provider.of<ThemePreferences>(context).themeMode;
+    final bool isDarkMode = themeMode == ThemeMode.dark ||
+        (themeMode == ThemeMode.system && brightness == Brightness.dark);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
               side: const BorderSide(
@@ -33,10 +35,10 @@ class UserProfileMenu extends StatelessWidget {
               ),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(
             isDarkMode ? softDarkColor : extraLightGreyColor,
           ),
-          padding: MaterialStateProperty.all(
+          padding: WidgetStateProperty.all(
             const EdgeInsets.symmetric(vertical: 2.0, horizontal: 18.0),
           ),
         ),

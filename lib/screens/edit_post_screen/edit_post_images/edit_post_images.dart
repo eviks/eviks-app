@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-import './uploaded_image.dart';
 import '../../../constants.dart';
 import '../../../models/failure.dart';
 import '../../../models/image_data.dart';
@@ -16,6 +15,7 @@ import '../../../widgets/sized_config.dart';
 import '../../../widgets/styled_elevated_button.dart';
 import '../edit_post_price.dart';
 import '../step_title.dart';
+import './uploaded_image.dart';
 
 class EditPostImages extends StatefulWidget {
   const EditPostImages({
@@ -45,7 +45,7 @@ class _EditPostImagesState extends State<EditPostImages> {
             null;
       }
 
-      if ((postData?.lastStep ?? -1) >= 6) {
+      if ((postData?.lastStep ?? -1) >= 7) {
         _imageDataList = postData?.images
                 .map(
                   (id) =>
@@ -75,12 +75,14 @@ class _EditPostImagesState extends State<EditPostImages> {
         id =
             await Provider.of<Posts>(context, listen: false).getImageUploadId();
       } on Failure catch (error) {
+        if (!mounted) return;
         if (error.statusCode >= 500) {
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
@@ -120,12 +122,14 @@ class _EditPostImagesState extends State<EditPostImages> {
         id =
             await Provider.of<Posts>(context, listen: false).getImageUploadId();
       } on Failure catch (error) {
+        if (!mounted) return;
         if (error.statusCode >= 500) {
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
 
@@ -172,11 +176,13 @@ class _EditPostImagesState extends State<EditPostImages> {
         await Provider.of<Posts>(context, listen: false).deleteImage(id);
       } on Failure catch (error) {
         if (error.statusCode >= 500) {
+          if (!mounted) return;
           errorMessage = AppLocalizations.of(context)!.serverError;
         } else {
           errorMessage = error.toString();
         }
       } catch (error) {
+        if (!mounted) return;
         errorMessage = AppLocalizations.of(context)!.unknownError;
       }
     }
@@ -221,8 +227,8 @@ class _EditPostImagesState extends State<EditPostImages> {
     Provider.of<Posts>(context, listen: false).setPostData(
       postData?.copyWith(
         images: _imageDataList.map((element) => element.id).toList(),
-        lastStep: 6,
-        step: _goToNextStep ? 7 : 5,
+        lastStep: 7,
+        step: _goToNextStep ? 8 : 6,
       ),
     );
   }
@@ -286,6 +292,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SizedBox(
+                                  width: SizeConfig.safeBlockHorizontal * 100.0,
                                   height: SizeConfig.safeBlockVertical * 40.0,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +303,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                               .request()
                                               .isGranted) {
                                             _selectImageFromGallery();
-                                            if (mounted) {
+                                            if (context.mounted) {
                                               Navigator.pop(context);
                                             }
                                           }
@@ -313,7 +320,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                                   PermissionStatus> statuses =
                                               await [
                                             Permission.camera,
-                                            Permission.storage
+                                            Permission.storage,
                                           ].request();
                                           bool areGranted = true;
                                           statuses.forEach(
@@ -329,6 +336,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                           if (!mounted) return;
                                           if (areGranted) {
                                             _takeAPhoto();
+                                            if (!context.mounted) return;
                                             Navigator.pop(context);
                                           }
                                         },
