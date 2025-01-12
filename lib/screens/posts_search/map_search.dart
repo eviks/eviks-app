@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -151,7 +152,7 @@ class _MapSearchState extends State<MapSearch> {
           children: [
             TileLayer(
               urlTemplate:
-                  'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+                  'https://tiles.gomap.az/smoothtiles/maptile.do?lng=az&x={x}&y={y}&z={z}&f=png',
             ),
             PolygonLayer(
               polygons: [
@@ -292,7 +293,7 @@ class _MapSearchState extends State<MapSearch> {
                     ),
                     child: drawing
                         ? const Icon(CustomIcons.checked)
-                        : const Icon(CustomIcons.pencil),
+                        : const Icon(LucideIcons.pencil),
                   ),
                 ),
                 const SizedBox(
@@ -329,7 +330,7 @@ class _MapSearchState extends State<MapSearch> {
                         foregroundColor:
                             Theme.of(context).textTheme.bodyLarge?.color,
                       ),
-                      child: const Icon(CustomIcons.close),
+                      child: const Icon(LucideIcons.x),
                     ),
                   ),
               ],

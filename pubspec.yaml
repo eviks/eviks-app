@@ -52,6 +52,7 @@ dependencies:
   photo_view: ^0.15.0
   introduction_screen: ^3.1.8
   skeletonizer: ^1.4.2
+  lucide_icons: ^0.257.0
 
 flutter_native_splash:
   color: "#BC0052"

@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -149,7 +149,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(CustomIcons.back),
+                icon: const Icon(LucideIcons.arrowLeft),
               )
             : null,
         title: Text(
@@ -169,7 +169,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StyledInput(
-                    icon: CustomIcons.user,
+                    icon: LucideIcons.user,
                     title: AppLocalizations.of(context)!.displayName,
                     initialValue: _displayName,
                     validator: (value) {
@@ -186,7 +186,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     height: 16.0,
                   ),
                   StyledInput(
-                    icon: CustomIcons.password,
+                    icon: LucideIcons.lock,
                     title: AppLocalizations.of(context)!.password,
                     obscureText: true,
                     validator: (value) {
@@ -202,7 +202,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     },
                   ),
                   StyledInput(
-                    icon: CustomIcons.password,
+                    icon: LucideIcons.lock,
                     title: AppLocalizations.of(context)!.newPassword,
                     obscureText: true,
                     validator: (value) {

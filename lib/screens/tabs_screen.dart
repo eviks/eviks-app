@@ -1,8 +1,8 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/user.dart';
 import 'package:eviks_mobile/screens/post_review_screen/post_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../models/pages_payload.dart';
@@ -136,23 +136,23 @@ class _TabsScreenState extends State<TabsScreen> {
         destinations: [
           if (currentUserRole == UserRole.moderator)
             NavigationDestination(
-              icon: const Icon(CustomIcons.shield),
+              icon: const Icon(LucideIcons.shieldCheck),
               label: AppLocalizations.of(context)!.postReview,
             ),
           NavigationDestination(
-            icon: const Icon(CustomIcons.search),
+            icon: const Icon(LucideIcons.search),
             label: AppLocalizations.of(context)!.tabsScreenSearch,
           ),
           NavigationDestination(
-            icon: const Icon(CustomIcons.heart),
+            icon: const Icon(LucideIcons.heart),
             label: AppLocalizations.of(context)!.favorites,
           ),
           NavigationDestination(
-            icon: const Icon(CustomIcons.plus),
+            icon: const Icon(LucideIcons.plusCircle),
             label: AppLocalizations.of(context)!.tabsScreenCreate,
           ),
           NavigationDestination(
-            icon: const Icon(CustomIcons.settings),
+            icon: const Icon(LucideIcons.settings),
             label: AppLocalizations.of(context)!.tabsScreenProfile,
           ),
         ],

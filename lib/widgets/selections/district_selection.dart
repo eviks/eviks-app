@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -159,7 +159,7 @@ class _DistrictSelectionState extends State<DistrictSelection> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(CustomIcons.back),
+                icon: const Icon(LucideIcons.arrowLeft),
               )
             : null,
         title: Text(

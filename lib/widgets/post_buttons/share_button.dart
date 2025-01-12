@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../constants.dart';
@@ -41,7 +41,7 @@ class ShareButton extends StatelessWidget {
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(
-        CustomIcons.share,
+        LucideIcons.share2,
         size: 18.0,
       ),
     );

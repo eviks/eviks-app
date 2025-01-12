@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -49,7 +49,7 @@ class _FullImageViewerState extends State<FullImageViewer> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(CustomIcons.back),
+                icon: const Icon(LucideIcons.arrowLeft),
                 color: lightColor,
               )
             : null,

@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class SwitchSearchViewButton extends StatefulWidget {
   final bool mapView;
@@ -20,7 +20,8 @@ class _SwitchSearchViewButtonState extends State<SwitchSearchViewButton> {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: widget.onPressed,
-      icon: Icon(widget.mapView ? CustomIcons.list : CustomIcons.map),
+      icon:
+          Icon(widget.mapView ? LucideIcons.alignJustify : LucideIcons.mapPin),
       label: Text(
         widget.mapView
             ? AppLocalizations.of(context)!.listView

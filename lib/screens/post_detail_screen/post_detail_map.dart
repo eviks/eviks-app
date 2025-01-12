@@ -79,7 +79,7 @@ class PostDetailMap extends StatelessWidget {
               children: [
                 TileLayer(
                   urlTemplate:
-                      'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+                      'https://tiles.gomap.az/smoothtiles/maptile.do?lng=az&x={x}&y={y}&z={z}&f=png',
                 ),
                 MarkerLayer(
                   markers: [

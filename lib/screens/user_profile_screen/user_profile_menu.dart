@@ -1,5 +1,5 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -64,7 +64,7 @@ class UserProfileMenu extends StatelessWidget {
                 ),
               ],
             ),
-            const Icon(CustomIcons.next),
+            const Icon(LucideIcons.arrowRight),
           ],
         ),
       ),

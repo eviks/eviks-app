@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -278,7 +279,7 @@ class _EditPostMapState extends State<EditPostMap> {
           onPressed: () {
             _prevStep();
           },
-          icon: const Icon(CustomIcons.back),
+          icon: const Icon(LucideIcons.arrowLeft),
         ),
       ),
       body: Stack(
@@ -298,7 +299,7 @@ class _EditPostMapState extends State<EditPostMap> {
             children: [
               TileLayer(
                 urlTemplate:
-                    'https://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg',
+                    'https://tiles.gomap.az/smoothtiles/maptile.do?lng=az&x={x}&y={y}&z={z}&f=png',
               ),
             ],
           ),
@@ -404,7 +405,7 @@ class _EditPostMapState extends State<EditPostMap> {
                                     _controller.text = '';
                                   },
                                   child: Icon(
-                                    CustomIcons.close,
+                                    LucideIcons.x,
                                     size: 14.0,
                                     color: Theme.of(context).dividerColor,
                                   ),
@@ -414,7 +415,7 @@ class _EditPostMapState extends State<EditPostMap> {
                                   ? IconButton(
                                       onPressed: _exitFromTypeMode,
                                       icon: Icon(
-                                        CustomIcons.back,
+                                        LucideIcons.arrowLeft,
                                         color: Theme.of(context).dividerColor,
                                       ),
                                     )
@@ -474,7 +475,7 @@ class _EditPostMapState extends State<EditPostMap> {
               loading: _isLoading,
               onPressed: _continuePressed,
               width: SizeConfig.safeBlockHorizontal * 100.0,
-              suffixIcon: CustomIcons.next,
+              suffixIcon: LucideIcons.arrowRight,
             ),
     );
   }

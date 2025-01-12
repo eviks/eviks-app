@@ -94,12 +94,6 @@ ThemeData lightThemeData(BuildContext context) {
       backgroundColor: lightColor,
     ),
     tabBarTheme: const TabBarTheme(dividerColor: greyColor),
-    listTileTheme: ListTileThemeData(
-      tileColor: lightGreyColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-    ),
   );
 }
 
@@ -168,11 +162,5 @@ ThemeData darkThemeData(BuildContext context) {
       backgroundColor: darkColor,
     ),
     tabBarTheme: const TabBarTheme(dividerColor: softDarkColor),
-    listTileTheme: ListTileThemeData(
-      tileColor: softDarkColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-    ),
   );
 }

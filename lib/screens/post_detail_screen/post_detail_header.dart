@@ -1,8 +1,8 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/post.dart';
 import 'package:eviks_mobile/models/user.dart';
 import 'package:eviks_mobile/providers/posts.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -104,7 +104,7 @@ class PostDetailHeader extends SliverPersistentHeaderDelegate {
                           foregroundColor: Theme.of(context).dividerColor,
                         ),
                         child: const Icon(
-                          CustomIcons.back,
+                          LucideIcons.arrowLeft,
                           size: 18.0,
                         ),
                       ),

@@ -1,7 +1,7 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -124,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
               height: 8.0,
             ),
             StyledInput(
-              icon: CustomIcons.email,
+              icon: LucideIcons.mail,
               title: AppLocalizations.of(context)!.authEmail,
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
@@ -138,13 +138,11 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             StyledInput(
-              icon: CustomIcons.password,
+              icon: LucideIcons.lock,
               title: AppLocalizations.of(context)!.password,
               suffixIcon: IconButton(
                 icon: Icon(
-                  _showPassword
-                      ? CustomIcons.hidepassword
-                      : CustomIcons.showpassword,
+                  _showPassword ? LucideIcons.eyeOff : LucideIcons.eye,
                 ),
                 onPressed: () {
                   setState(() {

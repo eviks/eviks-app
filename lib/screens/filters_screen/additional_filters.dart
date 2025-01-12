@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/posts.dart';
@@ -58,7 +59,7 @@ class AdditionalFilters extends StatelessWidget {
               },
             ),
             IconChoiseChip(
-              icon: CustomIcons.user,
+              icon: LucideIcons.user,
               label: Text(
                 AppLocalizations.of(context)!.fromOwner,
               ),
