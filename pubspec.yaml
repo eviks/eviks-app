@@ -55,9 +55,10 @@ dependencies:
   lucide_icons: ^0.257.0
 
 flutter_native_splash:
-  color: "#BC0052"
-  background_image: "assets/img/splash/splash_background.png"
-  image: assets/img/splash/splash.png
+  color: "#22C55E"
+  image: assets/img/splash/logo.png
+  android_12:
+    color: "#22C55E"
 
 dev_dependencies:
   flutter_test:
