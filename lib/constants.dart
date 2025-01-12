@@ -20,7 +20,7 @@ const basePort = 443;
 // const baseHost = '192.168.1.72';
 // const basePort = 3000;
 
-const appVersion = '0.4.0';
+const appVersion = '0.5.0';
 const appLaunchVersion = 1;
 
 const primaryColor = Color(0xFF22C55E);
