@@ -1,4 +1,3 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -143,7 +142,7 @@ class _EditPostVideoState extends State<EditPostVideo> {
                       height: 32.0,
                     ),
                     StyledInput(
-                      icon: CustomIcons.play,
+                      icon: LucideIcons.play,
                       title: AppLocalizations.of(context)!.youtubeLink,
                       initialValue: _videoLink,
                       hintText: "https://youtu.be/",

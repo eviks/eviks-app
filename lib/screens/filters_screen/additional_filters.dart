@@ -39,7 +39,7 @@ class AdditionalFilters extends StatelessWidget {
           runSpacing: 8.0,
           children: [
             IconChoiseChip(
-              icon: CustomIcons.play,
+              icon: LucideIcons.play,
               label: Text(
                 AppLocalizations.of(context)!.hasVideo,
               ),

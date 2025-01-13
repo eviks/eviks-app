@@ -177,7 +177,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         Provider.of<Posts>(context, listen: false).findById(postId);
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 50.0
+            ? 40.0
             : 70.0;
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
     final userRole = Provider.of<Auth>(context, listen: false).userRole;
