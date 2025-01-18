@@ -1,10 +1,10 @@
 import 'package:eviks_mobile/constants.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/screens/tabs_screen.dart';
 import 'package:eviks_mobile/widgets/sized_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardScreen extends StatefulWidget {
@@ -44,12 +44,12 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       key: introKey,
       allowImplicitScrolling: true,
       showSkipButton: true,
-      back: const Icon(CustomIcons.back),
+      back: const Icon(LucideIcons.arrowLeft),
       skip: Text(
         AppLocalizations.of(context)!.onBoardSkip,
         style: const TextStyle(fontWeight: FontWeight.w600),
       ),
-      next: const Icon(CustomIcons.next),
+      next: const Icon(LucideIcons.arrowRight),
       done: Text(
         AppLocalizations.of(context)!.onBoardDone,
         style: const TextStyle(fontWeight: FontWeight.w600),

@@ -21,7 +21,7 @@ class IconChoiseChip extends StatelessWidget {
         icon,
         color: value
             ? Theme.of(context).colorScheme.surface
-            : Theme.of(context).colorScheme.primary,
+            : Theme.of(context).colorScheme.onSurface,
       ),
       label: label,
       labelStyle: TextStyle(

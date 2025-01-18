@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -47,7 +47,7 @@ class _SubscribeButtonState extends State<SubscribeButton> {
           },
         );
       },
-      icon: const Icon(CustomIcons.bell),
+      icon: const Icon(LucideIcons.bell),
       label: Text(AppLocalizations.of(context)!.subscribeButton),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(8.0),

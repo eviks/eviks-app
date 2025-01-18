@@ -1,7 +1,7 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/failure.dart';
@@ -177,7 +177,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         Provider.of<Posts>(context, listen: false).findById(postId);
     final headerHeight =
         MediaQuery.of(context).orientation == Orientation.portrait
-            ? 50.0
+            ? 40.0
             : 70.0;
     final userId = Provider.of<Auth>(context, listen: false).user?.id ?? '';
     final userRole = Provider.of<Auth>(context, listen: false).userRole;
@@ -243,7 +243,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                   Navigator.pop(context);
                                 },
                                 icon: const Icon(
-                                  CustomIcons.back,
+                                  LucideIcons.arrowLeft,
                                   size: 18.0,
                                 ),
                               ),

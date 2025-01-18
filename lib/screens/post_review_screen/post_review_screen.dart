@@ -1,10 +1,10 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/post.dart';
 import 'package:eviks_mobile/screens/post_detail_screen/post_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/sized_config.dart';
@@ -134,7 +134,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(CustomIcons.back),
+                  icon: const Icon(LucideIcons.arrowLeft),
                 )
               : null,
           title: Text(
@@ -167,7 +167,7 @@ class _PostReviewScreenState extends State<PostReviewScreen> {
                           child: FadeInAnimation(
                             child: ListTile(
                               enabled: !isBlocked,
-                              trailing: const Icon(CustomIcons.next),
+                              trailing: const Icon(LucideIcons.arrowRight),
                               title: Text(getPostTitle(posts[index])),
                               subtitle: Text(
                                 dateFormatter

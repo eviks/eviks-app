@@ -1,8 +1,8 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/subscription.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -147,7 +147,7 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
                 height: 8.0,
               ),
               StyledInput(
-                icon: CustomIcons.search,
+                icon: LucideIcons.search,
                 title: AppLocalizations.of(context)!.subscriptionName,
                 initialValue: widget.name,
                 validator: (value) {
@@ -165,7 +165,7 @@ class _SubscriptionModalState extends State<SubscriptionModal> {
               SwitchListTile(
                 value: _notify,
                 secondary: Icon(
-                  CustomIcons.bell,
+                  LucideIcons.bell,
                   color: Theme.of(context).iconTheme.color,
                 ),
                 title: Text(AppLocalizations.of(context)!.getNotifications),

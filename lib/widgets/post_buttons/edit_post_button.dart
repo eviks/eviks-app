@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:eviks_mobile/models/post.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../screens/edit_post_screen/edit_post_screen.dart';
 
@@ -36,7 +36,7 @@ class EditPostButton extends StatelessWidget {
         foregroundColor: Theme.of(context).dividerColor,
       ),
       child: const Icon(
-        CustomIcons.pencil,
+        LucideIcons.pencil,
         size: 18.0,
       ),
     );

@@ -1,5 +1,5 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
@@ -51,7 +51,7 @@ class FavoriteButton extends StatelessWidget {
             : Theme.of(context).dividerColor,
       ),
       child: const Icon(
-        CustomIcons.heart,
+        LucideIcons.heart,
         size: 18.0,
       ),
     );

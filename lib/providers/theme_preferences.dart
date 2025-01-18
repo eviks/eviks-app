@@ -35,10 +35,10 @@ class ThemePreferences with ChangeNotifier {
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData(
     useMaterial3: true,
-    colorScheme: const ColorScheme.light(
-      primary: lightPrimaryColor,
-      error: dangerColor,
-      secondary: secondaryColor,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: darkPrimaryColor,
+      primary: darkPrimaryColor,
+      surface: lightColor,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
@@ -55,13 +55,14 @@ ThemeData lightThemeData(BuildContext context) {
       ),
     ),
     appBarTheme: const AppBarTheme(
+      color: lightColor,
       shadowColor: lightGreyColor,
       centerTitle: true,
       scrolledUnderElevation: 2,
       surfaceTintColor: Colors.transparent,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      fillColor: secondaryColor,
+      fillColor: lightGreyColor,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide.none,
@@ -74,23 +75,22 @@ ThemeData lightThemeData(BuildContext context) {
         ),
       ),
       errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: primaryColor, width: 2.0),
+        borderSide: BorderSide(color: dangerColor, width: 2.0),
       ),
       focusedErrorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: primaryColor, width: 2.0),
       ),
     ),
-    chipTheme: ChipThemeData(
+    chipTheme: const ChipThemeData(
       showCheckmark: false,
       selectedColor: primaryColor,
-      elevation: 0,
-      side: const BorderSide(
-        width: 0,
-        color: lightGreyColor,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
+      backgroundColor: lightColor,
+    ),
+    scaffoldBackgroundColor: lightColor,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: lightGreyColor,
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: lightColor,
     ),
     tabBarTheme: const TabBarTheme(dividerColor: greyColor),
@@ -100,11 +100,11 @@ ThemeData lightThemeData(BuildContext context) {
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
     primaryColor: lightPrimaryColor,
-    colorScheme: const ColorScheme.dark(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: lightPrimaryColor,
       primary: lightPrimaryColor,
-      error: lightDangerColor,
-      secondary: lightPrimaryColor,
       surface: darkColor,
+      brightness: Brightness.dark,
     ),
     brightness: Brightness.dark,
     outlinedButtonTheme: OutlinedButtonThemeData(
@@ -142,25 +142,16 @@ ThemeData darkThemeData(BuildContext context) {
       ),
       fillColor: softDarkColor,
       errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: lightPrimaryColor, width: 2.0),
+        borderSide: BorderSide(color: lightDangerColor, width: 2.0),
       ),
       focusedErrorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: lightPrimaryColor, width: 2.0),
       ),
       iconColor: lightGreyColor,
     ),
-    chipTheme: ChipThemeData(
+    chipTheme: const ChipThemeData(
       showCheckmark: false,
       selectedColor: lightPrimaryColor,
-      elevation: 0,
-      side: const BorderSide(
-        width: 0,
-        color: darkColor,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      backgroundColor: softDarkColor,
     ),
     scaffoldBackgroundColor: darkColor,
     dividerColor: greyColor,

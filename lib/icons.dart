@@ -141,7 +141,7 @@ class CustomIcons {
     fontFamily: _kFontFam,
   );
   static const IconData logo = IconData(
-    0xe84a,
+    0xe81e,
     fontFamily: _kFontFam,
   );
   static const IconData measuring = IconData(
@@ -310,14 +310,6 @@ class CustomIcons {
   );
   static const IconData share = IconData(
     0xe848,
-    fontFamily: _kFontFam,
-  );
-  static const IconData moreVert = IconData(
-    0xe849,
-    fontFamily: _kFontFam,
-  );
-  static const IconData play = IconData(
-    0xe84c,
     fontFamily: _kFontFam,
   );
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -87,7 +87,7 @@ class _UploadedImageState extends State<UploadedImage> {
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: IconButton(
-                    icon: const Icon(CustomIcons.close),
+                    icon: const Icon(LucideIcons.x),
                     iconSize: 16.0,
                     onPressed: () {
                       widget.deleteImage(widget.imageData.id);

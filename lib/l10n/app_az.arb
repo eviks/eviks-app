@@ -2,7 +2,7 @@
   "tabsScreenSearch": "Axtarış",
   "tabsScreenCreate": "Yeni elan",
   "tabsScreenProfile": "Profil",
-  "postsScreenTitle": "Eviks",
+  "postsScreenTitle": "eviks",
   "postApartmentRoomsTitle": "{rooms}-otaqlı mənzil",
   "@postApartmentRoomsTitle": {
     "placeholders": {
@@ -175,9 +175,9 @@
   "loginWithGoogle": "Google",
   "call": "Zəng vurmaq",
   "profile": "Profil",
-  "theme": "Mövzu",
-  "lightTheme": "Açıq",
-  "darkTheme": "Tünd",
+  "theme": "Tərtibat rejimi",
+  "lightTheme": "İşıqlı",
+  "darkTheme": "Qaranlıq",
   "systemTheme": "Sistemdəki kimi",
   "language": "Dil",
   "azeriLanguage": "Azərbaycan dili",

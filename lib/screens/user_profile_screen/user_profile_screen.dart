@@ -1,6 +1,6 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -129,12 +129,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     children: [
                       UserProfileMenu(
                         title: AppLocalizations.of(context)!.myPosts,
-                        icon: CustomIcons.bookmark,
+                        icon: LucideIcons.bookmark,
                         onPressed: goToUserPosts,
                       ),
                       UserProfileMenu(
                         title: AppLocalizations.of(context)!.profileSettings,
-                        icon: CustomIcons.user,
+                        icon: LucideIcons.user,
                         onPressed: goToProfileSettings,
                       ),
                     ],
@@ -142,23 +142,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 if (!isAuth)
                   UserProfileMenu(
                     title: AppLocalizations.of(context)!.login,
-                    icon: CustomIcons.login,
+                    icon: LucideIcons.logIn,
                     onPressed: login,
                   ),
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.theme,
-                  icon: CustomIcons.thememode,
+                  icon: LucideIcons.sunMoon,
                   onPressed: changeThemeMode,
                 ),
                 UserProfileMenu(
                   title: AppLocalizations.of(context)!.language,
-                  icon: CustomIcons.globe,
+                  icon: LucideIcons.globe,
                   onPressed: changeLanguage,
                 ),
                 if (isAuth)
                   UserProfileMenu(
                     title: AppLocalizations.of(context)!.logout,
-                    icon: CustomIcons.logout,
+                    icon: LucideIcons.logOut,
                     onPressed: logout,
                   ),
                 const Text(appVersion),

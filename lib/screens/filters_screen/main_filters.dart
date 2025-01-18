@@ -2,6 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
@@ -93,7 +94,7 @@ class MainFilters extends StatelessWidget {
         ),
         RangeField(
           title: AppLocalizations.of(context)!.price,
-          icon: CustomIcons.money,
+          icon: LucideIcons.banknote,
           initialValueFrom:
               filters.priceMin != 0 ? filters.priceMin?.toString() : null,
           keyboardTypeFrom: TextInputType.number,

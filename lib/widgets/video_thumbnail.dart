@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eviks_mobile/constants.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VideoThumbnail extends StatelessWidget {
@@ -67,7 +67,7 @@ class VideoThumbnail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  CustomIcons.play,
+                  LucideIcons.play,
                   color: lightColor,
                   size: 48.0,
                 ),

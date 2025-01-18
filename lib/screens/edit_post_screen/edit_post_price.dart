@@ -1,7 +1,7 @@
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
@@ -120,7 +120,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
           onPressed: () {
             _prevStep();
           },
-          icon: const Icon(CustomIcons.back),
+          icon: const Icon(LucideIcons.arrowLeft),
         ),
       ),
       body: SafeArea(
@@ -142,7 +142,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
                     SizedBox(
                       width: SizeConfig.safeBlockHorizontal * 40.0,
                       child: StyledInput(
-                        icon: CustomIcons.money,
+                        icon: LucideIcons.banknote,
                         title: _getPriceTitle(),
                         initialValue: _price != 0 ? _price?.toString() : null,
                         keyboardType: TextInputType.number,
@@ -227,7 +227,7 @@ class _EditPostPriceState extends State<EditPostPrice> {
         text: AppLocalizations.of(context)!.next,
         onPressed: _continuePressed,
         width: SizeConfig.safeBlockHorizontal * 100.0,
-        suffixIcon: CustomIcons.next,
+        suffixIcon: LucideIcons.arrowRight,
       ),
     );
   }

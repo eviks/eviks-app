@@ -20,22 +20,22 @@ const basePort = 443;
 // const baseHost = '192.168.1.72';
 // const basePort = 3000;
 
-const appVersion = '0.4.0';
+const appVersion = '0.5.0';
 const appLaunchVersion = 1;
 
-const primaryColor = Color(0xFFF5006A);
-const secondaryColor = Color(0xFFFFEBF3);
-const lightPrimaryColor = Color(0xFFF5006A);
+const primaryColor = Color(0xFF22C55E);
+const secondaryColor = Color(0xFFDCFCE7);
+const lightPrimaryColor = Color(0xFF4ADE80);
 const lightColor = Color(0xFFFFFFFF);
-const lightGreyColor = Color(0xFFD8D8D8);
+const lightGreyColor = Color(0xFFF4F4F5);
 const extraLightGreyColor = Color(0xFFF3F4F6);
-const greyColor = Color(0xFFB4B4B4);
-const darkGreyColor = Color(0xFF7A7A7A);
-const darkColor = Color(0xFF1F1C21);
+const greyColor = Color(0xFFD4D4D8);
+const darkGreyColor = Color(0xFF71717A);
+const darkColor = Color(0xFF18181B);
 const softDarkColor = Color(0xFF342E37);
-const dangerColor = Color(0xFFBC0052);
-const lightDangerColor = Color(0xFFF5006A);
-const darkPrimaryColor = Color(0xFFA30047);
+const dangerColor = Color(0xFFEF4444);
+const lightDangerColor = Color(0xFFF87171);
+const darkPrimaryColor = Color(0xFF16A34A);
 
 final currencyFormat =
     NumberFormat.currency(locale: 'az_AZ', symbol: '₼', decimalDigits: 0);

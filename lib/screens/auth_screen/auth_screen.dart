@@ -1,7 +1,7 @@
 import 'package:eviks_mobile/constants.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../providers/auth.dart';
 import '../../widgets/sized_config.dart';
@@ -71,7 +71,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         children: [
                           IconButton(
                             icon: Icon(
-                              CustomIcons.close,
+                              LucideIcons.x,
                               color: Theme.of(context).colorScheme.surface,
                             ),
                             onPressed: () {
@@ -100,6 +100,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
+                    width: double.infinity,
+                    height: SizeConfig.safeBlockVertical * 73.0,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: const BorderRadius.only(

@@ -2,6 +2,7 @@ import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -133,7 +134,7 @@ class _PostItemState extends State<PostItem> {
                             child: Row(
                               children: [
                                 Icon(
-                                  CustomIcons.play,
+                                  LucideIcons.play,
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),

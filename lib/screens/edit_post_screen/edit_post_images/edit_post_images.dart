@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -250,7 +250,7 @@ class _EditPostImagesState extends State<EditPostImages> {
           onPressed: () {
             _prevStep();
           },
-          icon: const Icon(CustomIcons.back),
+          icon: const Icon(LucideIcons.arrowLeft),
         ),
       ),
       body: Padding(
@@ -308,7 +308,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                             }
                                           }
                                         },
-                                        icon: const Icon(CustomIcons.image),
+                                        icon: const Icon(LucideIcons.image),
                                         label: Text(
                                           AppLocalizations.of(context)!
                                               .selectImageFromGallery,
@@ -341,7 +341,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                                           }
                                         },
                                         icon: const Icon(
-                                          CustomIcons.camera,
+                                          LucideIcons.camera,
                                         ),
                                         label: Text(
                                           AppLocalizations.of(context)!
@@ -358,7 +358,7 @@ class _EditPostImagesState extends State<EditPostImages> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(
-                                CustomIcons.image,
+                                LucideIcons.image,
                                 size: 48.0,
                               ),
                               const SizedBox(
@@ -401,7 +401,7 @@ class _EditPostImagesState extends State<EditPostImages> {
         loading: _isLoading,
         onPressed: _continuePressed,
         width: SizeConfig.safeBlockHorizontal * 100.0,
-        suffixIcon: CustomIcons.next,
+        suffixIcon: LucideIcons.arrowRight,
       ),
     );
   }

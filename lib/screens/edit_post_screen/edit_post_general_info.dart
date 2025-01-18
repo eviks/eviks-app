@@ -1,6 +1,7 @@
 import 'package:eviks_mobile/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/post.dart';
@@ -101,7 +102,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
           onPressed: () {
             _prevStep();
           },
-          icon: const Icon(CustomIcons.back),
+          icon: const Icon(LucideIcons.arrowLeft),
         ),
       ),
       body: SafeArea(
@@ -133,7 +134,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
                         _userType = value;
                       },
                       icons: const [
-                        CustomIcons.user,
+                        LucideIcons.user,
                         CustomIcons.agent,
                       ],
                     ),
@@ -234,7 +235,7 @@ class _EditPostGeneralInfoState extends State<EditPostGeneralInfo> {
         text: AppLocalizations.of(context)!.next,
         onPressed: _continuePressed,
         width: SizeConfig.safeBlockHorizontal * 100.0,
-        suffixIcon: CustomIcons.next,
+        suffixIcon: LucideIcons.arrowRight,
       ),
     );
   }
